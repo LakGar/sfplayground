@@ -1,0 +1,140 @@
+"use client";
+import React, { useState } from "react";
+import Link from "next/link";
+
+const Nav = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="fixed top-0 left-0 w-full z-50">
+      <div className="w-full px-4 md:px-8 py-4 flex items-center bg-linear-to-b from-black/50 to-transparent via-black/20 backdrop-blur-sm">
+        {/* logo */}
+        <div className="flex items-center animate-slide-in-left flex-1 overflow-hidden">
+          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#feca00]">
+            SF<span className="text-white">PLAYGROUND</span>
+          </h1>
+        </div>
+
+        {/* Desktop navigation */}
+        <div className="hidden lg:flex items-center justify-center gap-10">
+          <Link
+            className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"
+            style={{ animationDelay: "0.3s" }}
+            href="/"
+          >
+            Home
+          </Link>
+          <Link
+            className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"
+            style={{ animationDelay: "0.4s" }}
+            href="/about"
+          >
+            About
+          </Link>
+          <Link
+            className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"
+            style={{ animationDelay: "0.5s" }}
+            href="/"
+          >
+            Events
+          </Link>
+          <Link
+            className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"
+            style={{ animationDelay: "0.6s" }}
+            href="/"
+          >
+            Blog
+          </Link>
+        </div>
+
+        <div className="hidden lg:flex flex-1 justify-end">
+          <button
+            className="text-black text-sm bg-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200 transition-all duration-300 animate-fade-in-down"
+            style={{ animationDelay: "0.7s" }}
+          >
+            Subscribe
+          </button>
+        </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="lg:hidden text-white p-2 animate-fade-in-down relative w-6 h-6"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span
+            className={`absolute left-0 w-6 h-0.5 bg-white transition-all duration-300 ${
+              isOpen ? "top-1/2 -translate-y-1/2 rotate-45" : "top-1"
+            }`}
+          />
+          <span
+            className={`absolute left-0 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-white transition-all duration-300 ${
+              isOpen ? "opacity-0 scale-0" : "opacity-100 scale-100"
+            }`}
+          />
+          <span
+            className={`absolute left-0 w-6 h-0.5 bg-white transition-all duration-300 ${
+              isOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-1"
+            }`}
+          />
+        </button>
+      </div>
+
+      {/* Mobile menu */}
+      <div
+        className={`lg:hidden fixed inset-0 bg-black/95 backdrop-blur-sm transition-all duration-300 ${
+          isOpen ? "opacity-100 visible" : "opacity-0 invisible"
+        }`}
+      >
+        {/* Mobile header with logo and close */}
+        <div className="w-full px-4 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold font-oswald text-[#feca00]">
+            SF<span className="text-white">PLAYGROUND</span>
+          </h1>
+          <button
+            className="text-white p-2 relative w-6 h-6"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-white rotate-45" />
+            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-6 h-0.5 bg-white -rotate-45" />
+          </button>
+        </div>
+        {/* Mobile links */}
+        <div className="flex flex-col items-center justify-center gap-8 h-[calc(100%-72px)]">
+          <Link
+            className="text-white  hover:text-[#feca00] transition-colors"
+            href="/"
+            onClick={() => setIsOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            className="text-white hover:text-[#feca00] transition-colors"
+            href="/about"
+            onClick={() => setIsOpen(false)}
+          >
+            About
+          </Link>
+          <Link
+            className="text-white  hover:text-[#feca00] transition-colors"
+            href="/"
+            onClick={() => setIsOpen(false)}
+          >
+            Events
+          </Link>
+          <Link
+            className="text-white  hover:text-[#feca00] transition-colors"
+            href="/"
+            onClick={() => setIsOpen(false)}
+          >
+            Blog
+          </Link>
+          <button className="text-black  bg-white px-4 py-2 rounded-md hover:bg-gray-200 transition-all duration-300">
+            Subscribe
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Nav;
