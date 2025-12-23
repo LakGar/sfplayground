@@ -46,6 +46,7 @@ const About = () => {
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
+      5005;
     }
 
     return () => observer.disconnect();

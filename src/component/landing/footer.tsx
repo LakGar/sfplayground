@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { TwitterIcon, LinkedinIcon, InstagramIcon, YoutubeIcon } from "lucide-react";
+import { LinkedinIcon, InstagramIcon } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -18,28 +18,22 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <Link
-                href="#"
+                href="https://www.linkedin.com/company/sfplayground"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white/50 hover:text-[#feca00] transition-colors"
-              >
-                <TwitterIcon className="w-5 h-5" />
-              </Link>
-              <Link
-                href="#"
-                className="text-white/50 hover:text-[#feca00] transition-colors"
+                aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-5 h-5" />
               </Link>
               <Link
-                href="#"
+                href="https://www.instagram.com/sfplayground/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-white/50 hover:text-[#feca00] transition-colors"
+                aria-label="Instagram"
               >
                 <InstagramIcon className="w-5 h-5" />
-              </Link>
-              <Link
-                href="#"
-                className="text-white/50 hover:text-[#feca00] transition-colors"
-              >
-                <YoutubeIcon className="w-5 h-5" />
               </Link>
             </div>
           </div>
@@ -50,7 +44,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  href="/"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
                   Home
@@ -58,7 +52,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/about"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
                   About Us
@@ -66,18 +60,18 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/success-stories"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
-                  Events
+                  Success Stories
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/#events"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
-                  Blog
+                  Events
                 </Link>
               </li>
             </ul>
@@ -89,7 +83,7 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  href="/#apply"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
                   Apply to Pitch
@@ -97,7 +91,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/success-stories"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
                   Success Stories
@@ -105,15 +99,15 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/about"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
-                  Resources
+                  About Us
                 </Link>
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/#faq"
                   className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
                 >
                   FAQ
@@ -159,4 +153,5 @@ const Footer = () => {
 };
 
 export default Footer;
+
 

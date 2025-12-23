@@ -1,36 +1,18 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ExternalLinkIcon } from "lucide-react";
 
 const startups = [
   {
-    name: "NeuralPath AI",
-    description: "AI-powered drug discovery platform",
-    raised: "$12M Series A",
-    logo: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=200&auto=format&fit=crop",
+    name: "Petpin AI",
+    description:
+      "AI-powered wearable that lets pet owners see the world from their pet's point of view",
+    raised: "Featured Success Story",
+    logo: "/petpin.png",
     category: "AI/ML",
-  },
-  {
-    name: "GreenGrid",
-    description: "Smart energy management for buildings",
-    raised: "$8M Seed",
-    logo: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?q=80&w=200&auto=format&fit=crop",
-    category: "CleanTech",
-  },
-  {
-    name: "FinFlow",
-    description: "B2B payments infrastructure",
-    raised: "$15M Series A",
-    logo: "https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=200&auto=format&fit=crop",
-    category: "FinTech",
-  },
-  {
-    name: "HealthSync",
-    description: "Remote patient monitoring platform",
-    raised: "$6M Seed",
-    logo: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=200&auto=format&fit=crop",
-    category: "HealthTech",
+    slug: "petpin-ai",
   },
 ];
 
@@ -86,10 +68,11 @@ const Featured = () => {
         </div>
 
         {/* Startups Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {startups.map((startup, index) => (
-            <div
+            <Link
               key={startup.name}
+              href={`/success-stories/${startup.slug}`}
               className={`group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-[#feca00]/30 transition-all duration-500 cursor-pointer ${
                 isVisible
                   ? "opacity-100 translate-y-0"
@@ -98,12 +81,12 @@ const Featured = () => {
               style={{ transitionDelay: `${200 + index * 100}ms` }}
             >
               {/* Logo */}
-              <div className="relative w-16 h-16 rounded-lg overflow-hidden mb-4">
+              <div className="relative w-20 h-20 rounded-lg overflow-hidden mb-4">
                 <Image
                   src={startup.logo}
                   alt={startup.name}
                   fill
-                  className="object-cover"
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
                 />
               </div>
 
@@ -117,15 +100,17 @@ const Featured = () => {
                 {startup.name}
                 <ExternalLinkIcon className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
               </h3>
-              <p className="text-white/50 text-sm mb-4">{startup.description}</p>
+              <p className="text-white/50 text-sm mb-4 line-clamp-3">
+                {startup.description}
+              </p>
 
               {/* Raised */}
               <div className="pt-4 border-t border-white/10">
-                <span className="text-[#feca00] font-oswald font-bold">
+                <span className="text-[#feca00] font-oswald font-bold text-sm">
                   {startup.raised}
                 </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -134,4 +119,5 @@ const Featured = () => {
 };
 
 export default Featured;
+
 

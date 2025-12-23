@@ -1,32 +1,36 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { CalendarIcon, MapPinIcon, UsersIcon, ArrowRightIcon } from "lucide-react";
 
 const events = [
   {
-    title: "Pitch Night Vol. 12",
-    date: "Jan 15, 2025",
+    title: "AI X ROBOTICS",
+    date: "Dec 15, 2024",
     location: "SF Downtown",
     attendees: 150,
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2940&auto=format&fit=crop",
-    status: "upcoming",
+    image: "https://drive.google.com/uc?export=view&id=10akfK0GLQnwwhl7AwtzyCZZqboqUwdbb",
+    status: "past",
+    slug: "ai-x-robotics",
   },
   {
-    title: "VC Roundtable",
-    date: "Jan 22, 2025",
+    title: "Ice Tank Challenge",
+    date: "Nov 22, 2024",
     location: "Mission District",
     attendees: 80,
-    image: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?q=80&w=2940&auto=format&fit=crop",
-    status: "upcoming",
+    image: "/ice_tank/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg",
+    status: "past",
+    slug: "ice-tank-challenge",
   },
   {
     title: "Founder Mixer",
-    date: "Feb 5, 2025",
+    date: "Oct 5, 2024",
     location: "SOMA",
     attendees: 200,
     image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=2940&auto=format&fit=crop",
-    status: "upcoming",
+    status: "past",
+    slug: "founder-mixer",
   },
 ];
 
@@ -67,7 +71,7 @@ const Events = () => {
                   : "opacity-0 -translate-y-10"
               }`}
             >
-              Upcoming <span className="text-[#feca00]">Events</span>
+              Previous <span className="text-[#feca00]">Events</span>
             </h2>
             <p
               className={`text-white/50 font-oswald transition-all duration-700 ${
@@ -77,26 +81,17 @@ const Events = () => {
               }`}
               style={{ transitionDelay: "100ms" }}
             >
-              Join us for live pitches, networking, and real decisions.
+              Relive the energy and excitement from our past events.
             </p>
           </div>
-          <button
-            className={`self-start md:self-auto flex items-center gap-2 text-[#feca00] font-oswald hover:gap-4 transition-all duration-300 ${
-              isVisible
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-10"
-            }`}
-            style={{ transitionDelay: "200ms" }}
-          >
-            View All Events <ArrowRightIcon className="w-4 h-4" />
-          </button>
         </div>
 
         {/* Events Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events.map((event, index) => (
-            <div
+            <Link
               key={event.title}
+              href={`/events/${event.slug}`}
               className={`group cursor-pointer transition-all duration-700 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
@@ -113,7 +108,7 @@ const Events = () => {
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                <span className="absolute top-4 left-4 bg-[#feca00] text-black text-xs font-bold px-3 py-1 rounded-full uppercase">
+                <span className="absolute top-4 left-4 bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase backdrop-blur-sm">
                   {event.status}
                 </span>
               </div>
@@ -135,15 +130,15 @@ const Events = () => {
                   </div>
                   <div className="flex items-center gap-2 text-white/60 text-sm">
                     <UsersIcon className="w-4 h-4" />
-                    <span>{event.attendees} attending</span>
+                    <span>{event.attendees} attendees</span>
                   </div>
                 </div>
 
-                <button className="w-full bg-white/10 text-white py-2 rounded-md font-oswald text-sm hover:bg-[#feca00] hover:text-black transition-all duration-300">
-                  RSVP Now
-                </button>
+                <div className="w-full bg-white/10 text-white py-2 rounded-md font-oswald text-sm group-hover:bg-[#feca00] group-hover:text-black transition-all duration-300 text-center flex items-center justify-center gap-2">
+                  View Gallery <ArrowRightIcon className="w-4 h-4" />
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

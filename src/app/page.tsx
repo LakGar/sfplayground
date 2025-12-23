@@ -14,13 +14,21 @@ const page = () => {
     <div className="relative overflow-x-hidden">
       <Nav />
       <Hero />
-      <About />
+      <div id="about">
+        <About />
+      </div>
       <Sponsors />
-      <Events />
+      <div id="events">
+        <Events />
+      </div>
       <Featured />
-      <CTA />
+      <div id="apply">
+        <CTA />
+      </div>
       <Newsletter />
-      <FAQ />
+      <div id="faq">
+        <FAQ />
+      </div>
       <Footer />
     </div>
   );

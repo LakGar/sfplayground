@@ -1,9 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowRightIcon } from "lucide-react";
+import ApplyModal from "@/component/ui/apply-modal";
 
 const CTA = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,14 +65,21 @@ const CTA = () => {
           }`}
           style={{ transitionDelay: "300ms" }}
         >
-          <button className="bg-[#feca00] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300">
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#feca00] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald font-bold"
+          >
             Apply to Pitch <ArrowRightIcon className="w-5 h-5" />
           </button>
-          <button className="border-2 border-white text-white px-8 py-3 rounded-md text-lg hover:bg-white hover:text-black transition-all duration-300">
+          <a
+            href="/about"
+            className="border-2 border-white text-white px-8 py-3 rounded-md text-lg hover:bg-white hover:text-black transition-all duration-300 font-oswald"
+          >
             Learn More
-          </button>
+          </a>
         </div>
       </div>
+      <ApplyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
