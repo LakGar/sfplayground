@@ -4,6 +4,22 @@ import Nav from "@/component/landing/nav";
 import Footer from "@/component/landing/footer";
 import VideoBackground from "@/component/ui/video-background";
 import { ArrowRightIcon, Users, TrendingUp, Target, Zap } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us | SF Playground",
+  description:
+    "Learn about SF Playground - an SF-based platform for live startup pitches and real investor decisions. Discover our mission, values, and how we help startups connect with investors.",
+  alternates: {
+    canonical: "https://sfplayground.com/about",
+  },
+  openGraph: {
+    title: "About Us | SF Playground",
+    description:
+      "Learn about SF Playground - an SF-based platform for live startup pitches and real investor decisions.",
+    url: "https://sfplayground.com/about",
+  },
+};
 
 const stats = [
   { number: "500+", label: "Startups Pitched" },

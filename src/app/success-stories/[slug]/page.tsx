@@ -1,4 +1,5 @@
 "use client";
+import { use } from "react";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Nav from "@/component/landing/nav";
@@ -67,12 +68,12 @@ const successStories: Record<
   },
 };
 
-export default async function SuccessStoryPage({
+export default function SuccessStoryPage({
   params,
 }: {
   params: Promise<{ slug: string }> | { slug: string };
 }) {
-  const resolvedParams = params instanceof Promise ? await params : params;
+  const resolvedParams = params instanceof Promise ? use(params) : params;
   const normalizedSlug = resolvedParams.slug.toLowerCase().trim();
   const story = successStories[normalizedSlug];
 

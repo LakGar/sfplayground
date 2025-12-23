@@ -40,7 +40,9 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-white font-oswald font-bold mb-4">Quick Links</h3>
+            <h3 className="text-white font-oswald font-bold mb-4">
+              Quick Links
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -79,7 +81,9 @@ const Footer = () => {
 
           {/* For Founders */}
           <div>
-            <h3 className="text-white font-oswald font-bold mb-4">For Founders</h3>
+            <h3 className="text-white font-oswald font-bold mb-4">
+              For Founders
+            </h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -122,16 +126,28 @@ const Footer = () => {
             <ul className="space-y-2 text-white/50 text-sm">
               <li>San Francisco, CA</li>
               <li>hello@sfplayground.com</li>
-              <li>+1 (415) 555-0123</li>
             </ul>
           </div>
         </div>
 
         {/* Bottom */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-white/40 text-sm">
-            © 2025 SF Playground. All rights reserved.
-          </p>
+          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-6">
+            <p className="text-white/40 text-sm">
+              © 2025 SF Playground. All rights reserved.
+            </p>
+            <p className="text-white/30 text-xs">
+              Built by{" "}
+              <Link
+                href="https://www.theempowerweb.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-[#feca00] transition-colors font-oswald"
+              >
+                Empower
+              </Link>
+            </p>
+          </div>
           <div className="flex gap-6">
             <Link
               href="#"
@@ -153,5 +169,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-

@@ -1,9 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
+import NewsletterModal from "@/component/ui/newsletter-modal";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isNewsletterModalOpen, setIsNewsletterModalOpen] = useState(false);
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
@@ -49,7 +51,8 @@ const Nav = () => {
 
         <div className="hidden lg:flex flex-1 justify-end">
           <button
-            className="text-black text-sm bg-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200 transition-all duration-300 animate-fade-in-down"
+            onClick={() => setIsNewsletterModalOpen(true)}
+            className="text-black text-sm bg-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200 transition-all duration-300 animate-fade-in-down font-oswald"
             style={{ animationDelay: "0.7s" }}
           >
             Subscribe
@@ -130,11 +133,21 @@ const Nav = () => {
           >
             Events
           </Link>
-          <button className="text-black  bg-white px-4 py-2 rounded-md hover:bg-gray-200 transition-all duration-300">
+          <button
+            onClick={() => {
+              setIsNewsletterModalOpen(true);
+              setIsOpen(false);
+            }}
+            className="text-black  bg-white px-4 py-2 rounded-md hover:bg-gray-200 transition-all duration-300 font-oswald"
+          >
             Subscribe
           </button>
         </div>
       </div>
+      <NewsletterModal
+        isOpen={isNewsletterModalOpen}
+        onClose={() => setIsNewsletterModalOpen(false)}
+      />
     </div>
   );
 };

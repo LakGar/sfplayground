@@ -8,6 +8,15 @@ import CTA from "@/component/landing/cta";
 import Newsletter from "@/component/landing/newsletter";
 import FAQ from "@/component/landing/faq";
 import Footer from "@/component/landing/footer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
+  description: "Join SF Playground for live startup pitch events in San Francisco. Watch real-time investor decisions, discover success stories, and connect with VCs and founders.",
+  alternates: {
+    canonical: "https://sfplayground.com",
+  },
+};
 
 const page = () => {
   return (

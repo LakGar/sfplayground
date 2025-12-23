@@ -3,6 +3,20 @@ import Image from "next/image";
 import Nav from "@/component/landing/nav";
 import Footer from "@/component/landing/footer";
 import VideoBackground from "@/component/ui/video-background";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Success Stories | SF Playground",
+  description: "Discover how startups have transformed their journey through live pitch events at SF Playground. Read success stories from featured startups like Petpin AI.",
+  alternates: {
+    canonical: "https://sfplayground.com/success-stories",
+  },
+  openGraph: {
+    title: "Success Stories | SF Playground",
+    description: "Discover how startups have transformed their journey through live pitch events at SF Playground.",
+    url: "https://sfplayground.com/success-stories",
+  },
+};
 
 const successStories = [
   {

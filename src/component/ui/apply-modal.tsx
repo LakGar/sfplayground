@@ -1,6 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
-import { X } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { X, Loader2, CheckCircle2 } from "lucide-react";
 
 interface ApplyModalProps {
   isOpen: boolean;
@@ -8,9 +8,16 @@ interface ApplyModalProps {
 }
 
 const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
+      // Reset form state when modal opens
+      setSubmitStatus("idle");
+      setErrorMessage("");
     } else {
       document.body.style.overflow = "unset";
     }
@@ -21,11 +28,54 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log("Form submitted");
-    onClose();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      founderName: formData.get("founderName") as string,
+      email: formData.get("email") as string,
+      phone: formData.get("phone") as string,
+      startupName: formData.get("startupName") as string,
+      stage: formData.get("stage") as string,
+      industry: formData.get("industry") as string,
+      description: formData.get("description") as string,
+      website: formData.get("website") as string,
+    };
+
+    try {
+      const response = await fetch("/api/apply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSubmitStatus("success");
+        // Reset form
+        e.currentTarget.reset();
+        // Close modal after 2 seconds
+        setTimeout(() => {
+          onClose();
+          setSubmitStatus("idle");
+        }, 2000);
+      } else {
+        setSubmitStatus("error");
+        setErrorMessage(result.error || "Failed to submit application. Please try again.");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+      setErrorMessage("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -72,6 +122,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   <input
                     type="text"
                     id="founderName"
+                    name="founderName"
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
                     placeholder="Enter your name"
@@ -87,6 +138,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   <input
                     type="email"
                     id="email"
+                    name="email"
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
                     placeholder="your@email.com"
@@ -103,6 +155,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                 <input
                   type="tel"
                   id="phone"
+                  name="phone"
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
                   placeholder="(555) 123-4567"
                 />
@@ -124,6 +177,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                 <input
                   type="text"
                   id="startupName"
+                  name="startupName"
                   required
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
                   placeholder="Enter your startup name"
@@ -139,6 +193,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   </label>
                   <select
                     id="stage"
+                    name="stage"
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
                   >
@@ -160,6 +215,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   <input
                     type="text"
                     id="industry"
+                    name="industry"
                     required
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
                     placeholder="e.g., AI, SaaS, FinTech"
@@ -176,6 +232,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                 <input
                   type="url"
                   id="website"
+                  name="website"
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
                   placeholder="https://yourstartup.com"
                 />
@@ -196,6 +253,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                 </label>
                 <textarea
                   id="description"
+                  name="description"
                   required
                   rows={6}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald resize-none text-sm"
@@ -204,20 +262,42 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
               </div>
             </div>
 
+            {/* Status Messages */}
+            {submitStatus === "success" && (
+              <div className="flex items-center gap-2 text-green-400 text-sm font-oswald pt-4 border-t border-white/20">
+                <CheckCircle2 className="w-5 h-5" />
+                <span>Application submitted successfully! You'll receive a confirmation email shortly.</span>
+              </div>
+            )}
+            {submitStatus === "error" && (
+              <div className="text-red-400 text-sm font-oswald pt-4 border-t border-white/20">
+                {errorMessage}
+              </div>
+            )}
+
             {/* Submit Button */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-white/20">
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-6 py-3 border border-white/20 text-white rounded-md hover:bg-white/10 transition-colors font-oswald"
+                disabled={isSubmitting}
+                className="flex-1 px-6 py-3 border border-white/20 text-white rounded-md hover:bg-white/10 transition-colors font-oswald disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex-1 px-6 py-3 bg-[#feca00] text-black rounded-md hover:bg-[#feca00]/90 transition-colors font-oswald font-bold"
+                disabled={isSubmitting}
+                className="flex-1 px-6 py-3 bg-[#feca00] text-black rounded-md hover:bg-[#feca00]/90 transition-colors font-oswald font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Submit Application
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Submit Application"
+                )}
               </button>
             </div>
           </form>

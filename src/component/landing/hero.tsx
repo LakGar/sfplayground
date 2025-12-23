@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRightIcon } from "lucide-react";
 import ApplyModal from "@/component/ui/apply-modal";
 
@@ -120,7 +121,8 @@ const Hero = () => {
               </>
             )}
             {/* Image 1 */}
-            <div
+            <Link
+              href="/events/ice-tank-challenge"
               className={`hidden lg:block relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden group cursor-pointer border border-white/20 ${
                 imagesLoaded.image1 && imagesLoaded.image2
                   ? "animate-slide-in-left opacity-100"
@@ -134,8 +136,8 @@ const Hero = () => {
               }}
             >
               <Image
-                src="/hero-highlight1.jpg"
-                alt="hero highlight 1"
+                src="/ice_tank/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg"
+                alt="Ice Tank Challenge Event"
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
                 onLoad={() =>
@@ -144,15 +146,16 @@ const Hero = () => {
               />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                 <p className="text-white text-sm font-oswald mb-2 line-clamp-2">
-                  Live pitch battles with top VCs and industry experts...
+                  Ice Tank Challenge - Founders pitch to VCs in an ice tank...
                 </p>
-                <button className="cursor-pointer bg-white/30 text-white px-3 py-1 rounded-md text-xs self-end">
+                <div className="cursor-pointer bg-white/30 text-white px-3 py-1 rounded-md text-xs self-end">
                   View Event
-                </button>
+                </div>
               </div>
-            </div>
+            </Link>
             {/* Image 2 */}
-            <div
+            <Link
+              href="/success-stories/petpin-ai"
               className={`relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden group cursor-pointer border border-white/20 ${
                 imagesLoaded.image1 && imagesLoaded.image2
                   ? "animate-slide-in-left opacity-100"
@@ -166,8 +169,8 @@ const Hero = () => {
               }}
             >
               <Image
-                src="/hero-highlight2.jpg"
-                alt="hero highlight 2"
+                src="/petpin.png"
+                alt="Petpin AI Success Story"
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
                 onLoad={() =>
@@ -176,13 +179,13 @@ const Hero = () => {
               />
               <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
                 <p className="text-white text-sm font-oswald mb-2 line-clamp-2">
-                  Top founders showcase night with networking...
+                  Petpin AI - Turning an AI Pet Startup Into a Crowd Favorite...
                 </p>
-                <button className="cursor-pointer bg-white/30 text-white px-3 py-1 rounded-md text-xs self-end">
-                  View Event
-                </button>
+                <div className="cursor-pointer bg-white/30 text-white px-3 py-1 rounded-md text-xs self-end">
+                  View Story
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
           {/* Apply section */}
           <div

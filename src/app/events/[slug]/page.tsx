@@ -3,6 +3,37 @@ import { ArrowLeft } from "lucide-react";
 import Nav from "@/component/landing/nav";
 import Footer from "@/component/landing/footer";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }> | { slug: string };
+}): Promise<Metadata> {
+  const resolvedParams = params instanceof Promise ? await params : params;
+  const normalizedSlug = resolvedParams.slug.toLowerCase().trim();
+  const event = events[normalizedSlug];
+
+  if (!event) {
+    return {
+      title: "Event Not Found | SF Playground",
+    };
+  }
+
+  return {
+    title: `${event.title} | SF Playground Events`,
+    description: `${event.description} Join us at ${event.location} on ${event.date}.`,
+    alternates: {
+      canonical: `https://sfplayground.com/events/${normalizedSlug}`,
+    },
+    openGraph: {
+      title: `${event.title} | SF Playground Events`,
+      description: event.description,
+      url: `https://sfplayground.com/events/${normalizedSlug}`,
+      type: "website",
+    },
+  };
+}
 
 const events: Record<
   string,

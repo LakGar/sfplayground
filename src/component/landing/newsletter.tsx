@@ -1,10 +1,13 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { SendIcon } from "lucide-react";
+import { SendIcon, Loader2, CheckCircle2 } from "lucide-react";
 
 const Newsletter = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,6 +26,41 @@ const Newsletter = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        setSubmitStatus("success");
+        setEmail("");
+        setTimeout(() => {
+          setSubmitStatus("idle");
+        }, 3000);
+      } else {
+        setSubmitStatus("error");
+        setErrorMessage(result.error || "Failed to subscribe. Please try again.");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+      setErrorMessage("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div
@@ -58,22 +96,47 @@ const Newsletter = () => {
               }`}
               style={{ transitionDelay: "200ms" }}
             >
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 bg-white/10 border border-white/20 rounded-md px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[#feca00] transition-colors duration-300"
-                />
-                <button className="bg-[#feca00] text-black px-6 py-3 rounded-md text-lg hover:bg-white transition-colors duration-300 flex items-center gap-2">
-                  <SendIcon className="w-4 h-4" />
-                  <span className="hidden sm:inline">Subscribe</span>
-                </button>
-              </div>
-              <p className="text-white/40 text-xs mt-2">
-                No spam. Unsubscribe anytime.
-              </p>
+              <form onSubmit={handleSubmit}>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    disabled={isSubmitting}
+                    className="flex-1 bg-white/10 border border-white/20 rounded-md px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[#feca00] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  />
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="bg-[#feca00] text-black px-6 py-3 rounded-md text-lg hover:bg-white transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-oswald font-bold"
+                  >
+                    {isSubmitting ? (
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                    ) : (
+                      <>
+                        <SendIcon className="w-4 h-4" />
+                        <span className="hidden sm:inline">Subscribe</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+                {submitStatus === "success" && (
+                  <div className="flex items-center gap-2 text-green-400 text-sm mt-2 font-oswald">
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>Successfully subscribed! Check your email for a welcome message.</span>
+                  </div>
+                )}
+                {submitStatus === "error" && (
+                  <p className="text-red-400 text-sm mt-2 font-oswald">{errorMessage}</p>
+                )}
+                {submitStatus === "idle" && (
+                  <p className="text-white/40 text-xs mt-2">
+                    No spam. Unsubscribe anytime.
+                  </p>
+                )}
+              </form>
             </div>
           </div>
         </div>
