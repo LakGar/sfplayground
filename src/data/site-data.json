@@ -1,19 +1,35 @@
 {
   "events": [
     {
+      "slug": "jpmorgan",
+      "title": "Silicon Valley Investng Summit",
+      "date": "Jan 12, 2026",
+      "location": "Frontier Tower SF",
+      "attendees": 556,
+      "status": "past",
+      "coverImage": "https://drive.google.com/uc?export=view&id=1pAwnQqSvMEc1VrqMJZn0Xtlh-ExA3-by",
+      "description": "Silicon Valley Investing Summit brings together select startups and accredited investors for curated dealflow and high-level networking.",
+      "images": [
+        "https://drive.google.com/uc?export=view&id=1q7l0z75Fh7FY7CqF_T0QtDGN4bBq369V",
+        "https://drive.google.com/uc?export=view&id=1mRzEbnw0PPpaDsnQLOBabedECp8mfi4t",
+        "https://drive.google.com/uc?export=view&id=1zNi50nX4lS01uDR9ALRtv27BQ4kHD5Jk",
+        "https://drive.google.com/uc?export=view&id=1WVEVny9_klJFTO8c55Trxv510b0QN3JL"
+      ]
+    },
+    {
       "slug": "pitchplayoffs-001",
       "title": "Pitch Playoffs #001",
       "date": "Dec 11, 2025",
       "location": "Frontier Tower SF",
       "attendees": 228,
       "status": "past",
-      "coverImage": "https://drive.google.com/file/d/1pAwnQqSvMEc1VrqMJZn0Xtlh-ExA3-by/view?usp=drive_link",
-      "description": "An electrifying evening showcasing the intersection of artificial intelligence and robotics. Founders from cutting-edge AI and robotics startups pitched their innovations to a panel of top VCs, demonstrating the future of technology.",
+      "coverImage": "https://drive.google.com/uc?export=view&id=1pAwnQqSvMEc1VrqMJZn0Xtlh-ExA3-by",
+      "description": "An evening where physical AI startups showcase their products while attendees invest three voting tokens in their favorites, with the top three earning a live Shark Tank–style pitch in front of an investor panel and a room full of builders.",
       "images": [
-        "https://drive.google.com/file/d/1q7l0z75Fh7FY7CqF_T0QtDGN4bBq369V/view?usp=drive_link",
-        "https://drive.google.com/file/d/1mRzEbnw0PPpaDsnQLOBabedECp8mfi4t/view?usp=drive_link",
-        "https://drive.google.com/file/d/1zNi50nX4lS01uDR9ALRtv27BQ4kHD5Jk/view?usp=drive_link",
-        "https://drive.google.com/file/d/1WVEVny9_klJFTO8c55Trxv510b0QN3JL/view?usp=drive_link"
+        "https://drive.google.com/uc?export=view&id=1q7l0z75Fh7FY7CqF_T0QtDGN4bBq369V",
+        "https://drive.google.com/uc?export=view&id=1mRzEbnw0PPpaDsnQLOBabedECp8mfi4t",
+        "https://drive.google.com/uc?export=view&id=1zNi50nX4lS01uDR9ALRtv27BQ4kHD5Jk",
+        "https://drive.google.com/uc?export=view&id=1WVEVny9_klJFTO8c55Trxv510b0QN3JL"
       ]
     },
     {
@@ -84,7 +100,6 @@
         "https://drive.google.com/uc?export=view&id=1RtWrENtFoWsOFWbp6uWtoQ3aFXbFYAr2",
         "https://drive.google.com/uc?export=view&id=1uolCAOvyRHw53cJxZilvGExhyf1izVBD",
         "https://drive.google.com/uc?export=view&id=16dgOi_lvX8-1pJm1xzJShhjQpj597-MZ",
-        "https://drive.google.com/uc?export=view&id=15VVt9nHrQfakw4s-1ZiZg31CzuZ-HaTp",
         "https://drive.google.com/uc?export=view&id=13z15JieIb2_x4t9SFUUxPpLu8VooByFJ",
         "https://drive.google.com/uc?export=view&id=1N91BEb6QIa1nZEipkl0DPI-4RnieS0zg",
         "https://drive.google.com/uc?export=view&id=1k9_d2iG4GgNFzx8oXeX9hOxrrYjGXl1Y",
