@@ -1,11 +1,56 @@
 {
   "events": [
     {
+      "slug": "pitchplayoffs-001",
+      "title": "PitchPlayoffs #001",
+      "date": "Dec 11, 2025",
+      "location": "Frontier Tower SF",
+      "attendees": 228,
+      "status": "past",
+      "coverImage": "https://drive.google.com/file/d/1pAwnQqSvMEc1VrqMJZn0Xtlh-ExA3-by/view?usp=drive_link",
+      "description": "An electrifying evening showcasing the intersection of artificial intelligence and robotics. Founders from cutting-edge AI and robotics startups pitched their innovations to a panel of top VCs, demonstrating the future of technology.",
+      "images": [
+        "https://drive.google.com/file/d/1q7l0z75Fh7FY7CqF_T0QtDGN4bBq369V/view?usp=drive_link",
+        "https://drive.google.com/file/d/1mRzEbnw0PPpaDsnQLOBabedECp8mfi4t/view?usp=drive_link",
+        "https://drive.google.com/file/d/1zNi50nX4lS01uDR9ALRtv27BQ4kHD5Jk/view?usp=drive_link",
+        "https://drive.google.com/file/d/1WVEVny9_klJFTO8c55Trxv510b0QN3JL/view?usp=drive_link"
+      ]
+    },
+    {
+      "slug": "ice-tank-challenge",
+      "title": "Ice Tank Challenge",
+      "date": "Nov 21, 2025",
+      "location": "Frontier Tower SF",
+      "attendees": 56,
+      "status": "past",
+      "coverImage": "/images/ice-tank-challenge/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg",
+      "description": "The ultimate test of resilience and conviction. Founders pitched to VCs while immersed in an ice tank - proving that the best pitches come from those who can stay cool under pressure, literally. This unique challenge separated the committed from the casual, creating unforgettable moments and real connections.",
+      "images": [
+        "/images/ice-tank-challenge/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg",
+        "/images/ice-tank-challenge/D420099B-DD6C-49A4-BDF2-F0BFD82236DB_1_102_o.jpeg",
+        "/images/ice-tank-challenge/CCB48353-7E7C-4FB9-ADAE-F07AB4529F05_1_102_o.jpeg",
+        "/images/ice-tank-challenge/BDACC1E1-BD27-4FEE-BD9D-9436A332842D_1_102_o.jpeg",
+        "/images/ice-tank-challenge/9C1AE707-02C1-432A-8E87-F6E3BF496703_1_102_o.jpeg",
+        "/images/ice-tank-challenge/9B251A2B-D35F-40C4-819C-162D8621D2BC_1_102_o.jpeg",
+        "/images/ice-tank-challenge/87025B3D-6772-48F6-BEA0-AF8CB229D353_1_102_o.jpeg",
+        "/images/ice-tank-challenge/8165B9C3-CC46-4EED-B5CF-4F7E4D37BBAF_1_102_o.jpeg",
+        "/images/ice-tank-challenge/7B393BC0-0AAE-4C1E-ACB3-32B2A5FAF158_1_102_o.jpeg",
+        "/images/ice-tank-challenge/4BB0DC4C-BB1F-4380-8888-D2A06177D4B2_1_102_o.jpeg",
+        "/images/ice-tank-challenge/3DB75D97-4DC6-456E-9C3B-5D375028C5F2_1_102_o.jpeg",
+        "/images/ice-tank-challenge/3428A167-B2B2-4C85-B58F-1AF8708AD544_1_102_o.jpeg",
+        "/images/ice-tank-challenge/2F0125B7-402D-4C25-8D10-1FD22DF9A9EB_1_102_o.jpeg",
+        "/images/ice-tank-challenge/2E5CC277-BE35-47D4-B3E0-EC9BD6C94827_1_102_o.jpeg",
+        "/images/ice-tank-challenge/1B8CC5A1-7C96-4B1A-9678-EED3D1EB9168_1_102_o.jpeg",
+        "/images/ice-tank-challenge/0BC2DF65-E9B1-4191-9135-C83C8AFC9857_1_102_o.jpeg",
+        "/images/ice-tank-challenge/0A083BC6-9457-4585-980D-F0FA97DCD197_1_102_o.jpeg"
+      ]
+    },
+    {
       "slug": "ai-x-robotics",
       "title": "AI X ROBOTICS",
-      "date": "Dec 15, 2024",
-      "location": "SF Downtown",
-      "attendees": 150,
+      "date": "Oct 15, 2025",
+      "location": "Frontier Tower SF",
+      "attendees": 202,
       "status": "past",
       "coverImage": "https://drive.google.com/uc?export=view&id=10akfK0GLQnwwhl7AwtzyCZZqboqUwdbb",
       "description": "An electrifying evening showcasing the intersection of artificial intelligence and robotics. Founders from cutting-edge AI and robotics startups pitched their innovations to a panel of top VCs, demonstrating the future of technology.",
@@ -56,53 +101,6 @@
         "https://drive.google.com/uc?export=view&id=1Ml-WDp84DtP9CnTwkG_nND-wYNMCN-lB"
       ]
     },
-    {
-      "slug": "ice-tank-challenge",
-      "title": "Ice Tank Challenge",
-      "date": "Nov 22, 2024",
-      "location": "Mission District",
-      "attendees": 80,
-      "status": "past",
-      "coverImage": "/images/ice-tank-challenge/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg",
-      "description": "The ultimate test of resilience and conviction. Founders pitched to VCs while immersed in an ice tank - proving that the best pitches come from those who can stay cool under pressure, literally. This unique challenge separated the committed from the casual, creating unforgettable moments and real connections.",
-      "images": [
-        "/images/ice-tank-challenge/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg",
-        "/images/ice-tank-challenge/D420099B-DD6C-49A4-BDF2-F0BFD82236DB_1_102_o.jpeg",
-        "/images/ice-tank-challenge/CCB48353-7E7C-4FB9-ADAE-F07AB4529F05_1_102_o.jpeg",
-        "/images/ice-tank-challenge/BDACC1E1-BD27-4FEE-BD9D-9436A332842D_1_102_o.jpeg",
-        "/images/ice-tank-challenge/9C1AE707-02C1-432A-8E87-F6E3BF496703_1_102_o.jpeg",
-        "/images/ice-tank-challenge/9B251A2B-D35F-40C4-819C-162D8621D2BC_1_102_o.jpeg",
-        "/images/ice-tank-challenge/87025B3D-6772-48F6-BEA0-AF8CB229D353_1_102_o.jpeg",
-        "/images/ice-tank-challenge/8165B9C3-CC46-4EED-B5CF-4F7E4D37BBAF_1_102_o.jpeg",
-        "/images/ice-tank-challenge/7B393BC0-0AAE-4C1E-ACB3-32B2A5FAF158_1_102_o.jpeg",
-        "/images/ice-tank-challenge/4BB0DC4C-BB1F-4380-8888-D2A06177D4B2_1_102_o.jpeg",
-        "/images/ice-tank-challenge/3DB75D97-4DC6-456E-9C3B-5D375028C5F2_1_102_o.jpeg",
-        "/images/ice-tank-challenge/3428A167-B2B2-4C85-B58F-1AF8708AD544_1_102_o.jpeg",
-        "/images/ice-tank-challenge/2F0125B7-402D-4C25-8D10-1FD22DF9A9EB_1_102_o.jpeg",
-        "/images/ice-tank-challenge/2E5CC277-BE35-47D4-B3E0-EC9BD6C94827_1_102_o.jpeg",
-        "/images/ice-tank-challenge/1B8CC5A1-7C96-4B1A-9678-EED3D1EB9168_1_102_o.jpeg",
-        "/images/ice-tank-challenge/0BC2DF65-E9B1-4191-9135-C83C8AFC9857_1_102_o.jpeg",
-        "/images/ice-tank-challenge/0A083BC6-9457-4585-980D-F0FA97DCD197_1_102_o.jpeg"
-      ]
-    },
-    {
-      "slug": "founder-mixer",
-      "title": "Founder Mixer",
-      "date": "Oct 5, 2024",
-      "location": "SOMA",
-      "attendees": 200,
-      "status": "past",
-      "coverImage": "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=2940&auto=format&fit=crop",
-      "description": "Our largest networking event of the year. Founders, investors, and industry leaders came together for an evening of connections, inspiration, and celebration.",
-      "images": [
-        "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=2940&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2940&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2832&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2940&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2940&auto=format&fit=crop",
-        "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2832&auto=format&fit=crop"
-      ]
-    }
   ],
   "startups": [
     {
