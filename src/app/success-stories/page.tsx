@@ -4,6 +4,7 @@ import Nav from "@/component/landing/nav";
 import Footer from "@/component/landing/footer";
 import VideoBackground from "@/component/ui/video-background";
 import type { Metadata } from "next";
+import siteData from "@/data/site-data.json";
 
 export const metadata: Metadata = {
   title: "Success Stories | SF Playground",
@@ -18,16 +19,7 @@ export const metadata: Metadata = {
   },
 };
 
-const successStories = [
-  {
-    slug: "petpin-ai",
-    title: "Petpin AI",
-    tagline: "Turning an AI Pet Startup Into a Crowd Favorite",
-    description:
-      "Petpin AI is an AI-powered wearable that lets pet owners see the world from their pet's point of view — combining computer vision, behavioral insights, and emotional storytelling into one delightful product.",
-    image: "/petpin.png",
-  },
-];
+const successStories = siteData.successStories;
 
 export default function SuccessStoriesPage() {
   return (

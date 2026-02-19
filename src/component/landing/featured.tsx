@@ -3,18 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ExternalLinkIcon } from "lucide-react";
+import siteData from "@/data/site-data.json";
 
-const startups = [
-  {
-    name: "Petpin AI",
-    description:
-      "AI-powered wearable that lets pet owners see the world from their pet's point of view",
-    raised: "Featured Success Story",
-    logo: "/petpin.png",
-    category: "AI/ML",
-    slug: "petpin-ai",
-  },
-];
+const startups = siteData.startups;
 
 const Featured = () => {
   const [isVisible, setIsVisible] = useState(false);

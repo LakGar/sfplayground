@@ -6,67 +6,11 @@ import Nav from "@/component/landing/nav";
 import Footer from "@/component/landing/footer";
 import VideoBackground from "@/component/ui/video-background";
 import Image from "next/image";
+import siteData from "@/data/site-data.json";
 
-const successStories: Record<
-  string,
-  {
-    title: string;
-    tagline: string;
-    description: string;
-    challenge: string;
-    challengePoints: string[];
-    ourRole: string;
-    rolePoints: string[];
-    experience: string;
-    impact: string;
-    impactPoints: string[];
-    founderQuote: string;
-    attendeeQuote: string;
-    founderQuote2: string;
-    whyMatters: string;
-  }
-> = {
-  "petpin-ai": {
-    title: "Petpin AI",
-    tagline: "Turning an AI Pet Startup Into a Crowd Favorite",
-    description:
-      "Petpin AI is an AI-powered wearable that lets pet owners see the world from their pet's point of view — combining computer vision, behavioral insights, and emotional storytelling into one delightful product.",
-    challenge:
-      "As an early-stage startup building cutting-edge consumer AI hardware, Petpin AI needed to:",
-    challengePoints: [
-      "Introduce a new category (AI wearables for pets)",
-      "Explain complex technology simply and emotionally",
-      "Capture attention in a high-energy, competitive event environment",
-      "Generate excitement, conversation, and early adopters",
-    ],
-    ourRole:
-      "At SF Playground, we curated an environment that helped Petpin AI:",
-    rolePoints: [
-      "🎤 Present their story clearly to a live audience",
-      "🧠 Demonstrate AI value through hands-on interaction",
-      "🤝 Connect with builders, investors, and early users",
-      "📣 Spark organic word-of-mouth across the event floor",
-    ],
-    experience:
-      "Petpin AI's showcase focused on emotion-first storytelling:\n\nLive demos showing pets' POV footage\n\nApp walkthroughs highlighting mood detection and auto-generated clips\n\nOne-on-one conversations explaining how AI enhances everyday pet care\n\nThe result was an experience that felt personal, fun, and futuristic — not overly technical.",
-    impact:
-      "Petpin AI's presence at the event delivered real results:",
-    impactPoints: [
-      "🚀 High attendee engagement throughout the event",
-      "🐾 Strong emotional response from pet owners and tech enthusiasts",
-      "📈 Increased brand awareness and post-event traffic",
-      "💬 Consistent buzz across conversations, demos, and social sharing",
-    ],
-    founderQuote:
-      '"This event helped us explain Petpin AI in a way people immediately felt. Watching attendees light up when they saw their pets\' POV was incredible."',
-    attendeeQuote:
-      '"This was one of the most memorable demos at the event. It was fun, emotional, and genuinely innovative."',
-    founderQuote2:
-      '"Petpin AI felt like the kind of product you remember after the event ends."',
-    whyMatters:
-      "Petpin AI is a great example of how the right event environment can accelerate a startup's story — turning a product demo into a moment people remember.\n\nAt SF Playground, we don't just host events — we help ideas land.",
-  },
-};
+const successStoriesBySlug = Object.fromEntries(
+  siteData.successStories.map((s) => [s.slug, s])
+);
 
 export default function SuccessStoryPage({
   params,
@@ -75,7 +19,7 @@ export default function SuccessStoryPage({
 }) {
   const resolvedParams = params instanceof Promise ? use(params) : params;
   const normalizedSlug = resolvedParams.slug.toLowerCase().trim();
-  const story = successStories[normalizedSlug];
+  const story = successStoriesBySlug[normalizedSlug];
 
   if (!story) {
     return (
@@ -144,7 +88,7 @@ export default function SuccessStoryPage({
           {/* Hero Image */}
           <div className="relative w-full h-64 md:h-96 mb-12 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
             <Image
-              src="/petpin.png"
+              src={story.image}
               alt={story.title}
               width={400}
               height={400}

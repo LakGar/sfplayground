@@ -3,36 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { CalendarIcon, MapPinIcon, UsersIcon, ArrowRightIcon } from "lucide-react";
+import siteData from "@/data/site-data.json";
 
-const events = [
-  {
-    title: "AI X ROBOTICS",
-    date: "Dec 15, 2024",
-    location: "SF Downtown",
-    attendees: 150,
-    image: "https://drive.google.com/uc?export=view&id=10akfK0GLQnwwhl7AwtzyCZZqboqUwdbb",
-    status: "past",
-    slug: "ai-x-robotics",
-  },
-  {
-    title: "Ice Tank Challenge",
-    date: "Nov 22, 2024",
-    location: "Mission District",
-    attendees: 80,
-    image: "/ice_tank/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg",
-    status: "past",
-    slug: "ice-tank-challenge",
-  },
-  {
-    title: "Founder Mixer",
-    date: "Oct 5, 2024",
-    location: "SOMA",
-    attendees: 200,
-    image: "https://images.unsplash.com/photo-1528605248644-14dd04022da1?q=80&w=2940&auto=format&fit=crop",
-    status: "past",
-    slug: "founder-mixer",
-  },
-];
+const events = siteData.events;
 
 const Events = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -102,7 +75,7 @@ const Events = () => {
               {/* Image */}
               <div className="relative h-48 md:h-56 rounded-t-lg overflow-hidden">
                 <Image
-                  src={event.image}
+                  src={event.coverImage}
                   alt={event.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
