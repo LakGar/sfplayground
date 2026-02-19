@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div>
-            <h2 className="text-2xl font-oswald font-bold text-[#feca00] mb-4">
+            <h2 className="text-2xl font-oswald font-bold text-[#00d5ff] mb-4">
               SF<span className="text-white">PLAYGROUND</span>
             </h2>
             <p className="text-white/50 text-sm mb-4">
@@ -21,7 +21,7 @@ const Footer = () => {
                 href="https://www.linkedin.com/company/sfplayground"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#feca00] transition-colors"
+                className="text-white/50 hover:text-[#00d5ff] transition-colors"
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-5 h-5" />
@@ -30,7 +30,7 @@ const Footer = () => {
                 href="https://www.instagram.com/sfplayground/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#feca00] transition-colors"
+                className="text-white/50 hover:text-[#00d5ff] transition-colors"
                 aria-label="Instagram"
               >
                 <InstagramIcon className="w-5 h-5" />
@@ -47,7 +47,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   Home
                 </Link>
@@ -55,7 +55,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/about"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   About Us
                 </Link>
@@ -63,7 +63,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/success-stories"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   Success Stories
                 </Link>
@@ -71,7 +71,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/#events"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   Events
                 </Link>
@@ -88,7 +88,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/#apply"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   Apply to Pitch
                 </Link>
@@ -96,7 +96,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/success-stories"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   Success Stories
                 </Link>
@@ -104,7 +104,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/about"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   About Us
                 </Link>
@@ -112,7 +112,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/#faq"
-                  className="text-white/50 hover:text-[#feca00] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
                 >
                   FAQ
                 </Link>
@@ -142,7 +142,7 @@ const Footer = () => {
                 href="https://www.theempowerweb.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#feca00] transition-colors font-oswald"
+                className="text-white/50 hover:text-[#00d5ff] transition-colors font-oswald"
               >
                 Empower
               </Link>

@@ -43,7 +43,7 @@ const Featured = () => {
                 : "opacity-0 -translate-y-10"
             }`}
           >
-            Featured <span className="text-[#feca00]">Startups</span>
+            Featured <span className="text-[#00d5ff]">Startups</span>
           </h2>
           <p
             className={`text-white/50 font-oswald max-w-2xl mx-auto transition-all duration-700 ${
@@ -64,7 +64,7 @@ const Featured = () => {
             <Link
               key={startup.name}
               href={`/success-stories/${startup.slug}`}
-              className={`group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-[#feca00]/30 transition-all duration-500 cursor-pointer ${
+              className={`group bg-white/5 border border-white/10 rounded-xl p-6 hover:bg-white/10 hover:border-[#00d5ff]/30 transition-all duration-500 cursor-pointer ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
@@ -82,12 +82,12 @@ const Featured = () => {
               </div>
 
               {/* Category Badge */}
-              <span className="inline-block text-xs text-[#feca00] bg-[#feca00]/10 px-2 py-1 rounded-full mb-3">
+              <span className="inline-block text-xs text-[#00d5ff] bg-[#00d5ff]/10 px-2 py-1 rounded-full mb-3">
                 {startup.category}
               </span>
 
               {/* Info */}
-              <h3 className="text-white font-oswald text-xl mb-2 group-hover:text-[#feca00] transition-colors duration-300 flex items-center gap-2">
+              <h3 className="text-white font-oswald text-xl mb-2 group-hover:text-[#00d5ff] transition-colors duration-300 flex items-center gap-2">
                 {startup.name}
                 <ExternalLinkIcon className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
               </h3>
@@ -97,7 +97,7 @@ const Featured = () => {
 
               {/* Raised */}
               <div className="pt-4 border-t border-white/10">
-                <span className="text-[#feca00] font-oswald font-bold text-sm">
+                <span className="text-[#00d5ff] font-oswald font-bold text-sm">
                   {startup.raised}
                 </span>
               </div>

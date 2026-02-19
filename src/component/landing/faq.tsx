@@ -72,7 +72,7 @@ const FAQ = () => {
                 : "opacity-0 -translate-y-10"
             }`}
           >
-            Frequently Asked <span className="text-[#feca00]">Questions</span>
+            Frequently Asked <span className="text-[#00d5ff]">Questions</span>
           </h2>
           <p
             className={`text-white/50 font-oswald transition-all duration-700 ${
@@ -106,7 +106,7 @@ const FAQ = () => {
                   {faq.question}
                 </span>
                 <ChevronDownIcon
-                  className={`w-5 h-5 text-[#feca00] shrink-0 transition-transform duration-300 ${
+                  className={`w-5 h-5 text-[#00d5ff] shrink-0 transition-transform duration-300 ${
                     openIndex === index ? "rotate-180" : ""
                   }`}
                 />

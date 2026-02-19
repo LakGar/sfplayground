@@ -11,8 +11,11 @@ const Nav = () => {
     <div className="fixed top-0 left-0 w-full z-50">
       <div className="w-full px-4 md:px-8 py-4 flex items-center bg-linear-to-b from-black/50 to-transparent via-black/20 backdrop-blur-sm">
         {/* logo */}
-        <Link href="/" className="flex items-center animate-slide-in-left flex-1 overflow-hidden">
-          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#feca00]">
+        <Link
+          href="/"
+          className="flex items-center animate-slide-in-left flex-1 overflow-hidden"
+        >
+          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#00d5ff]">
             SF<span className="text-white">PLAYGROUND</span>
           </h1>
         </Link>
@@ -91,7 +94,7 @@ const Nav = () => {
         {/* Mobile header with logo and close */}
         <div className="w-full px-4 py-4 flex items-center justify-between">
           <Link href="/" onClick={() => setIsOpen(false)}>
-            <h1 className="text-2xl font-bold font-oswald text-[#feca00]">
+            <h1 className="text-2xl font-bold font-oswald text-[#00d5ff]">
               SF<span className="text-white">PLAYGROUND</span>
             </h1>
           </Link>
@@ -106,28 +109,28 @@ const Nav = () => {
         {/* Mobile links */}
         <div className="flex flex-col items-center justify-center gap-8 h-[calc(100%-72px)]">
           <Link
-            className="text-white  hover:text-[#feca00] transition-colors"
+            className="text-white  hover:text-[#00d5ff] transition-colors"
             href="/"
             onClick={() => setIsOpen(false)}
           >
             Home
           </Link>
           <Link
-            className="text-white hover:text-[#feca00] transition-colors"
+            className="text-white hover:text-[#00d5ff] transition-colors"
             href="/about"
             onClick={() => setIsOpen(false)}
           >
             About
           </Link>
           <Link
-            className="text-white  hover:text-[#feca00] transition-colors"
+            className="text-white  hover:text-[#00d5ff] transition-colors"
             href="/success-stories"
             onClick={() => setIsOpen(false)}
           >
             Success Stories
           </Link>
           <Link
-            className="text-white  hover:text-[#feca00] transition-colors"
+            className="text-white  hover:text-[#00d5ff] transition-colors"
             href="/#events"
             onClick={() => setIsOpen(false)}
           >

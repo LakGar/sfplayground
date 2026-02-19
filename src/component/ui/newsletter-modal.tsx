@@ -87,7 +87,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
         {/* Content */}
         <div className="p-8">
           <h2 className="text-3xl md:text-4xl font-oswald text-white mb-2">
-            Stay in the <span className="text-[#feca00]">Loop</span>
+            Stay in the <span className="text-[#00d5ff]">Loop</span>
           </h2>
           <p className="text-white/70 mb-8 font-oswald text-sm md:text-base">
             Get exclusive updates on upcoming events, featured startups, and
@@ -109,7 +109,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isSubmitting}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 placeholder="your@email.com"
               />
             </div>
@@ -140,7 +140,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 bg-[#feca00] text-black rounded-md hover:bg-[#feca00]/90 transition-colors font-oswald font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-[#00d5ff] text-black rounded-md hover:bg-[#00d5ff]/90 transition-colors font-oswald font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>

@@ -59,7 +59,7 @@ export default async function EventGalleryPage({
           </h1>
           <Link
             href="/#events"
-            className="text-[#feca00] hover:underline font-oswald"
+            className="text-[#00d5ff] hover:underline font-oswald"
           >
             Back to Events
           </Link>

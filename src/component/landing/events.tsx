@@ -44,7 +44,7 @@ const Events = () => {
                   : "opacity-0 -translate-y-10"
               }`}
             >
-              Previous <span className="text-[#feca00]">Events</span>
+              Previous <span className="text-[#00d5ff]">Events</span>
             </h2>
             <p
               className={`text-white/50 font-oswald transition-all duration-700 ${
@@ -88,7 +88,7 @@ const Events = () => {
 
               {/* Content */}
               <div className="bg-white/5 border border-white/10 border-t-0 rounded-b-lg p-5 group-hover:bg-white/10 transition-colors duration-300">
-                <h3 className="text-white font-oswald text-xl mb-3 group-hover:text-[#feca00] transition-colors duration-300">
+                <h3 className="text-white font-oswald text-xl mb-3 group-hover:text-[#00d5ff] transition-colors duration-300">
                   {event.title}
                 </h3>
 
@@ -107,7 +107,7 @@ const Events = () => {
                   </div>
                 </div>
 
-                <div className="w-full bg-white/10 text-white py-2 rounded-md font-oswald text-sm group-hover:bg-[#feca00] group-hover:text-black transition-all duration-300 text-center flex items-center justify-center gap-2">
+                <div className="w-full bg-white/10 text-white py-2 rounded-md font-oswald text-sm group-hover:bg-[#00d5ff] group-hover:text-black transition-all duration-300 text-center flex items-center justify-center gap-2">
                   View Gallery <ArrowRightIcon className="w-4 h-4" />
                 </div>
               </div>

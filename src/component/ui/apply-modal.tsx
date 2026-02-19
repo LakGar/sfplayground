@@ -98,7 +98,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
         {/* Content */}
         <div className="p-6 md:p-8">
           <h2 className="text-3xl md:text-4xl font-oswald text-white mb-2">
-            Apply to <span className="text-[#feca00]">Pitch</span>
+            Apply to <span className="text-[#00d5ff]">Pitch</span>
           </h2>
           <p className="text-white/70 mb-8 font-oswald text-sm md:text-base">
             Submit your startup to pitch live and receive real-time feedback
@@ -124,7 +124,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="founderName"
                     name="founderName"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm"
                     placeholder="Enter your name"
                   />
                 </div>
@@ -140,7 +140,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -156,7 +156,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   type="tel"
                   id="phone"
                   name="phone"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm"
                   placeholder="(555) 123-4567"
                 />
               </div>
@@ -179,7 +179,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   id="startupName"
                   name="startupName"
                   required
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm"
                   placeholder="Enter your startup name"
                 />
               </div>
@@ -195,7 +195,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="stage"
                     name="stage"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm"
                   >
                     <option value="">Select funding stage</option>
                     <option value="pre-seed">Pre-Seed</option>
@@ -217,7 +217,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="industry"
                     name="industry"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm"
                     placeholder="e.g., AI, SaaS, FinTech"
                   />
                 </div>
@@ -233,7 +233,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   type="url"
                   id="website"
                   name="website"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald text-sm"
                   placeholder="https://yourstartup.com"
                 />
               </div>
@@ -256,7 +256,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   name="description"
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#feca00] transition-colors font-oswald resize-none text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#00d5ff] transition-colors font-oswald resize-none text-sm"
                   placeholder="Tell us about your startup and what makes it unique. What problem are you solving? Who is your target market? What makes your solution different?"
                 />
               </div>
@@ -288,7 +288,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 bg-[#feca00] text-black rounded-md hover:bg-[#feca00]/90 transition-colors font-oswald font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex-1 px-6 py-3 bg-[#00d5ff] text-black rounded-md hover:bg-[#00d5ff]/90 transition-colors font-oswald font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isSubmitting ? (
                   <>

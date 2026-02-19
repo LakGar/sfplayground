@@ -33,7 +33,7 @@ const Sponsors = () => {
                 key={`first-${index}`}
                 className="flex items-center justify-center px-12"
               >
-                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#feca00] transition-colors duration-300 cursor-pointer">
+                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#00d5ff] transition-colors duration-300 cursor-pointer">
                   {sponsor}
                 </span>
               </div>
@@ -46,7 +46,7 @@ const Sponsors = () => {
                 key={`second-${index}`}
                 className="flex items-center justify-center px-12"
               >
-                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#feca00] transition-colors duration-300 cursor-pointer">
+                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#00d5ff] transition-colors duration-300 cursor-pointer">
                   {sponsor}
                 </span>
               </div>

@@ -48,7 +48,7 @@ const CTA = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          Ready to Pitch Your <span className="text-[#feca00]">Startup?</span>
+          Ready to Pitch Your <span className="text-[#00d5ff]">Startup?</span>
         </h2>
         <p
           className={`text-white/70 text-lg md:text-xl font-oswald mb-8 transition-all duration-700 ${
@@ -67,7 +67,7 @@ const CTA = () => {
         >
           <button
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#feca00] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald font-bold"
+            className="bg-[#00d5ff] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald font-bold"
           >
             Apply to Pitch <ArrowRightIcon className="w-5 h-5" />
           </button>

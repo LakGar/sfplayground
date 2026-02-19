@@ -78,7 +78,7 @@ const Hero = () => {
         {/* hero heading */}
         <h1 className="text-4xl md:text-6xl lg:text-8xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
           Where Startups Get Tested by
-          <span className="text-[#feca00] font-bold"> Real </span>
+          <span className="text-[#00d5ff] font-bold"> Real </span>
           Capital
         </h1>
         {/* hero description */}

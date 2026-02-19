@@ -46,7 +46,6 @@ const About = () => {
 
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
-      5005;
     }
 
     return () => observer.disconnect();
@@ -68,7 +67,7 @@ const About = () => {
                 : "opacity-0 -translate-y-10"
             }`}
           >
-            What We <span className="text-[#feca00]">Do</span>
+            What We <span className="text-[#00d5ff]">Do</span>
           </h2>
           {/* Tagline */}
           <div
@@ -107,7 +106,7 @@ const About = () => {
                 />
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300" />
                 <div className="absolute inset-0 flex flex-col justify-end p-4">
-                  <h3 className="text-white font-oswald text-lg mb-1 group-hover:text-[#feca00] transition-colors duration-300">
+                  <h3 className="text-white font-oswald text-lg mb-1 group-hover:text-[#00d5ff] transition-colors duration-300">
                     {card.title}
                   </h3>
                   <p className="text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">

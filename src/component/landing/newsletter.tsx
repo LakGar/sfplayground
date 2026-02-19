@@ -79,7 +79,7 @@ const Newsletter = () => {
               }`}
             >
               <h3 className="text-2xl md:text-3xl font-oswald font-bold text-white mb-2">
-                Stay in the <span className="text-[#feca00]">Loop</span>
+                Stay in the <span className="text-[#00d5ff]">Loop</span>
               </h3>
               <p className="text-white/60 font-oswald">
                 Get exclusive updates on upcoming events, featured startups, and
@@ -105,12 +105,12 @@ const Newsletter = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                     disabled={isSubmitting}
-                    className="flex-1 bg-white/10 border border-white/20 rounded-md px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[#feca00] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex-1 bg-white/10 border border-white/20 rounded-md px-4 py-3 text-white placeholder:text-white/40 focus:outline-none focus:border-[#00d5ff] transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-[#feca00] text-black px-6 py-3 rounded-md text-lg hover:bg-white transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-oswald font-bold"
+                    className="bg-[#00d5ff] text-black px-6 py-3 rounded-md text-lg hover:bg-white transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-oswald font-bold"
                   >
                     {isSubmitting ? (
                       <Loader2 className="w-4 h-4 animate-spin" />

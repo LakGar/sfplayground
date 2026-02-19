@@ -65,7 +65,7 @@ export default function AboutPage() {
         <VideoBackground />
         <div className="relative z-10 text-center max-w-7xl mx-auto">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-oswald text-white mb-6">
-            About <span className="text-[#feca00]">SF Playground</span>
+            About <span className="text-[#00d5ff]">SF Playground</span>
           </h1>
           <p className="text-xl md:text-2xl text-white/70 font-oswald max-w-3xl mx-auto">
             An SF-based platform for live startup pitches and real investor
@@ -80,7 +80,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl md:text-5xl font-oswald text-white mb-6">
-                Our <span className="text-[#feca00]">Mission</span>
+                Our <span className="text-[#00d5ff]">Mission</span>
               </h2>
               <p className="text-white/80 text-lg font-oswald leading-relaxed mb-6">
                 We believe that great startups deserve real opportunities. Too
@@ -116,9 +116,9 @@ export default function AboutPage() {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="text-center border border-white/20 rounded-lg p-6 hover:border-[#feca00] transition-colors"
+                className="text-center border border-white/20 rounded-lg p-6 hover:border-[#00d5ff] transition-colors"
               >
-                <div className="text-4xl md:text-5xl font-oswald text-[#feca00] mb-2">
+                <div className="text-4xl md:text-5xl font-oswald text-[#00d5ff] mb-2">
                   {stat.number}
                 </div>
                 <div className="text-white/70 font-oswald text-sm md:text-base">
@@ -134,11 +134,11 @@ export default function AboutPage() {
       <div className="px-4 md:px-8 lg:px-12 py-16 bg-black">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-oswald text-white mb-12 text-center">
-            How It <span className="text-[#feca00]">Works</span>
+            How It <span className="text-[#00d5ff]">Works</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="border border-white/20 rounded-lg p-8 hover:border-[#feca00] transition-colors">
-              <div className="text-5xl font-oswald text-[#feca00] mb-4">01</div>
+            <div className="border border-white/20 rounded-lg p-8 hover:border-[#00d5ff] transition-colors">
+              <div className="text-5xl font-oswald text-[#00d5ff] mb-4">01</div>
               <h3 className="text-2xl font-oswald text-white mb-4">
                 Apply to Pitch
               </h3>
@@ -147,8 +147,8 @@ export default function AboutPage() {
                 application to ensure quality and fit for our events.
               </p>
             </div>
-            <div className="border border-white/20 rounded-lg p-8 hover:border-[#feca00] transition-colors">
-              <div className="text-5xl font-oswald text-[#feca00] mb-4">02</div>
+            <div className="border border-white/20 rounded-lg p-8 hover:border-[#00d5ff] transition-colors">
+              <div className="text-5xl font-oswald text-[#00d5ff] mb-4">02</div>
               <h3 className="text-2xl font-oswald text-white mb-4">
                 Pitch Live
               </h3>
@@ -158,8 +158,8 @@ export default function AboutPage() {
                 questions.
               </p>
             </div>
-            <div className="border border-white/20 rounded-lg p-8 hover:border-[#feca00] transition-colors">
-              <div className="text-5xl font-oswald text-[#feca00] mb-4">03</div>
+            <div className="border border-white/20 rounded-lg p-8 hover:border-[#00d5ff] transition-colors">
+              <div className="text-5xl font-oswald text-[#00d5ff] mb-4">03</div>
               <h3 className="text-2xl font-oswald text-white mb-4">
                 Get Results
               </h3>
@@ -176,15 +176,15 @@ export default function AboutPage() {
       <div className="px-4 md:px-8 lg:px-12 py-16 bg-black border-t border-white/10">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-oswald text-white mb-12 text-center">
-            Our <span className="text-[#feca00]">Values</span>
+            Our <span className="text-[#00d5ff]">Values</span>
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
               <div
                 key={index}
-                className="border border-white/20 rounded-lg p-6 hover:border-[#feca00] transition-colors"
+                className="border border-white/20 rounded-lg p-6 hover:border-[#00d5ff] transition-colors"
               >
-                <div className="text-[#feca00] mb-4">{value.icon}</div>
+                <div className="text-[#00d5ff] mb-4">{value.icon}</div>
                 <h3 className="text-xl font-oswald text-white mb-3">
                   {value.title}
                 </h3>
@@ -211,11 +211,11 @@ export default function AboutPage() {
             </div>
             <div className="order-1 lg:order-2">
               <h2 className="text-4xl md:text-5xl font-oswald text-white mb-6">
-                What We <span className="text-[#feca00]">Do</span>
+                What We <span className="text-[#00d5ff]">Do</span>
               </h2>
               <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-oswald text-[#feca00] mb-2">
+                  <h3 className="text-xl font-oswald text-[#00d5ff] mb-2">
                     Live Pitch Events
                   </h3>
                   <p className="text-white/80 font-oswald leading-relaxed">
@@ -225,7 +225,7 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-xl font-oswald text-[#feca00] mb-2">
+                  <h3 className="text-xl font-oswald text-[#00d5ff] mb-2">
                     VC Feedback
                   </h3>
                   <p className="text-white/80 font-oswald leading-relaxed">
@@ -235,7 +235,7 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-xl font-oswald text-[#feca00] mb-2">
+                  <h3 className="text-xl font-oswald text-[#00d5ff] mb-2">
                     Networking & Connections
                   </h3>
                   <p className="text-white/80 font-oswald leading-relaxed">
@@ -245,7 +245,7 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-xl font-oswald text-[#feca00] mb-2">
+                  <h3 className="text-xl font-oswald text-[#00d5ff] mb-2">
                     Real Capital Opportunities
                   </h3>
                   <p className="text-white/80 font-oswald leading-relaxed">
@@ -264,7 +264,7 @@ export default function AboutPage() {
       <div className="px-4 md:px-8 lg:px-12 py-16 bg-black border-t border-white/10">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-oswald text-white mb-6">
-            Ready to <span className="text-[#feca00]">Join Us?</span>
+            Ready to <span className="text-[#00d5ff]">Join Us?</span>
           </h2>
           <p className="text-white/70 text-lg md:text-xl font-oswald mb-8 max-w-2xl mx-auto">
             Whether you're a startup looking to pitch or an investor interested
@@ -273,7 +273,7 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/"
-              className="bg-[#feca00] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald font-bold"
+              className="bg-[#00d5ff] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald font-bold"
             >
               Apply to Pitch <ArrowRightIcon className="w-5 h-5" />
             </Link>
