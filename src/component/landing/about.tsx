@@ -79,8 +79,7 @@ const About = () => {
             style={{ transitionDelay: "200ms" }}
           >
             <span className="text-xl md:text-2xl lg:text-3xl font-oswald font-bold text-white">
-            Startups demo, the crowd votes, and investors meet the winners, 
-            shark-tank style.
+            Startups demo, crowd votes, and investors meet the winners.
             </span>
           </div>
         </div>
