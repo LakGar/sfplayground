@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
         subject: `New Pitch Application: ${startupName}`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #00d5ff;">New Pitch Application</h2>
+            <h2 style="color: #19f7ea;">New Pitch Application</h2>
             <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
               <h3 style="margin-top: 0;">Startup Information</h3>
               <p><strong>Startup Name:</strong> ${startupName}</p>
@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
         subject: "Thank You for Your Pitch Application",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #00d5ff;">Thank You, ${founderName}!</h2>
+            <h2 style="color: #19f7ea;">Thank You, ${founderName}!</h2>
             <p>We've received your pitch application for <strong>${startupName}</strong>.</p>
             <p>Our team will review your application and get back to you within 5 business days.</p>
             <p>In the meantime, feel free to reach out if you have any questions.</p>

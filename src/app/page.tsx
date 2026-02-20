@@ -1,6 +1,8 @@
 import Hero from "@/component/landing/hero";
+import NextEvent from "@/component/landing/next-event";
 import Nav from "@/component/landing/nav";
 import About from "@/component/landing/about";
+import HowItWorks from "@/component/landing/how-it-works";
 import Events from "@/component/landing/events";
 import Sponsors from "@/component/landing/sponsors";
 import Featured from "@/component/landing/featured";
@@ -16,6 +18,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://sfplayground.com",
   },
+  icons: {
+    icon: "public/favicon.ico",
+  },
 };
 
 const page = () => {
@@ -23,10 +28,14 @@ const page = () => {
     <div className="relative overflow-x-hidden">
       <Nav />
       <Hero />
+      <NextEvent />
+      <Sponsors />
+
       <div id="about">
         <About />
       </div>
-      <Sponsors />
+
+      <HowItWorks />
       <div id="events">
         <Events />
       </div>

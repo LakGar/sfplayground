@@ -2,8 +2,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRightIcon } from "lucide-react";
-import ApplyModal from "@/component/ui/apply-modal";
+import { SIGNUP_FORM_URL } from "@/data/constants";
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -12,7 +11,6 @@ const Hero = () => {
     image1: false,
     image2: false,
   });
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -77,8 +75,8 @@ const Hero = () => {
       <div className="relative z-10">
         {/* hero heading */}
         <h1 className="text-4xl md:text-6xl lg:text-8xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
-          <span className="text-[#00d5ff] font-bold">Crowd </span> Powered.
-          <span className="text-[#00d5ff] font-bold"> Investor </span>
+          <span className="text-[#19f7ea] font-bold">Crowd </span> Powered.
+          <span className="text-[#19f7ea] font-bold"> Investor </span>
           Backed.
         </h1>
         {/* hero description */}
@@ -89,20 +87,25 @@ const Hero = () => {
           Live demos. Pitch battles. Top founders. Active VCs. 
         </p>
 
-        {/* hero buttons*/}
+        {/* hero buttons */}
         <div
-          className="flex gap-4 mt-4 md:hidden animate-fade-in-down"
+          className="flex flex-wrap gap-3 mt-4 md:hidden animate-fade-in-down"
           style={{ animationDelay: "0.4s" }}
         >
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="bg-white text-black px-4 py-1 rounded-md text-sm md:text-base lg:text-lg"
+          <a
+            href={SIGNUP_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-black px-4 py-2 rounded-md text-sm md:text-base lg:text-lg font-oswald font-bold hover:bg-gray-200 transition-colors"
           >
-            Apply Now
-          </button>
-          <button className="text-white border border-white px-4 py-2 text-sm md:text-base lg:text-lg rounded-md">
-            Request an Invite
-          </button>
+            Get on the list
+          </a>
+          <a
+            href="/#faq"
+            className="text-white border border-white px-4 py-2 text-sm md:text-base lg:text-lg rounded-md font-oswald hover:bg-white/10 transition-colors"
+          >
+            Learn more
+          </a>
         </div>
 
         {/* hero highlights */}
@@ -187,26 +190,25 @@ const Hero = () => {
               </div>
             </Link>
           </div>
-          {/* Apply section */}
+          {/* Primary CTA */}
           <div
             className="hidden md:flex flex-col gap-4 max-w-xs animate-fade-in-down"
             style={{ animationDelay: "0.7s" }}
           >
-            <p className="text-white/70 text-sm lg:text-base">
-              Apply for a free demo booth and a chance to pitch live for a panel of VCs.
+            <p className="text-white/70 text-sm lg:text-base font-oswald">
+              Get on the list for a free demo booth and a chance to pitch live to VCs.
             </p>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="cursor-pointer bg-white text-black px-4 py-2 rounded-md text-sm lg:text-base flex items-center gap-2 hover:bg-gray-200 transition-all duration-300"
-              >
-                Apply to Demo Now <ArrowRightIcon className="w-4 h-4" />
-              </button>
-            </div>
+            <a
+              href={SIGNUP_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-white text-black px-4 py-2 rounded-md text-sm lg:text-base font-oswald font-bold hover:bg-gray-200 transition-all duration-300 w-fit"
+            >
+              Get on the list
+            </a>
           </div>
         </div>
       </div>
-      <ApplyModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

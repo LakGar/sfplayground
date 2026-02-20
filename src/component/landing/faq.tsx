@@ -6,7 +6,7 @@ const faqs = [
   {
     question: "How do I apply to pitch at SF Playground?",
     answer:
-      "Simply click the 'Apply to Pitch' button and fill out our application form. We review applications weekly and notify selected founders within 5 business days.",
+      "Click “Get on the list” anywhere on the site to open our signup form. We review applications weekly and notify selected founders within 5 business days.",
   },
   {
     question: "What stage startups can apply?",
@@ -21,7 +21,7 @@ const faqs = [
   {
     question: "Who are the investors at these events?",
     answer:
-      "Our events feature partners and principals from top-tier VC firms including Sequoia, a16z, Greylock, and many more. We also invite active angel investors and strategic corporate VCs.",
+      "Past and guest investors include partners, principals, and associates from top-tier VC firms (e.g. Sequoia, a16z, Greylock) as well as active angel investors. How intros work: after you pitch, interested investors can request an intro through us; we facilitate warm intros and help track follow-ups so you can close your round.",
   },
   {
     question: "Is there a fee to pitch?",
@@ -72,7 +72,7 @@ const FAQ = () => {
                 : "opacity-0 -translate-y-10"
             }`}
           >
-            Frequently Asked <span className="text-[#00d5ff]">Questions</span>
+            Frequently Asked <span className="text-[#19f7ea]">Questions</span>
           </h2>
           <p
             className={`text-white/50 font-oswald transition-all duration-700 ${
@@ -106,7 +106,7 @@ const FAQ = () => {
                   {faq.question}
                 </span>
                 <ChevronDownIcon
-                  className={`w-5 h-5 text-[#00d5ff] shrink-0 transition-transform duration-300 ${
+                  className={`w-5 h-5 text-[#19f7ea] shrink-0 transition-transform duration-300 ${
                     openIndex === index ? "rotate-180" : ""
                   }`}
                 />

@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
         subject: "New Newsletter Subscription",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #00d5ff;">New Newsletter Subscription</h2>
+            <h2 style="color: #19f7ea;">New Newsletter Subscription</h2>
             <p>A new subscriber has signed up for your newsletter:</p>
             <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
             <p style="color: #666; font-size: 14px; margin-top: 30px;">
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
         subject: "Welcome to SF Playground!",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #00d5ff;">Welcome to SF Playground!</h2>
+            <h2 style="color: #19f7ea;">Welcome to SF Playground!</h2>
             <p>Thank you for subscribing to our newsletter. You're now part of the SF Playground community!</p>
             <p>You'll receive:</p>
             <ul>
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
             <p style="color: #666; font-size: 14px;">
               Best regards,<br />
               The SF Playground Team<br />
-              <a href="https://sfplayground.com" style="color: #00d5ff;">sfplayground.com</a>
+              <a href="https://sfplayground.com" style="color: #19f7ea;">sfplayground.com</a>
             </p>
           </div>
         `,

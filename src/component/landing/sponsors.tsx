@@ -18,7 +18,7 @@ const sponsors = [
 
 const Sponsors = () => {
   return (
-    <div className="bg-black py-12 overflow-hidden ">
+    <div className="bg-black py-12 overflow-hidden">
       <div className="relative">
         {/* Gradient overlays */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
@@ -33,7 +33,7 @@ const Sponsors = () => {
                 key={`first-${index}`}
                 className="flex items-center justify-center px-12"
               >
-                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#00d5ff] transition-colors duration-300 cursor-pointer">
+                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer">
                   {sponsor}
                 </span>
               </div>
@@ -46,7 +46,7 @@ const Sponsors = () => {
                 key={`second-${index}`}
                 className="flex items-center justify-center px-12"
               >
-                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#00d5ff] transition-colors duration-300 cursor-pointer">
+                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer">
                   {sponsor}
                 </span>
               </div>

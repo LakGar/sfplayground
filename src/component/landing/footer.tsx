@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { LinkedinIcon, InstagramIcon } from "lucide-react";
+import { SIGNUP_FORM_URL } from "@/data/constants";
 
 const Footer = () => {
   return (
@@ -9,7 +10,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand */}
           <div>
-            <h2 className="text-2xl font-oswald font-bold text-[#00d5ff] mb-4">
+            <h2 className="text-2xl font-oswald font-bold text-[#19f7ea] mb-4">
               SF<span className="text-white">PLAYGROUND</span>
             </h2>
             <p className="text-white/50 text-sm mb-4">
@@ -21,7 +22,7 @@ const Footer = () => {
                 href="https://www.linkedin.com/company/sfplayground"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#00d5ff] transition-colors"
+                className="text-white/50 hover:text-[#19f7ea] transition-colors"
                 aria-label="LinkedIn"
               >
                 <LinkedinIcon className="w-5 h-5" />
@@ -30,7 +31,7 @@ const Footer = () => {
                 href="https://www.instagram.com/sfplayground/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#00d5ff] transition-colors"
+                className="text-white/50 hover:text-[#19f7ea] transition-colors"
                 aria-label="Instagram"
               >
                 <InstagramIcon className="w-5 h-5" />
@@ -47,7 +48,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
                   Home
                 </Link>
@@ -55,7 +56,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/about"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
                   About Us
                 </Link>
@@ -63,7 +64,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/success-stories"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
                   Success Stories
                 </Link>
@@ -71,7 +72,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/#events"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
                   Events
                 </Link>
@@ -86,17 +87,19 @@ const Footer = () => {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link
-                  href="/#apply"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                <a
+                  href={SIGNUP_FORM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
-                  Apply to Pitch
-                </Link>
+                  Get on the list
+                </a>
               </li>
               <li>
                 <Link
                   href="/success-stories"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
                   Success Stories
                 </Link>
@@ -104,7 +107,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/about"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
                   About Us
                 </Link>
@@ -112,7 +115,7 @@ const Footer = () => {
               <li>
                 <Link
                   href="/#faq"
-                  className="text-white/50 hover:text-[#00d5ff] transition-colors text-sm"
+                  className="text-white/50 hover:text-[#19f7ea] transition-colors text-sm"
                 >
                   FAQ
                 </Link>
@@ -120,12 +123,29 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Contact */}
+          {/* Contact & Sponsorship */}
           <div>
-            <h3 className="text-white font-oswald font-bold mb-4">Contact</h3>
+            <h3 className="text-white font-oswald font-bold mb-4">
+              Contact & Sponsorship
+            </h3>
             <ul className="space-y-2 text-white/50 text-sm">
               <li>San Francisco, CA</li>
-              <li>hello@sfplayground.com</li>
+              <li>
+                <a
+                  href="mailto:hello@sfplayground.com"
+                  className="hover:text-[#19f7ea] transition-colors"
+                >
+                  hello@sfplayground.com
+                </a>
+              </li>
+              <li>
+                <a
+                  href="mailto:hello@sfplayground.com?subject=Sponsorship%20inquiry"
+                  className="hover:text-[#19f7ea] transition-colors inline-block mt-1"
+                >
+                  Sponsor an event →
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -142,7 +162,7 @@ const Footer = () => {
                 href="https://www.theempowerweb.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/50 hover:text-[#00d5ff] transition-colors font-oswald"
+                className="text-white/50 hover:text-[#19f7ea] transition-colors font-oswald"
               >
                 Empower
               </Link>

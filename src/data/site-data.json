@@ -1,4 +1,12 @@
 {
+  "nextEvent": {
+    "title": "Pitch Playoffs #002",
+    "date": "March 15, 2026",
+    "time": "6:00 PM",
+    "location": "Frontier Tower SF",
+    "hook": "Demo your startup, get crowd votes, pitch to real VCs.",
+    "ctaText": "Get my spot"
+  },
   "events": [
     {
       "slug": "jpmorgan",

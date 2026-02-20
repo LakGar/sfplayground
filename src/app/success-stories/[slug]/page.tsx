@@ -7,6 +7,7 @@ import Footer from "@/component/landing/footer";
 import VideoBackground from "@/component/ui/video-background";
 import Image from "next/image";
 import siteData from "@/data/site-data.json";
+import { SIGNUP_FORM_URL } from "@/data/constants";
 
 const successStoriesBySlug = Object.fromEntries(
   siteData.successStories.map((s) => [s.slug, s])
@@ -31,7 +32,7 @@ export default function SuccessStoryPage({
           </h1>
           <Link
             href="/success-stories"
-            className="text-[#00d5ff] hover:underline font-oswald"
+            className="text-[#19f7ea] hover:underline font-oswald"
           >
             Back to Success Stories
           </Link>
@@ -50,14 +51,14 @@ export default function SuccessStoryPage({
         <VideoBackground />
         <div className="relative z-10 text-center max-w-4xl mx-auto">
           <div className="mb-4">
-            <span className="inline-block px-3 py-1 bg-[#00d5ff] text-black text-xs font-oswald font-bold rounded">
+            <span className="inline-block px-3 py-1 bg-[#19f7ea] text-black text-xs font-oswald font-bold rounded">
               SUCCESS STORY
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-oswald text-white mb-4">
             {story.title}
           </h1>
-          <p className="text-2xl md:text-3xl font-oswald text-[#00d5ff]">
+          <p className="text-2xl md:text-3xl font-oswald text-[#19f7ea]">
             {story.tagline}
           </p>
         </div>
@@ -99,7 +100,7 @@ export default function SuccessStoryPage({
           {/* The Challenge */}
           <section className="mb-12">
             <h2 className="text-3xl md:text-4xl font-oswald text-white mb-6">
-              The <span className="text-[#00d5ff]">Challenge</span>
+              The <span className="text-[#19f7ea]">Challenge</span>
             </h2>
             <p className="text-white/80 text-lg font-oswald mb-4">
               {story.challenge}
@@ -110,7 +111,7 @@ export default function SuccessStoryPage({
                   key={index}
                   className="text-white/70 font-oswald flex items-start gap-3"
                 >
-                  <span className="text-[#00d5ff] mt-1">•</span>
+                  <span className="text-[#19f7ea] mt-1">•</span>
                   <span>{point}</span>
                 </li>
               ))}
@@ -120,7 +121,7 @@ export default function SuccessStoryPage({
           {/* Our Role */}
           <section className="mb-12">
             <h2 className="text-3xl md:text-4xl font-oswald text-white mb-6">
-              Our <span className="text-[#00d5ff]">Role</span>
+              Our <span className="text-[#19f7ea]">Role</span>
             </h2>
             <p className="text-white/80 text-lg font-oswald mb-4">
               {story.ourRole}
@@ -131,7 +132,7 @@ export default function SuccessStoryPage({
                   key={index}
                   className="text-white/70 font-oswald flex items-start gap-3"
                 >
-                  <span className="text-[#00d5ff] mt-1">•</span>
+                  <span className="text-[#19f7ea] mt-1">•</span>
                   <span>{point}</span>
                 </li>
               ))}
@@ -141,7 +142,7 @@ export default function SuccessStoryPage({
           {/* The Experience */}
           <section className="mb-12">
             <h2 className="text-3xl md:text-4xl font-oswald text-white mb-6">
-              The <span className="text-[#00d5ff]">Experience</span>
+              The <span className="text-[#19f7ea]">Experience</span>
             </h2>
             <div className="text-white/80 text-lg font-oswald leading-relaxed whitespace-pre-line">
               {story.experience}
@@ -151,7 +152,7 @@ export default function SuccessStoryPage({
           {/* The Impact */}
           <section className="mb-12">
             <h2 className="text-3xl md:text-4xl font-oswald text-white mb-6">
-              The <span className="text-[#00d5ff]">Impact</span>
+              The <span className="text-[#19f7ea]">Impact</span>
             </h2>
             <p className="text-white/80 text-lg font-oswald mb-4">
               {story.impact}
@@ -166,7 +167,7 @@ export default function SuccessStoryPage({
                   key={index}
                   className="text-white/70 font-oswald flex items-start gap-3"
                 >
-                  <span className="text-[#00d5ff] mt-1">•</span>
+                  <span className="text-[#19f7ea] mt-1">•</span>
                   <span>{point}</span>
                 </li>
               ))}
@@ -176,22 +177,22 @@ export default function SuccessStoryPage({
           {/* Founder & Attendee Feedback */}
           <section className="mb-12">
             <h2 className="text-3xl md:text-4xl font-oswald text-white mb-6">
-              Founder & Attendee <span className="text-[#00d5ff]">Feedback</span>
+              Founder & Attendee <span className="text-[#19f7ea]">Feedback</span>
             </h2>
             <div className="space-y-6">
-              <blockquote className="border-l-4 border-[#00d5ff] pl-6 py-4">
+              <blockquote className="border-l-4 border-[#19f7ea] pl-6 py-4">
                 <p className="text-white/90 text-lg font-oswald italic mb-2">
                   {story.founderQuote}
                 </p>
                 <p className="text-white/60 font-oswald">— Petpin AI Team</p>
               </blockquote>
-              <blockquote className="border-l-4 border-[#00d5ff] pl-6 py-4">
+              <blockquote className="border-l-4 border-[#19f7ea] pl-6 py-4">
                 <p className="text-white/90 text-lg font-oswald italic mb-2">
                   {story.attendeeQuote}
                 </p>
                 <p className="text-white/60 font-oswald">— Event Attendee</p>
               </blockquote>
-              <blockquote className="border-l-4 border-[#00d5ff] pl-6 py-4">
+              <blockquote className="border-l-4 border-[#19f7ea] pl-6 py-4">
                 <p className="text-white/90 text-lg font-oswald italic mb-2">
                   {story.founderQuote2}
                 </p>
@@ -203,7 +204,7 @@ export default function SuccessStoryPage({
           {/* Why This Matters */}
           <section className="mb-12">
             <h2 className="text-3xl md:text-4xl font-oswald text-white mb-6">
-              Why This <span className="text-[#00d5ff]">Matters</span>
+              Why This <span className="text-[#19f7ea]">Matters</span>
             </h2>
             <div className="text-white/80 text-lg font-oswald leading-relaxed whitespace-pre-line">
               {story.whyMatters}
@@ -215,12 +216,14 @@ export default function SuccessStoryPage({
             <h3 className="text-2xl md:text-3xl font-oswald text-white mb-4">
               Ready to Write Your Success Story?
             </h3>
-            <Link
-              href="/"
-              className="inline-block bg-[#00d5ff] text-black px-8 py-3 rounded-md font-oswald font-bold hover:bg-[#00d5ff]/90 transition-colors"
+            <a
+              href={SIGNUP_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-[#19f7ea] text-black px-8 py-3 rounded-md font-oswald font-bold hover:bg-[#19f7ea]/90 transition-colors"
             >
-              Apply to Pitch Now
-            </Link>
+              Get on the list
+            </a>
           </div>
         </div>
       </div>

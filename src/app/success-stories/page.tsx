@@ -31,7 +31,7 @@ export default function SuccessStoriesPage() {
         <VideoBackground />
         <div className="relative z-10 text-center max-w-7xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-oswald text-white mb-4">
-            Success <span className="text-[#00d5ff]">Stories</span>
+            Success <span className="text-[#19f7ea]">Stories</span>
           </h1>
           <p className="text-white/70 text-lg md:text-xl font-oswald max-w-2xl mx-auto">
             Discover how startups have transformed their journey through live
@@ -49,7 +49,7 @@ export default function SuccessStoriesPage() {
               <Link
                 key={story.slug}
                 href={`/success-stories/${story.slug}`}
-                className="group relative h-96 rounded-lg overflow-hidden border border-white/20 hover:border-[#00d5ff] transition-all duration-300"
+                className="group relative h-96 rounded-lg overflow-hidden border border-white/20 hover:border-[#19f7ea] transition-all duration-300"
               >
                 {/* Image */}
                 <div className="absolute inset-0">
@@ -65,11 +65,11 @@ export default function SuccessStoriesPage() {
                 {/* Content */}
                 <div className="absolute inset-0 flex flex-col justify-end p-6">
                   <div className="mb-2">
-                    <span className="inline-block px-3 py-1 bg-[#00d5ff] text-black text-xs font-oswald font-bold rounded">
+                    <span className="inline-block px-3 py-1 bg-[#19f7ea] text-black text-xs font-oswald font-bold rounded">
                       SUCCESS STORY
                     </span>
                   </div>
-                  <h3 className="text-2xl font-oswald text-white mb-2 group-hover:text-[#00d5ff] transition-colors">
+                  <h3 className="text-2xl font-oswald text-white mb-2 group-hover:text-[#19f7ea] transition-colors">
                     {story.title}
                   </h3>
                   <p className="text-white/90 font-oswald text-sm mb-3 line-clamp-2">
@@ -78,7 +78,7 @@ export default function SuccessStoriesPage() {
                   <p className="text-white/70 text-sm font-oswald line-clamp-2">
                     {story.description}
                   </p>
-                  <div className="mt-4 flex items-center text-[#00d5ff] font-oswald text-sm group-hover:translate-x-2 transition-transform">
+                  <div className="mt-4 flex items-center text-[#19f7ea] font-oswald text-sm group-hover:translate-x-2 transition-transform">
                     Read Story →
                   </div>
                 </div>

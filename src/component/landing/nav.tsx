@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import NewsletterModal from "@/component/ui/newsletter-modal";
+import { SIGNUP_FORM_URL } from "@/data/constants";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,9 +15,10 @@ const Nav = () => {
         <Link
           href="/"
           className="flex items-center animate-slide-in-left flex-1 overflow-hidden"
-        >
-          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#00d5ff]">
-            SF<span className="text-white">PLAYGROUND</span>
+        ><h1 className="text-4xl font-bold font-oswald text-[#19f7ea] flex items-center gap-2">
+            <span className="text-[#19f7ea]">SF</span>
+
+            <span className="text-white">LAYGROUND</span>
           </h1>
         </Link>
 
@@ -50,6 +52,15 @@ const Nav = () => {
           >
             Events
           </Link>
+          <a
+            className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"
+            style={{ animationDelay: "0.65s" }}
+            href={SIGNUP_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Get on the list
+          </a>
         </div>
 
         <div className="hidden lg:flex flex-1 justify-end">
@@ -94,7 +105,7 @@ const Nav = () => {
         {/* Mobile header with logo and close */}
         <div className="w-full px-4 py-4 flex items-center justify-between">
           <Link href="/" onClick={() => setIsOpen(false)}>
-            <h1 className="text-2xl font-bold font-oswald text-[#00d5ff]">
+            <h1 className="text-2xl font-bold font-oswald text-[#19f7ea]">
               SF<span className="text-white">PLAYGROUND</span>
             </h1>
           </Link>
@@ -109,39 +120,48 @@ const Nav = () => {
         {/* Mobile links */}
         <div className="flex flex-col items-center justify-center gap-8 h-[calc(100%-72px)]">
           <Link
-            className="text-white  hover:text-[#00d5ff] transition-colors"
+            className="text-white  hover:text-[#19f7ea] transition-colors"
             href="/"
             onClick={() => setIsOpen(false)}
           >
             Home
           </Link>
           <Link
-            className="text-white hover:text-[#00d5ff] transition-colors"
+            className="text-white hover:text-[#19f7ea] transition-colors"
             href="/about"
             onClick={() => setIsOpen(false)}
           >
             About
           </Link>
           <Link
-            className="text-white  hover:text-[#00d5ff] transition-colors"
+            className="text-white  hover:text-[#19f7ea] transition-colors"
             href="/success-stories"
             onClick={() => setIsOpen(false)}
           >
             Success Stories
           </Link>
           <Link
-            className="text-white  hover:text-[#00d5ff] transition-colors"
+            className="text-white hover:text-[#19f7ea] transition-colors"
             href="/#events"
             onClick={() => setIsOpen(false)}
           >
             Events
           </Link>
+          <a
+            href={SIGNUP_FORM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:text-[#19f7ea] transition-colors"
+            onClick={() => setIsOpen(false)}
+          >
+            Get on the list
+          </a>
           <button
             onClick={() => {
               setIsNewsletterModalOpen(true);
               setIsOpen(false);
             }}
-            className="text-black  bg-white px-4 py-2 rounded-md hover:bg-gray-200 transition-all duration-300 font-oswald"
+            className="text-black bg-white px-4 py-2 rounded-md hover:bg-gray-200 transition-all duration-300 font-oswald"
           >
             Subscribe
           </button>
