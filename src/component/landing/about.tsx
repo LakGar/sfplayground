@@ -7,13 +7,13 @@ const cards = [
   {
     title: "Live Pitches",
     image:
-      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2940&auto=format&fit=crop",
+      "https://drive.google.com/uc?export=view&id=1N91BEb6QIa1nZEipkl0DPI-4RnieS0zg",
     description: "Watch founders pitch in real-time",
   },
   {
     title: "Social Proof",
     image:
-      "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2940&auto=format&fit=crop",
+      "https://drive.google.com/thumbnail?id=1zNi50nX4lS01uDR9ALRtv27BQ4kHD5Jk&sz=w1200",
     description: "Receive votes from builders and investors",
   },
   {
@@ -25,7 +25,7 @@ const cards = [
   {
     title: "Networking",
     image:
-      "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2940&auto=format&fit=crop",
+      "https://drive.google.com/uc?export=view&id=1rjtcqz-O2o_0R6JFXv34h9VCx7s8mX36",
     description: "Connect with industry leaders",
   },
 ];
