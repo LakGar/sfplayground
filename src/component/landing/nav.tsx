@@ -18,7 +18,7 @@ const Nav = () => {
         ><h1 className="text-4xl font-bold font-oswald text-[#19f7ea] flex items-center gap-2">
             <span className="text-[#19f7ea]">SF</span>
 
-            <span className="text-white">LAYGROUND</span>
+            <span className="text-white">PLAYGROUND</span>
           </h1>
         </Link>
 
