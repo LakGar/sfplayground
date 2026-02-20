@@ -77,16 +77,16 @@ const Hero = () => {
       <div className="relative z-10">
         {/* hero heading */}
         <h1 className="text-4xl md:text-6xl lg:text-8xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
-          Where Startups Get Tested by
-          <span className="text-[#00d5ff] font-bold"> Real </span>
-          Capital
+          Crowd Powered.
+          <span className="text-[#00d5ff] font-bold"> Investor </span>
+          Backed
         </h1>
         {/* hero description */}
         <p
           className="text-white/50 text-md md:text-lg lg:text-xl font-oswald animate-fade-in-down"
           style={{ animationDelay: "0.2s" }}
         >
-          Live pitch battles. Top founders. Active VCs. Real decisions.
+          Live demos. Pitch battles. Top founders. Active VCs. 
         </p>
 
         {/* hero buttons*/}
