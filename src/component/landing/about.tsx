@@ -11,9 +11,15 @@ const cards = [
     description: "Watch founders pitch in real-time",
   },
   {
+    title: "Social Proof",
+    image:
+      "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2940&auto=format&fit=crop",
+    description: "Receive votes from builders and investors",
+  },
+  {
     title: "VC Feedback",
     image:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=2832&auto=format&fit=crop",
+      "https://drive.google.com/uc?export=view&id=1EmPGUJXndScOSNLLDXJTp_0O6EUqUzj8",
     description: "Get direct insights from investors",
   },
   {
@@ -21,12 +27,6 @@ const cards = [
     image:
       "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2940&auto=format&fit=crop",
     description: "Connect with industry leaders",
-  },
-  {
-    title: "Funding",
-    image:
-      "https://images.unsplash.com/photo-1559136555-9303baea8ebd?q=80&w=2940&auto=format&fit=crop",
-    description: "Access real capital opportunities",
   },
 ];
 
