@@ -72,14 +72,14 @@ const Hero = () => {
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
       {/* overlay */}
-      <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-black/10 to-black via-black/20" />
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/10 via-black/20 to-black" />
       {/* content */}
       <div className="relative z-10">
         {/* hero heading */}
         <h1 className="text-4xl md:text-6xl lg:text-8xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
-          Crowd Powered.
+          <span className="text-[#00d5ff] font-bold">Crowd </span> Powered.
           <span className="text-[#00d5ff] font-bold"> Investor </span>
-          Backed
+          Backed.
         </h1>
         {/* hero description */}
         <p
@@ -136,7 +136,7 @@ const Hero = () => {
               }}
             >
               <Image
-                src="/ice_tank/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg"
+                src="/images/ice-tank-challenge/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg"
                 alt="Ice Tank Challenge Event"
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -169,7 +169,7 @@ const Hero = () => {
               }}
             >
               <Image
-                src="/petpin.png"
+                src="/images/startups/petpin.png"
                 alt="Petpin AI Success Story"
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-110"
