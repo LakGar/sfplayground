@@ -24,10 +24,10 @@ const Sponsors = () => {
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
 
-        {/* Scrolling container */}
-        <div className="flex animate-scroll">
-          {/* First set */}
-          <div className="flex shrink-0">
+        {/* Scrolling container: each half must be identical width so -50% loop is seamless */}
+        <div className="flex animate-scroll w-max">
+          {/* First set - min-w-0 + flex keeps segment width equal to content */}
+          <div className="flex shrink-0 min-w-0" style={{ width: "max-content" }}>
             {sponsors.map((sponsor, index) => (
               <div
                 key={`first-${index}`}
@@ -39,8 +39,8 @@ const Sponsors = () => {
               </div>
             ))}
           </div>
-          {/* Duplicate for seamless loop */}
-          <div className="flex shrink-0">
+          {/* Duplicate - same width as first so loop has no jump */}
+          <div className="flex shrink-0 min-w-0" style={{ width: "max-content" }}>
             {sponsors.map((sponsor, index) => (
               <div
                 key={`second-${index}`}

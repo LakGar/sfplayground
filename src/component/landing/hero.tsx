@@ -59,7 +59,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative h-screen flex justify-center items-center p-4 md:p-8 lg:p-12 overflow-hidden">
+    <div className="relative h-screen flex justify-center items-center px-6 py-8 sm:px-8 sm:py-10 md:p-8 lg:p-12 overflow-hidden">
       {/* background video */}
       <video
         ref={videoRef}
@@ -112,18 +112,18 @@ const Hero = () => {
         <div className="md:flex gap-6 mt-8 items-center justify-between">
           {/* Images */}
           <div className="flex gap-4">
-            {/* Loading placeholders */}
-            {(!imagesLoaded.image1 || !imagesLoaded.image2) && (
-              <>
-                <div className="hidden lg:block relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden border border-white/20">
-                  <div className="absolute inset-0 bg-white/10 animate-pulse" />
-                </div>
-                <div className="relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden border border-white/20">
-                  <div className="absolute inset-0 bg-white/10 animate-pulse" />
-                </div>
-              </>
+            {/* Loading placeholders - first only on lg, second when image2 not loaded */}
+            {!imagesLoaded.image1 && (
+              <div className="hidden lg:block relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden border border-white/20">
+                <div className="absolute inset-0 bg-white/10 animate-pulse" />
+              </div>
             )}
-            {/* Image 1 */}
+            {!imagesLoaded.image2 && (
+              <div className="relative w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden border border-white/20">
+                <div className="absolute inset-0 bg-white/10 animate-pulse" />
+              </div>
+            )}
+            {/* Image 1 - desktop only */}
             <Link
               href="/events/ice-tank-challenge"
               className={`hidden lg:block relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden group cursor-pointer border border-white/20 ${
@@ -156,19 +156,16 @@ const Hero = () => {
                 </div>
               </div>
             </Link>
-            {/* Image 2 */}
+            {/* Image 2 - visible on all screens; show as soon as it loads (on mobile image1 is hidden so we don't wait for it) */}
             <Link
               href="/success-stories/petpin-ai"
-              className={`relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden group cursor-pointer border border-white/20 ${
-                imagesLoaded.image1 && imagesLoaded.image2
+              className={`relative w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden group cursor-pointer border border-white/20 ${
+                imagesLoaded.image2
                   ? "animate-slide-in-left opacity-100"
                   : "invisible opacity-0"
               }`}
               style={{
-                animationDelay:
-                  imagesLoaded.image1 && imagesLoaded.image2
-                    ? "0.6s"
-                    : undefined,
+                animationDelay: imagesLoaded.image2 ? "0.3s" : undefined,
               }}
             >
               <Image
