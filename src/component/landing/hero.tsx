@@ -193,15 +193,14 @@ const Hero = () => {
             style={{ animationDelay: "0.7s" }}
           >
             <p className="text-white/70 text-sm lg:text-base">
-              Apply to pitch your startup live and receive real-time feedback
-              from investors who deploy capital.
+              Apply for a free demo booth and for a chance to pitch live to a panel of VCs.
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="cursor-pointer bg-white text-black px-4 py-2 rounded-md text-sm lg:text-base flex items-center gap-2 hover:bg-gray-200 transition-all duration-300"
               >
-                Apply to Pitch Now <ArrowRightIcon className="w-4 h-4" />
+                Apply to Demo Now <ArrowRightIcon className="w-4 h-4" />
               </button>
             </div>
           </div>
