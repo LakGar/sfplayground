@@ -2,18 +2,18 @@
   "events": [
     {
       "slug": "jpmorgan",
-      "title": "Silicon Valley Investng Summit",
+      "title": "Silicon Valley Investing Summit",
       "date": "Jan 12, 2026",
       "location": "Frontier Tower SF",
       "attendees": 556,
       "status": "past",
       "coverImage": "https://drive.google.com/thumbnail?id=1h2NvyAETYHRYsH_z6jfRKFa1clE602Sx&sz=w1200",
-      "description": "Silicon Valley Investing Summit brought together select startups and accredited investors for curated dealflow and high-level networking.",
+      "description": "An exclusive gathering that brought together select startups and accredited investors for curated dealflow and high-level networking at the heart of Silicon Valley.",
       "images": [
+        "https://drive.google.com/thumbnail?id=1h2NvyAETYHRYsH_z6jfRKFa1clE602Sx&sz=w1200",
         "https://drive.google.com/thumbnail?id=19JI5dqZdizZiS76hDE1OwnO5bR70go-i&sz=w1200",
         "https://drive.google.com/thumbnail?id=1XdBGea2zqbQKJyWjuzITpL117eMLd_84&sz=w1200",
-        "https://drive.google.com/thumbnail?id=1H4T64rcvPgFf1o8OM9lb6dmmAQJqAt5m&sz=w1200",
-        "https://drive.google.com/thumbnail?id=1h2NvyAETYHRYsH_z6jfRKFa1clE602Sx&sz=w1200"
+        "https://drive.google.com/thumbnail?id=1H4T64rcvPgFf1o8OM9lb6dmmAQJqAt5m&sz=w1200"
       ]
     },
     {
@@ -68,7 +68,7 @@
       "location": "Frontier Tower SF",
       "attendees": 202,
       "status": "past",
-      "coverImage": "https://drive.google.com/uc?export=view&id=10akfK0GLQnwwhl7AwtzyCZZqboqUwdbb",
+      "coverImage": "https://drive.google.com/uc?export=view&id=18B7qv8TtHdozBJonL_wSF1KvkBKZ_oZ7",
       "description": "An electrifying evening showcasing the intersection of artificial intelligence and robotics. Founders from cutting-edge AI and robotics startups pitched their innovations to a panel of top VCs, demonstrating the future of technology.",
       "images": [
         "https://drive.google.com/uc?export=view&id=10akfK0GLQnwwhl7AwtzyCZZqboqUwdbb",
@@ -124,7 +124,17 @@
       "description": "AI-powered wearable that lets pet owners see the world from their pet's point of view",
       "raised": "Featured Success Story",
       "logo": "/images/startups/petpin.png",
+      "website": "https://www.petpin.ai/",
       "category": "AI/ML"
+    },
+    {
+      "slug": "spacer-robotics",
+      "name": "Spacer Robotics",
+      "description": "Next-Generation AI Robots for Construction, ready to transform infrastructure anywhere.",
+      "raised": "Featured Success Story",
+      "logo": "/images/startups/spacer.jpg",
+      "website": "https://www.spacerrobotics.ai/",
+      "category": "AI/Construction"
     }
   ],
   "successStories": [
@@ -160,6 +170,39 @@
       "attendeeQuote": "\"This was one of the most memorable demos at the event. It was fun, emotional, and genuinely innovative.\"",
       "founderQuote2": "\"Petpin AI felt like the kind of product you remember after the event ends.\"",
       "whyMatters": "Petpin AI is a great example of how the right event environment can accelerate a startup's story — turning a product demo into a moment people remember.\n\nAt SF Playground, we don't just host events — we help ideas land."
+    },
+    {
+      "slug": "spacer-robotics",
+      "title": "Spacer Robotics",
+      "tagline": "From Construction Sites to the Moon — Building the Future of Physical AI",
+      "description": "Spacer Robotics develops next-generation AI robots for construction, with a roadmap that extends from terrestrial job sites to lunar infrastructure. Founded by Lesya Hendrix, former Tesla and Nuro engineer, the company is deploying GRID — an autonomous rebar-tying robot — while building toward semi-humanoid robots and eventually space-ready lunar construction systems.",
+      "image": "/images/startups/spacer.jpg",
+      "challenge": "As a hardware startup building physical AI for construction and space, Spacer Robotics needed to:",
+      "challengePoints": [
+        "Communicate a bold vision spanning Earth and Moon",
+        "Demonstrate real-world applicability of GRID on job sites",
+        "Stand out among AI and robotics startups at a competitive event",
+        "Connect with investors who understand deep tech and infrastructure"
+      ],
+      "ourRole": "At SF Playground, we created a platform that helped Spacer Robotics:",
+      "rolePoints": [
+        "🎤 Pitch their three-generation roadmap to a live VC panel",
+        "🤖 Showcase GRID's capabilities to builders and investors",
+        "🤝 Build relationships with construction and space-industry contacts",
+        "📣 Generate momentum for their 2026 deployment and 2033 lunar vision"
+      ],
+      "experience": "Spacer Robotics' showcase blended technical depth with ambitious storytelling:\n\nLive demos and visuals of GRID's autonomous rebar tying\n\nClear explanation of Gen 1 (task-focused), Gen 2 (semi-humanoid), and Gen 3 (lunar) roadmap\n\nOne-on-one conversations with investors interested in physical AI and infrastructure\n\nThe result was an experience that felt both grounded in real construction and aspirational about the future of work — on Earth and beyond.",
+      "impact": "Spacer Robotics' presence at the event delivered tangible outcomes:",
+      "impactPoints": [
+        "🚀 Strong investor interest in their construction-to-space thesis",
+        "🏗️ Connections with construction and infrastructure partners",
+        "📈 Increased visibility for GRID and their 2026 deployment timeline",
+        "💬 Recognition as a standout in the physical AI and robotics space"
+      ],
+      "founderQuote": "\"SF Playground gave us a stage to share our vision — from rebar tying today to building on the Moon by 2033. The audience got it.\"",
+      "attendeeQuote": "\"One of the most ambitious pitches of the night. You could feel the room leaning in when they talked about lunar construction.\"",
+      "founderQuote2": "\"Spacer Robotics came to connect with people who think big. We found them here.\"",
+      "whyMatters": "Spacer Robotics shows how the right event can amplify a startup with a long-horizon vision — turning a technical pitch into a story that resonates with builders and dreamers alike.\n\nAt SF Playground, we don't just host events — we help ideas land."
     }
   ]
 }
