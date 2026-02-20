@@ -193,7 +193,7 @@ const Hero = () => {
             style={{ animationDelay: "0.7s" }}
           >
             <p className="text-white/70 text-sm lg:text-base">
-              Apply for a free demo booth and for a chance to pitch live to a panel of VCs.
+              Apply for a free demo booth and a chance to pitch live for a panel of VCs.
             </p>
             <div className="flex gap-3">
               <button

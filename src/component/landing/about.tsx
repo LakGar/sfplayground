@@ -79,8 +79,8 @@ const About = () => {
             style={{ transitionDelay: "200ms" }}
           >
             <span className="text-xl md:text-2xl lg:text-3xl font-oswald font-bold text-white">
-              An SF-based platform for Live startup pitches and real investor
-              decisions.
+            Startups demo, the crowd votes, and investors meet the winners, 
+            shark-tank style.
             </span>
           </div>
         </div>
