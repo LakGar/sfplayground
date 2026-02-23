@@ -14,8 +14,7 @@ const Footer = () => {
               SF<span className="text-white">PLAYGROUND</span>
             </h2>
             <p className="text-white/50 text-sm mb-4">
-              Crowd Powered. Investor Backed. Live pitches, real
-              decisions.
+              Crowd Powered. Investor Backed.
             </p>
             <div className="flex gap-4">
               <Link

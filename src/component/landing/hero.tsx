@@ -193,7 +193,7 @@ const Hero = () => {
             style={{ animationDelay: "0.7s" }}
           >
             <p className="text-white/70 text-sm lg:text-base font-oswald">
-              Get on the list for a free demo booth and a chance to pitch live to VCs.
+              Apply for a free demo booth and a chance to pitch live to VCs.
             </p>
             <a
               href={SIGNUP_FORM_URL}
@@ -201,7 +201,7 @@ const Hero = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white text-black px-4 py-2 rounded-md text-sm lg:text-base font-oswald font-bold hover:bg-gray-200 transition-all duration-300 w-fit"
             >
-              Get on the list
+              Apply Here
             </a>
           </div>
         </div>
