@@ -79,7 +79,7 @@ const About = () => {
             style={{ transitionDelay: "200ms" }}
           >
             <span className="text-xl md:text-2xl lg:text-3xl font-oswald font-bold text-white">
-            Startups demo, crowd votes, and finalists pitch to VCs.
+            We connect founders to VCs through live, crowd-powered pitch competitions.
             </span>
           </div>
         </div>

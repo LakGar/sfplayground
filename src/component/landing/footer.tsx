@@ -14,7 +14,7 @@ const Footer = () => {
               SF<span className="text-white">PLAYGROUND</span>
             </h2>
             <p className="text-white/50 text-sm mb-4">
-              Where startups get tested by real capital. Live pitches, real
+              Crowd Powered. Investor Backed. Live pitches, real
               decisions.
             </p>
             <div className="flex gap-4">

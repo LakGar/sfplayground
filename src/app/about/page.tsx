@@ -151,10 +151,10 @@ export default function AboutPage() {
             <div className="border border-white/20 rounded-lg p-8 hover:border-[#19f7ea] transition-colors">
               <div className="text-5xl font-oswald text-[#19f7ea] mb-4">02</div>
               <h3 className="text-2xl font-oswald text-white mb-4">
-                Pitch Live
+                Demo Live
               </h3>
               <p className="text-white/70 font-oswald leading-relaxed">
-                Present your startup in front of a live audience of VCs,
+                Demo your product in front of investors and builders who will vote for their favorite startupa live audience of VCs,
                 founders, and industry experts. Get real-time feedback and
                 questions.
               </p>
