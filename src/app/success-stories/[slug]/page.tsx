@@ -81,8 +81,8 @@ export default function SuccessStoryPage({
               {story.description}
             </p>
             <p className="text-white/60 text-sm font-oswald">
-              Petpin AI was launched and showcased at SF Playground, where it
-              quickly became one of the most talked-about startups on the floor.
+              {story.title} was showcased at SF Playground, where they quickly
+              became one of the most voted startups on the floor.
             </p>
           </div>
 
