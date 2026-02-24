@@ -5,7 +5,8 @@
     "time": "6:00 PM",
     "location": "Frontier Tower SF",
     "hook": "Demo your startup, get crowd votes, pitch to real VCs.",
-    "ctaText": "Get my spot"
+    "ctaText": "Get my spot",
+    "ctaUrl": "https://luma.com/user/SFPlayground"
   },
   "events": [
     {
