@@ -1,16 +1,17 @@
 "use client";
 import React, { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { SIGNUP_FORM_URL } from "@/data/constants";
+import siteData from "@/data/site-data.json";
+
+const nextEventCtaUrl =
+  (siteData.nextEvent as { ctaUrl?: string }).ctaUrl ??
+  "https://luma.com/user/SFPlayground";
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const isReversing = useRef(false);
-  const [imagesLoaded, setImagesLoaded] = useState({
-    image1: false,
-    image2: false,
-  });
+  const [posterLoaded, setPosterLoaded] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -110,82 +111,40 @@ const Hero = () => {
 
         {/* hero highlights */}
         <div className="md:flex gap-6 mt-8 items-center justify-between">
-          {/* Images */}
+          {/* Upcoming event poster - clickable to Luma */}
           <div className="flex gap-4">
-            {/* Loading placeholders - first only on lg, second when image2 not loaded */}
-            {!imagesLoaded.image1 && (
-              <div className="hidden lg:block relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden border border-white/20">
+            {!posterLoaded && (
+              <div className="relative w-[280px] h-[360px] sm:w-[320px] sm:h-[410px] rounded-md overflow-hidden border border-white/20">
                 <div className="absolute inset-0 bg-white/10 animate-pulse" />
               </div>
             )}
-            {!imagesLoaded.image2 && (
-              <div className="relative w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden border border-white/20">
-                <div className="absolute inset-0 bg-white/10 animate-pulse" />
-              </div>
-            )}
-            {/* Image 1 - desktop only */}
-            <Link
-              href="/events/ice-tank-challenge"
-              className={`hidden lg:block relative w-48 h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden group cursor-pointer border border-white/20 ${
-                imagesLoaded.image1 && imagesLoaded.image2
+            <a
+              href={nextEventCtaUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`relative w-[280px] h-[360px] sm:w-[320px] sm:h-[410px] rounded-md overflow-hidden group cursor-pointer border border-white/20 shrink-0 ${
+                posterLoaded
                   ? "animate-slide-in-left opacity-100"
                   : "invisible opacity-0"
               }`}
-              style={{
-                animationDelay:
-                  imagesLoaded.image1 && imagesLoaded.image2
-                    ? "0.5s"
-                    : undefined,
-              }}
+              style={{ animationDelay: posterLoaded ? "0.4s" : undefined }}
             >
               <Image
-                src="/images/ice-tank-challenge/FFB98278-927E-47EC-B27A-BAC34261B9AF_1_102_o.jpeg"
-                alt="Ice Tank Challenge Event"
+                src="/images/Pitchplayoffs002/PitchPlayoffs002-1_1.png"
+                alt="Physical AI Pitch Playoffs #002 - Apply or attend at SF Playground"
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                onLoad={() =>
-                  setImagesLoaded((prev) => ({ ...prev, image1: true }))
-                }
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                onLoad={() => setPosterLoaded(true)}
               />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                <p className="text-white text-sm font-oswald mb-2 line-clamp-2">
-                  Ice Tank Challenge - Founders pitch to VCs in an ice tank...
+              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
+                <p className="text-white text-sm font-oswald mb-2">
+                  Physical AI Pitch Playoffs #002 — Get your spot
                 </p>
-                <div className="cursor-pointer bg-white/30 text-white px-3 py-1 rounded-md text-xs self-end">
-                  View Event
-                </div>
+                <span className="inline-flex items-center gap-1 bg-[#19f7ea]/90 text-black px-3 py-1.5 rounded-md text-xs font-oswald font-bold self-end">
+                  Get my spot →
+                </span>
               </div>
-            </Link>
-            {/* Image 2 - visible on all screens; show as soon as it loads (on mobile image1 is hidden so we don't wait for it) */}
-            <Link
-              href="/success-stories/petpin-ai"
-              className={`relative w-40 h-40 sm:w-48 sm:h-48 lg:w-56 lg:h-56 rounded-md overflow-hidden group cursor-pointer border border-white/20 ${
-                imagesLoaded.image2
-                  ? "animate-slide-in-left opacity-100"
-                  : "invisible opacity-0"
-              }`}
-              style={{
-                animationDelay: imagesLoaded.image2 ? "0.3s" : undefined,
-              }}
-            >
-              <Image
-                src="/images/startups/petpin.png"
-                alt="Petpin AI Success Story"
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-110"
-                onLoad={() =>
-                  setImagesLoaded((prev) => ({ ...prev, image2: true }))
-                }
-              />
-              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                <p className="text-white text-sm font-oswald mb-2 line-clamp-2">
-                  Petpin AI - Turning an AI Pet Startup Into a Crowd Favorite...
-                </p>
-                <div className="cursor-pointer bg-white/30 text-white px-3 py-1 rounded-md text-xs self-end">
-                  View Story
-                </div>
-              </div>
-            </Link>
+            </a>
           </div>
           {/* Primary CTA */}
           <div
