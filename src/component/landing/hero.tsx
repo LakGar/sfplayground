@@ -114,7 +114,7 @@ const Hero = () => {
           {/* Upcoming event poster - clickable to Luma */}
           <div className="flex gap-4">
             {!posterLoaded && (
-              <div className="relative w-[280px] h-[360px] sm:w-[320px] sm:h-[410px] rounded-md overflow-hidden border border-white/20">
+              <div className="relative w-[200px] h-[260px] sm:w-[220px] sm:h-[286px] rounded-xl overflow-hidden border border-[#19f7ea]/30 shadow-[0_0_30px_-8px_rgba(25,247,234,0.25)]">
                 <div className="absolute inset-0 bg-white/10 animate-pulse" />
               </div>
             )}
@@ -122,13 +122,19 @@ const Hero = () => {
               href={nextEventCtaUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`relative w-[280px] h-[360px] sm:w-[320px] sm:h-[410px] rounded-md overflow-hidden group cursor-pointer border border-white/20 shrink-0 ${
+              className={`relative w-[200px] h-[260px] sm:w-[220px] sm:h-[286px] rounded-xl overflow-hidden group cursor-pointer border border-[#19f7ea]/30 shrink-0 shadow-[0_0_30px_-8px_rgba(25,247,234,0.25)] hover:shadow-[0_0_40px_-6px_rgba(25,247,234,0.4)] hover:border-[#19f7ea]/50 transition-all duration-300 ${
                 posterLoaded
                   ? "animate-slide-in-left opacity-100"
                   : "invisible opacity-0"
               }`}
               style={{ animationDelay: posterLoaded ? "0.4s" : undefined }}
             >
+              {/* Transparent "Upcoming Event" header */}
+              <div className="absolute top-0 left-0 right-0 z-10 bg-black/50 backdrop-blur-sm px-3 py-2 border-b border-white/10">
+                <span className="text-white/95 text-xs font-oswald font-bold uppercase tracking-widest">
+                  Upcoming Event
+                </span>
+              </div>
               <Image
                 src="/images/Pitchplayoffs002/PitchPlayoffs002-1_1.png"
                 alt="Physical AI Pitch Playoffs #002 - Apply or attend at SF Playground"
@@ -136,11 +142,11 @@ const Hero = () => {
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 onLoad={() => setPosterLoaded(true)}
               />
-              <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3">
-                <p className="text-white text-sm font-oswald mb-2">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-3 pt-10">
+                <p className="text-white text-xs font-oswald mb-2 line-clamp-2">
                   Physical AI Pitch Playoffs #002 — Get your spot
                 </p>
-                <span className="inline-flex items-center gap-1 bg-[#19f7ea]/90 text-black px-3 py-1.5 rounded-md text-xs font-oswald font-bold self-end">
+                <span className="inline-flex items-center gap-1 bg-[#19f7ea]/90 text-black px-2.5 py-1 rounded-md text-xs font-oswald font-bold self-end">
                   Get my spot →
                 </span>
               </div>
@@ -152,7 +158,7 @@ const Hero = () => {
             style={{ animationDelay: "0.7s" }}
           >
             <p className="text-white/70 text-sm lg:text-base font-oswald">
-              Get on the list for a free demo booth and a chance to pitch live to VCs.
+              Startups register for a free demo booth and a chance to pitch live to VCs.
             </p>
             <a
               href={SIGNUP_FORM_URL}
