@@ -86,3 +86,31 @@ body {
 .animate-scroll:hover {
   animation-play-state: paused;
 }
+
+@keyframes slide-across {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-slide-across {
+  animation: slide-across 8s linear infinite;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+@keyframes border-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 30px -8px rgba(25, 247, 234, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 40px -4px rgba(25, 247, 234, 0.45);
+  }
+}
+
+.animate-border-glow {
+  animation: border-glow-pulse 3s ease-in-out infinite;
+}

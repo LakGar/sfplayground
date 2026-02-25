@@ -122,17 +122,17 @@ const Hero = () => {
               href={nextEventCtaUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`relative w-[200px] h-[260px] sm:w-[220px] sm:h-[286px] rounded-xl overflow-hidden group cursor-pointer border border-[#19f7ea]/30 shrink-0 shadow-[0_0_30px_-8px_rgba(25,247,234,0.25)] hover:shadow-[0_0_40px_-6px_rgba(25,247,234,0.4)] hover:border-[#19f7ea]/50 transition-all duration-300 ${
+              className={`relative w-[200px] h-[260px] sm:w-[220px] sm:h-[286px] rounded-xl overflow-hidden group cursor-pointer border border-[#19f7ea]/30 shrink-0 animate-border-glow hover:shadow-[0_0_40px_-6px_rgba(25,247,234,0.4)] hover:border-[#19f7ea]/50 transition-all duration-300 ${
                 posterLoaded
                   ? "animate-slide-in-left opacity-100"
                   : "invisible opacity-0"
               }`}
               style={{ animationDelay: posterLoaded ? "0.4s" : undefined }}
             >
-              {/* Transparent "Upcoming Event" header */}
-              <div className="absolute top-0 left-0 right-0 z-10 bg-black/50 backdrop-blur-sm px-3 py-2 border-b border-white/10">
-                <span className="text-white/95 text-xs font-oswald font-bold uppercase tracking-widest">
-                  Upcoming Event
+              {/* Sliding "Upcoming Event" header */}
+              <div className="absolute top-0 left-0 right-0 z-10 bg-black/50 backdrop-blur-sm py-2 px-1 border-b border-white/10 overflow-hidden">
+                <span className="animate-slide-across text-white/95 text-xs font-oswald font-bold uppercase tracking-widest">
+                  Upcoming Event &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Upcoming Event &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </span>
               </div>
               <Image
