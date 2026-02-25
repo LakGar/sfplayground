@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     description: "An SF-based platform for live startup pitches and real investor decisions.",
     images: [
       {
-        url: "https://sfplayground.com/hero-highlight1.jpg",
+        url: "https://sfplayground.com/herohighlight1.jpeg",
         width: 1200,
         height: 630,
         alt: "SF Playground - Live Startup Pitch Events",
