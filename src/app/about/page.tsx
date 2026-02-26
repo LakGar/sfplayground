@@ -154,9 +154,9 @@ export default function AboutPage() {
                 Demo Live
               </h3>
               <p className="text-white/70 font-oswald leading-relaxed">
-                Demo your product in front of investors and builders who will vote for their favorite startupa live audience of VCs,
-                founders, and industry experts. Get real-time feedback and
-                questions.
+                Demo your product in front of investors and builders who will
+                vote for their favorite startupa live audience of VCs, founders,
+                and industry experts. Get real-time feedback and questions.
               </p>
             </div>
             <div className="border border-white/20 rounded-lg p-8 hover:border-[#19f7ea] transition-colors">

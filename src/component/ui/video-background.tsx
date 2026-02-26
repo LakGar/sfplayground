@@ -9,6 +9,13 @@ const VideoBackground = () => {
     const video = videoRef.current;
     if (!video) return;
 
+    const mobileQuery = window.matchMedia("(max-width: 767px)");
+
+    const applyMobileStill = () => {
+      video.pause();
+      video.currentTime = 0;
+    };
+
     let rafId: number;
     const speed = 0.5;
 
@@ -34,18 +41,49 @@ const VideoBackground = () => {
       rafId = requestAnimationFrame(animate);
     };
 
-    const handleLoadedMetadata = () => {
-      video.play();
+    const startAnimation = () => {
+      if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(animate);
     };
 
+    const handleLoadedMetadata = () => {
+      if (mobileQuery.matches) {
+        applyMobileStill();
+        return;
+      }
+      video.play().catch(() => {});
+      startAnimation();
+    };
+
+    const handleMobileChange = (e: MediaQueryListEvent) => {
+      if (e.matches) {
+        applyMobileStill();
+        return;
+      }
+      video.play().catch(() => {});
+      startAnimation();
+    };
+
+    if (mobileQuery.matches) {
+      applyMobileStill();
+      video.addEventListener("loadedmetadata", applyMobileStill);
+      video.addEventListener("loadeddata", applyMobileStill);
+      mobileQuery.addEventListener("change", handleMobileChange);
+      return () => {
+        video.removeEventListener("loadedmetadata", applyMobileStill);
+        video.removeEventListener("loadeddata", applyMobileStill);
+        mobileQuery.removeEventListener("change", handleMobileChange);
+      };
+    }
+
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    if (video.readyState >= 1) handleLoadedMetadata();
+    mobileQuery.addEventListener("change", handleMobileChange);
 
     return () => {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-      }
+      if (rafId) cancelAnimationFrame(rafId);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      mobileQuery.removeEventListener("change", handleMobileChange);
     };
   }, []);
 
@@ -54,9 +92,9 @@ const VideoBackground = () => {
       <video
         ref={videoRef}
         src="/hero.mp4"
-        autoPlay
         muted
         loop
+        playsInline
         className="absolute top-0 left-0 w-full h-full object-cover"
       />
       <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-black/10 to-black via-black/20" />
