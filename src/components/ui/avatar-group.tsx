@@ -103,7 +103,7 @@ const AvatarGroup = ({
   items,
   className,
   maxVisible = 5,
-  size = "xs",
+  size = "sm",
 }: AvatarGroupProps) => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
