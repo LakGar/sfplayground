@@ -103,6 +103,8 @@ const Hero = () => {
       <video
         ref={videoRef}
         src="/hero.mp4"
+        poster="/herohighlight1.jpeg"
+        preload="metadata"
         muted
         loop
         playsInline

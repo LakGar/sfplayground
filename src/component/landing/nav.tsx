@@ -15,7 +15,8 @@ const Nav = () => {
         <Link
           href="/"
           className="flex items-center animate-slide-in-left flex-1 overflow-hidden"
-        ><h1 className="text-4xl font-bold font-oswald text-[#19f7ea] flex items-center ">
+        >
+          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#19f7ea] flex items-center ">
             <span className="text-[#19f7ea]">SF</span>
             <span className="text-white">PLAYGROUND</span>
           </h1>
