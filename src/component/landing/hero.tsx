@@ -73,7 +73,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative h-screen flex justify-center items-center px-6 py-8 sm:px-8 sm:py-10 md:p-8 lg:p-12 overflow-hidden">
+    <div className="relative h-screen w-screen flex justify-center items-center px-6 py-8 sm:px-8 sm:py-10 md:p-8 lg:p-12 overflow-hidden">
       {/* Mobile: hero image */}
       <div
         className="absolute inset-0 md:hidden"
@@ -97,7 +97,7 @@ const Hero = () => {
       {/* content */}
       <div className="relative z-10">
         {/* hero heading */}
-        <h1 className="text-4xl md:text-6xl lg:text-8xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
+        <h1 className="text-4xl md:text-6xl lg:text-7xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
           <span className="text-[#19f7ea] font-bold">Crowd </span> Powered.
           <span className="text-[#19f7ea] font-bold"> Investor </span>
           Backed.

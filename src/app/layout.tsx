@@ -19,13 +19,24 @@ const oswald = Oswald({
 
 export const metadata: Metadata = {
   title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
-  description: "An SF-based platform for live startup pitches and real investor decisions. Join us for exclusive pitch events, discover success stories, and connect with the startup community.",
+  description:
+    "An SF-based platform for live startup pitches and real investor decisions. Join us for exclusive pitch events, discover success stories, and connect with the startup community.",
   keywords: [
     "SF Playground",
     "SF playground VC",
     "SF Playground investors",
     "investors",
     "VC",
+    "Pitch Playoffs",
+    "Events San Francisco",
+    "Events Silicon Valley",
+    "Events Bay Area",
+    "Events California",
+    "Events USA",
+    "Events Worldwide",
+    "Events Online",
+    "Events Virtual",
+    "Events In-Person",
     "venture capital",
     "startup pitches",
     "investor events",
@@ -47,7 +58,8 @@ export const metadata: Metadata = {
     url: "https://sfplayground.com",
     siteName: "SF Playground",
     title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
-    description: "An SF-based platform for live startup pitches and real investor decisions.",
+    description:
+      "An SF-based platform for live startup pitches and real investor decisions.",
     images: [
       {
         url: "https://sfplayground.com/herohighlight1.jpeg",
@@ -60,7 +72,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
-    description: "An SF-based platform for live startup pitches and real investor decisions.",
+    description:
+      "An SF-based platform for live startup pitches and real investor decisions.",
     creator: "@sfplayground",
   },
   robots: {
@@ -75,8 +88,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    // Add Google Search Console verification when you have it
-    // google: "your-google-verification-code",
+    google: "wjhVAf5IsogoQsRm2y3HoNhJxFu_W9SZpiZe-YWstJg",
   },
 };
 
@@ -91,7 +103,8 @@ export default function RootLayout({
     name: "SF Playground",
     url: "https://sfplayground.com",
     logo: "https://sfplayground.com/logo.png",
-    description: "An SF-based platform for live startup pitches and real investor decisions.",
+    description:
+      "An SF-based platform for live startup pitches and real investor decisions.",
     address: {
       "@type": "PostalAddress",
       addressLocality: "San Francisco",
