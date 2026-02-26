@@ -6,7 +6,9 @@ const Newsletter = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -17,7 +19,7 @@ const Newsletter = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (sectionRef.current) {
@@ -52,11 +54,15 @@ const Newsletter = () => {
         }, 3000);
       } else {
         setSubmitStatus("error");
-        setErrorMessage(result.error || "Failed to subscribe. Please try again.");
+        setErrorMessage(
+          result.error || "Failed to subscribe. Please try again.",
+        );
       }
     } catch (error) {
       setSubmitStatus("error");
-      setErrorMessage("Network error. Please check your connection and try again.");
+      setErrorMessage(
+        "Network error. Please check your connection and try again.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -110,7 +116,7 @@ const Newsletter = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="bg-[#19f7ea] text-black px-6 py-3 rounded-md text-lg hover:bg-white transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-oswald font-bold"
+                    className="bg-[#19f7ea] text-black px-6 py-3 rounded-md text-lg hover:bg-white transition-colors duration-300 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed font-oswald"
                   >
                     {isSubmitting ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -125,11 +131,16 @@ const Newsletter = () => {
                 {submitStatus === "success" && (
                   <div className="flex items-center gap-2 text-green-400 text-sm mt-2 font-oswald">
                     <CheckCircle2 className="w-4 h-4" />
-                    <span>Successfully subscribed! Check your email for a welcome message.</span>
+                    <span>
+                      Successfully subscribed! Check your email for a welcome
+                      message.
+                    </span>
                   </div>
                 )}
                 {submitStatus === "error" && (
-                  <p className="text-red-400 text-sm mt-2 font-oswald">{errorMessage}</p>
+                  <p className="text-red-400 text-sm mt-2 font-oswald">
+                    {errorMessage}
+                  </p>
                 )}
                 {submitStatus === "idle" && (
                   <p className="text-white/40 text-xs mt-2">
@@ -146,4 +157,3 @@ const Newsletter = () => {
 };
 
 export default Newsletter;
-

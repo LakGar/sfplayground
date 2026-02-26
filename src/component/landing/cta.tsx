@@ -14,7 +14,7 @@ const CTA = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (sectionRef.current) {
@@ -68,7 +68,7 @@ const CTA = () => {
             href={SIGNUP_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#19f7ea] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald font-bold"
+            className="bg-[#19f7ea] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald"
           >
             Get on the list <ArrowRightIcon className="w-5 h-5" />
           </a>

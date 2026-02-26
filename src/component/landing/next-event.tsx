@@ -62,7 +62,7 @@ const NextEvent = () => {
                 href={nextEvent.ctaUrl ?? SIGNUP_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-[#19f7ea] text-black px-6 py-3.5 rounded-lg font-oswald font-bold text-sm md:text-base hover:bg-white hover:shadow-[0_0_24px_rgba(25,247,234,0.4)] transition-all duration-300 shrink-0 w-full sm:w-auto lg:w-full min-h-[48px] touch-manipulation"
+                className="inline-flex items-center justify-center gap-2 bg-[#19f7ea] text-black px-6 py-3.5 rounded-lg font-oswald text-sm md:text-base hover:bg-white hover:shadow-[0_0_24px_rgba(25,247,234,0.4)] transition-all duration-300 shrink-0 w-full sm:w-auto lg:w-full min-h-[48px] touch-manipulation"
               >
                 {nextEvent.ctaText}
                 <ArrowRightIcon className="w-4 h-4" />

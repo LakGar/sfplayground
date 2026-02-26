@@ -75,7 +75,7 @@ const Nav = () => {
 
         {/* Mobile hamburger */}
         <button
-          className="lg:hidden text-white p-2 animate-fade-in-down relative w-6 h-6"
+          className="lg:hidden text-white p-2 animate-fade-in-down relative w-6 h-6 scale-90"
           onClick={() => setIsOpen(!isOpen)}
         >
           <span

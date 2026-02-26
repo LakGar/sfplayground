@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { SIGNUP_FORM_URL } from "@/data/constants";
 import siteData from "@/data/site-data.json";
@@ -12,18 +12,12 @@ const nextEventCtaUrl =
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const isReversing = useRef(false);
-  const [posterLoaded, setPosterLoaded] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    const mobileQuery = window.matchMedia("(max-width: 767px)");
-
-    const applyMobileStill = () => {
-      video.pause();
-      video.currentTime = 0;
-    };
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
 
     let rafId: number;
     const speed = 0.5;
@@ -50,65 +44,53 @@ const Hero = () => {
       rafId = requestAnimationFrame(animate);
     };
 
-    const startAnimation = () => {
-      if (rafId) cancelAnimationFrame(rafId);
+    const handleLoadedMetadata = () => {
+      if (!desktopQuery.matches) return;
+      video.play().catch(() => {});
       rafId = requestAnimationFrame(animate);
     };
 
-    const handleLoadedMetadata = () => {
-      if (mobileQuery.matches) {
-        applyMobileStill();
-        return;
+    const handleResize = () => {
+      if (desktopQuery.matches) {
+        video.play().catch(() => {});
+        rafId = requestAnimationFrame(animate);
+      } else {
+        if (rafId) cancelAnimationFrame(rafId);
+        video.pause();
+        video.currentTime = 0;
       }
-      video.play().catch(() => {});
-      startAnimation();
     };
-
-    const handleMobileChange = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        applyMobileStill();
-        return;
-      }
-      video.play().catch(() => {});
-      startAnimation();
-    };
-
-    // On mobile: keep video still (no autoPlay), run as soon as we have metadata
-    if (mobileQuery.matches) {
-      applyMobileStill();
-      video.addEventListener("loadedmetadata", applyMobileStill);
-      video.addEventListener("loadeddata", applyMobileStill);
-      mobileQuery.addEventListener("change", handleMobileChange);
-      return () => {
-        video.removeEventListener("loadedmetadata", applyMobileStill);
-        video.removeEventListener("loadeddata", applyMobileStill);
-        mobileQuery.removeEventListener("change", handleMobileChange);
-      };
-    }
 
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    desktopQuery.addEventListener("change", handleResize);
     if (video.readyState >= 1) handleLoadedMetadata();
-    mobileQuery.addEventListener("change", handleMobileChange);
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-      mobileQuery.removeEventListener("change", handleMobileChange);
+      desktopQuery.removeEventListener("change", handleResize);
     };
   }, []);
 
   return (
     <div className="relative h-screen flex justify-center items-center px-6 py-8 sm:px-8 sm:py-10 md:p-8 lg:p-12 overflow-hidden">
-      {/* background video */}
+      {/* Mobile: hero image */}
+      <div
+        className="absolute inset-0 md:hidden"
+        style={{
+          backgroundImage: "url('/hero.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      />
+      {/* md: video */}
       <video
         ref={videoRef}
         src="/hero.mp4"
-        poster="/herohighlight1.jpeg"
-        preload="metadata"
         muted
         loop
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover"
+        className="absolute inset-0 hidden w-full h-full object-cover md:block"
       />
       {/* overlay */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/10 via-black/20 to-black" />
@@ -153,7 +135,7 @@ const Hero = () => {
         <div className="md:flex gap-6 mt-8 items-center justify-between">
           {/* Upcoming event poster - clickable to Luma */}
           <div className="flex gap-4">
-            <div className="w-[320px] md:w-[360px] h-[400px] md:h-[450px]">
+            <div className="w-[320px] md:w-[360px] h-[400px] md:h-[450px] border-2 border-white/50 rounded-2xl overflow-hidden">
               <DestinationCard
                 imageUrl="/images/Pitchplayoffs002/PitchPlayoffs002.png"
                 location="Pitch Playoffs #002"
