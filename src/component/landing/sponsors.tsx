@@ -2,12 +2,12 @@
 import React from "react";
 
 const sponsors = [
-  "Sequoia Capital",
-  "Andreessen Horowitz",
+  "Pupa Ventures",
+  "Aexodus Capital",
   "Y Combinator",
-  "Greylock",
-  "Accel",
-  "Benchmark",
+  "Stealth Startup",
+  "Frontier Syndicate",
+  "Design Innovation X",
   "Lightspeed",
   "Index Ventures",
   "Founders Fund",
@@ -15,6 +15,15 @@ const sponsors = [
   "NEA",
   "General Catalyst",
 ];
+
+const sponsorUrls: Record<string, string> = {
+  "Pupa Ventures": "https://www.pupa.vc",
+  "Aexodus Capital": "https://www.aexodus.com/",
+  "Y Combinator": "https://www.ycombinator.com/",
+  "Stealth Startup": "https://www.linkedin.com/company/stealth-startup-community/",
+  "Frontier Syndicate": "https://www.linkedin.com/company/frontiersyndicate/".
+  "Design Innovation X": "https://www.linkedin.com/in/vincekohli/",
+};
 
 const Sponsors = () => {
   return (
@@ -33,9 +42,14 @@ const Sponsors = () => {
                 key={`first-${index}`}
                 className="flex items-center justify-center px-12"
               >
-                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer">
+                <a
+                  href={sponsorUrls[sponsor] ?? "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer"
+                >
                   {sponsor}
-                </span>
+                </a>
               </div>
             ))}
           </div>
@@ -46,9 +60,14 @@ const Sponsors = () => {
                 key={`second-${index}`}
                 className="flex items-center justify-center px-12"
               >
-                <span className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer">
+                <a
+                  href={sponsorUrls[sponsor] ?? "#"}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer"
+                >
                   {sponsor}
-                </span>
+                </a>
               </div>
             ))}
           </div>
