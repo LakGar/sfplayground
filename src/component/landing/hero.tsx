@@ -73,7 +73,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="relative h-screen w-screen flex justify-center items-center px-6 py-8 sm:px-8 sm:py-10 md:p-8 lg:p-12 overflow-hidden">
+    <div className="relative h-screen w-full flex justify-center items-center px-6 py-8 sm:px-8 sm:py-10 md:p-8 lg:p-12 overflow-hidden">
       {/* Mobile: hero image */}
       <div
         className="absolute inset-0 md:hidden"
@@ -95,7 +95,7 @@ const Hero = () => {
       {/* overlay */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/10 via-black/20 to-black" />
       {/* content */}
-      <div className="relative z-10">
+      <div className="rela w-full">
         {/* hero heading */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
           <span className="text-[#19f7ea] font-bold">Crowd </span> Powered.
@@ -162,7 +162,7 @@ const Hero = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white text-black px-4 py-2 rounded-md text-sm lg:text-base font-oswald  hover:bg-gray-200 transition-all duration-300 w-fit"
             >
-              Apply Here
+              Get on the list
             </a>
           </div>
         </div>
