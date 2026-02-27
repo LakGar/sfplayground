@@ -8,12 +8,6 @@ const sponsors = [
   "Stealth Startup",
   "Frontier Syndicate",
   "Design Innovation X",
-  "Lightspeed",
-  "Index Ventures",
-  "Founders Fund",
-  "Kleiner Perkins",
-  "NEA",
-  "General Catalyst",
 ];
 
 const sponsorUrls: Record<string, string> = {
@@ -21,7 +15,7 @@ const sponsorUrls: Record<string, string> = {
   "Aexodus Capital": "https://www.aexodus.com/",
   "Y Combinator": "https://www.ycombinator.com/",
   "Stealth Startup": "https://www.linkedin.com/company/stealth-startup-community/",
-  "Frontier Syndicate": "https://www.linkedin.com/company/frontiersyndicate/".
+  "Frontier Syndicate": "https://www.linkedin.com/company/frontiersyndicate/",
   "Design Innovation X": "https://www.linkedin.com/in/vincekohli/",
 };
 
