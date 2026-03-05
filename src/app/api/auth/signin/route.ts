@@ -26,9 +26,10 @@ export async function POST(req: NextRequest) {
     }
 
     const cookie = createSessionCookie(adminId);
+    // 303 See Other: browser must follow with GET (avoids POST /admin → 405)
     const res = NextResponse.redirect(
       new URL("/admin", req.url),
-      302
+      303
     );
     res.headers.set("Set-Cookie", cookie);
     return res;
