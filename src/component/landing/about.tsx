@@ -2,37 +2,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { GlareCard } from "@/component/ui/glare-card";
+import { useWebsiteContent } from "@/context/WebsiteContentContext";
 
-const cards = [
-  {
-    title: "Live Pitches",
-    image:
-      "https://drive.google.com/uc?export=view&id=1N91BEb6QIa1nZEipkl0DPI-4RnieS0zg",
-    description: "Watch founders pitch in real-time",
-  },
-  {
-    title: "Social Proof",
-    image:
-      "https://drive.google.com/thumbnail?id=1zNi50nX4lS01uDR9ALRtv27BQ4kHD5Jk&sz=w1200",
-    description: "Receive votes from builders and investors",
-  },
-  {
-    title: "VC Feedback",
-    image:
-      "https://drive.google.com/uc?export=view&id=1EmPGUJXndScOSNLLDXJTp_0O6EUqUzj8",
-    description: "Get direct insights from investors",
-  },
-  {
-    title: "Networking",
-    image:
-      "https://drive.google.com/uc?export=view&id=1rjtcqz-O2o_0R6JFXv34h9VCx7s8mX36",
-    description: "Connect with industry leaders",
-  },
-];
+const CARD_KEYS = [
+  { title: "about.whatWeDo.card0.title", desc: "about.whatWeDo.card0.description", image: "about.whatWeDo.card0.image" },
+  { title: "about.whatWeDo.card1.title", desc: "about.whatWeDo.card1.description", image: "about.whatWeDo.card1.image" },
+  { title: "about.whatWeDo.card2.title", desc: "about.whatWeDo.card2.description", image: "about.whatWeDo.card2.image" },
+  { title: "about.whatWeDo.card3.title", desc: "about.whatWeDo.card3.description", image: "about.whatWeDo.card3.image" },
+] as const;
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { getContent } = useWebsiteContent();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -66,8 +48,10 @@ const About = () => {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-10"
             }`}
+            data-editable="about.whatWeDo.heading"
+            data-editable-type="text"
           >
-            What We <span className="text-[#19f7ea]">Do</span>
+            {getContent("about.whatWeDo.heading")}
           </h2>
           {/* Tagline */}
           <div
@@ -78,17 +62,21 @@ const About = () => {
             }`}
             style={{ transitionDelay: "200ms" }}
           >
-            <span className="text-xl md:text-2xl lg:text-3xl font-oswald font-bold text-white">
-            We connect founders to VCs through live, crowd-powered pitch competitions.
+            <span
+              className="text-xl md:text-2xl lg:text-3xl font-oswald font-bold text-white"
+              data-editable="about.whatWeDo.tagline"
+              data-editable-type="text"
+            >
+              {getContent("about.whatWeDo.tagline")}
             </span>
           </div>
         </div>
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {cards.map((card, index) => (
+          {CARD_KEYS.map((keys, index) => (
             <div
-              key={card.title}
+              key={keys.title}
               className={`h-56 md:h-64 lg:h-72 transition-all duration-700 ${
                 isVisible
                   ? "opacity-100 translate-x-0"
@@ -97,19 +85,34 @@ const About = () => {
               style={{ transitionDelay: `${400 + index * 150}ms` }}
             >
               <GlareCard className="relative group cursor-pointer">
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
+                <div
+                  className="absolute inset-0"
+                  data-editable={keys.image}
+                  data-editable-type="image"
+                >
+                  <Image
+                    src={getContent(keys.image)}
+                    alt={getContent(keys.title)}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    unoptimized={getContent(keys.image).startsWith("https://")}
+                  />
+                </div>
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300" />
                 <div className="absolute inset-0 flex flex-col justify-end p-4">
-                  <h3 className="text-white font-oswald text-lg mb-1 group-hover:text-[#19f7ea] transition-colors duration-300">
-                    {card.title}
+                  <h3
+                    className="text-white font-oswald text-lg mb-1 group-hover:text-[#19f7ea] transition-colors duration-300"
+                    data-editable={keys.title}
+                    data-editable-type="text"
+                  >
+                    {getContent(keys.title)}
                   </h3>
-                  <p className="text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {card.description}
+                  <p
+                    className="text-white/60 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    data-editable={keys.desc}
+                    data-editable-type="text"
+                  >
+                    {getContent(keys.desc)}
                   </p>
                 </div>
               </GlareCard>

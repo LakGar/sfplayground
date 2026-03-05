@@ -2,10 +2,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowRightIcon } from "lucide-react";
 import { SIGNUP_FORM_URL } from "@/data/constants";
+import { useWebsiteContent } from "@/context/WebsiteContentContext";
 
 const CTA = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { getContent } = useWebsiteContent();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -33,9 +35,10 @@ const CTA = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage:
-            "url('https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2832&auto=format&fit=crop')",
+          backgroundImage: `url('${getContent("cta.backgroundImage") || "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2832&auto=format&fit=crop"}')`,
         }}
+        data-editable="cta.backgroundImage"
+        data-editable-type="image"
       />
       {/* Overlay */}
       <div className="absolute inset-0 bg-linear-to-b from-black to-black via-transparent" />
@@ -46,17 +49,20 @@ const CTA = () => {
           className={`text-3xl md:text-5xl lg:text-6xl font-oswald font-bold text-white mb-6 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
+          data-editable="cta.headline"
+          data-editable-type="text"
         >
-          Ready to Pitch Your <span className="text-[#19f7ea]">Startup?</span>
+          {getContent("cta.headline")}
         </h2>
         <p
           className={`text-white/70 text-lg md:text-xl font-oswald mb-8 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
           style={{ transitionDelay: "150ms" }}
+          data-editable="cta.subline"
+          data-editable-type="text"
         >
-          Join hundreds of founders who have pitched live and secured funding
-          from top VCs. Your story deserves to be heard.
+          {getContent("cta.subline")}
         </p>
         <div
           className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-700 ${
@@ -70,13 +76,13 @@ const CTA = () => {
             rel="noopener noreferrer"
             className="bg-[#19f7ea] text-black px-8 py-3 rounded-md text-lg flex items-center justify-center gap-2 hover:bg-white transition-colors duration-300 font-oswald"
           >
-            Get on the list <ArrowRightIcon className="w-5 h-5" />
+            <span data-editable="cta.buttonPrimary" data-editable-type="text">{getContent("cta.buttonPrimary")}</span> <ArrowRightIcon className="w-5 h-5" />
           </a>
           <a
             href="/about"
             className="border-2 border-white text-white px-8 py-3 rounded-md text-lg hover:bg-white hover:text-black transition-all duration-300 font-oswald text-center"
           >
-            Learn more
+            <span data-editable="cta.buttonSecondary" data-editable-type="text">{getContent("cta.buttonSecondary")}</span>
           </a>
         </div>
       </div>

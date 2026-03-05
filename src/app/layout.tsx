@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import "./globals.css";
+import { EditModeGate } from "@/component/website-editor/EditModeGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -133,7 +134,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
       >
-        {children}
+        <EditModeGate>{children}</EditModeGate>
       </body>
     </html>
   );

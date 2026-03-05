@@ -3,10 +3,12 @@ import React, { useState } from "react";
 import Link from "next/link";
 import NewsletterModal from "@/component/ui/newsletter-modal";
 import { SIGNUP_FORM_URL } from "@/data/constants";
+import { useWebsiteContent } from "@/context/WebsiteContentContext";
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isNewsletterModalOpen, setIsNewsletterModalOpen] = useState(false);
+  const { getContent } = useWebsiteContent();
 
   return (
     <div className="fixed top-0 left-0 w-full z-50">
@@ -17,8 +19,8 @@ const Nav = () => {
           className="flex items-center animate-slide-in-left flex-1 overflow-hidden"
         >
           <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#19f7ea] flex items-center ">
-            <span className="text-[#19f7ea]">SF</span>
-            <span className="text-white">PLAYGROUND</span>
+            <span className="text-[#19f7ea]" data-editable="nav.logoLeft" data-editable-type="text">{getContent("nav.logoLeft")}</span>
+            <span className="text-white" data-editable="nav.logoRight" data-editable-type="text">{getContent("nav.logoRight")}</span>
           </h1>
         </Link>
 
@@ -59,7 +61,7 @@ const Nav = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Get on the list
+            Apply to demo
           </a>
         </div>
 
@@ -106,7 +108,8 @@ const Nav = () => {
         <div className="w-full px-4 py-4 flex items-center justify-between">
           <Link href="/" onClick={() => setIsOpen(false)}>
             <h1 className="text-2xl font-bold font-oswald text-[#19f7ea]">
-              SF<span className="text-white">PLAYGROUND</span>
+              <span data-editable="nav.logoLeft" data-editable-type="text">{getContent("nav.logoLeft")}</span>
+              <span className="text-white" data-editable="nav.logoRight" data-editable-type="text">{getContent("nav.logoRight")}</span>
             </h1>
           </Link>
           <button
@@ -154,7 +157,7 @@ const Nav = () => {
             className="text-white hover:text-[#19f7ea] transition-colors"
             onClick={() => setIsOpen(false)}
           >
-            Get on the list
+            Apply to demo
           </a>
           <button
             onClick={() => {

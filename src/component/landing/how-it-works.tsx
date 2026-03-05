@@ -1,37 +1,19 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { Presentation, Vote, Mic, Handshake } from "lucide-react";
+import { useWebsiteContent } from "@/context/WebsiteContentContext";
 
-const steps = [
-  {
-    step: 1,
-    title: "Demo booths",
-    description: "Startups showcase at demo booths; attendees explore and ask questions.",
-    icon: Presentation,
-  },
-  {
-    step: 2,
-    title: "Crowd votes",
-    description: "Attendees vote for their favorites. Top startups rise to the top.",
-    icon: Vote,
-  },
-  {
-    step: 3,
-    title: "Finalists pitch",
-    description: "Top-voted founders pitch live to a panel of VCs and the room.",
-    icon: Mic,
-  },
-  {
-    step: 4,
-    title: "Investor intros",
-    description: "Interested investors get warm intros; founders close the loop.",
-    icon: Handshake,
-  },
-];
+const STEPS = [
+  { step: 1, titleKey: "howItWorks.step1.title", descKey: "howItWorks.step1.description", icon: Presentation },
+  { step: 2, titleKey: "howItWorks.step2.title", descKey: "howItWorks.step2.description", icon: Vote },
+  { step: 3, titleKey: "howItWorks.step3.title", descKey: "howItWorks.step3.description", icon: Mic },
+  { step: 4, titleKey: "howItWorks.step4.title", descKey: "howItWorks.step4.description", icon: Handshake },
+] as const;
 
 const HowItWorks = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { getContent } = useWebsiteContent();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,20 +36,24 @@ const HowItWorks = () => {
           className={`text-2xl md:text-3xl font-oswald text-white/80 mb-2 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
           }`}
+          data-editable="howItWorks.title"
+          data-editable-type="text"
         >
-          How it <span className="text-[#19f7ea]">works</span>
+          {getContent("howItWorks.title")}
         </h2>
         <p
           className={`text-white/50 font-oswald text-sm md:text-base mb-10 transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
           }`}
           style={{ transitionDelay: "80ms" }}
+          data-editable="howItWorks.subtitle"
+          data-editable-type="text"
         >
-          Four steps from demo floor to investor intro.
+          {getContent("howItWorks.subtitle")}
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-          {steps.map((item, index) => {
+          {STEPS.map((item, index) => {
             const Icon = item.icon as React.ComponentType<{ className?: string }>;
             return (
               <div
@@ -83,11 +69,19 @@ const HowItWorks = () => {
                 <span className="text-[#19f7ea] font-oswald font-bold text-sm mb-1">
                   Step {item.step}
                 </span>
-                <h3 className="text-white font-oswald text-lg md:text-xl mb-2">
-                  {item.title}
+                <h3
+                  className="text-white font-oswald text-lg md:text-xl mb-2"
+                  data-editable={item.titleKey}
+                  data-editable-type="text"
+                >
+                  {getContent(item.titleKey)}
                 </h3>
-                <p className="text-white/60 text-sm leading-relaxed">
-                  {item.description}
+                <p
+                  className="text-white/60 text-sm leading-relaxed"
+                  data-editable={item.descKey}
+                  data-editable-type="text"
+                >
+                  {getContent(item.descKey)}
                 </p>
               </div>
             );

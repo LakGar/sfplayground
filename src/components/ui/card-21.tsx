@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/lib/utils"; // Your utility for merging class names
+import { cn } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import AvatarGroup from "./avatar-group";
 
@@ -41,12 +41,13 @@ const DestinationCard = React.forwardRef<HTMLDivElement, DestinationCardProps>(
             boxShadow: `0 0 40px -15px hsl(var(--theme-color) / 0.5)`,
           }}
         >
-          {/* Background Image with Parallax Zoom */}
-          <div
-            className="absolute inset-0 bg-cover bg-center 
-                       transition-transform duration-500 ease-in-out group-hover:scale-110"
-            style={{ backgroundImage: `url(${imageUrl})` }}
-          />
+          {/* Background Image */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div
+              className="w-full h-full bg-cover bg-center"
+              style={{ backgroundImage: `url(${imageUrl})` }}
+            />
+          </div>
 
           {/* Themed Gradient Overlay */}
           <div
@@ -74,33 +75,33 @@ const DestinationCard = React.forwardRef<HTMLDivElement, DestinationCardProps>(
                 items={[
                   {
                     id: 2,
-                    name: "Jane Smith",
+                    name: "Sarah Chen",
                     designation: "Product Manager",
-                    image: "https://randomuser.me/api/portraits/men/61.jpg",
+                    image: "https://randomuser.me/api/portraits/women/44.jpg",
                   },
                   {
                     id: 3,
-                    name: "Jim Beam",
-                    designation: "Marketing Manager",
+                    name: "Marcus Webb",
+                    designation: "Designer",
                     image: "https://randomuser.me/api/portraits/men/62.jpg",
                   },
                   {
                     id: 4,
-                    name: "John Doe",
-                    designation: "Software Engineer",
-                    image: "https://randomuser.me/api/portraits/men/63.jpg",
+                    name: "Priya Sharma",
+                    designation: "Engineer",
+                    image: "https://randomuser.me/api/portraits/women/68.jpg",
                   },
                   {
                     id: 5,
-                    name: "John Doe",
-                    designation: "Software Engineer",
+                    name: "David Park",
+                    designation: "Marketing",
                     image: "https://randomuser.me/api/portraits/men/64.jpg",
                   },
                   {
                     id: 6,
-                    name: "John Doe",
-                    designation: "Software Engineer",
-                    image: "https://randomuser.me/api/portraits/men/65.jpg",
+                    name: "Elena Rodriguez",
+                    designation: "Operations",
+                    image: "https://randomuser.me/api/portraits/women/65.jpg",
                   },
                 ]}
                 maxVisible={5}

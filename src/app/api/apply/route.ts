@@ -1,9 +1,10 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: NextRequest) {
+  const resend = process.env.RESEND_API_KEY
+    ? new Resend(process.env.RESEND_API_KEY)
+    : null;
   try {
     const body = await request.json();
     const {
@@ -33,8 +34,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Email to SF Playground team
-    try {
-      const notificationEmail = await resend.emails.send({
+    if (resend) {
+      try {
+        const notificationEmail = await resend.emails.send({
         from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
         to: "hello@sfplayground.com",
         replyTo: email, // Allow replying directly to the applicant
@@ -67,22 +69,23 @@ export async function POST(request: NextRequest) {
             </div>
           </div>
         `,
-      });
-      console.log(
-        "Notification email sent to hello@sfplayground.com:",
-        notificationEmail
-      );
-    } catch (notificationError) {
-      console.error(
-        "Error sending notification email to hello@sfplayground.com:",
-        notificationError
-      );
-      // Continue even if notification fails - still send confirmation to user
+        });
+        console.log(
+          "Notification email sent to hello@sfplayground.com:",
+          notificationEmail
+        );
+      } catch (notificationError) {
+        console.error(
+          "Error sending notification email to hello@sfplayground.com:",
+          notificationError
+        );
+      }
     }
 
     // Confirmation email to applicant
-    try {
-      const confirmationEmail = await resend.emails.send({
+    if (resend) {
+      try {
+        const confirmationEmail = await resend.emails.send({
         from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
         to: email,
         subject: "Thank You for Your Pitch Application",
@@ -99,11 +102,12 @@ export async function POST(request: NextRequest) {
             </p>
           </div>
         `,
-      });
-      console.log("Confirmation email sent to applicant:", confirmationEmail);
-    } catch (confirmationError) {
-      console.error("Error sending confirmation email:", confirmationError);
-      throw confirmationError; // Re-throw if confirmation fails
+        });
+        console.log("Confirmation email sent to applicant:", confirmationEmail);
+      } catch (confirmationError) {
+        console.error("Error sending confirmation email:", confirmationError);
+        throw confirmationError;
+      }
     }
 
     return NextResponse.json(

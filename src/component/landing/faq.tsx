@@ -1,44 +1,15 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { ChevronDownIcon } from "lucide-react";
+import { useWebsiteContent } from "@/context/WebsiteContentContext";
 
-const faqs = [
-  {
-    question: "How do I apply to pitch at SF Playground?",
-    answer:
-      "Click “Get on the list” anywhere on the site to open our signup form. We review applications weekly and notify selected founders within 5 business days.",
-  },
-  {
-    question: "What stage startups can apply?",
-    answer:
-      "We welcome startups from pre-seed to Series A. Whether you're just starting out or have initial traction, if you have a compelling story and vision, we want to hear from you.",
-  },
-  {
-    question: "How long is each pitch?",
-    answer:
-      "Each founder gets 5 minutes to pitch followed by 5 minutes of Q&A from our panel of VCs. It's fast-paced and designed to simulate real investor meetings.",
-  },
-  {
-    question: "Who are the investors at these events?",
-    answer:
-      "Past and guest investors include partners, principals, and associates from top-tier VC firms (e.g. Sequoia, a16z, Greylock) as well as active angel investors. How intros work: after you pitch, interested investors can request an intro through us; we facilitate warm intros and help track follow-ups so you can close your round.",
-  },
-  {
-    question: "Is there a fee to pitch?",
-    answer:
-      "No, pitching at SF Playground is completely free. We believe in removing barriers for founders to access capital and feedback.",
-  },
-  {
-    question: "What happens after I pitch?",
-    answer:
-      "Interested investors can request introductions directly through our platform. We facilitate warm intros and track follow-up meetings to help you close your round.",
-  },
-];
+const FAQ_INDEXES = [0, 1, 2, 3, 4, 5] as const;
 
 const FAQ = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const sectionRef = useRef<HTMLDivElement>(null);
+  const { getContent } = useWebsiteContent();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -71,8 +42,10 @@ const FAQ = () => {
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-10"
             }`}
+            data-editable="faq.title"
+            data-editable-type="text"
           >
-            Frequently Asked <span className="text-[#19f7ea]">Questions</span>
+            {getContent("faq.title")}
           </h2>
           <p
             className={`text-white/50 font-oswald transition-all duration-700 ${
@@ -81,43 +54,53 @@ const FAQ = () => {
                 : "opacity-0 -translate-y-10"
             }`}
             style={{ transitionDelay: "100ms" }}
+            data-editable="faq.subtitle"
+            data-editable-type="text"
           >
-            Everything you need to know about pitching at SF Playground.
+            {getContent("faq.subtitle")}
           </p>
         </div>
 
         {/* FAQ Items */}
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
+          {FAQ_INDEXES.map((i) => (
             <div
-              key={index}
+              key={i}
               className={`border border-white/10 rounded-lg overflow-hidden transition-all duration-700 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
               }`}
-              style={{ transitionDelay: `${200 + index * 100}ms` }}
+              style={{ transitionDelay: `${200 + i * 100}ms` }}
             >
               <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                onClick={() => setOpenIndex(openIndex === i ? null : i)}
                 className="w-full flex items-center justify-between p-5 text-left bg-white/5 hover:bg-white/10 transition-colors duration-300"
               >
-                <span className="text-white font-oswald text-lg pr-4">
-                  {faq.question}
+                <span
+                  className="text-white font-oswald text-lg pr-4"
+                  data-editable={`faq.${i}.question`}
+                  data-editable-type="text"
+                >
+                  {getContent(`faq.${i}.question`)}
                 </span>
                 <ChevronDownIcon
                   className={`w-5 h-5 text-[#19f7ea] shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? "rotate-180" : ""
+                    openIndex === i ? "rotate-180" : ""
                   }`}
                 />
               </button>
               <div
                 className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? "max-h-48" : "max-h-0"
+                  openIndex === i ? "max-h-48" : "max-h-0"
                 }`}
               >
-                <p className="p-5 text-white/60 text-sm leading-relaxed">
-                  {faq.answer}
+                <p
+                  className="p-5 text-white/60 text-sm leading-relaxed"
+                  data-editable={`faq.${i}.answer`}
+                  data-editable-type="text"
+                >
+                  {getContent(`faq.${i}.answer`)}
                 </p>
               </div>
             </div>
@@ -129,5 +112,3 @@ const FAQ = () => {
 };
 
 export default FAQ;
-
-

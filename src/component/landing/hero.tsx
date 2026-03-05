@@ -4,12 +4,14 @@ import Image from "next/image";
 import { SIGNUP_FORM_URL } from "@/data/constants";
 import siteData from "@/data/site-data.json";
 import { DestinationCard } from "@/components/ui/card-21";
+import { useWebsiteContent } from "@/context/WebsiteContentContext";
 
 const nextEventCtaUrl =
   (siteData.nextEvent as { ctaUrl?: string }).ctaUrl ??
   "https://luma.com/user/SFPlayground";
 
 const Hero = () => {
+  const { getContent } = useWebsiteContent();
   const videoRef = useRef<HTMLVideoElement>(null);
   const isReversing = useRef(false);
 
@@ -78,19 +80,23 @@ const Hero = () => {
       <div
         className="absolute inset-0 md:hidden"
         style={{
-          backgroundImage: "url('/hero.jpg')",
+          backgroundImage: `url('${getContent("hero.backgroundImage") || "/hero.jpg"}')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
+        data-editable="hero.backgroundImage"
+        data-editable-type="image"
       />
       {/* md: video */}
       <video
         ref={videoRef}
-        src="/hero.mp4"
+        src={getContent("hero.backgroundVideo") || "/hero.mp4"}
         muted
         loop
         playsInline
         className="absolute inset-0 hidden w-full h-full object-cover md:block"
+        data-editable="hero.backgroundVideo"
+        data-editable-type="video"
       />
       {/* overlay */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/10 via-black/20 to-black" />
@@ -98,16 +104,19 @@ const Hero = () => {
       <div className="rela w-full">
         {/* hero heading */}
         <h1 className="text-4xl md:text-6xl lg:text-7xl md:w-3/5 font-oswald text-white mb-4 animate-fade-in-down">
-          <span className="text-[#19f7ea] font-bold">Crowd </span> Powered.
-          <span className="text-[#19f7ea] font-bold"> Investor </span>
-          Backed.
+          <span className="text-[#19f7ea] font-bold" data-editable="hero.headline1" data-editable-type="text">{getContent("hero.headline1")}</span>
+          <span data-editable="hero.headline2" data-editable-type="text">{getContent("hero.headline2")}</span>
+          <span className="text-[#19f7ea] font-bold" data-editable="hero.headline3" data-editable-type="text">{getContent("hero.headline3")}</span>
+          <span data-editable="hero.headline4" data-editable-type="text">{getContent("hero.headline4")}</span>
         </h1>
         {/* hero description */}
         <p
           className="text-white/50 text-md md:text-lg lg:text-xl font-oswald animate-fade-in-down"
           style={{ animationDelay: "0.2s" }}
+          data-editable="hero.subline"
+          data-editable-type="text"
         >
-          Live demos. Pitch battles. Top founders. Active VCs.
+          {getContent("hero.subline")}
         </p>
 
         {/* hero buttons */}
@@ -119,15 +128,15 @@ const Hero = () => {
             href={SIGNUP_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-black px-4 py-2 rounded-md text-sm md:text-base lg:text-lg font-oswald font-bold hover:bg-gray-200 transition-colors"
+            className="bg-white text-black px-4 py-2 rounded-md text-sm md:text-base lg:text-lg font-oswald  hover:bg-gray-200 transition-colors"
           >
-            Get on the list
+            <span data-editable="hero.ctaPrimary" data-editable-type="text">{getContent("hero.ctaPrimary")}</span>
           </a>
           <a
             href="/#faq"
             className="text-white border border-white px-4 py-2 text-sm md:text-base lg:text-lg rounded-md font-oswald hover:bg-white/10 transition-colors"
           >
-            Learn more
+            <span data-editable="hero.ctaSecondary" data-editable-type="text">{getContent("hero.ctaSecondary")}</span>
           </a>
         </div>
 
@@ -152,9 +161,8 @@ const Hero = () => {
             className="hidden md:flex flex-col gap-4 max-w-xs animate-fade-in-down"
             style={{ animationDelay: "0.7s" }}
           >
-            <p className="text-white/70 text-sm lg:text-base font-oswald">
-              Startups register for a free demo booth and a chance to pitch live
-              to VCs.
+            <p className="text-white/70 text-sm lg:text-base font-oswald" data-editable="hero.desktopCopy" data-editable-type="text">
+              {getContent("hero.desktopCopy")}
             </p>
             <a
               href={SIGNUP_FORM_URL}
@@ -162,7 +170,7 @@ const Hero = () => {
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white text-black px-4 py-2 rounded-md text-sm lg:text-base font-oswald  hover:bg-gray-200 transition-all duration-300 w-fit"
             >
-              Get on the list
+              <span data-editable="hero.ctaPrimary" data-editable-type="text">{getContent("hero.ctaPrimary")}</span>
             </a>
           </div>
         </div>

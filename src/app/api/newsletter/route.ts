@@ -1,12 +1,11 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { insertSubscriber } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email } = body;
+    const { email, name } = body;
 
     // Validate email
     if (!email || !email.includes("@")) {
@@ -16,9 +15,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Persist subscriber (ignore duplicate)
+    await insertSubscriber(email, name ?? null);
+
+    const resend = process.env.RESEND_API_KEY
+      ? new Resend(process.env.RESEND_API_KEY)
+      : null;
+
     // Email to SF Playground team
-    try {
-      const notificationEmail = await resend.emails.send({
+    if (resend) {
+      try {
+        const notificationEmail = await resend.emails.send({
         from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
         to: "hello@sfplayground.com",
         replyTo: email, // Allow replying directly to the subscriber
@@ -33,22 +40,23 @@ export async function POST(request: NextRequest) {
             </p>
           </div>
         `,
-      });
-      console.log(
-        "Notification email sent to hello@sfplayground.com:",
-        notificationEmail
-      );
-    } catch (notificationError) {
-      console.error(
-        "Error sending notification email to hello@sfplayground.com:",
-        notificationError
-      );
-      // Continue even if notification fails - still send welcome to user
+        });
+        console.log(
+          "Notification email sent to hello@sfplayground.com:",
+          notificationEmail
+        );
+      } catch (notificationError) {
+        console.error(
+          "Error sending notification email to hello@sfplayground.com:",
+          notificationError
+        );
+      }
     }
 
     // Welcome email to subscriber
-    try {
-      const welcomeEmail = await resend.emails.send({
+    if (resend) {
+      try {
+        const welcomeEmail = await resend.emails.send({
         from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
         to: email,
         subject: "Welcome to SF Playground!",
@@ -72,11 +80,12 @@ export async function POST(request: NextRequest) {
             </p>
           </div>
         `,
-      });
-      console.log("Welcome email sent to subscriber:", welcomeEmail);
-    } catch (welcomeError) {
-      console.error("Error sending welcome email:", welcomeError);
-      throw welcomeError; // Re-throw if welcome fails
+        });
+        console.log("Welcome email sent to subscriber:", welcomeEmail);
+      } catch (welcomeError) {
+        console.error("Error sending welcome email:", welcomeError);
+        throw welcomeError;
+      }
     }
 
     return NextResponse.json(

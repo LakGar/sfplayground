@@ -5,6 +5,7 @@ import Footer from "@/component/landing/footer";
 import VideoBackground from "@/component/ui/video-background";
 import type { Metadata } from "next";
 import siteData from "@/data/site-data.json";
+import { getSuccessStories } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Success Stories | SF Playground",
@@ -19,9 +20,25 @@ export const metadata: Metadata = {
   },
 };
 
-const successStories = siteData.successStories;
+export const dynamic = "force-dynamic";
 
-export default function SuccessStoriesPage() {
+export default async function SuccessStoriesPage() {
+  let successStories: { slug: string; title: string; tagline: string; description: string; image: string }[] =
+    siteData.successStories as typeof siteData.successStories;
+  try {
+    const dbStories = await getSuccessStories();
+    if (dbStories.length > 0) {
+      successStories = dbStories.map((s) => ({
+        slug: s.slug,
+        title: s.title,
+        tagline: s.tagline ?? "",
+        description: s.description,
+        image: s.image ?? "",
+      }));
+    }
+  } catch {
+    // keep site-data fallback
+  }
   return (
     <div className="relative overflow-x-hidden bg-black min-h-screen">
       <Nav />

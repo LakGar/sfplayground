@@ -5,9 +5,24 @@ import Link from "next/link";
 import { CalendarIcon, MapPinIcon, UsersIcon, ArrowRightIcon } from "lucide-react";
 import siteData from "@/data/site-data.json";
 
-const events = siteData.events;
+type EventItem = {
+  slug: string;
+  title: string;
+  date: string;
+  location: string;
+  attendees: number;
+  status: string;
+  coverImage: string;
+  description?: string;
+  images?: string[];
+};
 
-const Events = () => {
+const Events = ({
+  events: eventsProp,
+}: {
+  events?: EventItem[];
+}) => {
+  const events = eventsProp ?? (siteData.events as EventItem[]);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 

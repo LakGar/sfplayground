@@ -5,9 +5,19 @@ import Footer from "@/component/landing/footer";
 import Image from "next/image";
 import type { Metadata } from "next";
 import siteData from "@/data/site-data.json";
+import { getEventBySlug } from "@/lib/db";
 
+type StaticEvent = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  attendees: number;
+  images: string[];
+};
 const eventsBySlug = Object.fromEntries(
-  siteData.events.map((e) => [e.slug, e])
+  (siteData.events as StaticEvent[]).map((e) => [e.slug, e])
 );
 
 export async function generateMetadata({
@@ -17,7 +27,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const resolvedParams = params instanceof Promise ? await params : params;
   const normalizedSlug = resolvedParams.slug.toLowerCase().trim();
-  const event = eventsBySlug[normalizedSlug];
+  const dbEvent = await getEventBySlug(normalizedSlug);
+  const event = dbEvent ?? eventsBySlug[normalizedSlug];
 
   if (!event) {
     return {
@@ -47,7 +58,29 @@ export default async function EventGalleryPage({
 }) {
   const resolvedParams = params instanceof Promise ? await params : params;
   const normalizedSlug = resolvedParams.slug.toLowerCase().trim();
-  const event = eventsBySlug[normalizedSlug];
+  const dbEvent = await getEventBySlug(normalizedSlug);
+  const staticEvent = (siteData.events as StaticEvent[]).find(
+    (e) => e.slug.toLowerCase() === normalizedSlug
+  );
+  const event = dbEvent
+    ? {
+        title: dbEvent.title,
+        date: dbEvent.date,
+        location: dbEvent.location,
+        attendees: dbEvent.attendees,
+        description: dbEvent.description,
+        images: dbEvent.images ?? [],
+      }
+    : staticEvent
+      ? {
+          title: staticEvent.title,
+          date: staticEvent.date,
+          location: staticEvent.location,
+          attendees: staticEvent.attendees,
+          description: staticEvent.description,
+          images: staticEvent.images ?? [],
+        }
+      : null;
 
   if (!event) {
     return (

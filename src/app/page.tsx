@@ -10,6 +10,8 @@ import CTA from "@/component/landing/cta";
 import Newsletter from "@/component/landing/newsletter";
 import FAQ from "@/component/landing/faq";
 import Footer from "@/component/landing/footer";
+import { getNextEvent, getEvents } from "@/lib/db";
+import siteData from "@/data/site-data.json";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,12 +25,70 @@ export const metadata: Metadata = {
   },
 };
 
-const page = () => {
+const page = async () => {
+  let nextEventData: {
+    title: string;
+    date: string;
+    time: string;
+    location: string;
+    hook: string;
+    ctaText: string;
+    ctaUrl?: string;
+    imageUrl?: string;
+  } = { ...(siteData.nextEvent as typeof siteData.nextEvent), imageUrl: undefined };
+  try {
+    const row = await getNextEvent();
+    if (row) {
+      nextEventData = {
+        title: row.title,
+        date: row.date,
+        time: row.time ?? "",
+        location: row.location,
+        hook: row.hook,
+        ctaText: row.cta_text,
+        ctaUrl: undefined,
+        imageUrl: row.image_url ?? undefined,
+      };
+    }
+  } catch {
+    // keep site-data fallback
+  }
+
+  let eventsList: {
+    slug: string;
+    title: string;
+    date: string;
+    location: string;
+    attendees: number;
+    status: string;
+    coverImage: string;
+    description?: string;
+    images?: string[];
+  }[] = siteData.events as typeof siteData.events;
+  try {
+    const dbEvents = await getEvents();
+    if (dbEvents.length > 0) {
+      eventsList = dbEvents.map((e) => ({
+        slug: e.slug,
+        title: e.title,
+        date: e.date,
+        location: e.location,
+        attendees: e.attendees,
+        status: e.status,
+        coverImage: e.cover_image ?? "",
+        description: e.description,
+        images: e.images ?? [],
+      }));
+    }
+  } catch {
+    // keep site-data fallback
+  }
+
   return (
     <div className="relative overflow-x-hidden">
       <Nav />
       <Hero />
-      <NextEvent />
+      <NextEvent nextEvent={nextEventData} />
       <Sponsors />
 
       <div id="about">
@@ -37,7 +97,7 @@ const page = () => {
 
       <HowItWorks />
       <div id="events">
-        <Events />
+        <Events events={eventsList} />
       </div>
       <Featured />
       <div id="apply">
