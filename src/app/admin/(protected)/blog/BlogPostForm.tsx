@@ -18,6 +18,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
   const [title, setTitle] = useState(post?.title ?? "");
   const [slug, setSlug] = useState(post?.slug ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
+  const [imageUrl, setImageUrl] = useState(post?.image_url ?? "");
   const [body, setBody] = useState(post?.body ?? "");
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -51,6 +52,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
           title: title.trim(),
           slug: slug.trim().toLowerCase().replace(/\s+/g, "-"),
           excerpt: excerpt.trim() || null,
+          image_url: imageUrl.trim() || null,
           body: body.trim(),
           publish: action === "unpublish" ? false : action === "publish",
         }),
@@ -181,6 +183,18 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
               placeholder="url-slug"
             />
           </p>
+          <div className="mt-4">
+            <label className="block text-white/50 font-oswald text-sm mb-1.5">
+              Featured image URL
+            </label>
+            <input
+              type="url"
+              value={imageUrl}
+              onChange={(e) => setImageUrl(e.target.value)}
+              placeholder="https://..."
+              className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea] text-sm"
+            />
+          </div>
         </div>
 
         <div className="px-5 pb-5">

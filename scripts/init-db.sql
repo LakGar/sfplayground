@@ -27,6 +27,17 @@ CREATE TABLE IF NOT EXISTS blog_posts (
 CREATE INDEX IF NOT EXISTS idx_blog_posts_slug ON blog_posts(slug);
 CREATE INDEX IF NOT EXISTS idx_blog_posts_published_at ON blog_posts(published_at DESC) WHERE published_at IS NOT NULL;
 
+-- Add image_url to blog_posts if missing
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'blog_posts' AND column_name = 'image_url'
+  ) THEN
+    ALTER TABLE blog_posts ADD COLUMN image_url TEXT;
+  END IF;
+END $$;
+
 -- Newsletter drafts
 CREATE TABLE IF NOT EXISTS newsletter_drafts (
   id SERIAL PRIMARY KEY,

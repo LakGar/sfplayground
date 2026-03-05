@@ -17,7 +17,7 @@ export async function PATCH(
   }
   try {
     const body = await request.json();
-    const { title, slug, excerpt, body: postBody, publish } = body;
+    const { title, slug, excerpt, body: postBody, image_url, publish } = body;
     const existing = await getBlogPostById(postId);
     if (!existing) {
       return NextResponse.json({ error: "Post not found" }, { status: 404 });
@@ -27,6 +27,7 @@ export async function PATCH(
     if (slug !== undefined) updates.slug = slug.trim().toLowerCase().replace(/\s+/g, "-");
     if (excerpt !== undefined) updates.excerpt = excerpt || null;
     if (postBody !== undefined) updates.body = postBody;
+    if (image_url !== undefined) updates.image_url = image_url || null;
     if (publish === true) updates.published_at = new Date();
     if (publish === false) updates.published_at = null;
     const updated = await updateBlogPost(postId, updates);

@@ -23,18 +23,6 @@ const NextEvent = ({ nextEvent }: NextEventProps) => {
       <div className="max-w-4xl mx-auto">
         {/* Card with accent hue */}
         <div className="relative rounded-2xl border border-[#19f7ea]/25 bg-gradient-to-br from-[#19f7ea]/10 via-[#19f7ea]/5 to-transparent p-6 sm:p-8 md:p-10 shadow-[0_0_40px_-12px_rgba(25,247,234,0.15)] overflow-hidden">
-          {nextEvent?.imageUrl && (
-            <div className="absolute inset-0 opacity-[0.08]">
-              <Image
-                src={nextEvent.imageUrl}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="(max-width: 896px) 100vw, 896px"
-                unoptimized={nextEvent.imageUrl.startsWith("https://") && nextEvent.imageUrl.includes("google.com")}
-              />
-            </div>
-          )}
           <div className="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 lg:gap-10">
             {/* Badge + title block */}
             <div className="flex flex-col gap-4">
@@ -82,18 +70,6 @@ const NextEvent = ({ nextEvent }: NextEventProps) => {
               </a>
             </div>
           </div>
-          {nextEvent?.imageUrl && (
-            <div className="relative mt-6 lg:mt-8 rounded-xl overflow-hidden w-full h-[200px] sm:h-[220px]">
-              <Image
-                src={nextEvent.imageUrl}
-                alt={nextEvent.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 896px) 100vw, 896px"
-                unoptimized={nextEvent.imageUrl.startsWith("https://") && nextEvent.imageUrl.includes("google.com")}
-              />
-            </div>
-          )}
         </div>
       </div>
     </section>

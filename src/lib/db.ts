@@ -15,6 +15,7 @@ export type BlogPost = {
   title: string;
   excerpt: string | null;
   body: string;
+  image_url: string | null;
   published_at: Date | null;
   created_at: Date;
   updated_at: Date;
@@ -76,7 +77,7 @@ export async function insertSubscriber(
 export async function getBlogPosts(onlyPublished = false): Promise<BlogPost[]> {
   if (onlyPublished) {
     const { rows } = await sql`
-      SELECT id, slug, title, excerpt, body, published_at, created_at, updated_at
+      SELECT id, slug, title, excerpt, body, image_url, published_at, created_at, updated_at
       FROM blog_posts
       WHERE published_at IS NOT NULL
       ORDER BY published_at DESC
@@ -84,7 +85,7 @@ export async function getBlogPosts(onlyPublished = false): Promise<BlogPost[]> {
     return rows as BlogPost[];
   }
   const { rows } = await sql`
-    SELECT id, slug, title, excerpt, body, published_at, created_at, updated_at
+    SELECT id, slug, title, excerpt, body, image_url, published_at, created_at, updated_at
     FROM blog_posts
     ORDER BY updated_at DESC
   `;
@@ -97,13 +98,13 @@ export async function getBlogPostBySlug(
 ): Promise<BlogPost | null> {
   const { rows } = onlyPublished
     ? await sql`
-        SELECT id, slug, title, excerpt, body, published_at, created_at, updated_at
+        SELECT id, slug, title, excerpt, body, image_url, published_at, created_at, updated_at
         FROM blog_posts
         WHERE slug = ${slug} AND published_at IS NOT NULL
         LIMIT 1
       `
     : await sql`
-        SELECT id, slug, title, excerpt, body, published_at, created_at, updated_at
+        SELECT id, slug, title, excerpt, body, image_url, published_at, created_at, updated_at
         FROM blog_posts
         WHERE slug = ${slug}
         LIMIT 1
@@ -113,7 +114,7 @@ export async function getBlogPostBySlug(
 
 export async function getBlogPostById(id: number): Promise<BlogPost | null> {
   const { rows } = await sql`
-    SELECT id, slug, title, excerpt, body, published_at, created_at, updated_at
+    SELECT id, slug, title, excerpt, body, image_url, published_at, created_at, updated_at
     FROM blog_posts
     WHERE id = ${id}
     LIMIT 1
@@ -126,11 +127,13 @@ export async function createBlogPost(data: {
   title: string;
   excerpt: string | null;
   body: string;
+  image_url?: string | null;
 }): Promise<BlogPost> {
+  const image_url = data.image_url ?? null;
   const { rows } = await sql`
-    INSERT INTO blog_posts (slug, title, excerpt, body, updated_at)
-    VALUES (${data.slug}, ${data.title}, ${data.excerpt}, ${data.body}, NOW())
-    RETURNING id, slug, title, excerpt, body, published_at, created_at, updated_at
+    INSERT INTO blog_posts (slug, title, excerpt, body, image_url, updated_at)
+    VALUES (${data.slug}, ${data.title}, ${data.excerpt}, ${data.body}, ${image_url}, NOW())
+    RETURNING id, slug, title, excerpt, body, image_url, published_at, created_at, updated_at
   `;
   return rows[0] as BlogPost;
 }
@@ -142,6 +145,7 @@ export async function updateBlogPost(
     title?: string;
     excerpt?: string | null;
     body?: string;
+    image_url?: string | null;
     published_at?: Date | null;
   }
 ): Promise<BlogPost | null> {
@@ -151,12 +155,13 @@ export async function updateBlogPost(
   const title = data.title ?? existing.title;
   const excerpt = data.excerpt !== undefined ? data.excerpt : existing.excerpt;
   const body = data.body ?? existing.body;
+  const image_url = data.image_url !== undefined ? data.image_url : existing.image_url;
   const published_at =
     data.published_at !== undefined ? data.published_at : existing.published_at;
   await sql`
     UPDATE blog_posts
     SET slug = ${slug}, title = ${title}, excerpt = ${excerpt}, body = ${body},
-        published_at = ${published_at ? published_at.toISOString() : null}, updated_at = NOW()
+        image_url = ${image_url}, published_at = ${published_at ? published_at.toISOString() : null}, updated_at = NOW()
     WHERE id = ${id}
   `;
   return getBlogPostById(id);

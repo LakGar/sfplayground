@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json();
-    const { title, slug, excerpt, body: postBody, publish } = body;
+    const { title, slug, excerpt, body: postBody, image_url, publish } = body;
     if (!title || !slug || !postBody) {
       return NextResponse.json(
         { error: "title, slug, and body are required" },
@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
       slug: slug.trim().toLowerCase().replace(/\s+/g, "-"),
       excerpt: excerpt || null,
       body: postBody,
+      image_url: image_url || null,
     });
     if (publish) {
       const { updateBlogPost } = await import("@/lib/db");
