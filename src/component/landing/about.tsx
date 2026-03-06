@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { GlareCard } from "@/component/ui/glare-card";
 import { useWebsiteContent } from "@/context/WebsiteContentContext";
+import { WEBSITE_CONTENT_CONFIG } from "@/data/website-content-keys";
 
 const CARD_KEYS = [
   { title: "about.whatWeDo.card0.title", desc: "about.whatWeDo.card0.description", image: "about.whatWeDo.card0.image" },
@@ -10,6 +11,42 @@ const CARD_KEYS = [
   { title: "about.whatWeDo.card2.title", desc: "about.whatWeDo.card2.description", image: "about.whatWeDo.card2.image" },
   { title: "about.whatWeDo.card3.title", desc: "about.whatWeDo.card3.description", image: "about.whatWeDo.card3.image" },
 ] as const;
+
+const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop";
+
+function WhatWeDoCardImage({ src, alt }: { src: string; alt: string }) {
+  const [failed, setFailed] = useState(false);
+  const isExternal = src.startsWith("http://") || src.startsWith("https://");
+  const displaySrc = failed ? PLACEHOLDER_IMAGE : src;
+
+  useEffect(() => {
+    setFailed(false);
+  }, [src]);
+
+  if (!src) return null;
+
+  if (isExternal) {
+    return (
+      <img
+        src={displaySrc}
+        alt={alt}
+        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        onError={() => setFailed(true)}
+      />
+    );
+  }
+
+  return (
+    <Image
+      src={displaySrc}
+      alt={alt}
+      fill
+      className="object-cover transition-transform duration-500 group-hover:scale-110"
+      unoptimized={failed}
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -90,12 +127,9 @@ const About = () => {
                   data-editable={keys.image}
                   data-editable-type="image"
                 >
-                  <Image
-                    src={getContent(keys.image)}
+                  <WhatWeDoCardImage
+                    src={getContent(keys.image) || WEBSITE_CONTENT_CONFIG[keys.image]?.default || ""}
                     alt={getContent(keys.title)}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    unoptimized={getContent(keys.image).startsWith("https://")}
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300" />
