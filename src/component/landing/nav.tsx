@@ -145,10 +145,10 @@ const Nav = () => {
           </Link>
           <Link
             className="text-white hover:text-[#19f7ea] transition-colors"
-            href="/#events"
+            href="/blogs"
             onClick={() => setIsOpen(false)}
           >
-            Events
+            Blogs
           </Link>
           <a
             href={SIGNUP_FORM_URL}

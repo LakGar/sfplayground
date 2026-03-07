@@ -12,12 +12,27 @@ const CARD_KEYS = [
   { title: "about.whatWeDo.card3.title", desc: "about.whatWeDo.card3.description", image: "about.whatWeDo.card3.image" },
 ] as const;
 
-const PLACEHOLDER_IMAGE = "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop";
+const DEFAULT_PLACEHOLDER = "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=800&auto=format&fit=crop";
 
-function WhatWeDoCardImage({ src, alt }: { src: string; alt: string }) {
+const FALLBACK_IMAGES = [
+  DEFAULT_PLACEHOLDER,
+  "https://drive.google.com/uc?export=view&id=1N91BEb6QIa1nZEipkl0DPI-4RnieS0zg",
+  "https://drive.google.com/uc?export=view&id=1OE8QAFiSmgLqZldUFEJnWuODQEQg9W8x",
+  "https://drive.google.com/uc?export=view&id=1WVEVny9_klJFTO8c55Trxv510b0QN3JL",
+] as const;
+
+function WhatWeDoCardImage({
+  src,
+  alt,
+  fallbackSrc = DEFAULT_PLACEHOLDER,
+}: {
+  src: string;
+  alt: string;
+  fallbackSrc?: string;
+}) {
   const [failed, setFailed] = useState(false);
   const isExternal = src.startsWith("http://") || src.startsWith("https://");
-  const displaySrc = failed ? PLACEHOLDER_IMAGE : src;
+  const displaySrc = failed ? fallbackSrc : src;
 
   useEffect(() => {
     setFailed(false);
@@ -130,6 +145,7 @@ const About = () => {
                   <WhatWeDoCardImage
                     src={getContent(keys.image) || WEBSITE_CONTENT_CONFIG[keys.image]?.default || ""}
                     alt={getContent(keys.title)}
+                    fallbackSrc={FALLBACK_IMAGES[index]}
                   />
                 </div>
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all duration-300" />
