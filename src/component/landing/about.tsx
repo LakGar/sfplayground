@@ -21,6 +21,14 @@ const FALLBACK_IMAGES = [
   "https://drive.google.com/uc?export=view&id=1WVEVny9_klJFTO8c55Trxv510b0QN3JL",
 ] as const;
 
+function toDriveThumbnailUrl(url: string): string {
+  const match = url.match(/drive\.google\.com\/(?:file\/d\/|uc\?.*id=|thumbnail\?id=)([a-zA-Z0-9_-]+)/);
+  if (match) {
+    return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1200`;
+  }
+  return url;
+}
+
 function WhatWeDoCardImage({
   src,
   alt,
@@ -32,7 +40,11 @@ function WhatWeDoCardImage({
 }) {
   const [failed, setFailed] = useState(false);
   const isExternal = src.startsWith("http://") || src.startsWith("https://");
-  const displaySrc = failed ? fallbackSrc : src;
+  const rawDisplaySrc = failed ? fallbackSrc : src;
+  const displaySrc =
+    isExternal && rawDisplaySrc.includes("drive.google.com")
+      ? toDriveThumbnailUrl(rawDisplaySrc)
+      : rawDisplaySrc;
 
   useEffect(() => {
     setFailed(false);
@@ -45,6 +57,7 @@ function WhatWeDoCardImage({
       <img
         src={displaySrc}
         alt={alt}
+        referrerPolicy="no-referrer"
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         onError={() => setFailed(true)}
       />
