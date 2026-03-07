@@ -50,7 +50,7 @@ const Nav = () => {
           <Link
             className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"
             style={{ animationDelay: "0.6s" }}
-            href="/blogs"
+            href="/blog"
           >
             Blogs
           </Link>
@@ -145,7 +145,7 @@ const Nav = () => {
           </Link>
           <Link
             className="text-white hover:text-[#19f7ea] transition-colors"
-            href="/blogs"
+            href="/blog"
             onClick={() => setIsOpen(false)}
           >
             Blogs
