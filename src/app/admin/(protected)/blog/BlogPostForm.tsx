@@ -198,15 +198,21 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
         </div>
 
         <div className="px-5 pb-5">
+          <label className="block text-white/50 font-oswald text-sm mb-2">
+            Body (Markdown)
+          </label>
           <textarea
             ref={bodyRef}
             value={body}
             onChange={(e) => setBody(e.target.value)}
             required
             rows={18}
-            className="w-full bg-transparent text-white placeholder-white/40 focus:outline-none border-none p-0 resize-y font-[inherit] text-[15px] leading-relaxed min-h-[320px]"
-            placeholder="Write your post…"
+            className="w-full bg-transparent text-white placeholder-white/40 focus:outline-none border-none p-0 resize-y font-mono text-[14px] leading-relaxed min-h-[320px]"
+            placeholder="# Heading&#10;&#10;Use **bold**, *italic*, lists, [links](url), and more.&#10;&#10;```&#10;code block&#10;```"
           />
+          <p className="mt-2 text-white/40 text-xs font-oswald">
+            Supports Markdown: **bold**, *italic*, headings, lists, links, code, blockquotes, images.
+          </p>
         </div>
 
         {/* Excerpt */}

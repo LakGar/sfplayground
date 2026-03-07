@@ -18,7 +18,7 @@ const Nav = () => {
           href="/"
           className="flex items-center animate-slide-in-left flex-1 overflow-hidden"
         >
-          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#19f7ea] flex items-center ">
+          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#19f7ea] flex items-center h-12 ">
             <span className="text-[#19f7ea]" data-editable="nav.logoLeft" data-editable-type="text">{getContent("nav.logoLeft")}</span>
             <span className="text-white" data-editable="nav.logoRight" data-editable-type="text">{getContent("nav.logoRight")}</span>
           </h1>
@@ -50,9 +50,9 @@ const Nav = () => {
           <Link
             className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"
             style={{ animationDelay: "0.6s" }}
-            href="/#events"
+            href="/blogs"
           >
-            Events
+            Blogs
           </Link>
           <a
             className="text-white font-semibold cursor-pointer hover:scale-110 transition-all duration-300 animate-fade-in-down"

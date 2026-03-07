@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Nav from "@/component/landing/nav";
 import Footer from "@/component/landing/footer";
+import { BlogMarkdown } from "@/component/blog/BlogMarkdown";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -64,10 +65,7 @@ export default async function BlogPostPage({ params }: Props) {
             </time>
           </header>
 
-          <div
-            className="blog-body text-white/90 font-oswald leading-relaxed [&_a]:text-[#19f7ea] [&_a:hover]:underline [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-3 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-8 [&_h3]:mb-2 [&_p]:mb-4 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4 [&_li]:mb-1"
-            dangerouslySetInnerHTML={{ __html: post.body }}
-          />
+          <BlogMarkdown content={post.body} />
         </div>
       </article>
 
