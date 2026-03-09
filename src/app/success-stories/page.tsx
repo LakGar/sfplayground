@@ -90,11 +90,11 @@ export default async function SuccessStoriesPage() {
                   <h3 className="text-2xl font-oswald text-white mb-2 group-hover:text-[#19f7ea] transition-colors">
                     {story.title}
                   </h3>
-                  <p className="text-white/90 font-oswald text-sm mb-3 line-clamp-2">
+                  <p className="text-white/90 font-oswald text-sm mb-2 line-clamp-2">
                     {story.tagline}
                   </p>
-                  <p className="text-white/70 text-sm font-oswald line-clamp-2">
-                    {story.description}
+                  <p className="text-white/70 text-sm font-oswald line-clamp-3">
+                    {story.productSummary}
                   </p>
                   <div className="mt-4 flex items-center text-[#19f7ea] font-oswald text-sm group-hover:translate-x-2 transition-transform">
                     Read Story →

@@ -150,68 +150,20 @@
     {
       "slug": "petpin-ai",
       "title": "Petpin AI",
-      "tagline": "Turning an AI Pet Startup Into a Crowd Favorite",
-      "description": "Petpin AI is an AI-powered wearable that lets pet owners see the world from their pet's point of view — combining computer vision, behavioral insights, and emotional storytelling into one delightful product.",
+      "tagline": "AI-powered pet POV camera and storytelling app",
       "image": "/images/startups/petpin.png",
-      "challenge": "As an early-stage startup building cutting-edge consumer AI hardware, Petpin AI needed to:",
-      "challengePoints": [
-        "Introduce a new category (AI wearables for pets)",
-        "Explain complex technology simply and emotionally",
-        "Capture attention in a high-energy, competitive event environment",
-        "Generate excitement, conversation, and early adopters"
-      ],
-      "ourRole": "At SF Playground, we curated an environment that helped Petpin AI:",
-      "rolePoints": [
-        "🎤 Present their story clearly to a live audience",
-        "🧠 Demonstrate AI value through hands-on interaction",
-        "🤝 Connect with builders, investors, and early users",
-        "📣 Spark organic word-of-mouth across the event floor"
-      ],
-      "experience": "Petpin AI's showcase focused on emotion-first storytelling:\n\nLive demos showing pets' POV footage\n\nApp walkthroughs highlighting mood detection and auto-generated clips\n\nOne-on-one conversations explaining how AI enhances everyday pet care\n\nThe result was an experience that felt personal, fun, and futuristic — not overly technical.",
-      "impact": "Petpin AI's presence at the event delivered real results:",
-      "impactPoints": [
-        "🚀 High attendee engagement throughout the event",
-        "🐾 Strong emotional response from pet owners and tech enthusiasts",
-        "📈 Increased brand awareness and post-event traffic",
-        "💬 Consistent buzz across conversations, demos, and social sharing"
-      ],
-      "founderQuote": "\"This event helped us explain Petpin AI in a way people immediately felt. Watching attendees light up when they saw their pets' POV was incredible.\"",
-      "attendeeQuote": "\"This was one of the most memorable demos at the event. It was fun, emotional, and genuinely innovative.\"",
-      "founderQuote2": "\"Petpin AI felt like the kind of product you remember after the event ends.\"",
-      "whyMatters": "Petpin AI is a great example of how the right event environment can accelerate a startup's story — turning a product demo into a moment people remember.\n\nAt SF Playground, we don't just host events — we help ideas land."
+      "productSummary": "Petpin AI builds an AI-powered wearable camera and app that lets pet owners see life from their pet's point of view, turning raw footage into meaningful, shareable stories.",
+      "showcasedAtEvent": "At SF Playground, Petpin AI demoed live pet POV clips, walked attendees through the app experience, and showed how their AI extracts moments and moods from everyday footage.",
+      "howEventHelped": "The event gave Petpin AI a packed crowd of early adopters to test messaging with, direct feedback on what resonated, and warm introductions to investors interested in consumer AI hardware."
     },
     {
       "slug": "spacer-robotics",
       "title": "Spacer Robotics",
-      "tagline": "From Construction Sites to the Moon — Building the Future of Physical AI",
-      "description": "Spacer Robotics develops next-generation AI robots for construction, with a roadmap that extends from terrestrial job sites to lunar infrastructure. Founded by Lesya Hendrix, former Tesla and Nuro engineer, the company is deploying GRID — an autonomous rebar-tying robot — while building toward semi-humanoid robots and eventually space-ready lunar construction systems.",
+      "tagline": "AI robots building the future of construction",
       "image": "/images/startups/spacer.jpg",
-      "challenge": "As a hardware startup building physical AI for construction and space, Spacer Robotics needed to:",
-      "challengePoints": [
-        "Communicate a bold vision spanning Earth and Moon",
-        "Demonstrate real-world applicability of GRID on job sites",
-        "Stand out among AI and robotics startups at a competitive event",
-        "Connect with investors who understand deep tech and infrastructure"
-      ],
-      "ourRole": "At SF Playground, we created a platform that helped Spacer Robotics:",
-      "rolePoints": [
-        "🎤 Pitch their three-generation roadmap to a live VC panel",
-        "🤖 Showcase GRID's capabilities to builders and investors",
-        "🤝 Build relationships with construction and space-industry contacts",
-        "📣 Generate momentum for their 2026 deployment and 2033 lunar vision"
-      ],
-      "experience": "Spacer Robotics' showcase blended technical depth with ambitious storytelling:\n\nLive demos and visuals of GRID's autonomous rebar tying\n\nClear explanation of Gen 1 (task-focused), Gen 2 (semi-humanoid), and Gen 3 (lunar) roadmap\n\nOne-on-one conversations with investors interested in physical AI and infrastructure\n\nThe result was an experience that felt both grounded in real construction and aspirational about the future of work — on Earth and beyond.",
-      "impact": "Spacer Robotics' presence at the event delivered tangible outcomes:",
-      "impactPoints": [
-        "🚀 Strong investor interest in their construction-to-space thesis",
-        "🏗️ Connections with construction and infrastructure partners",
-        "📈 Increased visibility for GRID and their 2026 deployment timeline",
-        "💬 Recognition as a standout in the physical AI and robotics space"
-      ],
-      "founderQuote": "\"SF Playground gave us a stage to share our vision — from rebar tying today to building on the Moon by 2033. The audience got it.\"",
-      "attendeeQuote": "\"One of the most ambitious pitches of the night. You could feel the room leaning in when they talked about lunar construction.\"",
-      "founderQuote2": "\"Spacer Robotics came to connect with people who think big. We found them here.\"",
-      "whyMatters": "Spacer Robotics shows how the right event can amplify a startup with a long-horizon vision — turning a technical pitch into a story that resonates with builders and dreamers alike.\n\nAt SF Playground, we don't just host events — we help ideas land."
+      "productSummary": "Spacer Robotics develops AI-driven robots for construction, starting with GRID — an autonomous rebar-tying robot designed to make job sites faster, safer, and more predictable.",
+      "showcasedAtEvent": "At SF Playground, Spacer Robotics walked investors and builders through GRID's workflow, shared visuals from pilot projects, and laid out their roadmap from today's robots to future semi-humanoid and lunar-ready systems.",
+      "howEventHelped": "The event helped Spacer Robotics connect with construction partners and deep-tech investors, validate their narrative around physical AI, and build momentum for upcoming deployments."
     }
   ]
 }
