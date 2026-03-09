@@ -87,17 +87,16 @@ const Hero = ({ latestPost }: { latestPost?: LatestPost | null }) => {
 
   return (
     <div className="relative h-screen w-full flex justify-center items-center px-6 py-8 sm:px-8 sm:py-10 md:p-8 lg:p-12 overflow-hidden">
-      {/* Mobile: hero image */}
-      <div
-        className="absolute inset-0 md:hidden"
-        style={{
-          backgroundImage: `url('${convertGoogleDriveImageUrl(getContent("hero.backgroundImage") || "/hero.jpg")}')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-        data-editable="hero.backgroundImage"
-        data-editable-type="image"
-      />
+      {/* Mobile: hero image (img tag so Drive thumbnails load like on blog page) */}
+      <div className="absolute inset-0 md:hidden" data-editable="hero.backgroundImage" data-editable-type="image">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={convertGoogleDriveImageUrl(getContent("hero.backgroundImage") || "/hero.jpg")}
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          referrerPolicy="no-referrer"
+        />
+      </div>
       {/* md: video */}
       <video
         ref={videoRef}
@@ -173,40 +172,51 @@ const Hero = ({ latestPost }: { latestPost?: LatestPost | null }) => {
           >
             {latestPost && (
               <Link
-                href={`/blog/${latestPost.slug}`}
-                className="group relative flex w-full rounded-2xl border border-white/15 overflow-hidden hover:border-[#19f7ea]/40 transition-all duration-300 min-h-[280px]"
-              >
-                {/* Image as background */}
-                <div className="absolute inset-0 bg-white/5">
-                  {latestPost.image_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={convertGoogleDriveImageUrl(latestPost.image_url)}
-                      alt=""
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-                      <span className="text-white/20 font-oswald text-4xl">SF</span>
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-                </div>
-                {/* Text on top */}
-                <div className="relative z-10 flex flex-col justify-end p-6 min-h-full">
-                  <span className="text-[#19f7ea] text-xs font-oswald font-bold uppercase tracking-wider mb-2">
-                    Latest
-                  </span>
-                  <h3 className="text-xl font-oswald font-bold text-white mb-2 group-hover:text-[#19f7ea] transition-colors line-clamp-2 leading-tight">
-                    {latestPost.title}
-                  </h3>
-                  <span className="inline-flex items-center gap-1 text-white/80 text-sm font-oswald">
-                    Read post
-                    <ArrowUpRight className="w-4 h-4 shrink-0" />
-                  </span>
-                </div>
-              </Link>
+              href={`/blog/${latestPost.slug}`}
+              className="group relative flex w-full rounded-2xl border border-white/15 overflow-hidden hover:border-[#19f7ea]/40 transition-all duration-300"
+            >
+              {/* Image as background */}
+              <div className="absolute inset-0 bg-white/5">
+                {latestPost.image_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={convertGoogleDriveImageUrl(latestPost.image_url)}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40">
+                    <span className="text-white/20 font-oswald text-5xl">
+                      SF
+                    </span>
+                  </div>
+                )}
+                {/* Gradient overlay so text is readable */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+              </div>
+              {/* Text on top */}
+              <div className="relative z-10 flex flex-col justify-end p-8 min-h-full">
+                <h2 className="text-2xl md:text-3xl font-oswald font-bold text-white mb-3 group-hover:text-[#19f7ea] transition-colors line-clamp-2 leading-tight">
+                  {latestPost.title}
+                </h2>
+                  {latestPost.excerpt && (
+                  <p className="text-white/80 text-base font-oswald line-clamp-2 mb-4">
+                    {latestPost.excerpt}
+                  </p>
+                )}
+                <time
+                    dateTime={latestPost.created_at.toISOString()}
+                  className="text-white/70 text-sm font-oswald"
+                >
+                  {new Date(latestPost.created_at).toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </time>
+              </div>
+            </Link>
             )}
             <p className="text-white/70 text-base lg:text-lg font-oswald" data-editable="hero.desktopCopy" data-editable-type="text">
               {getContent("hero.desktopCopy")}

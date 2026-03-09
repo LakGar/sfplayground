@@ -2,7 +2,7 @@
 
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 
 const blogComponents = {
   h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -84,7 +84,7 @@ const blogComponents = {
     <span className="block my-4 rounded-lg overflow-hidden border border-white/20">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={typeof src === "string" ? convertGoogleDriveImageUrl(src) : src ?? undefined}
+        src={typeof src === "string" ? getProxiedImageUrl(src) : src ?? undefined}
         alt={alt ?? ""}
         className="w-full h-auto object-contain"
         referrerPolicy={typeof src === "string" && src.includes("drive.google.com") ? "no-referrer" : undefined}

@@ -14,6 +14,8 @@ import { getNextEvent, getEvents, getBlogPosts } from "@/lib/db";
 import siteData from "@/data/site-data.json";
 import type { Metadata } from "next";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
   description: "Join SF Playground for live startup pitch events in San Francisco. Watch real-time investor decisions, discover success stories, and connect with VCs and founders.",
@@ -89,7 +91,13 @@ const page = async () => {
     const posts = await getBlogPosts(true);
     if (posts.length > 0) {
       const p = posts[0];
-      latestPost = { title: p.title, slug: p.slug, excerpt: p.excerpt, created_at: p.created_at, image_url: p.image_url };
+      latestPost = {
+        title: p.title,
+        slug: p.slug,
+        excerpt: p.excerpt,
+        created_at: p.created_at,
+        image_url: p.image_url,
+      };
     }
   } catch {
     // no blog post to show
