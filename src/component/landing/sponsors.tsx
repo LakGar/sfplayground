@@ -17,6 +17,9 @@ const sponsorUrls: Record<string, string> = {
   "Stealth Startup": "https://www.linkedin.com/company/stealth-startup-community/",
   "Frontier Syndicate": "https://www.linkedin.com/company/frontiersyndicate/",
   "Design Innovation X": "https://www.linkedin.com/in/vincekohli/",
+  "Orion VC": "https://orionvc.co/",
+  "Infodriver Capital": "https://infodriver.capital/",
+  "AXCI Capital": "https://www.linkedin.com/company/axcicapital/",
 };
 
 const Sponsors = () => {
