@@ -1,5 +1,9 @@
 import { getSession } from "@/lib/admin-auth";
 import { createEvent, getEvents } from "@/lib/db";
+import {
+  convertGoogleDriveImageUrl,
+  convertGoogleDriveImageUrls,
+} from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
@@ -32,9 +36,9 @@ export async function POST(request: NextRequest) {
       location,
       attendees: typeof attendees === "number" ? attendees : 0,
       status: status ?? "past",
-      cover_image: cover_image ?? null,
+      cover_image: cover_image ? convertGoogleDriveImageUrl(cover_image) : null,
       description,
-      images: Array.isArray(images) ? images : [],
+      images: Array.isArray(images) ? convertGoogleDriveImageUrls(images) : [],
     });
     return NextResponse.json(event);
   } catch (err) {

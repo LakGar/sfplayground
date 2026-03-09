@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/admin-auth";
 import { createBlogPost, getBlogPosts } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest) {
       slug: slug.trim().toLowerCase().replace(/\s+/g, "-"),
       excerpt: excerpt || null,
       body: postBody,
-      image_url: image_url || null,
+      image_url: image_url ? convertGoogleDriveImageUrl(image_url) : null,
     });
     if (publish) {
       const { updateBlogPost } = await import("@/lib/db");

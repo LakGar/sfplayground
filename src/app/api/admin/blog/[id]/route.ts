@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/admin-auth";
 import { deleteBlogPost, getBlogPostById, updateBlogPost } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
@@ -27,7 +28,8 @@ export async function PATCH(
     if (slug !== undefined) updates.slug = slug.trim().toLowerCase().replace(/\s+/g, "-");
     if (excerpt !== undefined) updates.excerpt = excerpt || null;
     if (postBody !== undefined) updates.body = postBody;
-    if (image_url !== undefined) updates.image_url = image_url || null;
+    if (image_url !== undefined)
+      updates.image_url = image_url ? convertGoogleDriveImageUrl(image_url) : null;
     if (publish === true) updates.published_at = new Date();
     if (publish === false) updates.published_at = null;
     const updated = await updateBlogPost(postId, updates);

@@ -7,6 +7,7 @@ import Footer from "@/component/landing/footer";
 import VideoBackground from "@/component/ui/video-background";
 import Image from "next/image";
 import { SIGNUP_FORM_URL } from "@/data/constants";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 
 export type SuccessStoryData = {
   slug: string;
@@ -71,7 +72,7 @@ export function SuccessStoryContent({ story }: { story: SuccessStoryData }) {
           </div>
           <div className="relative w-full h-64 md:h-96 mb-12 rounded-lg overflow-hidden border border-white/20 bg-white/5 flex items-center justify-center">
             <Image
-              src={story.image}
+              src={convertGoogleDriveImageUrl(story.image)}
               alt={story.title}
               width={400}
               height={400}

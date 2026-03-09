@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { Wand2, Loader2, ChevronDown, ChevronUp } from "lucide-react";
 import type { BlogPost } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 
 function slugFromTitle(title: string): string {
   return title
@@ -52,7 +53,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
           title: title.trim(),
           slug: slug.trim().toLowerCase().replace(/\s+/g, "-"),
           excerpt: excerpt.trim() || null,
-          image_url: imageUrl.trim() || null,
+          image_url: imageUrl.trim() ? convertGoogleDriveImageUrl(imageUrl.trim()) : null,
           body: body.trim(),
           publish: action === "unpublish" ? false : action === "publish",
         }),
@@ -191,7 +192,13 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
               type="url"
               value={imageUrl}
               onChange={(e) => setImageUrl(e.target.value)}
-              placeholder="https://..."
+              onBlur={(e) => {
+                const v = e.target.value.trim();
+                if (v && v.includes("drive.google.com")) {
+                  setImageUrl(convertGoogleDriveImageUrl(v));
+                }
+              }}
+              placeholder="https://... (Drive links auto-convert)"
               className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea] text-sm"
             />
           </div>

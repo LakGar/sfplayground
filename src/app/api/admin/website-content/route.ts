@@ -1,5 +1,7 @@
 import { getSession } from "@/lib/admin-auth";
 import { getWebsiteContent, setWebsiteContent } from "@/lib/db";
+import { WEBSITE_CONTENT_CONFIG } from "@/data/website-content-keys";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -34,7 +36,8 @@ export async function PATCH(request: NextRequest) {
     const updates: Record<string, string> = {};
     for (const [key, value] of Object.entries(body)) {
       if (typeof key !== "string" || typeof value !== "string") continue;
-      updates[key] = value;
+      const isImageKey = WEBSITE_CONTENT_CONFIG[key]?.type === "image";
+      updates[key] = isImageKey ? convertGoogleDriveImageUrl(value) : value;
     }
     await setWebsiteContent(updates);
     const content = await getWebsiteContent();

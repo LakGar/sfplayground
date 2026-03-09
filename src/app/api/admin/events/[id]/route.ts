@@ -1,5 +1,9 @@
 import { getSession } from "@/lib/admin-auth";
 import { getEventById, updateEvent, deleteEvent } from "@/lib/db";
+import {
+  convertGoogleDriveImageUrl,
+  convertGoogleDriveImageUrls,
+} from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -35,6 +39,8 @@ export async function PATCH(
   }
   try {
     const body = await request.json();
+    const coverRaw = body.cover_image ?? body.coverImage;
+    const imagesRaw = body.images;
     const event = await updateEvent(eventId, {
       slug: body.slug,
       title: body.title,
@@ -42,9 +48,19 @@ export async function PATCH(
       location: body.location,
       attendees: body.attendees,
       status: body.status,
-      cover_image: body.cover_image ?? body.coverImage,
+      cover_image:
+        coverRaw !== undefined
+          ? coverRaw
+            ? convertGoogleDriveImageUrl(coverRaw)
+            : null
+          : undefined,
       description: body.description,
-      images: body.images,
+      images:
+        imagesRaw !== undefined
+          ? Array.isArray(imagesRaw)
+            ? convertGoogleDriveImageUrls(imagesRaw)
+            : []
+          : undefined,
     });
     if (!event) return NextResponse.json({ error: "Not found" }, { status: 404 });
     return NextResponse.json(event);

@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/admin-auth";
 import { getSuccessStoryById, updateSuccessStory, deleteSuccessStory } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
@@ -35,12 +36,18 @@ export async function PATCH(
   }
   try {
     const body = await request.json();
+    const imageValue =
+      body.image !== undefined
+        ? body.image
+          ? convertGoogleDriveImageUrl(body.image)
+          : null
+        : undefined;
     const story = await updateSuccessStory(storyId, {
       slug: body.slug,
       title: body.title,
       tagline: body.tagline,
       description: body.description,
-      image: body.image,
+      image: imageValue,
       challenge: body.challenge,
       challenge_points: body.challenge_points,
       our_role: body.our_role,

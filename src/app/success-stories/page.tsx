@@ -6,6 +6,7 @@ import VideoBackground from "@/component/ui/video-background";
 import type { Metadata } from "next";
 import siteData from "@/data/site-data.json";
 import { getSuccessStories } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 
 export const metadata: Metadata = {
   title: "Success Stories | SF Playground",
@@ -71,7 +72,7 @@ export default async function SuccessStoriesPage() {
                 {/* Image */}
                 <div className="absolute inset-0">
                   <Image
-                    src={story.image}
+                    src={convertGoogleDriveImageUrl(story.image)}
                     alt={story.title}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-300"

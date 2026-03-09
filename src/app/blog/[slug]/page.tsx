@@ -4,6 +4,7 @@ import Link from "next/link";
 import Nav from "@/component/landing/nav";
 import Footer from "@/component/landing/footer";
 import { BlogMarkdown } from "@/component/blog/BlogMarkdown";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -42,9 +43,10 @@ export default async function BlogPostPage({ params }: Props) {
             <div className="relative aspect-video w-full rounded-xl overflow-hidden mb-10 bg-white/5">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={post.image_url}
+                src={convertGoogleDriveImageUrl(post.image_url)}
                 alt=""
                 className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
               />
             </div>
           )}

@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/admin-auth";
 import { createSuccessStory, getSuccessStories } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
       title: body.title,
       tagline: body.tagline ?? null,
       description: body.description,
-      image: body.image ?? null,
+      image: body.image ? convertGoogleDriveImageUrl(body.image) : null,
       challenge: body.challenge ?? null,
       challenge_points: body.challenge_points ?? [],
       our_role: body.our_role ?? null,

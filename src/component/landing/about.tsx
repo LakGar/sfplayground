@@ -4,6 +4,7 @@ import Image from "next/image";
 import { GlareCard } from "@/component/ui/glare-card";
 import { useWebsiteContent } from "@/context/WebsiteContentContext";
 import { WEBSITE_CONTENT_CONFIG } from "@/data/website-content-keys";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 
 const CARD_KEYS = [
   { title: "about.whatWeDo.card0.title", desc: "about.whatWeDo.card0.description", image: "about.whatWeDo.card0.image" },
@@ -21,14 +22,6 @@ const FALLBACK_IMAGES = [
   "https://drive.google.com/uc?export=view&id=1WVEVny9_klJFTO8c55Trxv510b0QN3JL",
 ] as const;
 
-function toDriveThumbnailUrl(url: string): string {
-  const match = url.match(/drive\.google\.com\/(?:file\/d\/|uc\?.*id=|thumbnail\?id=)([a-zA-Z0-9_-]+)/);
-  if (match) {
-    return `https://drive.google.com/thumbnail?id=${match[1]}&sz=w1200`;
-  }
-  return url;
-}
-
 function WhatWeDoCardImage({
   src,
   alt,
@@ -41,10 +34,7 @@ function WhatWeDoCardImage({
   const [failed, setFailed] = useState(false);
   const isExternal = src.startsWith("http://") || src.startsWith("https://");
   const rawDisplaySrc = failed ? fallbackSrc : src;
-  const displaySrc =
-    isExternal && rawDisplaySrc.includes("drive.google.com")
-      ? toDriveThumbnailUrl(rawDisplaySrc)
-      : rawDisplaySrc;
+  const displaySrc = convertGoogleDriveImageUrl(rawDisplaySrc);
 
   useEffect(() => {
     setFailed(false);
@@ -156,7 +146,9 @@ const About = () => {
                   data-editable-type="image"
                 >
                   <WhatWeDoCardImage
-                    src={getContent(keys.image) || WEBSITE_CONTENT_CONFIG[keys.image]?.default || ""}
+                    src={convertGoogleDriveImageUrl(
+                      getContent(keys.image) || WEBSITE_CONTENT_CONFIG[keys.image]?.default || ""
+                    )}
                     alt={getContent(keys.title)}
                     fallbackSrc={FALLBACK_IMAGES[index]}
                   />

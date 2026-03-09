@@ -10,7 +10,7 @@ import CTA from "@/component/landing/cta";
 import Newsletter from "@/component/landing/newsletter";
 import FAQ from "@/component/landing/faq";
 import Footer from "@/component/landing/footer";
-import { getNextEvent, getEvents } from "@/lib/db";
+import { getNextEvent, getEvents, getBlogPosts } from "@/lib/db";
 import siteData from "@/data/site-data.json";
 import type { Metadata } from "next";
 
@@ -84,10 +84,21 @@ const page = async () => {
     // keep site-data fallback
   }
 
+  let latestPost: { title: string; slug: string; excerpt: string | null; created_at: Date; image_url: string | null } | null = null;
+  try {
+    const posts = await getBlogPosts(true);
+    if (posts.length > 0) {
+      const p = posts[0];
+      latestPost = { title: p.title, slug: p.slug, excerpt: p.excerpt, created_at: p.created_at, image_url: p.image_url };
+    }
+  } catch {
+    // no blog post to show
+  }
+
   return (
     <div className="relative overflow-x-hidden">
       <Nav />
-      <Hero />
+      <Hero latestPost={latestPost} />
       <NextEvent nextEvent={nextEventData} />
       <Sponsors />
 

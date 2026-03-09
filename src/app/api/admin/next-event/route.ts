@@ -1,5 +1,6 @@
 import { getSession } from "@/lib/admin-auth";
 import { upsertNextEvent } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(request: NextRequest) {
@@ -31,7 +32,7 @@ export async function PATCH(request: NextRequest) {
       location,
       hook,
       cta_text: ctaText,
-      image_url: imageUrl ?? null,
+      image_url: imageUrl ? convertGoogleDriveImageUrl(imageUrl) : null,
     });
     return NextResponse.json({
       title: row.title,

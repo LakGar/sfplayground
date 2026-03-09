@@ -6,6 +6,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import siteData from "@/data/site-data.json";
 import { getEventBySlug } from "@/lib/db";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 
 type StaticEvent = {
   slug: string;
@@ -146,10 +147,11 @@ export default async function EventGalleryPage({
                 className="relative aspect-square rounded-lg overflow-hidden border border-white/20 group cursor-pointer"
               >
                 <Image
-                  src={image}
+                  src={convertGoogleDriveImageUrl(image)}
                   alt={`${event.title} - Image ${index + 1}`}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  unoptimized={image.includes("drive.google.com")}
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
               </div>

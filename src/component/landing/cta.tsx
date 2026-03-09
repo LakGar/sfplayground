@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ArrowRightIcon } from "lucide-react";
 import { SIGNUP_FORM_URL } from "@/data/constants";
 import { useWebsiteContent } from "@/context/WebsiteContentContext";
+import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 
 const CTA = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -35,7 +36,7 @@ const CTA = () => {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url('${getContent("cta.backgroundImage") || "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2832&auto=format&fit=crop"}')`,
+          backgroundImage: `url('${convertGoogleDriveImageUrl(getContent("cta.backgroundImage") || "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?q=80&w=2832&auto=format&fit=crop")}')`,
         }}
         data-editable="cta.backgroundImage"
         data-editable-type="image"
