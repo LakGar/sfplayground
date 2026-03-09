@@ -236,7 +236,7 @@ const Hero = ({ latestPost }: { latestPost?: LatestPost | null }) => {
         {latestPost && (
           <Link
             href={`/blog/${latestPost.slug}`}
-            className="md:hidden mt-6 relative flex w-full rounded-2xl border border-white/15 overflow-hidden min-h-[220px] animate-fade-in-down"
+            className="hidden md:flex mt-6 relative flex w-full rounded-2xl border border-white/15 overflow-hidden min-h-[220px] animate-fade-in-down"
             style={{ animationDelay: "0.5s" }}
           >
             <div className="absolute inset-0 bg-white/5">
