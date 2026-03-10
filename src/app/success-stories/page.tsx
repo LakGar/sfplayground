@@ -23,9 +23,23 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
+type StoryListItem = { slug: string; title: string; tagline: string; description: string; image: string };
+
+/** Map static JSON entries (productSummary) to list shape (description) */
+function staticStoriesToList(
+  raw: { slug: string; title: string; tagline: string; image: string; productSummary?: string }[]
+): StoryListItem[] {
+  return raw.map((s) => ({
+    slug: s.slug,
+    title: s.title,
+    tagline: s.tagline,
+    image: s.image,
+    description: (s as { productSummary?: string }).productSummary ?? "",
+  }));
+}
+
 export default async function SuccessStoriesPage() {
-  let successStories: { slug: string; title: string; tagline: string; description: string; image: string }[] =
-    siteData.successStories as typeof siteData.successStories;
+  let successStories: StoryListItem[] = staticStoriesToList(siteData.successStories as Parameters<typeof staticStoriesToList>[0]);
   try {
     const dbStories = await getSuccessStories();
     if (dbStories.length > 0) {
@@ -94,7 +108,7 @@ export default async function SuccessStoriesPage() {
                     {story.tagline}
                   </p>
                   <p className="text-white/70 text-sm font-oswald line-clamp-3">
-                    {story.productSummary}
+                    {story.description}
                   </p>
                   <div className="mt-4 flex items-center text-[#19f7ea] font-oswald text-sm group-hover:translate-x-2 transition-transform">
                     Read Story →

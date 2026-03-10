@@ -8,6 +8,7 @@ const sponsors = [
   "Stealth Startup",
   "Frontier Syndicate",
   "Design Innovation X",
+  
 ];
 
 const sponsorUrls: Record<string, string> = {
@@ -20,6 +21,7 @@ const sponsorUrls: Record<string, string> = {
   "Orion VC": "https://orionvc.co/",
   "Infodriver Capital": "https://infodriver.capital/",
   "AXCI Capital": "https://www.linkedin.com/company/axcicapital/",
+
 };
 
 const Sponsors = () => {

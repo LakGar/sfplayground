@@ -8,6 +8,38 @@ import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 
+/** Shape of success story entries in site-data.json (fewer fields than full SuccessStoryData) */
+type StaticSuccessStory = {
+  slug: string;
+  title: string;
+  tagline: string;
+  image: string;
+  productSummary?: string;
+  showcasedAtEvent?: string;
+  howEventHelped?: string;
+};
+
+function mapStaticToStory(s: StaticSuccessStory): SuccessStoryData {
+  return {
+    slug: s.slug,
+    title: s.title,
+    tagline: s.tagline,
+    image: s.image,
+    description: s.productSummary ?? "",
+    challenge: "",
+    challengePoints: [],
+    ourRole: "",
+    rolePoints: [],
+    experience: s.showcasedAtEvent ?? "",
+    impact: s.howEventHelped ?? "",
+    impactPoints: [],
+    founderQuote: "",
+    attendeeQuote: "",
+    founderQuote2: "",
+    whyMatters: "",
+  };
+}
+
 function mapDbToStory(row: {
   slug: string;
   title: string;
@@ -46,8 +78,8 @@ function mapDbToStory(row: {
   };
 }
 
-const staticBySlug = Object.fromEntries(
-  (siteData.successStories as SuccessStoryData[]).map((s) => [s.slug, s])
+const staticBySlug: Record<string, SuccessStoryData> = Object.fromEntries(
+  (siteData.successStories as StaticSuccessStory[]).map((s) => [s.slug, mapStaticToStory(s)])
 );
 
 export async function generateMetadata({
