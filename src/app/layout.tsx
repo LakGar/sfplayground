@@ -135,7 +135,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
       >
-        <EditModeGate>{children}</EditModeGate>
+        <EditModeGate>{children}
+        <Analytics/> 
+        </EditModeGate>
       </body>
     </html>
   );
