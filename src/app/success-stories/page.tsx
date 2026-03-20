@@ -67,8 +67,8 @@ function inferBadge(story: RawStory): string {
 function normalizeImageUrl(url: string): string {
   if (!url?.trim()) return "/logo.png";
   if (url.startsWith("/")) return url;
-  const converted = convertGoogleDriveImageUrl(url);
-  if (isGoogleDriveImageUrl(converted)) return getProxiedImageUrl(url);
+  const converted = convertGoogleDriveImageUrl(url, { w: 800 });
+  if (isGoogleDriveImageUrl(converted)) return getProxiedImageUrl(url, { w: 800 });
   return converted;
 }
 

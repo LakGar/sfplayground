@@ -105,7 +105,9 @@ const blogComponents = {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={
-          typeof src === "string" ? getProxiedImageUrl(src) : (src ?? undefined)
+          typeof src === "string"
+            ? getProxiedImageUrl(src, { w: 1200 })
+            : (src ?? undefined)
         }
         alt={alt ?? ""}
         className="w-full h-auto object-contain"

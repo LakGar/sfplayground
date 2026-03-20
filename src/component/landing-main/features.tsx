@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 
 const featureSections = [
   {
@@ -28,6 +29,11 @@ const featureSections = [
     textTwo: `because trust compounds fastest when innovation is experienced live.`,
   },
 ];
+
+/** ~420px display — 800w Drive thumbs load much faster than w2000 */
+function featureImageSrc(raw: string): string {
+  return getProxiedImageUrl(raw, { w: 800 });
+}
 
 export function Features() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -86,11 +92,12 @@ export function Features() {
               </p>
               <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded-xl border border-white/10">
                 <Image
-                  src={s.image}
+                  src={featureImageSrc(s.image)}
                   alt=""
-                  width={900}
-                  height={600}
+                  width={800}
+                  height={520}
                   className="h-full w-full object-cover"
+                  sizes="(max-width: 768px) 100vw, 420px"
                 />
               </div>
               <p className="text-pretty text-xl font-light leading-snug text-white md:text-2xl">
@@ -143,11 +150,12 @@ export function Features() {
                     <div className="relative w-full max-w-[420px]">
                       <div className="absolute -inset-3 -z-10 bg-white/[0.02]" />
                       <Image
-                        src={active.image}
+                        src={featureImageSrc(active.image)}
                         alt=""
-                        width={600}
-                        height={420}
+                        width={800}
+                        height={520}
                         className="h-[260px] w-full rounded-xl object-cover md:h-[340px]"
+                        sizes="(max-width: 1024px) 90vw, 420px"
                       />
                     </div>
                   ) : null}

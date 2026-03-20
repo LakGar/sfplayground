@@ -102,12 +102,11 @@ export default function BlogIndexView({ posts }: { posts: BlogIndexPost[] }) {
                       {p.image_url ? (
                         <div className="relative aspect-[4/3] w-full max-w-[200px] overflow-hidden rounded-xl bg-neutral-900 sm:max-w-none sm:flex-1">
                           <Image
-                            src={getProxiedImageUrl(p.image_url)}
+                            src={getProxiedImageUrl(p.image_url, { w: 480 })}
                             alt=""
                             fill
                             className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                            sizes="200px"
-                            unoptimized
+                            sizes="(max-width: 640px) 42vw, 208px"
                           />
                         </div>
                       ) : (

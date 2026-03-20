@@ -4,18 +4,17 @@ import React from "react";
 const sponsors = [
   "Pupa Ventures",
   "Aexodus Capital",
-  "Y Combinator",
-  "Stealth Startup",
   "Frontier Syndicate",
   "Design Innovation X",
+  "Orion VC",
+  "Infodriver Capital",
+  "AXCI Capital",
+  "Navis Capital",
 ];
 
 const sponsorUrls: Record<string, string> = {
   "Pupa Ventures": "https://www.pupa.vc",
   "Aexodus Capital": "https://www.aexodus.com/",
-  "Y Combinator": "https://www.ycombinator.com/",
-  "Stealth Startup":
-    "https://www.linkedin.com/company/stealth-startup-community/",
   "Frontier Syndicate": "https://www.linkedin.com/company/frontiersyndicate/",
   "Design Innovation X": "https://www.linkedin.com/in/vincekohli/",
   "Orion VC": "https://orionvc.co/",

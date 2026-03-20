@@ -5,7 +5,7 @@ import Footer from "@/component/landing-main/footer";
 import { InnerPageHero } from "@/component/landing-main/inner-page-hero";
 import { getEvents } from "@/lib/db";
 import siteData from "@/data/site-data.json";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -117,13 +117,11 @@ export default async function EventsPage() {
                     <div className="relative aspect-[16/10] w-full bg-white/5">
                       {event.cover ? (
                         <Image
-                          src={convertGoogleDriveImageUrl(event.cover)}
+                          src={getProxiedImageUrl(event.cover, { w: 800 })}
                           alt=""
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-105"
-                          unoptimized={event.cover.includes(
-                            "drive.google.com"
-                          )}
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       ) : (
                         <div className="flex h-full items-center justify-center text-4xl text-white/15">

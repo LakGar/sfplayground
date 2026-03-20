@@ -43,7 +43,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const published = post.published_at!;
   const src = post.image_url
-    ? getProxiedImageUrl(post.image_url)
+    ? getProxiedImageUrl(post.image_url, { w: 1600 })
     : null;
 
   return (
@@ -95,7 +95,6 @@ export default async function BlogPostPage({ params }: Props) {
                 className="object-cover"
                 sizes="(max-width:1152px) 100vw, 1152px"
                 priority
-                unoptimized
               />
             </div>
           </figure>

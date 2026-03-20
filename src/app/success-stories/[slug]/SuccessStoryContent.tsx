@@ -27,8 +27,10 @@ function storyImageSrc(url: string): string {
 
   // Only proxy/show Google Drive images (Next/image + our `/api/image` proxy
   // are restricted). For other URLs, we treat it as "no image".
-  const converted = convertGoogleDriveImageUrl(trimmed);
-  return isGoogleDriveImageUrl(converted) ? getProxiedImageUrl(trimmed) : "";
+  const converted = convertGoogleDriveImageUrl(trimmed, { w: 1200 });
+  return isGoogleDriveImageUrl(converted)
+    ? getProxiedImageUrl(trimmed, { w: 1200 })
+    : "";
 }
 
 function inferHeroBadge(story: SuccessStoryData): string | null {

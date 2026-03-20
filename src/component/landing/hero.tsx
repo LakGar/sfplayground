@@ -94,6 +94,7 @@ const Hero = () => {
           <img
             src={convertGoogleDriveImageUrl(
               getContent("hero.backgroundImage") || "/hero.jpg",
+              { w: 1200 },
             )}
             alt=""
             className="absolute inset-0 w-full h-full object-cover object-center"

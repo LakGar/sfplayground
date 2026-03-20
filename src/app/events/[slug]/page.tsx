@@ -7,7 +7,7 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import siteData from "@/data/site-data.json";
 import { getEventBySlug } from "@/lib/db";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 
 type StaticEvent = {
   slug: string;
@@ -146,11 +146,11 @@ export default async function EventGalleryPage({
                 className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl border border-white/10 transition-colors hover:border-white/35"
               >
                 <Image
-                  src={convertGoogleDriveImageUrl(image)}
+                  src={getProxiedImageUrl(image, { w: 800 })}
                   alt={`${event.title} - Image ${index + 1}`}
                   fill
                   className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  unoptimized={image.includes("drive.google.com")}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
                 <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/12" />
               </div>

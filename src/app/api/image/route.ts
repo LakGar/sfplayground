@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   try {
     const res = await fetch(url, {
       headers: { Referer: "" },
-      cache: "force-cache",
+      next: { revalidate: 60 * 60 * 24 * 7 }, // 7d Data Cache; smaller Drive thumbs + long TTL = faster repeat views
     });
     if (!res.ok) {
       return NextResponse.json({ error: "Upstream error" }, { status: 502 });
@@ -36,7 +36,8 @@ export async function GET(request: NextRequest) {
     return new NextResponse(body, {
       headers: {
         "Content-Type": contentType,
-        "Cache-Control": "public, max-age=86400",
+        "Cache-Control":
+          "public, max-age=86400, s-maxage=604800, stale-while-revalidate=86400",
         "Content-Disposition": "inline",
       },
     });

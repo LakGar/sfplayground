@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CalendarIcon, MapPinIcon, UsersIcon, ArrowRightIcon } from "lucide-react";
 import siteData from "@/data/site-data.json";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 
 type EventItem = {
   slug: string;
@@ -91,11 +91,11 @@ const Events = ({
               {/* Image */}
               <div className="relative h-48 overflow-hidden md:h-56">
                 <Image
-                  src={convertGoogleDriveImageUrl(event.coverImage)}
+                  src={getProxiedImageUrl(event.coverImage, { w: 800 })}
                   alt={event.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  unoptimized={event.coverImage.includes("drive.google.com")}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
                 <span className="absolute top-4 left-4 bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase backdrop-blur-sm">

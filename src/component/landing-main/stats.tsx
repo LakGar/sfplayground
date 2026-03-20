@@ -28,7 +28,7 @@ const Stats = () => {
     () => [
       {
         id: "startups",
-        label: "Startups pitched",
+        label: "Startups demos",
         target: 35,
         decimals: 0,
         suffix: "+",
