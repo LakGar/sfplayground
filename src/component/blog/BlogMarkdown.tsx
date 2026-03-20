@@ -6,29 +6,42 @@ import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 
 const blogComponents = {
   h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="text-2xl font-oswald font-bold text-white mt-10 mb-4" {...props}>
+    <h1
+      className="mt-12 mb-4 font-oswald text-3xl font-semibold tracking-[-0.02em] text-white md:text-4xl"
+      {...props}
+    >
       {children}
     </h1>
   ),
   h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="text-xl font-oswald font-bold text-white mt-10 mb-3" {...props}>
+    <h2
+      className="mt-14 mb-4 font-oswald text-2xl font-semibold tracking-[-0.02em] text-white md:text-3xl"
+      {...props}
+    >
       {children}
     </h2>
   ),
   h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="text-lg font-oswald font-bold text-white mt-8 mb-2" {...props}>
+    <h3
+      className="mt-10 mb-3 font-oswald text-lg font-semibold tracking-wide text-white md:text-xl"
+      {...props}
+    >
       {children}
     </h3>
   ),
   p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="mb-4 text-white/90 font-oswald leading-relaxed" {...props}>
+    <p className="mb-5 text-[1.0625rem] leading-[1.75] text-white/88" {...props}>
       {children}
     </p>
   ),
-  a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  a: ({
+    href,
+    children,
+    ...props
+  }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       href={href}
-      className="text-[#19f7ea] hover:underline font-oswald"
+      className="text-white underline-offset-4 hover:text-white/80 hover:underline"
       target={href?.startsWith("http") ? "_blank" : undefined}
       rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
       {...props}
@@ -37,12 +50,12 @@ const blogComponents = {
     </a>
   ),
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="list-disc pl-6 mb-4 space-y-1 text-white/90 font-oswald" {...props}>
+    <ul className="mb-4 list-disc space-y-1 pl-6 text-white/90" {...props}>
       {children}
     </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className="list-decimal pl-6 mb-4 space-y-1 text-white/90 font-oswald" {...props}>
+    <ol className="mb-4 list-decimal space-y-1 pl-6 text-white/90" {...props}>
       {children}
     </ol>
   ),
@@ -51,15 +64,22 @@ const blogComponents = {
       {children}
     </li>
   ),
-  blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLQuoteElement>) => (
+  blockquote: ({
+    children,
+    ...props
+  }: React.HTMLAttributes<HTMLQuoteElement>) => (
     <blockquote
-      className="border-l-4 border-[#19f7ea] pl-6 py-2 my-4 text-white/80 font-oswald italic"
+      className="my-8 border-l border-white/25 py-1 pl-6 text-base italic leading-relaxed text-white/72 md:pl-8"
       {...props}
     >
       {children}
     </blockquote>
   ),
-  code: ({ className, children, ...props }: React.HTMLAttributes<HTMLElement>) => {
+  code: ({
+    className,
+    children,
+    ...props
+  }: React.HTMLAttributes<HTMLElement>) => {
     const isBlock = className?.includes("language-");
     if (isBlock) {
       return (
@@ -84,10 +104,16 @@ const blogComponents = {
     <span className="block my-4 rounded-lg overflow-hidden border border-white/20">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={typeof src === "string" ? getProxiedImageUrl(src) : src ?? undefined}
+        src={
+          typeof src === "string" ? getProxiedImageUrl(src) : (src ?? undefined)
+        }
         alt={alt ?? ""}
         className="w-full h-auto object-contain"
-        referrerPolicy={typeof src === "string" && src.includes("drive.google.com") ? "no-referrer" : undefined}
+        referrerPolicy={
+          typeof src === "string" && src.includes("drive.google.com")
+            ? "no-referrer"
+            : undefined
+        }
         {...props}
       />
     </span>

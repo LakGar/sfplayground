@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Nav from "@/component/landing/nav";
-import Footer from "@/component/landing/footer";
+import Nav from "@/component/landing-main/nav";
+import Footer from "@/component/landing-main/footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -18,28 +18,28 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <div className="relative overflow-x-hidden bg-black min-h-screen">
+    <div className="relative min-h-screen overflow-x-clip bg-black text-white">
       <Nav />
 
-      <div className="pt-24 pb-16 px-4 md:px-8 lg:px-12">
-        <div className="max-w-4xl mx-auto">
+      <div className="px-4 pb-16 pt-28 md:px-8 lg:px-12">
+        <div className="mx-auto max-w-4xl">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-[#19f7ea] font-oswald text-sm mb-8 transition-colors"
+            className="mb-8 inline-flex items-center gap-2 text-sm text-white/60 transition-colors hover:text-white"
           >
             ← Back to Home
           </Link>
 
-          <h1 className="text-4xl md:text-5xl font-oswald text-white mb-2">
-            Privacy <span className="text-[#19f7ea]">Policy</span>
+          <h1 className="mb-2 font-oswald text-4xl text-white md:text-5xl">
+            Privacy <span className="text-white/85">Policy</span>
           </h1>
-          <p className="text-white/50 font-oswald text-sm mb-12">
+          <p className="mb-12 text-sm text-white/50">
             Last updated: February 2026
           </p>
 
-          <div className="space-y-10 text-white/80 font-oswald leading-relaxed">
+          <div className="space-y-10 leading-relaxed text-white/80">
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 1. Introduction
               </h2>
               <p>
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 2. Information We Collect
               </h2>
               <p className="mb-3">We may collect:</p>
@@ -76,7 +76,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 3. How We Use Your Information
               </h2>
               <p className="mb-3">We use the information we collect to:</p>
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 4. Sharing of Information
               </h2>
               <p>
@@ -104,7 +104,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 5. Cookies and Tracking
               </h2>
               <p>
@@ -116,7 +116,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 6. Data Retention
               </h2>
               <p>
@@ -128,7 +128,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 7. Security
               </h2>
               <p>
@@ -139,7 +139,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 8. Your Rights
               </h2>
               <p>
@@ -149,7 +149,7 @@ export default function PrivacyPage() {
                 marketing emails, contact us at{" "}
                 <a
                   href="mailto:hello@sfplayground.com"
-                  className="text-[#19f7ea] hover:underline"
+                  className="text-white/90 hover:underline"
                 >
                   hello@sfplayground.com
                 </a>
@@ -158,7 +158,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 9. Children
               </h2>
               <p>
@@ -170,7 +170,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 10. Changes to This Policy
               </h2>
               <p>
@@ -182,7 +182,7 @@ export default function PrivacyPage() {
             </section>
 
             <section>
-              <h2 className="text-xl font-oswald font-bold text-white mb-3">
+              <h2 className="mb-3 text-xl font-semibold text-white">
                 11. Contact Us
               </h2>
               <p>
@@ -190,7 +190,7 @@ export default function PrivacyPage() {
                 us at{" "}
                 <a
                   href="mailto:hello@sfplayground.com"
-                  className="text-[#19f7ea] hover:underline"
+                  className="text-white/90 hover:underline"
                 >
                   hello@sfplayground.com
                 </a>
@@ -199,7 +199,7 @@ export default function PrivacyPage() {
             </section>
           </div>
 
-          <p className="mt-12 text-white/40 text-sm font-oswald">
+          <p className="mt-12 text-sm text-white/40">
             This policy is provided for general information. Consider having it
             reviewed by a legal or privacy professional for your situation.
           </p>

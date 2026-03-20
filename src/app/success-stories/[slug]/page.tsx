@@ -1,9 +1,13 @@
 import Link from "next/link";
-import Nav from "@/component/landing/nav";
-import Footer from "@/component/landing/footer";
+import Nav from "@/component/landing-main/nav";
+import Footer from "@/component/landing-main/footer";
+import { InnerPageHero } from "@/component/landing-main/inner-page-hero";
 import { getSuccessStoryBySlug } from "@/lib/db";
 import siteData from "@/data/site-data.json";
-import { SuccessStoryContent, type SuccessStoryData } from "./SuccessStoryContent";
+import {
+  SuccessStoryContent,
+  type SuccessStoryData,
+} from "./SuccessStoryContent";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -79,7 +83,10 @@ function mapDbToStory(row: {
 }
 
 const staticBySlug: Record<string, SuccessStoryData> = Object.fromEntries(
-  (siteData.successStories as StaticSuccessStory[]).map((s) => [s.slug, mapStaticToStory(s)])
+  (siteData.successStories as StaticSuccessStory[]).map((s) => [
+    s.slug,
+    mapStaticToStory(s),
+  ]),
 );
 
 export async function generateMetadata({
@@ -90,9 +97,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const normalizedSlug = slug.toLowerCase().trim();
   const dbStory = await getSuccessStoryBySlug(normalizedSlug);
-  const story = dbStory
-    ? mapDbToStory(dbStory)
-    : staticBySlug[normalizedSlug];
+  const story = dbStory ? mapDbToStory(dbStory) : staticBySlug[normalizedSlug];
   if (!story) {
     return { title: "Story Not Found | SF Playground" };
   }
@@ -113,23 +118,23 @@ export default async function SuccessStoryPage({
   const staticStory = staticBySlug[normalizedSlug];
   const story: SuccessStoryData | null = dbStory
     ? mapDbToStory(dbStory)
-    : staticStory ?? null;
+    : (staticStory ?? null);
 
   if (!story) {
     return (
-      <div className="relative overflow-x-hidden bg-black min-h-screen">
+      <div className="relative min-h-screen overflow-x-clip bg-black text-white">
         <Nav />
-        <div className="pt-24 pb-16 px-4 md:px-8 lg:px-12 text-center">
-          <h1 className="text-4xl font-oswald text-white mb-4">
-            Story Not Found
+        <InnerPageHero className="min-h-[420px]">
+          <h1 className="mb-6 font-oswald text-4xl text-white md:text-5xl lg:text-6xl">
+            Story <span className="text-white/80">Not Found</span>
           </h1>
           <Link
             href="/success-stories"
-            className="text-[#19f7ea] hover:underline font-oswald"
+            className="inline-flex text-lg text-white/90 underline-offset-4 hover:text-white hover:underline"
           >
-            Back to Success Stories
+            ← Back to Success Stories
           </Link>
-        </div>
+        </InnerPageHero>
         <Footer />
       </div>
     );

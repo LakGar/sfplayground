@@ -8,6 +8,7 @@ interface NewsletterModalProps {
 }
 
 const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
@@ -19,6 +20,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
       // Reset form state when modal opens
       setSubmitStatus("idle");
       setErrorMessage("");
+      setName("");
       setEmail("");
     } else {
       document.body.style.overflow = "unset";
@@ -42,13 +44,14 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, name: name.trim() || null }),
       });
 
       const result = await response.json();
 
       if (response.ok && result.success) {
         setSubmitStatus("success");
+        setName("");
         setEmail("");
         // Close modal after 2 seconds
         setTimeout(() => {
@@ -59,7 +62,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
         setSubmitStatus("error");
         setErrorMessage(result.error || "Failed to subscribe. Please try again.");
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
       setErrorMessage("Network error. Please check your connection and try again.");
     } finally {
@@ -69,7 +72,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
@@ -86,10 +89,10 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
 
         {/* Content */}
         <div className="p-8">
-          <h2 className="text-3xl md:text-4xl font-oswald text-white mb-2">
-            Stay in the <span className="text-[#19f7ea]">Loop</span>
+          <h2 className="mb-2 text-3xl font-semibold tracking-tight text-white md:text-4xl">
+            Stay in the <span className="text-white/85">Loop</span>
           </h2>
-          <p className="text-white/70 mb-8 font-oswald text-sm md:text-base">
+          <p className="mb-8 text-sm text-white/70 md:text-base">
             Get exclusive updates on upcoming events, featured startups, and
             investor insights delivered to your inbox.
           </p>
@@ -97,8 +100,26 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
+                htmlFor="newsletter-name"
+                className="mb-2 block text-sm text-white/90"
+              >
+                Name (optional)
+              </label>
+              <input
+                type="text"
+                id="newsletter-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={isSubmitting}
+                className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/50 transition-colors focus:border-white/45 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Your name"
+              />
+            </div>
+
+            <div>
+              <label
                 htmlFor="newsletter-email"
-                className="block text-white/90 font-oswald mb-2 text-sm"
+                className="mb-2 block text-sm text-white/90"
               >
                 Email Address *
               </label>
@@ -109,20 +130,20 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 disabled={isSubmitting}
-                className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-md border border-white/20 bg-white/10 px-4 py-3 text-sm text-white placeholder-white/50 transition-colors focus:border-white/45 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="your@email.com"
               />
             </div>
 
             {/* Status Messages */}
             {submitStatus === "success" && (
-              <div className="flex items-center gap-2 text-green-400 text-sm font-oswald">
+              <div className="flex items-center gap-2 text-sm text-green-400">
                 <CheckCircle2 className="w-5 h-5" />
                 <span>Successfully subscribed! Check your email for a welcome message.</span>
               </div>
             )}
             {submitStatus === "error" && (
-              <div className="text-red-400 text-sm font-oswald">
+              <div className="text-sm text-red-400">
                 {errorMessage}
               </div>
             )}
@@ -133,14 +154,14 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 border border-white/20 text-white rounded-md hover:bg-white/10 transition-colors font-oswald disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 rounded-md border border-white/20 px-6 py-3 text-white transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 bg-[#19f7ea] text-black rounded-md hover:bg-[#19f7ea]/90 transition-colors font-oswald font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex flex-1 items-center justify-center gap-2 rounded-md bg-white px-6 py-3 font-semibold text-black transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>
@@ -155,7 +176,7 @@ const NewsletterModal = ({ isOpen, onClose }: NewsletterModalProps) => {
                 )}
               </button>
             </div>
-            <p className="text-white/40 text-xs text-center font-oswald">
+            <p className="text-center text-xs text-white/40">
               No spam. Unsubscribe anytime.
             </p>
           </form>

@@ -70,7 +70,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
         setSubmitStatus("error");
         setErrorMessage(result.error || "Failed to submit application. Please try again.");
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus("error");
       setErrorMessage("Network error. Please check your connection and try again.");
     } finally {
@@ -80,7 +80,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm"
       onClick={onClose}
     >
       <div
@@ -97,10 +97,10 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
 
         {/* Content */}
         <div className="p-6 md:p-8">
-          <h2 className="text-3xl md:text-4xl font-oswald text-white mb-2">
-            Apply to <span className="text-[#19f7ea]">Pitch</span>
+          <h2 className="mb-2 text-3xl font-semibold tracking-tight text-white md:text-4xl">
+            Apply to <span className="text-white/85">Pitch</span>
           </h2>
-          <p className="text-white/70 mb-8 font-oswald text-sm md:text-base">
+          <p className="mb-8 text-sm text-white/70 md:text-base">
             Submit your startup to pitch live and receive real-time feedback
             from investors who deploy capital.
           </p>
@@ -108,14 +108,14 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Personal Information Section */}
             <div className="space-y-4">
-              <h3 className="text-xl font-oswald text-white border-b border-white/20 pb-2">
+              <h3 className="border-b border-white/20 pb-2 text-xl font-semibold text-white">
                 Personal Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label
                     htmlFor="founderName"
-                    className="block text-white/90 font-oswald mb-2 text-sm"
+                    className="block text-white/90 mb-2 text-sm"
                   >
                     Founder Name *
                   </label>
@@ -124,14 +124,14 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="founderName"
                     name="founderName"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-white/45 transition-colors text-sm"
                     placeholder="Enter your name"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-white/90 font-oswald mb-2 text-sm"
+                    className="block text-white/90 mb-2 text-sm"
                   >
                     Email *
                   </label>
@@ -140,7 +140,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="email"
                     name="email"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-white/45 transition-colors text-sm"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -148,7 +148,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
               <div>
                 <label
                   htmlFor="phone"
-                  className="block text-white/90 font-oswald mb-2 text-sm"
+                  className="block text-white/90 mb-2 text-sm"
                 >
                   Phone Number
                 </label>
@@ -156,7 +156,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   type="tel"
                   id="phone"
                   name="phone"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-white/45 transition-colors text-sm"
                   placeholder="(555) 123-4567"
                 />
               </div>
@@ -164,13 +164,13 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
 
             {/* Startup Information Section */}
             <div className="space-y-4">
-              <h3 className="text-xl font-oswald text-white border-b border-white/20 pb-2">
+              <h3 className="border-b border-white/20 pb-2 text-xl font-semibold text-white">
                 Startup Information
               </h3>
               <div>
                 <label
                   htmlFor="startupName"
-                  className="block text-white/90 font-oswald mb-2 text-sm"
+                  className="block text-white/90 mb-2 text-sm"
                 >
                   Startup Name *
                 </label>
@@ -179,7 +179,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   id="startupName"
                   name="startupName"
                   required
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-white/45 transition-colors text-sm"
                   placeholder="Enter your startup name"
                 />
               </div>
@@ -187,7 +187,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                 <div>
                   <label
                     htmlFor="stage"
-                    className="block text-white/90 font-oswald mb-2 text-sm"
+                    className="block text-white/90 mb-2 text-sm"
                   >
                     Funding Stage *
                   </label>
@@ -195,7 +195,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="stage"
                     name="stage"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white focus:outline-none focus:border-white/45 transition-colors text-sm"
                   >
                     <option value="">Select funding stage</option>
                     <option value="pre-seed">Pre-Seed</option>
@@ -208,7 +208,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                 <div>
                   <label
                     htmlFor="industry"
-                    className="block text-white/90 font-oswald mb-2 text-sm"
+                    className="block text-white/90 mb-2 text-sm"
                   >
                     Industry *
                   </label>
@@ -217,7 +217,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                     id="industry"
                     name="industry"
                     required
-                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm"
+                    className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-white/45 transition-colors text-sm"
                     placeholder="e.g., AI, SaaS, FinTech"
                   />
                 </div>
@@ -225,7 +225,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
               <div>
                 <label
                   htmlFor="website"
-                  className="block text-white/90 font-oswald mb-2 text-sm"
+                  className="block text-white/90 mb-2 text-sm"
                 >
                   Website / Demo Link
                 </label>
@@ -233,7 +233,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   type="url"
                   id="website"
                   name="website"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-white/45 transition-colors text-sm"
                   placeholder="https://yourstartup.com"
                 />
               </div>
@@ -241,13 +241,13 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
 
             {/* Pitch Description Section */}
             <div className="space-y-4">
-              <h3 className="text-xl font-oswald text-white border-b border-white/20 pb-2">
+              <h3 className="border-b border-white/20 pb-2 text-xl font-semibold text-white">
                 Your Pitch
               </h3>
               <div>
                 <label
                   htmlFor="description"
-                  className="block text-white/90 font-oswald mb-2 text-sm"
+                  className="block text-white/90 mb-2 text-sm"
                 >
                   Pitch Description *
                 </label>
@@ -256,7 +256,7 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                   name="description"
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-[#19f7ea] transition-colors font-oswald resize-none text-sm"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/50 focus:outline-none focus:border-white/45 transition-colors resize-none text-sm"
                   placeholder="Tell us about your startup and what makes it unique. What problem are you solving? Who is your target market? What makes your solution different?"
                 />
               </div>
@@ -264,13 +264,16 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
 
             {/* Status Messages */}
             {submitStatus === "success" && (
-              <div className="flex items-center gap-2 text-green-400 text-sm font-oswald pt-4 border-t border-white/20">
+              <div className="flex items-center gap-2 text-green-400 text-sm pt-4 border-t border-white/20">
                 <CheckCircle2 className="w-5 h-5" />
-                <span>Application submitted successfully! You'll receive a confirmation email shortly.</span>
+                <span>
+                  Application submitted successfully! You&apos;ll receive a
+                  confirmation email shortly.
+                </span>
               </div>
             )}
             {submitStatus === "error" && (
-              <div className="text-red-400 text-sm font-oswald pt-4 border-t border-white/20">
+              <div className="text-red-400 text-sm pt-4 border-t border-white/20">
                 {errorMessage}
               </div>
             )}
@@ -281,14 +284,14 @@ const ApplyModal = ({ isOpen, onClose }: ApplyModalProps) => {
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 border border-white/20 text-white rounded-md hover:bg-white/10 transition-colors font-oswald disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 px-6 py-3 border border-white/20 text-white rounded-md hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="flex-1 px-6 py-3 bg-[#19f7ea] text-black rounded-md hover:bg-[#19f7ea]/90 transition-colors font-oswald font-bold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="flex flex-1 items-center justify-center gap-2 rounded-md bg-white px-6 py-3 font-semibold text-black transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <>

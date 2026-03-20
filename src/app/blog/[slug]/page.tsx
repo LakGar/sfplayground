@@ -1,10 +1,12 @@
 import { getBlogPostBySlug } from "@/lib/db";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Nav from "@/component/landing/nav";
-import Footer from "@/component/landing/footer";
+import Image from "next/image";
+import Nav from "@/component/landing-main/nav";
+import Footer from "@/component/landing-main/footer";
 import { BlogMarkdown } from "@/component/blog/BlogMarkdown";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
@@ -18,7 +20,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${post.title} | SF Playground Blog`,
     description: post.excerpt ?? undefined,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt ?? undefined,
+      type: "article",
+    },
   };
+}
+
+function formatDate(d: Date) {
+  return d.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 export default async function BlogPostPage({ params }: Props) {
@@ -26,50 +41,94 @@ export default async function BlogPostPage({ params }: Props) {
   const post = await getBlogPostBySlug(slug, true);
   if (!post) notFound();
 
+  const published = post.published_at!;
+  const src = post.image_url
+    ? getProxiedImageUrl(post.image_url)
+    : null;
+
   return (
-    <div className="relative overflow-x-hidden bg-black min-h-screen">
+    <div className="min-h-screen bg-black text-white">
       <Nav />
 
-      <article className="pt-24 pb-16">
-        <div className="max-w-3xl mx-auto px-4 md:px-8 lg:px-12">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-white/60 hover:text-[#19f7ea] font-oswald text-sm mb-10 transition-colors"
-          >
-            ← Blog
-          </Link>
+      <article>
+        {/* Title band — dark, typeset like the blog index */}
+        <header className="relative border-b border-white/[0.08] bg-neutral-950">
+          <div className="landing-grain relative">
+            <div className="mx-auto max-w-3xl px-5 pb-16 pt-28 sm:px-8 sm:pt-32 lg:px-10 lg:pb-20">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.26em] text-white/45 transition-colors hover:text-white"
+              >
+                <ArrowLeft className="h-3 w-3" />
+                Blog
+              </Link>
+              <div className="mt-10 flex flex-wrap items-baseline gap-x-4 gap-y-2">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-white/40">
+                  Post
+                </p>
+                <time
+                  dateTime={published.toISOString()}
+                  className="text-[10px] tabular-nums uppercase tracking-[0.22em] text-white/38"
+                >
+                  {formatDate(published)}
+                </time>
+              </div>
+              <h1 className="mt-6 font-oswald text-[clamp(2rem,5.5vw,3.5rem)] font-bold leading-[0.98] tracking-[-0.04em] text-white">
+                {post.title}
+              </h1>
+              {post.excerpt ? (
+                <p className="mt-8 border-l-2 border-white/25 pl-5 text-pretty text-base leading-relaxed text-white/55 md:text-lg">
+                  {post.excerpt}
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </header>
 
-          {post.image_url && (
-            <div className="relative aspect-video w-full rounded-xl overflow-hidden mb-10 bg-white/5">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={convertGoogleDriveImageUrl(post.image_url)}
+        {src ? (
+          <figure className="mx-auto max-w-6xl px-0 sm:px-8 lg:px-10">
+            <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900 sm:aspect-[2/1]">
+              <Image
+                src={src}
                 alt=""
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
+                fill
+                className="object-cover"
+                sizes="(max-width:1152px) 100vw, 1152px"
+                priority
+                unoptimized
               />
             </div>
-          )}
+          </figure>
+        ) : null}
 
-          <header className="mb-10">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-oswald font-bold text-white mb-4 leading-tight">
-              {post.title}
-            </h1>
-            <time
-              dateTime={post.published_at!.toISOString()}
-              className="text-white/50 text-sm font-oswald"
-            >
-              {new Date(post.published_at!).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}
-            </time>
-          </header>
-
-          <BlogMarkdown content={post.body} />
+        <div className="relative bg-neutral-950">
+          <div className="landing-grain relative border-t border-white/[0.06]">
+            <div className="mx-auto max-w-[40rem] px-5 py-16 sm:px-8 md:py-24 lg:px-10">
+              <BlogMarkdown content={post.body} />
+            </div>
+          </div>
         </div>
       </article>
+
+      <section className="bg-[#e8e6e1] text-neutral-900">
+        <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-center md:py-14 lg:px-10">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-500">
+              SF Playground
+            </p>
+            <p className="mt-2 font-oswald text-xl font-semibold md:text-2xl">
+              More on the blog
+            </p>
+          </div>
+          <Link
+            href="/blog"
+            className="group inline-flex items-center gap-2 border border-neutral-900 bg-neutral-900 px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#e8e6e1] transition-colors hover:bg-transparent hover:text-neutral-900"
+          >
+            All posts
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </Link>
+        </div>
+      </section>
 
       <Footer />
     </div>

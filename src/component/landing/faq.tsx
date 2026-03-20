@@ -18,7 +18,7 @@ const FAQ = () => {
           setIsVisible(true);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     if (sectionRef.current) {
@@ -37,7 +37,7 @@ const FAQ = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <h2
-            className={`text-2xl md:text-3xl font-oswald text-white/80 mb-4 transition-all duration-700 ${
+            className={`text-5xl text-white mb-4 transition-all duration-700 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-10"
@@ -48,7 +48,7 @@ const FAQ = () => {
             {getContent("faq.title")}
           </h2>
           <p
-            className={`text-white/50 font-oswald transition-all duration-700 ${
+            className={`text-white/50 text-lg    transition-all duration-700 ${
               isVisible
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-10"
@@ -66,7 +66,7 @@ const FAQ = () => {
           {FAQ_INDEXES.map((i) => (
             <div
               key={i}
-              className={`border border-white/10 rounded-lg overflow-hidden transition-all duration-700 ${
+              className={` bg-white/5 rounded-lg overflow-hidden transition-all duration-700 ${
                 isVisible
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-10"
@@ -78,14 +78,14 @@ const FAQ = () => {
                 className="w-full flex items-center justify-between p-5 text-left bg-white/5 hover:bg-white/10 transition-colors duration-300"
               >
                 <span
-                  className="text-white font-oswald text-lg pr-4"
+                  className="text-white     text-lg pr-4"
                   data-editable={`faq.${i}.question`}
                   data-editable-type="text"
                 >
                   {getContent(`faq.${i}.question`)}
                 </span>
                 <ChevronDownIcon
-                  className={`w-5 h-5 text-[#19f7ea] shrink-0 transition-transform duration-300 ${
+                  className={`w-5 h-5 text-white shrink-0 transition-transform duration-300 ${
                     openIndex === i ? "rotate-180" : ""
                   }`}
                 />

@@ -19,11 +19,7 @@ const Nav = () => {
           className="flex items-center animate-slide-in-left flex-1 overflow-hidden min-h-16"
         >
           <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#19f7ea] flex items-center h-12">
-            <span
-              className="text-[#19f7ea]"
-              data-editable="nav.logoLeft"
-              data-editable-type="text"
-            >
+            <span data-editable="nav.logoLeft" data-editable-type="text">
               {getContent("nav.logoLeft")}
             </span>
             <span
@@ -77,15 +73,7 @@ const Nav = () => {
           </a>
         </div>
 
-        <div className="hidden lg:flex flex-1 justify-end">
-          <button
-            onClick={() => setIsNewsletterModalOpen(true)}
-            className="text-black text-sm bg-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200 transition-all duration-300 animate-fade-in-down font-oswald"
-            style={{ animationDelay: "0.7s" }}
-          >
-            Subscribe
-          </button>
-        </div>
+        <div className="hidden lg:flex flex-1 justify-end"></div>
 
         {/* Mobile hamburger */}
         <button

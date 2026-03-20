@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import Nav from "@/component/landing/nav";
-import Footer from "@/component/landing/footer";
+import Nav from "@/component/landing-main/nav";
+import Footer from "@/component/landing-main/footer";
+import { InnerPageHero } from "@/component/landing-main/inner-page-hero";
 import Image from "next/image";
 import type { Metadata } from "next";
 import siteData from "@/data/site-data.json";
@@ -85,75 +86,73 @@ export default async function EventGalleryPage({
 
   if (!event) {
     return (
-      <div className="relative overflow-x-hidden bg-black min-h-screen">
+      <div className="relative min-h-screen overflow-x-clip bg-black text-white">
         <Nav />
-        <div className="pt-24 pb-16 px-4 md:px-8 lg:px-12 text-center">
-          <h1 className="text-4xl font-oswald text-white mb-4">
-            Event Not Found
+        <InnerPageHero className="min-h-[420px]">
+          <h1 className="mb-6 font-oswald text-4xl text-white md:text-5xl lg:text-6xl">
+            Event <span className="text-white/80">Not Found</span>
           </h1>
           <Link
-            href="/#events"
-            className="text-[#19f7ea] hover:underline font-oswald"
+            href="/events"
+            className="inline-flex text-lg text-white/90 underline-offset-4 hover:text-white hover:underline"
           >
-            Back to Events
+            ← Back to Events
           </Link>
-        </div>
+        </InnerPageHero>
         <Footer />
       </div>
     );
   }
 
   return (
-    <div className="relative overflow-x-hidden bg-black min-h-screen">
+    <div className="relative min-h-screen overflow-x-clip bg-black text-white">
       <Nav />
-      <div className="pt-24 pb-16 px-4 md:px-8 lg:px-12">
-        <div className="max-w-7xl mx-auto">
-          {/* Back Button */}
+      <InnerPageHero className="min-h-[420px] md:min-h-[480px]">
+        <div className="mb-4">
+          <span className="inline-block rounded bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+            PAST EVENT
+          </span>
+        </div>
+        <h1 className="mb-4 font-oswald text-4xl text-white md:text-5xl lg:text-7xl">
+          {event.title}
+        </h1>
+        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-white/75 md:text-lg">
+          <span>{event.date}</span>
+          <span className="text-white/40">•</span>
+          <span>{event.location}</span>
+          <span className="text-white/40">•</span>
+          <span>{event.attendees} attendees</span>
+        </div>
+      </InnerPageHero>
+
+      <div className="border-t border-white/10 bg-black px-4 py-16 md:px-8 lg:px-12">
+        <div className="mx-auto max-w-6xl">
           <Link
-            href="/#events"
-            className="inline-flex items-center gap-2 text-white/70 hover:text-white mb-8 font-oswald transition-colors"
+            href="/events"
+            className="mb-10 inline-flex items-center gap-2 text-white/70 transition-colors hover:text-white"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="h-4 w-4" />
             Back to Events
           </Link>
 
-          {/* Header */}
-          <div className="mb-12">
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 bg-white/20 text-white text-xs font-oswald font-bold rounded backdrop-blur-sm">
-                PAST EVENT
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-oswald text-white mb-4">
-              {event.title}
-            </h1>
-            <div className="flex flex-wrap gap-4 text-white/70 font-oswald mb-6">
-              <span>{event.date}</span>
-              <span>•</span>
-              <span>{event.location}</span>
-              <span>•</span>
-              <span>{event.attendees} attendees</span>
-            </div>
-            <p className="text-white/80 text-lg font-oswald leading-relaxed max-w-3xl">
-              {event.description}
-            </p>
-          </div>
+          <p className="mb-12 max-w-3xl text-lg leading-relaxed text-white/80">
+            {event.description}
+          </p>
 
-          {/* Gallery Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
             {event.images.map((image, index) => (
               <div
                 key={index}
-                className="relative aspect-square rounded-lg overflow-hidden border border-white/20 group cursor-pointer"
+                className="group relative aspect-square cursor-pointer overflow-hidden rounded-2xl border border-white/10 transition-colors hover:border-white/35"
               >
                 <Image
                   src={convertGoogleDriveImageUrl(image)}
                   alt={`${event.title} - Image ${index + 1}`}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="object-cover transition-transform duration-300 group-hover:scale-110"
                   unoptimized={image.includes("drive.google.com")}
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/12" />
               </div>
             ))}
           </div>
@@ -163,4 +162,3 @@ export default async function EventGalleryPage({
     </div>
   );
 }
-

@@ -93,7 +93,7 @@ const Hero = () => {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={convertGoogleDriveImageUrl(
-              getContent("hero.backgroundImage") || "/hero.jpg"
+              getContent("hero.backgroundImage") || "/hero.jpg",
             )}
             alt=""
             className="absolute inset-0 w-full h-full object-cover object-center"
@@ -192,7 +192,7 @@ const Hero = () => {
           <div className="w-full max-w-[260px] h-[340px] sm:max-w-[280px] sm:h-[360px] md:w-[280px] md:h-[360px] md:max-w-none lg:w-[300px] lg:h-[380px] border border-white/30 rounded-xl overflow-hidden shrink-0">
             <DestinationCard
               imageUrl="/images/Pitchplayoffs002/PitchPlayoffs002.png"
-              location="Pitch Playoffs #002"
+              location=""
               flag=""
               stats="15+ startups • 6 VCs"
               href={nextEventCtaUrl}
