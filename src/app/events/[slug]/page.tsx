@@ -22,6 +22,11 @@ const eventsBySlug = Object.fromEntries(
   (siteData.events as StaticEvent[]).map((e) => [e.slug, e])
 );
 
+const HERO_IMAGE = {
+  src: "/showcase.jpg",
+  alt: "Dimly lit venue — event hero",
+} as const;
+
 export async function generateMetadata({
   params,
 }: {
@@ -85,43 +90,63 @@ export default async function EventGalleryPage({
       : null;
 
   if (!event) {
+    const heroImage = HERO_IMAGE;
     return (
       <div className="relative min-h-screen overflow-x-clip bg-black text-white">
         <Nav />
-        <InnerPageHero className="min-h-[420px]">
-          <h1 className="mb-6 font-oswald text-4xl text-white md:text-5xl lg:text-6xl">
-            Event <span className="text-white/80">Not Found</span>
-          </h1>
-          <Link
-            href="/events"
-            className="inline-flex text-lg text-white/90 underline-offset-4 hover:text-white hover:underline"
-          >
-            ← Back to Events
-          </Link>
+        <InnerPageHero
+          variant="fullscreen"
+          background="image"
+          image={{ ...heroImage, priority: true }}
+        >
+          <div className="flex flex-col items-center text-center">
+            <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.38em] text-white/45">
+              San Francisco · Past Event
+            </p>
+            <h1 className="mx-auto max-w-5xl font-oswald text-[2.75rem] font-bold leading-[0.98] tracking-[-0.03em] text-white sm:text-5xl md:text-6xl lg:text-[4.75rem]">
+              Event <span className="text-white/80">Not Found</span>
+            </h1>
+            <Link
+              href="/events"
+              className="mt-10 inline-flex text-lg text-white/90 underline-offset-4 hover:text-white hover:underline"
+            >
+              ← Back to Events
+            </Link>
+          </div>
         </InnerPageHero>
         <Footer />
       </div>
     );
   }
 
+  const heroBgSrc = event.images?.[0] ? getProxiedImageUrl(event.images[0], { w: 1200 }) : HERO_IMAGE.src;
+  const heroAlt = event.title ? `${event.title} — Event hero` : HERO_IMAGE.alt;
+
   return (
     <div className="relative min-h-screen overflow-x-clip bg-black text-white">
       <Nav />
-      <InnerPageHero className="min-h-[420px] md:min-h-[480px]">
-        <div className="mb-4">
-          <span className="inline-block rounded bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-            PAST EVENT
-          </span>
-        </div>
-        <h1 className="mb-4 font-oswald text-4xl text-white md:text-5xl lg:text-7xl">
-          {event.title}
-        </h1>
-        <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-white/75 md:text-lg">
-          <span>{event.date}</span>
-          <span className="text-white/40">•</span>
-          <span>{event.location}</span>
-          <span className="text-white/40">•</span>
-          <span>{event.attendees} attendees</span>
+      <InnerPageHero
+        variant="fullscreen"
+        background="image"
+        image={{ src: heroBgSrc, alt: heroAlt, priority: true }}
+      >
+        <div className="flex flex-col items-center text-center">
+          <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.38em] text-white/45">
+            San Francisco · Past Event
+          </p>
+          <h1 className="mx-auto max-w-5xl font-oswald text-[2.75rem] font-bold leading-[0.98] tracking-[-0.03em] text-white sm:text-5xl md:text-6xl lg:text-[4.75rem]">
+            {event.title}
+          </h1>
+          <p className="mx-auto mt-10 max-w-xl text-pretty text-base leading-relaxed text-white/60 md:text-lg line-clamp-2">
+            {event.description}
+          </p>
+          <div className="mx-auto mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/35">
+            <span>{event.date}</span>
+            <span className="hidden sm:inline">·</span>
+            <span>{event.location}</span>
+            <span className="hidden sm:inline">·</span>
+            <span>{event.attendees} attendees</span>
+          </div>
         </div>
       </InnerPageHero>
 

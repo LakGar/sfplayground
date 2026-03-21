@@ -3,6 +3,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
+    localPatterns: [
+      {
+        pathname: "/api/image",
+        search: "?url=*",
+      },
+      {
+        pathname: "/**",
+      },
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -44,7 +53,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "drive.google.com",
       },
+      {
+        protocol: "https",
+        hostname: "www.googleapis.com",
+      },
       // allow all other domains
+      {
+        protocol: "https",
+        hostname: "*.googleusercontent.com",
+      },
     ],
   },
 };

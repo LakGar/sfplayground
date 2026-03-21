@@ -5,8 +5,8 @@ import NewsletterModal from "@/component/ui/newsletter-modal";
 import { SIGNUP_FORM_URL } from "@/data/constants";
 
 const navLinks = [
-  { href: "/", label: "Home" },
   { href: "/about", label: "About" },
+  { href: "/events", label: "Events" },
   { href: "/success-stories", label: "Portfolio" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },

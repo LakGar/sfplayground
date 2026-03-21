@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="relative w-full bg-black text-white">
       <div className="relative h-[min(85vh,760px)] w-full overflow-hidden rounded-t-3xl md:h-[min(78vh,820px)] md:rounded-t-[2rem]">
         <Image
-          src="/footer.jpg"
+          src="/footer-bg.jpg"
           alt=""
           fill
           className="object-cover"
@@ -73,7 +73,7 @@ const Footer = () => {
               </a>
             </div>
 
-            <div className="grid grid-cols-2 gap-10 sm:gap-16 md:col-span-7 md:justify-end md:justify-items-end">
+            <div className="grid grid-cols-3 gap-10 sm:gap-16 md:col-span-7 md:justify-end md:justify-items-end">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/40">
                   Site
@@ -117,6 +117,35 @@ const Footer = () => {
                       className="transition-colors hover:text-white"
                     >
                       Contact
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/40">
+                  Socials
+                </p>
+                <ul className="mt-4 flex flex-col gap-3 text-sm text-white/60">
+                  <li>
+                    <Link
+                      href="https://www.linkedin.com/company/sfplayground"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors hover:text-white"
+                    >
+                      LinkedIn
+                    </Link>
+                  </li>
+                </ul>
+                <ul className="mt-4 flex flex-col gap-3 text-sm text-white/60">
+                  <li>
+                    <Link
+                      href="https://www.instagram.com/sfplayground/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors hover:text-white"
+                    >
+                      Instagram
                     </Link>
                   </li>
                 </ul>

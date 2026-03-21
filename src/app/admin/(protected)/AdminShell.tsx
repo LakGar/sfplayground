@@ -48,6 +48,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   }
 
   const breadcrumbs = buildBreadcrumbs(pathname);
+  const currentPageLabel =
+    breadcrumbs.length > 0
+      ? breadcrumbs[breadcrumbs.length - 1]?.label
+      : "Dashboard";
+  const shouldWrapChildren = !pathname.startsWith("/admin/website");
 
   const linkClass = (href: string, exact = false) => {
     const active =
@@ -55,23 +60,23 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         ? pathname === href || pathname === href + "/"
         : pathname.startsWith(href);
     return [
-      "font-oswald text-sm py-2 rounded px-2 -mx-2",
+      "w-full flex items-center font-oswald text-sm px-3 py-2 rounded-xl border transition-colors",
       active
-        ? "text-[#19f7ea] bg-white/10"
-        : "text-white/80 hover:text-white",
+        ? "text-white border-white/20 bg-white/10"
+        : "text-white/75 border-transparent hover:text-white hover:bg-white/5 hover:border-white/10",
     ].join(" ");
   };
 
   return (
-    <div className="min-h-screen bg-black flex">
-      <aside className="w-56 shrink-0 border-r border-white/10 p-4 flex flex-col">
-        <Link
-          href="/admin"
-          className="text-lg font-oswald font-bold text-[#19f7ea] mb-6"
-        >
-          SF Admin
+    <div className="min-h-screen bg-black text-white flex">
+      <aside className="w-64 shrink-0 border-r border-white/10 p-5 flex flex-col bg-black/40 backdrop-blur">
+        <Link href="/admin" className="flex items-center gap-2 mb-6">
+          <span className="w-2.5 h-2.5 rounded-full bg-slate-200 shadow-[0_0_20px_rgba(148,163,184,0.35)]" />
+          <span className="text-lg font-oswald font-bold text-slate-200">
+            SF Admin
+          </span>
         </Link>
-        <nav className="flex flex-col gap-2">
+        <nav className="flex flex-col gap-1">
           <Link href="/admin" className={linkClass("/admin", true)}>
             Dashboard
           </Link>
@@ -84,7 +89,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <Link href="/admin/newsletters" className={linkClass("/admin/newsletters", true)}>
             Newsletters
           </Link>
-          <Link href="/admin/newsletters/sends" className={`pl-4 ${linkClass("/admin/newsletters/sends")}`}>
+          <Link
+            href="/admin/newsletters/sends"
+            className={`pl-8 ${linkClass("/admin/newsletters/sends")}`}
+          >
             Send history
           </Link>
           <Link href="/admin/next-event" className={linkClass("/admin/next-event")}>
@@ -104,31 +112,49 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <form action="/api/auth/signout" method="POST" className="contents">
             <button
               type="submit"
-              className="text-white/60 hover:text-white text-sm font-oswald text-left"
+              className="text-white/60 hover:text-white text-sm font-oswald text-left w-full py-2"
             >
               Sign out
             </button>
           </form>
         </div>
       </aside>
-      <main className="flex-1 overflow-auto p-6 md:p-8">
+      <main className="flex-1 overflow-auto p-6 md:p-8 bg-[radial-gradient(ellipse_at_top_left,rgba(148,163,184,0.12),transparent_55%),radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.06),transparent_40%)]">
         {breadcrumbs.length > 0 && (
-          <nav className="font-oswald text-sm text-white/60 mb-4" aria-label="Breadcrumb">
-            {breadcrumbs.map((crumb, i) => (
-              <span key={i}>
-                {i > 0 && " / "}
-                {crumb.href != null ? (
-                  <Link href={crumb.href} className="text-[#19f7ea] hover:underline">
-                    {crumb.label}
-                  </Link>
-                ) : (
-                  <span>{crumb.label}</span>
-                )}
-              </span>
-            ))}
-          </nav>
+          <div className="mb-5">
+            <h1 className="font-oswald text-2xl font-bold text-white">
+              {currentPageLabel}
+            </h1>
+            <nav
+              className="mt-2 flex flex-wrap items-center gap-2 font-oswald text-sm text-white/55"
+              aria-label="Breadcrumb"
+            >
+              {breadcrumbs.map((crumb, i) => (
+                <span key={i} className="inline-flex items-center gap-2">
+                  {i > 0 && <span className="text-white/25">/</span>}
+                  {crumb.href != null ? (
+                    <Link
+                      href={crumb.href}
+                      className="text-slate-200 hover:underline underline-offset-4"
+                    >
+                      {crumb.label}
+                    </Link>
+                  ) : (
+                    <span className="text-white/80">{crumb.label}</span>
+                  )}
+                </span>
+              ))}
+            </nav>
+          </div>
         )}
-        {children}
+
+        {shouldWrapChildren ? (
+          <div className="rounded-2xl border border-white/10 bg-white/3 backdrop-blur p-6">
+            {children}
+          </div>
+        ) : (
+          children
+        )}
       </main>
     </div>
   );
