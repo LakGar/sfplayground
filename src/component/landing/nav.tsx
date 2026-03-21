@@ -11,16 +11,24 @@ const Nav = () => {
   const { getContent } = useWebsiteContent();
 
   return (
-    <div className="fixed top-0 left-0 w-full z-50">
+    <div className="fixed top-0 left-0 w-full z-50 min-h-106">
       <div className="w-full px-4 md:px-8 py-4 flex items-center bg-linear-to-b from-black/50 to-transparent via-black/20 backdrop-blur-sm">
         {/* logo */}
         <Link
           href="/"
-          className="flex items-center animate-slide-in-left flex-1 overflow-hidden"
+          className="flex items-center animate-slide-in-left flex-1 overflow-hidden min-h-16"
         >
-          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#19f7ea] flex items-center h-12 ">
-            <span className="text-[#19f7ea]" data-editable="nav.logoLeft" data-editable-type="text">{getContent("nav.logoLeft")}</span>
-            <span className="text-white" data-editable="nav.logoRight" data-editable-type="text">{getContent("nav.logoRight")}</span>
+          <h1 className="text-2xl md:text-4xl font-bold font-oswald text-[#19f7ea] flex items-center h-12">
+            <span data-editable="nav.logoLeft" data-editable-type="text">
+              {getContent("nav.logoLeft")}
+            </span>
+            <span
+              className="text-white"
+              data-editable="nav.logoRight"
+              data-editable-type="text"
+            >
+              {getContent("nav.logoRight")}
+            </span>
           </h1>
         </Link>
 
@@ -65,15 +73,7 @@ const Nav = () => {
           </a>
         </div>
 
-        <div className="hidden lg:flex flex-1 justify-end">
-          <button
-            onClick={() => setIsNewsletterModalOpen(true)}
-            className="text-black text-sm bg-white px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200 transition-all duration-300 animate-fade-in-down font-oswald"
-            style={{ animationDelay: "0.7s" }}
-          >
-            Subscribe
-          </button>
-        </div>
+        <div className="hidden lg:flex flex-1 justify-end"></div>
 
         {/* Mobile hamburger */}
         <button
@@ -108,8 +108,16 @@ const Nav = () => {
         <div className="w-full px-4 py-4 flex items-center justify-between">
           <Link href="/" onClick={() => setIsOpen(false)}>
             <h1 className="text-2xl font-bold font-oswald text-[#19f7ea]">
-              <span data-editable="nav.logoLeft" data-editable-type="text">{getContent("nav.logoLeft")}</span>
-              <span className="text-white" data-editable="nav.logoRight" data-editable-type="text">{getContent("nav.logoRight")}</span>
+              <span data-editable="nav.logoLeft" data-editable-type="text">
+                {getContent("nav.logoLeft")}
+              </span>
+              <span
+                className="text-white"
+                data-editable="nav.logoRight"
+                data-editable-type="text"
+              >
+                {getContent("nav.logoRight")}
+              </span>
             </h1>
           </Link>
           <button

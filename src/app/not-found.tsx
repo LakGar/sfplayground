@@ -2,20 +2,20 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="flex min-h-screen items-center justify-center bg-black px-4">
       <div className="text-center">
-        <h1 className="text-6xl md:text-8xl font-oswald font-bold text-[#19f7ea] mb-4">
+        <h1 className="mb-4 font-oswald text-6xl font-bold text-white md:text-8xl">
           404
         </h1>
-        <h2 className="text-2xl md:text-4xl font-oswald text-white mb-6">
+        <h2 className="mb-6 text-2xl font-semibold tracking-tight text-white md:text-4xl">
           Page Not Found
         </h2>
-        <p className="text-white/70 font-oswald mb-8 max-w-md mx-auto">
-          The page you're looking for doesn't exist or has been moved.
+        <p className="mx-auto mb-8 max-w-md text-white/70">
+          The page you&apos;re looking for doesn&apos;t exist or has been moved.
         </p>
         <Link
           href="/"
-          className="inline-block bg-[#19f7ea] text-black px-8 py-3 rounded-md font-oswald font-bold hover:bg-[#19f7ea]/90 transition-colors"
+          className="inline-block rounded-md bg-white px-8 py-3 font-semibold text-black transition-colors hover:bg-white/90"
         >
           Go Home
         </Link>
@@ -23,4 +23,3 @@ export default function NotFound() {
     </div>
   );
 }
-

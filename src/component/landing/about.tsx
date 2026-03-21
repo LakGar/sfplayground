@@ -4,7 +4,11 @@ import Image from "next/image";
 import { GlareCard } from "@/component/ui/glare-card";
 import { useWebsiteContent } from "@/context/WebsiteContentContext";
 import { WEBSITE_CONTENT_CONFIG } from "@/data/website-content-keys";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import {
+  convertGoogleDriveImageUrl,
+  getProxiedImageUrl,
+  isGoogleDriveImageUrl,
+} from "@/utils/convertDriveImageUrl";
 
 const CARD_KEYS = [
   { title: "about.whatWeDo.card0.title", desc: "about.whatWeDo.card0.description", image: "about.whatWeDo.card0.image" },
@@ -34,7 +38,10 @@ function WhatWeDoCardImage({
   const [failed, setFailed] = useState(false);
   const isExternal = src.startsWith("http://") || src.startsWith("https://");
   const rawDisplaySrc = failed ? fallbackSrc : src;
-  const displaySrc = convertGoogleDriveImageUrl(rawDisplaySrc);
+  const converted = convertGoogleDriveImageUrl(rawDisplaySrc, { w: 800 });
+  const displaySrc = isGoogleDriveImageUrl(converted)
+    ? getProxiedImageUrl(rawDisplaySrc, { w: 800 })
+    : converted;
 
   useEffect(() => {
     setFailed(false);
@@ -146,9 +153,11 @@ const About = () => {
                   data-editable-type="image"
                 >
                   <WhatWeDoCardImage
-                    src={convertGoogleDriveImageUrl(
-                      getContent(keys.image) || WEBSITE_CONTENT_CONFIG[keys.image]?.default || ""
-                    )}
+                    src={
+                      getContent(keys.image) ||
+                      WEBSITE_CONTENT_CONFIG[keys.image]?.default ||
+                      ""
+                    }
                     alt={getContent(keys.title)}
                     fallbackSrc={FALLBACK_IMAGES[index]}
                   />

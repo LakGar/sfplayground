@@ -4,38 +4,39 @@ import React from "react";
 const sponsors = [
   "Pupa Ventures",
   "Aexodus Capital",
-  "Y Combinator",
-  "Stealth Startup",
   "Frontier Syndicate",
   "Design Innovation X",
-  
+  "Orion VC",
+  "Infodriver Capital",
+  "AXCI Capital",
+  "Navis Capital",
 ];
 
 const sponsorUrls: Record<string, string> = {
   "Pupa Ventures": "https://www.pupa.vc",
   "Aexodus Capital": "https://www.aexodus.com/",
-  "Y Combinator": "https://www.ycombinator.com/",
-  "Stealth Startup": "https://www.linkedin.com/company/stealth-startup-community/",
   "Frontier Syndicate": "https://www.linkedin.com/company/frontiersyndicate/",
   "Design Innovation X": "https://www.linkedin.com/in/vincekohli/",
   "Orion VC": "https://orionvc.co/",
   "Infodriver Capital": "https://infodriver.capital/",
   "AXCI Capital": "https://www.linkedin.com/company/axcicapital/",
-
 };
 
 const Sponsors = () => {
   return (
-    <div className="bg-black py-12 overflow-hidden">
+    <div className="bg-[#f2f2f2]/10 py-12 overflow-hidden">
       <div className="relative">
         {/* Gradient overlays */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10" />
 
         {/* Scrolling container: each half must be identical width so -50% loop is seamless */}
         <div className="flex animate-scroll w-max">
           {/* First set - min-w-0 + flex keeps segment width equal to content */}
-          <div className="flex shrink-0 min-w-0" style={{ width: "max-content" }}>
+          <div
+            className="flex shrink-0 min-w-0"
+            style={{ width: "max-content" }}
+          >
             {sponsors.map((sponsor, index) => (
               <div
                 key={`first-${index}`}
@@ -45,7 +46,7 @@ const Sponsors = () => {
                   href={sponsorUrls[sponsor] ?? "#"}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer"
+                  className="text-black/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-black/80 transition-colors duration-300 cursor-pointer"
                 >
                   {sponsor}
                 </a>
@@ -53,7 +54,10 @@ const Sponsors = () => {
             ))}
           </div>
           {/* Duplicate - same width as first so loop has no jump */}
-          <div className="flex shrink-0 min-w-0" style={{ width: "max-content" }}>
+          <div
+            className="flex shrink-0 min-w-0"
+            style={{ width: "max-content" }}
+          >
             {sponsors.map((sponsor, index) => (
               <div
                 key={`second-${index}`}
@@ -63,7 +67,7 @@ const Sponsors = () => {
                   href={sponsorUrls[sponsor] ?? "#"}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-white/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-[#19f7ea] transition-colors duration-300 cursor-pointer"
+                  className="text-black/40 font-oswald text-xl md:text-2xl whitespace-nowrap hover:text-black/80 transition-colors duration-300 cursor-pointer"
                 >
                   {sponsor}
                 </a>
@@ -77,4 +81,3 @@ const Sponsors = () => {
 };
 
 export default Sponsors;
-

@@ -35,8 +35,8 @@ function SignInForm() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-4">
-      <div className="w-full max-w-lg rounded-xl border border-white/10 bg-white/5 p-8">
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 bg-[radial-gradient(ellipse_at_top_left,rgba(148,163,184,0.12),transparent_55%),radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.06),transparent_40%)]">
+      <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-white/3 p-8 backdrop-blur">
         <h1 className="text-xl font-oswald font-bold text-white mb-2">
           Admin sign in
         </h1>
@@ -55,7 +55,7 @@ function SignInForm() {
                 onClick={() => setSelectedId(user.id)}
                 className={`rounded-xl border-2 p-4 flex flex-col items-center gap-2 transition-all ${
                   selectedId === user.id
-                    ? "border-[#19f7ea] bg-[#19f7ea]/10"
+                    ? "border-slate-300 bg-slate-300/10"
                     : "border-white/20 bg-white/5 hover:border-white/40"
                 }`}
               >
@@ -80,7 +80,7 @@ function SignInForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/20 text-white placeholder-white/40 font-oswald focus:border-[#19f7ea] focus:outline-none"
+              className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/20 text-white placeholder-white/40 font-oswald focus:border-slate-300 focus:outline-none"
               required
               autoComplete="current-password"
             />
@@ -88,7 +88,7 @@ function SignInForm() {
           <button
             type="submit"
             disabled={!selectedId || !password.trim() || submitting}
-            className="block w-full py-3 px-4 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="block w-full py-3 px-4 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {submitting ? "Signing in…" : "Sign in"}
           </button>

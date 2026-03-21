@@ -1,49 +1,114 @@
-import Link from "next/link";
-import Image from "next/image";
-import Nav from "@/component/landing/nav";
-import Footer from "@/component/landing/footer";
-import VideoBackground from "@/component/ui/video-background";
+import Nav from "@/component/landing-main/nav";
+import Footer from "@/component/landing-main/footer";
+import { InnerPageHero } from "@/component/landing-main/inner-page-hero";
 import type { Metadata } from "next";
 import siteData from "@/data/site-data.json";
 import { getSuccessStories } from "@/lib/db";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import {
+  convertGoogleDriveImageUrl,
+  getProxiedImageUrl,
+  isGoogleDriveImageUrl,
+} from "@/utils/convertDriveImageUrl";
+import PortfolioDirectory, {
+  type PortfolioCompany,
+} from "./portfolio-directory";
 
 export const metadata: Metadata = {
-  title: "Success Stories | SF Playground",
-  description: "Discover how startups have transformed their journey through live pitch events at SF Playground. Read success stories from featured startups like Petpin AI.",
+  title: "Portfolio | SF Playground",
+  description:
+    "Companies that pitched at SF Playground—searchable profiles, sectors, and outcomes from the floor.",
   alternates: {
     canonical: "https://sfplayground.com/success-stories",
   },
   openGraph: {
-    title: "Success Stories | SF Playground",
-    description: "Discover how startups have transformed their journey through live pitch events at SF Playground.",
+    title: "Portfolio | SF Playground",
+    description:
+      "Founders and startups from our live pitch room—search by name or sector.",
     url: "https://sfplayground.com/success-stories",
   },
 };
 
 export const dynamic = "force-dynamic";
 
-type StoryListItem = { slug: string; title: string; tagline: string; description: string; image: string };
+const HERO_IMAGE = {
+  src: "/showcase.jpg",
+  alt: "Dimly lit venue — portfolio hero",
+} as const;
 
-/** Map static JSON entries (productSummary) to list shape (description) */
-function staticStoriesToList(
-  raw: { slug: string; title: string; tagline: string; image: string; productSummary?: string }[]
-): StoryListItem[] {
+type RawStory = {
+  slug: string;
+  title: string;
+  tagline: string;
+  description: string;
+  image: string;
+};
+
+/** Sector badge from copy (no extra DB column). Order: most specific first. */
+function inferBadge(story: RawStory): string {
+  const blob =
+    `${story.title} ${story.tagline} ${story.description}`.toLowerCase();
+  if (
+    /robot|construction|rebar|humanoid|physical ai|job site|infra\b/.test(blob)
+  ) {
+    return "Robotics & infra";
+  }
+  if (/pet|wearable|consumer|pov camera|storytelling app/.test(blob)) {
+    return "Consumer";
+  }
+  if (/\bai\b|ml\b|llm|machine learning|neural|model/.test(blob)) {
+    return "AI & ML";
+  }
+  if (/b2b|saas|enterprise|platform/.test(blob)) {
+    return "B2B";
+  }
+  return "Portfolio";
+}
+
+function normalizeImageUrl(url: string): string {
+  if (!url?.trim()) return "/logo.png";
+  if (url.startsWith("/")) return url;
+  const converted = convertGoogleDriveImageUrl(url, { w: 800 });
+  if (isGoogleDriveImageUrl(converted)) return getProxiedImageUrl(url, { w: 800 });
+  return converted;
+}
+
+function staticToRaw(
+  raw: {
+    slug: string;
+    title: string;
+    tagline: string;
+    image: string;
+    productSummary?: string;
+  }[],
+): RawStory[] {
   return raw.map((s) => ({
     slug: s.slug,
     title: s.title,
     tagline: s.tagline,
     image: s.image,
-    description: (s as { productSummary?: string }).productSummary ?? "",
+    description: s.productSummary ?? "",
   }));
 }
 
+function toPortfolioCompany(s: RawStory): PortfolioCompany {
+  return {
+    slug: s.slug,
+    title: s.title,
+    tagline: s.tagline,
+    description: s.description,
+    image: normalizeImageUrl(s.image),
+    badge: inferBadge(s),
+  };
+}
+
 export default async function SuccessStoriesPage() {
-  let successStories: StoryListItem[] = staticStoriesToList(siteData.successStories as Parameters<typeof staticStoriesToList>[0]);
+  let raw: RawStory[] = staticToRaw(
+    siteData.successStories as Parameters<typeof staticToRaw>[0],
+  );
   try {
     const dbStories = await getSuccessStories();
     if (dbStories.length > 0) {
-      successStories = dbStories.map((s) => ({
+      raw = dbStories.map((s) => ({
         slug: s.slug,
         title: s.title,
         tagline: s.tagline ?? "",
@@ -52,75 +117,46 @@ export default async function SuccessStoriesPage() {
       }));
     }
   } catch {
-    // keep site-data fallback
+    // fallback JSON
   }
+
+  const companies = raw.map(toPortfolioCompany);
+
   return (
-    <div className="relative overflow-x-hidden bg-black min-h-screen">
+    <div className="relative min-h-screen overflow-x-clip bg-black text-white">
       <Nav />
-      
-      {/* Hero Section with Video Background */}
-      <div className="relative h-[50vh] min-h-[400px] flex items-center justify-center px-4 md:px-8 lg:px-12 overflow-hidden">
-        <VideoBackground />
-        <div className="relative z-10 text-center max-w-7xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-oswald text-white mb-4">
-            Success <span className="text-[#19f7ea]">Stories</span>
-          </h1>
-          <p className="text-white/70 text-lg md:text-xl font-oswald max-w-2xl mx-auto">
-            Discover how startups have transformed their journey through live
-            pitch events and real investor feedback.
+
+      <InnerPageHero
+        variant="fullscreen"
+        background="image"
+        image={{ ...HERO_IMAGE, priority: true }}
+      >
+        <div className="flex flex-col items-center text-center">
+          <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.38em] text-white/45">
+            San Francisco · Portfolio
           </p>
-        </div>
-      </div>
-      
-      <div className="pt-16 pb-16 px-4 md:px-8 lg:px-12">
-        <div className="max-w-7xl mx-auto">
-
-          {/* Success Stories Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {successStories.map((story) => (
-              <Link
-                key={story.slug}
-                href={`/success-stories/${story.slug}`}
-                className="group relative h-96 rounded-lg overflow-hidden border border-white/20 hover:border-[#19f7ea] transition-all duration-300"
-              >
-                {/* Image */}
-                <div className="absolute inset-0">
-                  <Image
-                    src={convertGoogleDriveImageUrl(story.image)}
-                    alt={story.title}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-                </div>
-
-                {/* Content */}
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <div className="mb-2">
-                    <span className="inline-block px-3 py-1 bg-[#19f7ea] text-black text-xs font-oswald font-bold rounded">
-                      SUCCESS STORY
-                    </span>
-                  </div>
-                  <h3 className="text-2xl font-oswald text-white mb-2 group-hover:text-[#19f7ea] transition-colors">
-                    {story.title}
-                  </h3>
-                  <p className="text-white/90 font-oswald text-sm mb-2 line-clamp-2">
-                    {story.tagline}
-                  </p>
-                  <p className="text-white/70 text-sm font-oswald line-clamp-3">
-                    {story.description}
-                  </p>
-                  <div className="mt-4 flex items-center text-[#19f7ea] font-oswald text-sm group-hover:translate-x-2 transition-transform">
-                    Read Story →
-                  </div>
-                </div>
-              </Link>
-            ))}
+          <h1 className="mx-auto max-w-5xl font-oswald text-[2.75rem] font-bold leading-[0.98] tracking-[-0.03em] text-white sm:text-5xl md:text-6xl lg:text-[4.75rem]">
+            Companies
+            <br />
+            <span className="text-white/55">from our floor</span>
+          </h1>
+          <p className="mx-auto mt-10 max-w-xl text-pretty text-base leading-relaxed text-white/60 md:text-lg">
+            Founders who demoed live at SF Playground—filter by sector or search
+            by name. Every profile links to the full story.
+          </p>
+          <div className="mx-auto mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-3 text-[10px] font-medium uppercase tracking-[0.28em] text-white/35">
+            <span>Live pitch alumni</span>
+            <span className="hidden sm:inline">·</span>
+            <span>Searchable directory</span>
+            <span className="hidden sm:inline">·</span>
+            <span>SF builders</span>
           </div>
         </div>
-      </div>
+      </InnerPageHero>
+
+      <PortfolioDirectory companies={companies} />
+
       <Footer />
     </div>
   );
 }
-

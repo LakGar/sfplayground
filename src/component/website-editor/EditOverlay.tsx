@@ -130,7 +130,7 @@ export function EditOverlay({ children }: { children: React.ReactNode }) {
           .map((t, i) => (
             <div
               key={`text-${i}-${t.rect.top}-${t.rect.left}`}
-              className="absolute border-2 border-[#19f7ea]/60 bg-[#19f7ea]/5 pointer-events-auto cursor-pointer rounded transition-colors hover:bg-[#19f7ea]/15 hover:border-[#19f7ea]"
+              className="pointer-events-auto absolute cursor-pointer rounded border-2 border-white/50 bg-white/5 transition-colors hover:border-white hover:bg-white/10"
               style={{
                 left: t.rect.left,
                 top: t.rect.top,
@@ -161,7 +161,7 @@ export function EditOverlay({ children }: { children: React.ReactNode }) {
             top: editing.rect.top + editing.rect.height + 8,
           }}
         >
-          <div className="text-white/60 text-xs font-oswald mb-2 uppercase tracking-wider">
+          <div className="mb-2 text-xs uppercase tracking-wider text-white/60">
             {editing.type === "text"
               ? "Edit text"
               : editing.type === "image"
@@ -175,7 +175,7 @@ export function EditOverlay({ children }: { children: React.ReactNode }) {
               onChange={(e) => setEditValue(e.target.value)}
               onBlur={saveEdit}
               onKeyDown={handleKeyDown}
-              className="w-full h-24 px-3 py-2 bg-white/10 border border-white/20 rounded text-white font-oswald text-sm resize-none focus:outline-none focus:border-[#19f7ea]"
+              className="h-24 w-full resize-none rounded border border-white/20 bg-white/10 px-3 py-2 text-sm text-white focus:border-white/45 focus:outline-none"
               placeholder="Enter text..."
             />
           ) : (
@@ -196,7 +196,7 @@ export function EditOverlay({ children }: { children: React.ReactNode }) {
                   setUploadError(null);
                 }}
                 onKeyDown={handleKeyDown}
-                className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded text-white font-oswald text-sm focus:outline-none focus:border-[#19f7ea] mb-2"
+                className="mb-2 w-full rounded border border-white/20 bg-white/10 px-3 py-2 text-sm text-white focus:border-white/45 focus:outline-none"
                 placeholder={
                   editing.type === "image"
                     ? "URL or upload below"
@@ -207,7 +207,7 @@ export function EditOverlay({ children }: { children: React.ReactNode }) {
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="w-full py-2 px-3 border border-[#19f7ea]/60 rounded text-[#19f7ea] text-sm font-oswald hover:bg-[#19f7ea]/10 disabled:opacity-50"
+                className="w-full rounded border border-white/35 px-3 py-2 text-sm text-white/90 hover:bg-white/10 disabled:opacity-50"
               >
                 {uploading ? "Uploading…" : "Upload file"}
               </button>
@@ -220,14 +220,14 @@ export function EditOverlay({ children }: { children: React.ReactNode }) {
             <button
               type="button"
               onClick={saveEdit}
-              className="px-3 py-1.5 bg-[#19f7ea] text-black text-sm font-oswald rounded hover:bg-white"
+              className="rounded bg-white px-3 py-1.5 text-sm font-medium text-black hover:bg-white/90"
             >
               Save
             </button>
             <button
               type="button"
               onClick={() => setEditing(null)}
-              className="px-3 py-1.5 text-white/70 text-sm font-oswald hover:text-white"
+              className="px-3 py-1.5 text-sm text-white/70 hover:text-white"
             >
               Cancel
             </button>
@@ -263,7 +263,7 @@ export function EditOverlay({ children }: { children: React.ReactNode }) {
                     rect: t.rect,
                   });
                 }}
-                className="absolute bottom-3 right-3 pointer-events-auto px-4 py-2 bg-[#19f7ea] text-black text-sm font-oswald rounded hover:bg-white shadow-lg border-2 border-black/20"
+                className="pointer-events-auto absolute bottom-3 right-3 rounded border-2 border-black/20 bg-white px-4 py-2 text-sm font-medium text-black shadow-lg hover:bg-white/90"
               >
                 {t.type === "image" ? "Change image" : "Change video"}
               </button>

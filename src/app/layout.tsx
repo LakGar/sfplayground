@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import "./globals.css";
 import { EditModeGate } from "@/component/website-editor/EditModeGate";
 import { Analytics } from "@vercel/analytics/next"
+import { PageTransition } from "@/components/ui/page-transition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -135,8 +136,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
       >
-        <EditModeGate>{children}
-        <Analytics/> 
+        <EditModeGate>
+          <PageTransition>{children}</PageTransition>
+          <Analytics />
         </EditModeGate>
       </body>
     </html>

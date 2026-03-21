@@ -1,0 +1,484 @@
+[
+  {
+    "slug": "devol-robots-inc",
+    "title": "Devol Robots Inc.",
+    "tagline": "AI-driven autonomous robot with human-like touch and learning capabilities",
+    "description": "Devol Robots Inc. is a robotics company building AI-driven autonomous robots focused on manipulation, force control, and adaptive motion. Its public site highlights demonstrations in pick-and-place, manufacturing tasks, pin assembly, snap-fit assembly, impedance control, touch-safe robotics, gravity compensation, and smart path change.",
+    "imageUrl": "https://drive.google.com/file/d/1K3X9SzvsLzPMxxkU95ysabzZkJJQfv5B/view?usp=drive_link",
+    "challenge": "Devol Robots is focused on robotic systems that can better handle contact-rich, real-world tasks where touch, force, adaptation, and safety matter.",
+    "challengePoints": [
+      "Robots need to understand contact and adapt in real time",
+      "Assembly and manipulation tasks require force sensitivity and alignment",
+      "Human-safe automation depends on responsive touch-aware behavior",
+      "Industrial environments need robots that can adjust when paths are blocked or conditions change"
+    ],
+    "ourRole": "SF Playground featured Devol Robots Inc. in Pitch Playoffs 002 as a robotics startup building autonomous systems for real-world manipulation and manufacturing tasks.",
+    "rolePoints": [
+      "Featured the company in Pitch Playoffs 002",
+      "Highlighted a robotics startup focused on adaptive, touch-aware automation"
+    ],
+    "experience": "Devol’s public site presents the company through task demos rather than long product copy, showing examples like daily-object pick and place, manufacturing pick and place, force-control pin assembly, snap-fit assembly, impedance control, touch-safe stopping behavior, gravity compensation, and automatic path changes around obstacles.",
+    "impact": "Devol’s public materials emphasize robotic capabilities around learning, force control, safety, and adaptive task execution. The company’s site suggests a focus on making robots better at handling physical interaction rather than only repeating rigid motions.",
+    "impactPoints": [
+      "Public demos include pick-and-place for daily objects",
+      "Public demos include pick-and-place for manufacturing",
+      "Public demos include force-control pin assembly",
+      "Public demos include snap-fit assembly",
+      "Public demos include impedance control",
+      "Public demos include touch-safe stopping behavior",
+      "Public demos include gravity compensation",
+      "Public demos include smart path change around obstacles",
+      "Site says the robots have human-like touch and learning capabilities"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Devol Robots stands out because it is centered on physical intelligence: robots that can feel contact, adapt motion, and operate more safely in real environments."
+  },
+  {
+    "slug": "orboh",
+    "title": "Orboh",
+    "tagline": "Humanoid robotics for construction",
+    "description": "Orboh is building humanoid robotics for construction, with public materials highlighting use cases such as scaffolding assembly, material transport, and inspection work.",
+    "imageUrl": "https://drive.google.com/file/d/1MbscAQEq_isyOdDR12LgW4-kMgCJlFGm/view?usp=drive_link",
+    "challenge": "Construction sites still depend heavily on manual labor for repetitive, physically demanding, and inspection-heavy workflows that are difficult to automate with conventional systems.",
+    "challengePoints": [
+      "Construction work includes repetitive and physically demanding tasks",
+      "Sites need better solutions for scaffolding assembly and material transport",
+      "Inspection work in construction remains labor intensive",
+      "Robotics for construction has to operate in dynamic, real-world jobsite conditions"
+    ],
+    "ourRole": "SF Playground featured Orboh as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Highlighted a robotics company focused on construction"
+    ],
+    "experience": "Orboh’s site presents a focused construction robotics thesis rather than a broad automation platform, centering on humanoid systems for jobsite tasks.",
+    "impact": "The company’s public positioning emphasizes automation for core construction workflows where labor intensity and jobsite complexity create bottlenecks.",
+    "impactPoints": [
+      "Focused on humanoid robotics for construction",
+      "Highlights scaffolding assembly as a use case",
+      "Highlights material transport as a use case",
+      "Highlights inspection work as a use case"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Orboh stands out for targeting one of the hardest physical environments to automate: real construction sites."
+  },
+  {
+    "slug": "petpin",
+    "title": "Petpin",
+    "tagline": "The iPhone for pets",
+    "description": "Petpin is building a premium pet wearable designed to help owners stay connected to their pets. Its public materials describe features such as live pet POV video, GPS tracking, and AI-driven insights.",
+    "imageUrl": "https://drive.google.com/file/d/1XJ0yEbzKeMa0zOu2-3TaSUUzZzvG5tfN/view?usp=drive_link",
+    "challenge": "Pet owners have limited real-time visibility into what their pets are doing, where they are, and how they may be feeling throughout the day.",
+    "challengePoints": [
+      "Pet owners often lack real-time visibility into their pet’s daily experience",
+      "Tracking location and activity can be fragmented across different tools",
+      "Understanding pet behavior and signals remains difficult for many owners"
+    ],
+    "ourRole": "SF Playground featured Petpin as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Physical product showcased at the event"
+    ],
+    "experience": "Petpin’s public site positions the company around a polished consumer hardware experience for pet owners, centered on a connected wearable device.",
+    "impact": "Petpin’s public materials emphasize a more immersive and intelligent form of pet monitoring through wearable hardware and AI-powered features.",
+    "impactPoints": [
+      "Premium pet wearable device",
+      "Public materials reference live pet POV video",
+      "Public materials reference GPS tracking",
+      "Public materials reference AI-driven insights"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Petpin shows how Pitch Playoffs can highlight consumer hardware startups that combine emotion, utility, and AI in a tangible product."
+  },
+  {
+    "slug": "deus-robotics",
+    "title": "Deus Robotics",
+    "tagline": "Robotics-powered complex automation",
+    "description": "Deus Robotics builds an automation platform that combines AI, robotics, and software to reduce manual work and improve operational efficiency across industries.",
+    "imageUrl": "https://drive.google.com/file/d/1nkai1knmurBxOp4eyH04rBTPJ817VV98/view?usp=drive_link",
+    "challenge": "Businesses adopting robotics often face fragmented systems, vendor lock-in, and operational complexity when trying to scale automation across facilities and workflows.",
+    "challengePoints": [
+      "Robotic systems are often fragmented across vendors",
+      "Scaling automation requires orchestration, support, and integration",
+      "Operations teams need better ways to reduce manual work across facilities"
+    ],
+    "ourRole": "SF Playground featured Deus Robotics as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Physical product showcased at the event"
+    ],
+    "experience": "Deus Robotics publicly positions itself around unifying robots from different vendors into a coordinated automation system, supported by software, AI automation, and on-site onboarding.",
+    "impact": "The company’s public materials emphasize orchestration and end-to-end automation, with solutions aimed at fulfillment, retail, warehouse and logistics, service spaces, and manufacturing.",
+    "impactPoints": [
+      "Combines AI, robotics, and software in one system",
+      "Focuses on reducing manual work and improving operational efficiency",
+      "Public materials reference vendor-agnostic robot management",
+      "Targets fulfillment, retail, warehouse and logistics, service spaces, and manufacturing"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Deus Robotics adds credibility to the lineup by representing a company working on the software and orchestration layer needed to scale robotics adoption."
+  },
+  {
+    "slug": "heal",
+    "title": "HEAL",
+    "tagline": null,
+    "description": "HEAL applied to Pitch Playoffs 002 as a pre-seed company at the idea or mockup stage and was not yet selling.",
+    "imageUrl": null,
+    "challenge": null,
+    "challengePoints": [],
+    "ourRole": "SF Playground featured HEAL as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002"
+    ],
+    "experience": null,
+    "impact": null,
+    "impactPoints": [
+      "Idea / mockups only",
+      "Pre-Seed stage",
+      "Not yet selling"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "HEAL represents very early-stage founders using the event as a place to test and share emerging ideas."
+  },
+  {
+    "slug": "aora",
+    "title": "Aora",
+    "tagline": "Advanced off road autonomy solutions",
+    "description": "Aora Solutions develops autonomous technologies for heavy vehicles and off-road material movement, with expertise spanning robotics, sensor systems, vehicle by-wire systems, asset health and tracking, and remote operations.",
+    "imageUrl": "https://drive.google.com/file/d/1EaTdNjQ-eaYaiew6O7tn8JYgTVw-maRF/view?usp=drive_link",
+    "challenge": "Off-road industries such as mining and heavy equipment operations need autonomy systems built for rugged environments, complex sensing, and real-world material movement challenges.",
+    "challengePoints": [
+      "Heavy vehicles require specialized autonomy systems",
+      "Off-road environments are harder to automate than structured indoor settings",
+      "Operators need better visibility into asset health, tracking, and remote operations"
+    ],
+    "ourRole": "SF Playground featured Aora as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Physical product showcased at the event"
+    ],
+    "experience": "Aora’s public site frames the company around off-road autonomy and autonomous systems engineering for heavy mobile equipment.",
+    "impact": "The company publicly emphasizes deployment of autonomous technologies for material movement and related off-road industrial challenges.",
+    "impactPoints": [
+      "Focuses on off-road autonomy",
+      "Works on autonomous technologies for heavy vehicles",
+      "Highlights robotics, LiDAR, radar, cameras, and vehicle by-wire expertise",
+      "Public site lists asset health and tracking and remote operations as core areas"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Aora stands out by targeting off-road autonomy, a technically demanding category with meaningful industrial upside."
+  },
+  {
+    "slug": "autogenbot",
+    "title": "AUTOGENBOT",
+    "tagline": "Building the future of Physical AI for offroad robotic mobility",
+    "description": "AUTOGENBOT is building Physical AI systems for off-road robotic mobility, with public materials highlighting agricultural and other off-road use cases.",
+    "imageUrl": "https://drive.google.com/file/d/1UTLoJs7X8KLMkDsi7EEf-O06JRmyIUcX/view?usp=drive_link",
+    "challenge": "Off-road environments such as farms and rugged operational settings are difficult for most robots to navigate and automate reliably.",
+    "challengePoints": [
+      "Most robots struggle in off-road environments",
+      "Agriculture needs more affordable robotic mobility solutions",
+      "Field conditions require durable automation built for uneven terrain and practical deployment"
+    ],
+    "ourRole": "SF Playground featured AUTOGENBOT as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002"
+    ],
+    "experience": "AUTOGENBOT’s public site frames the company around next-generation off-road robotics, with a strong emphasis on agricultural automation.",
+    "impact": "The company’s public positioning emphasizes affordable mobility solutions and agricultural robotics for field deployment.",
+    "impactPoints": [
+      "Focuses on Physical AI for off-road robotic mobility",
+      "Public site highlights agricultural robotics",
+      "Public site presents the company as working on affordable mobility solutions",
+      "Positions robots for environments where most robots fail to operate"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "AUTOGENBOT stands out as a niche vertical robotics company focused on difficult outdoor environments with clear real-world use cases."
+  },
+  {
+    "slug": "visum-ai",
+    "title": "Visum AI, Inc.",
+    "tagline": "The Physical Intelligence Layer for Data Centers",
+    "description": "Visum AI is building the Physical Intelligence Layer for data centers, turning blueprints and expert knowledge into executable intelligence.",
+    "imageUrl": "https://drive.google.com/file/d/1V5ANKX9lU1_PHxU8rpvUDzuHDetwY19p/view?usp=drive_link",
+    "challenge": "Data centers depend on physical infrastructure, operating procedures, and expert knowledge that are difficult to translate into live, actionable intelligence.",
+    "challengePoints": [
+      "Data center knowledge is often locked in documents and operator expertise",
+      "Physical infrastructure needs better execution intelligence",
+      "Teams need stronger visibility into operational trends and anomalies"
+    ],
+    "ourRole": "SF Playground featured Visum AI, Inc. as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002"
+    ],
+    "experience": "Visum AI’s public materials position the company at the intersection of AI, computer vision, and data center operations.",
+    "impact": "The company’s public messaging emphasizes converting blueprints and expert knowledge into operational intelligence for data centers.",
+    "impactPoints": [
+      "Building the Physical Intelligence Layer for Data Centers",
+      "Public materials reference monitoring, analysis, and anomaly detection",
+      "Public materials reference blueprints and expert knowledge as inputs",
+      "LinkedIn lists specialties including AI, computer vision, data centers, and SOPs, MOPs, and EOPs"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Visum AI stands out because it targets the physical operating layer of data centers, a critical part of AI infrastructure."
+  },
+  {
+    "slug": "marnexii",
+    "title": "MarNexii",
+    "tagline": "An A.I. nexus aware of the sea, subsea, and its airspace",
+    "description": "MarNexii is building maritime AI for ports, waterways, and critical ocean infrastructure, with public materials emphasizing awareness across the sea, subsea, and surrounding airspace.",
+    "imageUrl": "https://drive.google.com/file/d/1rplgdw8RrGtLbgto7iDdtJtxARqadzC1/view?usp=drive_link",
+    "challenge": "Ports, waterways, and maritime infrastructure need better real-time awareness across a complex environment that spans surface, subsurface, and airspace activity.",
+    "challengePoints": [
+      "Maritime infrastructure requires better real-time awareness",
+      "Ports and waterways are critical infrastructure with complex operational visibility needs",
+      "Operators need more than a single data source to understand what is happening in real time"
+    ],
+    "ourRole": "SF Playground featured MarNexii as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002"
+    ],
+    "experience": "MarNexii’s public site frames the company around maritime awareness and AI for critical sea and port environments.",
+    "impact": "The company’s public materials emphasize AI-driven awareness for the maritime domain, spanning sea, subsea, and airspace conditions.",
+    "impactPoints": [
+      "Focuses on maritime and port awareness",
+      "Public site frames oceans, ports, and waterways as critical infrastructure",
+      "Public messaging spans sea, subsea, and airspace awareness"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "MarNexii stands out because it applies AI to a strategic but underrepresented domain: maritime visibility and critical infrastructure awareness."
+  },
+  {
+    "slug": "ai-barmen",
+    "title": "AI Barmen",
+    "tagline": "AI robotic bartenders",
+    "description": "AI Barmen is building robotic bartender systems for venues, combining automated dispensing with real-time drink analytics, demand forecasting, and service optimization.",
+    "imageUrl": "https://drive.google.com/file/d/1Djw2mCW7nmS-LJ8-dNpBO8i9JUsRlGbP/view?usp=drive_link",
+    "challenge": "Bars and hospitality venues need faster, more consistent service while also gaining better insight into drink performance and customer behavior.",
+    "challengePoints": [
+      "Venues need to move faster without adding floor complexity",
+      "Drink service benefits from precision and consistency",
+      "Operators need better analytics around demand and customer behavior"
+    ],
+    "ourRole": "SF Playground featured AI Barmen as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Physical product showcased at the event"
+    ],
+    "experience": "AI Barmen’s public site presents the company as a robotic bartender platform for venues looking to combine automation with operational insight.",
+    "impact": "The company’s public messaging emphasizes faster service, smarter dispensing, and analytics-driven bar operations.",
+    "impactPoints": [
+      "Public site references real-time drink analytics",
+      "Public site references automated dispensing",
+      "Public site references demand forecasting",
+      "Built for venue operations and seamless service"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "AI Barmen contributes a highly demo-friendly robotics concept that connects hospitality automation with measurable business operations."
+  },
+  {
+    "slug": "occurrence-technologies",
+    "title": "Occurrence AB",
+    "tagline": "The better way to monitor your operations",
+    "description": "Occurrence AB is a Physical AI company that turns existing camera streams into real-time, privacy-preserving operational insight for manufacturing and other industrial environments.",
+    "imageUrl": "https://drive.google.com/file/d/14lDJKxnf8R3OhYB5d1Uu1ehDmtBHAH03/view?usp=drive_link",
+    "challenge": "Occurrence says that while machines are connected, frontline work often is not. That gap can hide efficiency loss, increase safety risk, and slow human-robot collaboration, especially in industrial settings.",
+    "challengePoints": [
+      "Frontline work is often not digitally connected even when machines are",
+      "Limited real-time visibility can hide efficiency loss and safety risk",
+      "Human-robot collaboration is harder when live human activity is not captured and shared",
+      "Industrial teams need privacy-preserving monitoring without relying on stored video"
+    ],
+    "ourRole": "SF Playground featured Occurrence Technologies in Pitch Playoffs 002 as a startup building Physical AI infrastructure for safer and smarter operations.",
+    "rolePoints": [
+      "Featured the company in Pitch Playoffs 002",
+      "Highlighted a Physical AI startup working on manufacturing and operations visibility",
+      "Included a team bringing a portable demonstrator for live showcase"
+    ],
+    "experience": "Occurrence presents itself as a human-centric Physical AI platform for industry. Its site highlights capabilities like real-time positioning, full-body 3D pose estimation without wearables, workflow analytics, geofencing, alerts, robotic integration, and deployment using existing camera systems.",
+    "impact": "Occurrence’s public materials emphasize safety, efficiency, and privacy-preserving operational insight. The company says its platform supports use cases like industrial ergonomics, workflow analytics, and human-robot collaboration while avoiding storage of video data.",
+    "impactPoints": [
+      "Uses existing camera streams as system input",
+      "Provides real-time monitoring and analytics",
+      "Supports geofencing and automated alerts",
+      "Processes anonymised positional data instead of storing video",
+      "Designed for deployment on-prem or in cloud environments",
+      "Supports integration via MQTT and REST API",
+      "Targets industries including manufacturing, logistics, smart cities, retail, and healthcare",
+      "Lists Sting, NVIDIA, AWS, EIT, DeepTech Alliance, SII, and TUM under partners and programmes",
+      "Stockholm, Sweden and Munich, Germany locations are listed on the site"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Occurrence stands out because it is not just building another vision system. It is positioning camera-based Physical AI as a privacy-conscious operational layer that can improve safety, throughput, and human-robot coordination across real industrial environments."
+  },
+  {
+    "slug": "permeable",
+    "title": "Permeable",
+    "tagline": null,
+    "description": "Permeable is a consumer hardware startup focused on wearable technology. Its public site says the company designs, manufactures, and sells hardware products with a primary focus on wearables.",
+    "imageUrl": null,
+    "challenge": "Wearable hardware products need to balance utility, consumer experience, and manufacturable product design in a category where trust and daily usability matter.",
+    "challengePoints": [
+      "Wearable products need strong hardware design and usability",
+      "Consumer hardware requires manufacturing and product execution",
+      "Wearables must create clear value in everyday use"
+    ],
+    "ourRole": "SF Playground featured Permeable as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Physical product showcased at the event"
+    ],
+    "experience": "Permeable’s public materials frame the company around consumer hardware and wearable technology.",
+    "impact": "The company’s public site emphasizes its role as a technology startup designing and selling wearable hardware products.",
+    "impactPoints": [
+      "Public site describes Permeable as a technology startup",
+      "Focuses on designing, manufacturing, and selling consumer hardware",
+      "Primary public emphasis is wearable technology"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Permeable adds another product-forward company to the event roster, this time from the consumer wearable side of hardware."
+  },
+  {
+    "slug": "assemble-robotics",
+    "title": "Assemble Robotics",
+    "tagline": null,
+    "description": "Assemble Robotics is designing plug-and-play hardware and software modules for industries ranging from manufacturing and automation to art and education.",
+    "imageUrl": null,
+    "challenge": "Hardware development in robotics is often slow and complex, making it difficult for teams to iterate quickly or adapt solutions across different applications.",
+    "challengePoints": [
+      "Robotics hardware development is often complex and time consuming",
+      "Teams need faster iteration cycles for automation systems",
+      "Modular components can reduce development complexity across industries"
+    ],
+    "ourRole": "SF Playground featured Assemble Robotics as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002"
+    ],
+    "experience": "Assemble Robotics publicly frames its work around modular robotics development, including a modular gripper and custom engineering projects.",
+    "impact": "The company’s public materials emphasize reduced development cycle time and easier modification through modular robotics components.",
+    "impactPoints": [
+      "Designing plug-and-play hardware and software modules",
+      "Targets manufacturing, automation, art, and education",
+      "Public site highlights a modular robotic gripper",
+      "Also offers custom design projects"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Assemble Robotics represents startups trying to speed up robotics development itself, not just one end application."
+  },
+  {
+    "slug": "novos-power",
+    "title": "Novos Power",
+    "tagline": "Grid-ready for AI data centers and beyond",
+    "description": "Novos Power is building power infrastructure for AI data centers using its Variable Airgap Solid State Transformer technology, positioned around speed, reliability, scalability, and direct utility-feed interconnects.",
+    "imageUrl": null,
+    "challenge": "AI data centers face megawatt-scale, millisecond-level power swings that strain legacy power delivery systems and create infrastructure bottlenecks.",
+    "challengePoints": [
+      "AI data centers face megawatt-scale power swings",
+      "Legacy 480V transformer architectures create constraints",
+      "Power infrastructure needs faster dynamic response and higher density delivery"
+    ],
+    "ourRole": "SF Playground featured Novos Power as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Physical product showcased at the event"
+    ],
+    "experience": "Novos Power’s public site frames the company around grid-ready infrastructure for AI data centers, grounded in DOE- and NASA-funded research.",
+    "impact": "The company’s public materials emphasize scalable, high-density power delivery and direct 13 to 48 kV utility-feed interconnects for next-generation compute infrastructure.",
+    "impactPoints": [
+      "Targets AI data center power infrastructure",
+      "Built around Variable Airgap Solid State Transformer technology",
+      "Public site references DOE- and NASA-funded research",
+      "Public site references 300+ peer-reviewed publications and 30+ issued patents behind the foundation"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "Novos Power illustrates how the event can attract infrastructure startups working on a critical bottleneck for AI growth: power delivery."
+  },
+  {
+    "slug": "oval-by-irvinei-corporation",
+    "title": "OVAL by IRVINEi Corporation",
+    "tagline": null,
+    "description": "OVAL is IRVINEi’s AI-powered smart home hub and touchscreen doorbell platform, designed to combine home security, situational awareness, and smart device control in one system.",
+    "imageUrl": "https://drive.google.com/file/d/1SekVnBAIZk3pBDQb0x7NA2HGP8vBDYCB/view?usp=drive_link",
+    "challenge": "Homeowners often manage disconnected security devices, generic alerts, and fragmented smart-home controls that reduce both convenience and real situational awareness.",
+    "challengePoints": [
+      "Home security systems often generate generic motion alerts",
+      "Smart-home devices are frequently fragmented across ecosystems",
+      "Homeowners need more contextual awareness and centralized control"
+    ],
+    "ourRole": "SF Playground featured OVAL by IRVINEi Corporation as a participating startup in Pitch Playoffs 002.",
+    "rolePoints": [
+      "Participating startup in Pitch Playoffs 002",
+      "Physical product showcased at the event"
+    ],
+    "experience": "OVAL’s public materials present the product as an AI-powered home hub and security system that integrates with Alexa, Google Home, and thousands of connected devices.",
+    "impact": "The company’s public site emphasizes more contextual alerts, integrated smart-home automation, and durable consumer-facing hardware for home security.",
+    "impactPoints": [
+      "AI-powered touchscreen doorbell and IoT hub",
+      "Public site says it integrates with Alexa, Google Home, and 2700+ devices",
+      "Public site emphasizes contextual AI alerts instead of generic motion alerts",
+      "Public materials reference home automation across lights, locks, sensors, cameras, and thermostats"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "OVAL adds a strong consumer-facing hardware example to the lineup by combining AI, security, and smart-home orchestration."
+  },
+  {
+    "slug": "1robot",
+    "title": "1Robot",
+    "tagline": "Breaking the limits of automation",
+    "description": "1Robot is a robotics and automation company building systems for factories, farms, campuses, and other real-world environments. Its public site highlights a product lineup that includes XFlow, XLift, XArm Nova, NEO, and DROF-o1.",
+    "imageUrl": "https://drive.google.com/file/d/1ntnuJ6XVRAE9x5j2_k83m9k52EEeUCR8/view?usp=drive_link",
+    "challenge": "1Robot positions itself around expanding automation beyond a single setting, with technology designed for industrial floors, open fields, and shared campuses.",
+    "challengePoints": [
+      "Automation needs to work across factories, farms, campuses, and other environments",
+      "Material handling and logistics still require safer and faster autonomous systems",
+      "Teams need flexible automation that can be deployed without overly complicated setup"
+    ],
+    "ourRole": "SF Playground featured 1Robot as a startup worth highlighting for its broad robotics platform and real-world automation focus.",
+    "rolePoints": [
+      "Highlighted the company as part of the startup lineup",
+      "Showcased a robotics company with products across mobility, lifting, and robotic arms"
+    ],
+    "experience": "1Robot’s public site presents a portfolio approach to automation, with products spanning autonomous mobile robots, forklifts, and robotic arms.",
+    "impact": "The company’s public positioning emphasizes scalable automation across multiple industries and operating environments.",
+    "impactPoints": [
+      "Product lineup includes XFlow, XLift, XArm Nova, NEO, and DROF-o1",
+      "XFlow is positioned as an AI autonomous mobile robot for material handling",
+      "XLift is positioned around lifting and warehouse logistics",
+      "XArm Nova is positioned as a flexible robotic arm system with built-in intelligence and modularity"
+    ],
+    "founderQuote": null,
+    "attendeeQuote": null,
+    "founderQuote2": null,
+    "whyItMatters": "1Robot stands out as a robotics company aiming to bring automation into multiple real-world environments rather than focusing on a single narrow use case."
+  }
+]

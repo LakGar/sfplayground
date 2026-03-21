@@ -84,7 +84,7 @@ const VideoBackground = () => {
         playsInline
         className="absolute inset-0 hidden w-full h-full object-cover md:block"
       />
-      <div className="absolute top-0 left-0 w-full h-full bg-linear-to-b from-black/10 to-black via-black/20" />
+      <div className="absolute left-0 top-0 h-full w-full bg-linear-to-b from-black/6 via-black/14 to-black/55" />
     </>
   );
 };

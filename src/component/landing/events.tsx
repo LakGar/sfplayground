@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CalendarIcon, MapPinIcon, UsersIcon, ArrowRightIcon } from "lucide-react";
 import siteData from "@/data/site-data.json";
-import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 
 type EventItem = {
   slug: string;
@@ -81,30 +81,30 @@ const Events = ({
             <Link
               key={event.title}
               href={`/events/${event.slug}`}
-              className={`group cursor-pointer transition-all duration-700 ${
+              className={`group block cursor-pointer overflow-hidden rounded-xl border border-white/10 transition-all duration-700 ${
                 isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-10 opacity-0"
               }`}
               style={{ transitionDelay: `${300 + index * 150}ms` }}
             >
               {/* Image */}
-              <div className="relative h-48 md:h-56 rounded-t-lg overflow-hidden">
+              <div className="relative h-48 overflow-hidden md:h-56">
                 <Image
-                  src={convertGoogleDriveImageUrl(event.coverImage)}
+                  src={getProxiedImageUrl(event.coverImage, { w: 800 })}
                   alt={event.title}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  unoptimized={event.coverImage.includes("drive.google.com")}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
                 <span className="absolute top-4 left-4 bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full uppercase backdrop-blur-sm">
                   {event.status}
                 </span>
               </div>
 
               {/* Content */}
-              <div className="bg-white/5 border border-white/10 border-t-0 rounded-b-lg p-5 group-hover:bg-white/10 transition-colors duration-300">
+              <div className="border-t border-white/10 bg-white/5 p-5 transition-colors duration-300 group-hover:bg-white/10">
                 <h3 className="text-white font-oswald text-xl mb-3 group-hover:text-[#19f7ea] transition-colors duration-300">
                   {event.title}
                 </h3>
