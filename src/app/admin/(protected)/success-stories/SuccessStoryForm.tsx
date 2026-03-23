@@ -67,7 +67,7 @@ export function SuccessStoryForm({ story }: { story?: SuccessStoryRow }) {
   };
 
   const inputClass =
-    "w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]";
+    "w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300";
   const textareaClass = inputClass + " resize-y";
   const labelClass = "block text-white/80 font-oswald text-sm mb-1";
 
@@ -229,7 +229,7 @@ export function SuccessStoryForm({ story }: { story?: SuccessStoryRow }) {
         <button
           type="submit"
           disabled={saving}
-          className="px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold text-sm hover:bg-white transition-colors disabled:opacity-50"
+          className="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold text-sm hover:bg-white transition-colors disabled:opacity-50"
         >
           {saving ? "Saving…" : story ? "Update story" : "Create story"}
         </button>

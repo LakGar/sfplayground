@@ -117,7 +117,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
           onClick={() => setAiOpen((o) => !o)}
           className="w-full flex items-center gap-3 px-4 py-3 text-left text-white/90 hover:bg-white/5 transition-colors"
         >
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#19f7ea]/15 text-[#19f7ea]">
+          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-300/15 text-slate-200">
             <Wand2 className="w-4 h-4" strokeWidth={2} />
           </span>
           <span className="font-oswald text-sm font-medium">
@@ -137,7 +137,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
               onChange={(e) => setAiStartingPoint(e.target.value)}
               placeholder="e.g. Why we moved our meetup to the new venue, and what’s coming next"
               rows={3}
-              className="w-full px-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea] resize-y text-sm"
+              className="w-full px-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300 resize-y text-sm"
               disabled={aiLoading}
             />
             {aiError && (
@@ -147,7 +147,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
               type="button"
               onClick={handleAiDraft}
               disabled={aiLoading || !aiStartingPoint.trim()}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#19f7ea]/20 text-[#19f7ea] font-oswald text-sm font-medium hover:bg-[#19f7ea]/30 disabled:opacity-50 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-300/20 text-slate-200 font-oswald text-sm font-medium hover:bg-slate-300/30 disabled:opacity-50 transition-colors"
             >
               {aiLoading ? (
                 <>
@@ -199,7 +199,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
                 }
               }}
               placeholder="https://... (Drive links auto-convert)"
-              className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea] text-sm"
+              className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300 text-sm"
             />
           </div>
         </div>
@@ -242,7 +242,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
                 value={excerpt}
                 onChange={(e) => setExcerpt(e.target.value)}
                 rows={2}
-                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea] resize-none text-sm"
+                className="w-full px-3 py-2 rounded-lg bg-white/10 border border-white/15 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300 resize-none text-sm"
                 placeholder="Short summary for listings"
               />
             </div>
@@ -265,7 +265,7 @@ export function BlogPostForm({ post }: { post?: BlogPost }) {
           value="publish"
           disabled={saving}
           onClick={() => setSubmitAction("publish")}
-          className="px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold hover:bg-white disabled:opacity-50"
+          className="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold hover:bg-white disabled:opacity-50"
         >
           {saving ? "Saving…" : "Publish"}
         </button>

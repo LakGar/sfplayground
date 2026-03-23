@@ -55,7 +55,7 @@ export default function AdminWebsitePage() {
                 onClick={() => setCurrentPath(p.path)}
                 className={`px-4 py-2 text-sm font-oswald transition-colors ${
                   currentPath === p.path
-                    ? "bg-[#19f7ea] text-black"
+                    ? "bg-slate-200 text-slate-900"
                     : "bg-white/5 text-white hover:bg-white/10"
                 }`}
               >
@@ -76,7 +76,7 @@ export default function AdminWebsitePage() {
                 onClick={() => setViewport(v.id)}
                 className={`px-4 py-2 text-sm font-oswald transition-colors ${
                   viewport === v.id
-                    ? "bg-[#19f7ea] text-black"
+                    ? "bg-slate-200 text-slate-900"
                     : "bg-white/5 text-white hover:bg-white/10"
                 }`}
               >

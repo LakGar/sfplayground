@@ -12,7 +12,7 @@ export default async function AdminBlogPage() {
         <h1 className="text-2xl font-oswald font-bold text-white">Blog</h1>
         <Link
           href="/admin/blog/new"
-          className="inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold text-sm hover:bg-white transition-colors"
+          className="inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold text-sm hover:bg-white transition-colors"
         >
           New post
         </Link>
@@ -60,7 +60,7 @@ export default async function AdminBlogPage() {
                   </td>
                   <td className="px-4 py-3 text-sm">
                     {p.published_at ? (
-                      <span className="text-[#19f7ea]">Published</span>
+                      <span className="text-slate-200">Published</span>
                     ) : (
                       <span className="text-white/50">Draft</span>
                     )}
@@ -71,7 +71,7 @@ export default async function AdminBlogPage() {
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/blog/${p.id}/edit`}
-                      className="text-[#19f7ea] hover:underline font-oswald text-sm"
+                      className="text-slate-200 hover:underline font-oswald text-sm"
                     >
                       Edit
                     </Link>

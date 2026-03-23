@@ -112,7 +112,7 @@ export default async function AdminDashboardPage() {
               Last: {relativeTime(latestSend.sent_at)} · {latestSend.subscriber_count} recipients
             </p>
           )}
-          <span className="text-[#19f7ea] text-xs font-oswald mt-2 inline-block">
+          <span className="text-slate-200 text-xs font-oswald mt-2 inline-block">
             View history →
           </span>
         </Link>
@@ -120,7 +120,7 @@ export default async function AdminDashboardPage() {
 
       {/* Quick info: next event */}
       {nextEvent && (
-        <div className="rounded-xl border border-[#19f7ea]/20 bg-[#19f7ea]/5 p-4 mb-8">
+        <div className="rounded-xl border border-slate-300/20 bg-slate-300/5 p-4 mb-8">
           <p className="text-white/70 text-sm font-oswald mb-1">Next event (hero)</p>
           <p className="font-oswald font-bold text-white text-lg">{nextEvent.title}</p>
           <p className="text-white/60 text-sm mt-1">
@@ -129,7 +129,7 @@ export default async function AdminDashboardPage() {
           </p>
           <Link
             href="/admin/next-event"
-            className="inline-block mt-3 text-[#19f7ea] font-oswald text-sm hover:underline"
+            className="inline-block mt-3 text-slate-200 font-oswald text-sm hover:underline"
           >
             Edit next event →
           </Link>
@@ -142,7 +142,7 @@ export default async function AdminDashboardPage() {
           href="/admin/subscribers"
           className="block p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-colors group"
         >
-          <span className="font-oswald font-bold text-white group-hover:text-[#19f7ea] transition-colors">
+          <span className="font-oswald font-bold text-white group-hover:text-slate-200 transition-colors">
             Subscribers
           </span>
           <p className="text-white/50 text-sm mt-1">
@@ -155,7 +155,7 @@ export default async function AdminDashboardPage() {
           href="/admin/blog"
           className="block p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-colors group"
         >
-          <span className="font-oswald font-bold text-white group-hover:text-[#19f7ea] transition-colors">
+          <span className="font-oswald font-bold text-white group-hover:text-slate-200 transition-colors">
             Blog
           </span>
           <p className="text-white/50 text-sm mt-1">
@@ -171,7 +171,7 @@ export default async function AdminDashboardPage() {
           href="/admin/newsletters"
           className="block p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-colors group"
         >
-          <span className="font-oswald font-bold text-white group-hover:text-[#19f7ea] transition-colors">
+          <span className="font-oswald font-bold text-white group-hover:text-slate-200 transition-colors">
             Newsletters
           </span>
           <p className="text-white/50 text-sm mt-1">
@@ -184,7 +184,7 @@ export default async function AdminDashboardPage() {
           href="/admin/next-event"
           className="block p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-colors group"
         >
-          <span className="font-oswald font-bold text-white group-hover:text-[#19f7ea] transition-colors">
+          <span className="font-oswald font-bold text-white group-hover:text-slate-200 transition-colors">
             Next event
           </span>
           <p className="text-white/50 text-sm mt-1">
@@ -197,7 +197,7 @@ export default async function AdminDashboardPage() {
           href="/admin/events"
           className="block p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-colors group"
         >
-          <span className="font-oswald font-bold text-white group-hover:text-[#19f7ea] transition-colors">
+          <span className="font-oswald font-bold text-white group-hover:text-slate-200 transition-colors">
             Past events
           </span>
           <p className="text-white/50 text-sm mt-1">
@@ -210,7 +210,7 @@ export default async function AdminDashboardPage() {
           href="/admin/success-stories"
           className="block p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-colors group"
         >
-          <span className="font-oswald font-bold text-white group-hover:text-[#19f7ea] transition-colors">
+          <span className="font-oswald font-bold text-white group-hover:text-slate-200 transition-colors">
             Success stories
           </span>
           <p className="text-white/50 text-sm mt-1">
@@ -223,7 +223,7 @@ export default async function AdminDashboardPage() {
           href="/admin/website"
           className="block p-5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-colors group"
         >
-          <span className="font-oswald font-bold text-white group-hover:text-[#19f7ea] transition-colors">
+          <span className="font-oswald font-bold text-white group-hover:text-slate-200 transition-colors">
             Edit website
           </span>
           <p className="text-white/50 text-sm mt-1">

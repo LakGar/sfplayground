@@ -88,7 +88,7 @@ export function NewsletterDraftForm({ draft }: { draft?: NewsletterDraft }) {
           onClick={() => setAiOpen((o) => !o)}
           className="w-full flex items-center gap-3 px-4 py-3 text-left text-white/90 hover:bg-white/5 transition-colors"
         >
-          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#19f7ea]/15 text-[#19f7ea]">
+          <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-300/15 text-slate-200">
             <Wand2 className="w-4 h-4" strokeWidth={2} />
           </span>
           <span className="font-oswald text-sm font-medium">
@@ -108,7 +108,7 @@ export function NewsletterDraftForm({ draft }: { draft?: NewsletterDraft }) {
               onChange={(e) => setAiStartingPoint(e.target.value)}
               placeholder="e.g. Recap of last week’s meetup, highlight the new venue and upcoming speaker night"
               rows={3}
-              className="w-full px-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea] resize-y text-sm"
+              className="w-full px-3 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300 resize-y text-sm"
               disabled={aiLoading}
             />
             {aiError && (
@@ -118,7 +118,7 @@ export function NewsletterDraftForm({ draft }: { draft?: NewsletterDraft }) {
               type="button"
               onClick={handleAiDraft}
               disabled={aiLoading || !aiStartingPoint.trim()}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[#19f7ea]/20 text-[#19f7ea] font-oswald text-sm font-medium hover:bg-[#19f7ea]/30 disabled:opacity-50 transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-300/20 text-slate-200 font-oswald text-sm font-medium hover:bg-slate-300/30 disabled:opacity-50 transition-colors"
             >
               {aiLoading ? (
                 <>
@@ -143,7 +143,7 @@ export function NewsletterDraftForm({ draft }: { draft?: NewsletterDraft }) {
           name="subject"
           defaultValue={draft?.subject}
           required
-          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
           placeholder="Newsletter subject"
         />
       </div>
@@ -157,14 +157,14 @@ export function NewsletterDraftForm({ draft }: { draft?: NewsletterDraft }) {
           defaultValue={draft?.body_html}
           required
           rows={16}
-          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea] resize-y font-mono text-sm"
+          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300 resize-y font-mono text-sm"
           placeholder="<p>Hello...</p>"
         />
       </div>
       <button
         type="submit"
         disabled={saving}
-        className="px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold hover:bg-white disabled:opacity-50"
+        className="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold hover:bg-white disabled:opacity-50"
       >
         {saving ? "Saving…" : "Save draft"}
       </button>

@@ -66,7 +66,7 @@ export function NextEventForm({ initial }: { initial: NextEventData }) {
           name="title"
           defaultValue={initial.title}
           required
-          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
         />
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -79,7 +79,7 @@ export function NextEventForm({ initial }: { initial: NextEventData }) {
             name="date"
             defaultValue={initial.date}
             required
-            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
             placeholder="March 15, 2026"
           />
         </div>
@@ -91,7 +91,7 @@ export function NextEventForm({ initial }: { initial: NextEventData }) {
             type="text"
             name="time"
             defaultValue={initial.time}
-            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+            className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
             placeholder="6:00 PM"
           />
         </div>
@@ -105,7 +105,7 @@ export function NextEventForm({ initial }: { initial: NextEventData }) {
           name="location"
           defaultValue={initial.location}
           required
-          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
         />
       </div>
       <div>
@@ -117,7 +117,7 @@ export function NextEventForm({ initial }: { initial: NextEventData }) {
           name="hook"
           defaultValue={initial.hook}
           required
-          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
         />
       </div>
       <div>
@@ -129,7 +129,7 @@ export function NextEventForm({ initial }: { initial: NextEventData }) {
           name="ctaText"
           defaultValue={initial.ctaText}
           required
-          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
           placeholder="Get my spot"
         />
       </div>
@@ -142,13 +142,13 @@ export function NextEventForm({ initial }: { initial: NextEventData }) {
           name="imageUrl"
           defaultValue={initial.imageUrl ?? ""}
           placeholder="https://..."
-          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-[#19f7ea]"
+          className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 text-white font-oswald placeholder-white/40 focus:outline-none focus:border-slate-300"
         />
       </div>
       <button
         type="submit"
         disabled={saving}
-        className="px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold hover:bg-white disabled:opacity-50"
+        className="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold hover:bg-white disabled:opacity-50"
       >
         {saving ? "Saving…" : "Save"}
       </button>

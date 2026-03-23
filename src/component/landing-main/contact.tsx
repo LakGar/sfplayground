@@ -13,6 +13,7 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [formStartedAt, setFormStartedAt] = useState<number>(() => Date.now());
 
   const coachingPlans = useMemo(
     () => [
@@ -27,17 +28,20 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
     setIsSubmitting(true);
     setSubmitState("idle");
     setErrorMessage("");
 
-    const formData = new FormData(e.currentTarget);
+    const formData = new FormData(form);
     const payload = {
       name: (formData.get("name") as string) ?? "",
       email: (formData.get("email") as string) ?? "",
       phone: (formData.get("phone") as string) ?? "",
       coachingPlan: (formData.get("coachingPlan") as string) ?? "",
       message: (formData.get("message") as string) ?? "",
+      website: (formData.get("website") as string) ?? "",
+      formStartedAt,
     };
 
     try {
@@ -59,7 +63,8 @@ export default function Contact() {
 
       if (response.ok && result?.success) {
         setSubmitState("success");
-        e.currentTarget.reset();
+        form.reset();
+        setFormStartedAt(Date.now());
         setTimeout(() => setSubmitState("idle"), 2500);
       } else {
         setSubmitState("error");
@@ -167,6 +172,7 @@ export default function Contact() {
                     name="name"
                     type="text"
                     required
+                    minLength={4}
                     placeholder="Jane Smith"
                     className="w-full px-4 py-3 bg-white/10 rounded-md text-white placeholder-white/50 focus:outline-none   transition-colors     text-sm"
                   />
@@ -245,9 +251,21 @@ export default function Contact() {
                   id="message"
                   name="message"
                   required
+                  minLength={30}
                   rows={5}
                   placeholder="I need..."
                   className="w-full px-4 py-3 bg-white/10      -white/15 rounded-md text-white placeholder-white/50 focus:outline-none   transition-colors     text-sm resize-none"
+                />
+              </div>
+
+              <div className="hidden" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input
+                  id="website"
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
                 />
               </div>
 
