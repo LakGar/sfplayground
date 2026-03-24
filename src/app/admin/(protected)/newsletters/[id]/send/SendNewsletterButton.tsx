@@ -42,7 +42,7 @@ export function SendNewsletterButton({ draftId }: { draftId: number }) {
         type="button"
         onClick={handleSend}
         disabled={sending}
-        className="px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold text-sm hover:bg-white disabled:opacity-50 transition-colors"
+        className="px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold text-sm hover:bg-white disabled:opacity-50 transition-colors"
       >
         {sending ? "Sending…" : "Send now"}
       </button>
@@ -50,7 +50,7 @@ export function SendNewsletterButton({ draftId }: { draftId: number }) {
         <p
           className={
             result.ok
-              ? "text-[#19f7ea] text-sm font-oswald"
+              ? "text-slate-200 text-sm font-oswald"
               : "text-red-400 text-sm font-oswald"
           }
         >

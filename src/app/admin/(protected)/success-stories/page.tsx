@@ -14,7 +14,7 @@ export default async function AdminSuccessStoriesPage() {
         </h1>
         <Link
           href="/admin/success-stories/new"
-          className="inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold text-sm hover:bg-white transition-colors"
+          className="inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold text-sm hover:bg-white transition-colors"
         >
           New story
         </Link>
@@ -58,7 +58,7 @@ export default async function AdminSuccessStoriesPage() {
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/success-stories/${s.id}/edit`}
-                      className="text-[#19f7ea] hover:underline font-oswald text-sm"
+                      className="text-slate-200 hover:underline font-oswald text-sm"
                     >
                       Edit
                     </Link>

@@ -17,7 +17,7 @@ export default async function AdminNewslettersPage() {
         </h1>
         <Link
           href="/admin/newsletters/new"
-          className="inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg bg-[#19f7ea] text-black font-oswald font-bold text-sm hover:bg-white transition-colors"
+          className="inline-flex items-center justify-center w-fit px-4 py-2 rounded-lg bg-slate-200 text-slate-900 font-oswald font-bold text-sm hover:bg-white transition-colors"
         >
           New draft
         </Link>
@@ -71,14 +71,14 @@ export default async function AdminNewslettersPage() {
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/newsletters/${d.id}/edit`}
-                      className="text-[#19f7ea] hover:underline font-oswald text-sm"
+                      className="text-slate-200 hover:underline font-oswald text-sm"
                     >
                       Edit
                     </Link>
                     {" · "}
                     <Link
                       href={`/admin/newsletters/${d.id}/send`}
-                      className="text-white/80 hover:text-[#19f7ea] font-oswald text-sm"
+                      className="text-white/80 hover:text-slate-200 font-oswald text-sm"
                     >
                       Send
                     </Link>

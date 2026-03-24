@@ -40,7 +40,7 @@ export function SubscribersList({
               <td className="px-4 py-3 text-white font-oswald text-sm">
                 <a
                   href={`mailto:${s.email}`}
-                  className="hover:text-[#19f7ea] transition-colors"
+                  className="hover:text-slate-200 transition-colors"
                 >
                   {s.email}
                 </a>

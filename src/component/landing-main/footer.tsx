@@ -149,6 +149,18 @@ const Footer = () => {
                     </Link>
                   </li>
                 </ul>
+                <ul className="mt-4 flex flex-col gap-3 text-sm text-white/60">
+                  <li>
+                    <Link
+                      href="https://x.com/sf_playgro27142"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition-colors hover:text-white"
+                    >
+                      X
+                    </Link>
+                  </li>
+                </ul>
               </div>
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/40">
