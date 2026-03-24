@@ -49,7 +49,7 @@ const Stats = () => {
       },
       {
         id: "funding-average",
-        label: "Average funding raised",
+        label: "Average Initial Funding",
         target: 28,
         decimals: 0,
         suffix: "K+ USD",
