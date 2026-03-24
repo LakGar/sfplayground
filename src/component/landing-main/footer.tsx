@@ -34,15 +34,24 @@ const Footer = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-4 md:col-span-5 md:items-end md:text-right">
-                <Link
-                  href={SIGNUP_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group inline-flex w-fit items-center gap-3 rounded-xl border border-white/35 bg-white/[0.08] px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white hover:text-black"
-                >
-                  Register
-                  <ArrowUpRight className="h-4 w-4 opacity-80 transition-transform group-hover:-translate-y-px group-hover:translate-x-px" />
-                </Link>
+                <div className="flex flex-col gap-3 md:items-end">
+                  <Link
+                    href={SIGNUP_FORM_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex w-fit items-center gap-3 rounded-xl border border-white/35 bg-white/[0.08] px-6 py-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-sm transition-colors hover:border-white hover:bg-white hover:text-black"
+                  >
+                    Register
+                    <ArrowUpRight className="h-4 w-4 opacity-80 transition-transform group-hover:-translate-y-px group-hover:translate-x-px" />
+                  </Link>
+                  <Link
+                    href="/sponsors"
+                    className="group inline-flex w-fit items-center gap-3 rounded-xl border border-white/20 bg-transparent px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-white/90 backdrop-blur-sm transition-colors hover:border-white/40 hover:bg-white/10"
+                  >
+                    Sponsor the room
+                    <ArrowUpRight className="h-4 w-4 opacity-80 transition-transform group-hover:-translate-y-px group-hover:translate-x-px" />
+                  </Link>
+                </div>
                 <p className="max-w-xs text-xs leading-relaxed text-white/40 md:ml-auto">
                   No pay-to-pitch. We curate for signal density and founder fit.
                 </p>
@@ -73,7 +82,7 @@ const Footer = () => {
               </a>
             </div>
 
-            <div className="grid grid-cols-3 gap-10 sm:gap-16 md:col-span-7 md:justify-end md:justify-items-end">
+            <div className="grid grid-cols-2 gap-10 sm:gap-12 md:col-span-7 md:grid-cols-4 md:justify-end md:justify-items-end">
               <div>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/40">
                   Site
@@ -117,6 +126,45 @@ const Footer = () => {
                       className="transition-colors hover:text-white"
                     >
                       Contact
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/40">
+                  Work with us
+                </p>
+                <ul className="mt-4 flex flex-col gap-3 text-sm text-white/60">
+                  <li>
+                    <Link
+                      href="/sponsors"
+                      className="transition-colors hover:text-white"
+                    >
+                      Sponsors
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/startups"
+                      className="transition-colors hover:text-white"
+                    >
+                      Startups
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/vcs"
+                      className="transition-colors hover:text-white"
+                    >
+                      VCs
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/speakers"
+                      className="transition-colors hover:text-white"
+                    >
+                      Speakers
                     </Link>
                   </li>
                 </ul>

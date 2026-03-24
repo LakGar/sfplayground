@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { getTeamRecipients, SFPLAYGROUND_FROM } from "@/lib/team-email";
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 5;
@@ -142,14 +143,9 @@ export async function POST(request: NextRequest) {
     }
 
     if (resend) {
-      const teamRecipients = [
-        "hello@sfplayground.com",
-        "staff@sfplaygroundai.com",
-      ];
-
       const notificationEmail = await resend.emails.send({
-        from: "SF Playground <hello@sfplayground.com>",
-        to: teamRecipients,
+        from: SFPLAYGROUND_FROM,
+        to: getTeamRecipients(),
         replyTo: safeEmail,
         subject: `New Contact Form: ${safeName}`,
         html: `
@@ -181,7 +177,7 @@ export async function POST(request: NextRequest) {
 
       // Confirmation email to the submitter
       await resend.emails.send({
-        from: "SF Playground <hello@sfplayground.com>",
+        from: SFPLAYGROUND_FROM,
         to: safeEmail,
         subject: "Thanks for reaching out to SF Playground",
         html: `

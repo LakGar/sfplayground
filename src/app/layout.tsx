@@ -4,6 +4,7 @@ import "./globals.css";
 import { EditModeGate } from "@/component/website-editor/EditModeGate";
 import { Analytics } from "@vercel/analytics/next"
 import { PageTransition } from "@/components/ui/page-transition";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -138,6 +139,7 @@ export default function RootLayout({
       >
         <EditModeGate>
           <PageTransition>{children}</PageTransition>
+          <Toaster />
           <Analytics />
         </EditModeGate>
       </body>

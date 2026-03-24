@@ -9,6 +9,7 @@ const navLinks = [
   { href: "/events", label: "Events" },
   { href: "/success-stories", label: "Portfolio" },
   { href: "/blog", label: "Blog" },
+  { href: "/sponsors", label: "Partners" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -117,6 +118,23 @@ const Nav = () => {
                 {label}
               </Link>
             ))}
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center text-sm text-black/55">
+              <Link href="/startups" onClick={() => setIsOpen(false)} className="hover:text-black">
+                Startups
+              </Link>
+              <span aria-hidden className="text-black/25">
+                ·
+              </span>
+              <Link href="/vcs" onClick={() => setIsOpen(false)} className="hover:text-black">
+                VCs
+              </Link>
+              <span aria-hidden className="text-black/25">
+                ·
+              </span>
+              <Link href="/speakers" onClick={() => setIsOpen(false)} className="hover:text-black">
+                Speakers
+              </Link>
+            </div>
             <div className="mt-4 flex w-full max-w-xs flex-col gap-3 border-t border-black/10 pt-4">
               <button
                 type="button"
