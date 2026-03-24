@@ -147,7 +147,7 @@ export default async function EventsPage() {
                     href={`/events/${featuredEvent.slug}`}
                     className="group block"
                   >
-                    <div className="relative aspect-16/7 w-full">
+                    <div className="relative aspect-10/7 w-full">
                       <div className="absolute inset-0 bg-white/5" />
                       {featuredEvent.cover ? (
                         <Image
