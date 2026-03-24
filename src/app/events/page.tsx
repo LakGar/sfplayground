@@ -67,6 +67,59 @@ function staticEventsToList(raw: StaticEvent[]): EventListItem[] {
   });
 }
 
+function EventGridCard({ event }: { event: EventListItem }) {
+  return (
+    <Link
+      href={`/events/${event.slug}`}
+      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/2 transition-colors hover:border-white/35"
+    >
+      <div className="relative aspect-16/10 w-full overflow-hidden bg-white/5">
+        {event.cover ? (
+          <Image
+            src={getProxiedImageUrl(event.cover, { w: 800 })}
+            alt=""
+            fill
+            className="z-0 object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+        ) : (
+          <div className="relative z-0 flex h-full items-center justify-center text-4xl text-white/15">
+            SF
+          </div>
+        )}
+        <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-black/75 via-black/22 to-transparent" />
+        <div className="absolute bottom-3 left-3 z-20">
+          <span className="inline-block rounded bg-white/15 px-2 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+            PAST EVENT
+          </span>
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col p-6">
+        <h2 className="mb-2 text-2xl font-semibold tracking-tight text-white transition-colors group-hover:text-white/90 md:text-3xl">
+          {event.title}
+        </h2>
+
+        <p className="mb-3 text-sm text-white/70">
+          {event.date}
+          <span className="text-white/40"> · </span>
+          {event.location}
+          <span className="text-white/40"> · </span>
+          {event.attendees} attendees
+        </p>
+
+        <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-white/65">
+          {event.description}
+        </p>
+
+        <span className="mt-4 inline-flex items-center text-sm text-white/80 transition-transform group-hover:translate-x-1">
+          View gallery →
+        </span>
+      </div>
+    </Link>
+  );
+}
+
 export default async function EventsPage() {
   let events: EventListItem[] = staticEventsToList(
     siteData.events as StaticEvent[],
@@ -99,7 +152,6 @@ export default async function EventsPage() {
     .map(({ e }) => e);
 
   const featuredEvent = sortedEvents[0] ?? null;
-  const remainingEvents = featuredEvent ? sortedEvents.slice(1) : sortedEvents;
 
   return (
     <div className="relative min-h-screen overflow-x-clip bg-black text-white">
@@ -142,13 +194,13 @@ export default async function EventsPage() {
           ) : (
             <div className="space-y-12">
               {featuredEvent ? (
-                <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/2">
+                <div className="hidden overflow-hidden rounded-2xl border border-white/10 bg-white/2 md:block">
                   <Link
                     href={`/events/${featuredEvent.slug}`}
                     className="group block"
                   >
-                    <div className="relative aspect-10/7 w-full">
-                      <div className="absolute inset-0 bg-white/5" />
+                    <div className="relative aspect-10/7 w-full overflow-hidden">
+                      <div className="absolute inset-0 z-0 bg-white/5" />
                       {featuredEvent.cover ? (
                         <Image
                           src={getProxiedImageUrl(featuredEvent.cover, {
@@ -156,17 +208,17 @@ export default async function EventsPage() {
                           })}
                           alt=""
                           fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                          className="z-0 object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                           sizes="(max-width: 768px) 100vw, 1200px"
                         />
                       ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-5xl text-white/15">
+                        <div className="absolute inset-0 z-0 flex items-center justify-center text-5xl text-white/15">
                           SF
                         </div>
                       )}
-                      <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
+                      <div className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-black/85 via-black/35 to-transparent" />
 
-                      <div className="absolute inset-x-6 bottom-6">
+                      <div className="absolute inset-x-6 bottom-6 z-20">
                         <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/20 px-3 py-1 backdrop-blur-sm">
                           <span className="text-xs font-semibold tracking-wide text-white">
                             FEATURED
@@ -202,62 +254,16 @@ export default async function EventsPage() {
                 </div>
               ) : null}
 
-              {remainingEvents.length > 0 ? (
-                <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-                  {remainingEvents.map((event) => (
-                    <li key={event.slug}>
-                      <Link
-                        href={`/events/${event.slug}`}
-                        className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/2 transition-colors hover:border-white/35"
-                      >
-                        <div className="relative aspect-16/10 w-full bg-white/5">
-                          {event.cover ? (
-                            <Image
-                              src={getProxiedImageUrl(event.cover, { w: 800 })}
-                              alt=""
-                              fill
-                              className="object-cover transition-transform duration-500 group-hover:scale-105"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            />
-                          ) : (
-                            <div className="flex h-full items-center justify-center text-4xl text-white/15">
-                              SF
-                            </div>
-                          )}
-                          <div className="absolute inset-0 bg-linear-to-t from-black/75 via-black/22 to-transparent" />
-                          <div className="absolute bottom-3 left-3">
-                            <span className="inline-block rounded bg-white/15 px-2 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-                              PAST EVENT
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="flex flex-1 flex-col p-6">
-                          <h2 className="mb-2 text-2xl font-semibold tracking-tight text-white transition-colors group-hover:text-white/90 md:text-3xl">
-                            {event.title}
-                          </h2>
-
-                          <p className="mb-3 text-sm text-white/70">
-                            {event.date}
-                            <span className="text-white/40"> · </span>
-                            {event.location}
-                            <span className="text-white/40"> · </span>
-                            {event.attendees} attendees
-                          </p>
-
-                          <p className="line-clamp-3 flex-1 text-sm leading-relaxed text-white/65">
-                            {event.description}
-                          </p>
-
-                          <span className="mt-4 inline-flex items-center text-sm text-white/80 transition-transform group-hover:translate-x-1">
-                            View gallery →
-                          </span>
-                        </div>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
+              <ul className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                {sortedEvents.map((event, index) => (
+                  <li
+                    key={event.slug}
+                    className={index === 0 ? "md:hidden" : undefined}
+                  >
+                    <EventGridCard event={event} />
+                  </li>
+                ))}
+              </ul>
             </div>
           )}
         </div>

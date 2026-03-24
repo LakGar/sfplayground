@@ -109,7 +109,7 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </article>
 
-      <section className="bg-[#e8e6e1] text-neutral-900">
+      <section className="bg-black text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-center md:py-14 lg:px-10">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-500">
@@ -121,7 +121,7 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
           <Link
             href="/blog"
-            className="group inline-flex items-center gap-2 border border-neutral-900 bg-neutral-900 px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#e8e6e1] transition-colors hover:bg-transparent hover:text-neutral-900"
+            className="group inline-flex items-center gap-2 border text-black border-white/10 bg-white/80 px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-transparent hover:text-white rounded-xl"
           >
             All posts
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />

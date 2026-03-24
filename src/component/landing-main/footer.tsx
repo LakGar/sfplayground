@@ -14,12 +14,12 @@ const Footer = () => {
           className="object-cover"
           priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/48 to-black/55" />
-        <div className="landing-grain absolute inset-0 opacity-[0.38]" />
-        <div className="landing-vignette pointer-events-none absolute inset-0 opacity-60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/48 to-black/55  md:rounded-t-[2rem]" />
+        <div className="landing-grain absolute inset-0 opacity-[0.38] rounded-t-3xl md:rounded-t-[2rem]" />
+        <div className="landing-vignette pointer-events-none absolute inset-0 opacity-60 rounded-t-3xl md:rounded-t-[2rem]" />
 
         <div className="absolute inset-0 flex items-end">
-          <div className="w-full px-4 pb-14 pt-24 md:px-6 md:pb-20 md:pt-32 lg:px-8">
+          <div className="w-full px-4 pb-14 pt-24 md:px-6 md:pb-20 md:pt-32 lg:px-8 rounded-t-3xl md:rounded-t-[2rem]">
             <div className="mx-auto grid max-w-6xl gap-12 md:grid-cols-12 md:items-end md:gap-10">
               <div className="md:col-span-7">
                 <p className="text-[10px] font-semibold uppercase tracking-[0.35em] text-white/45">
