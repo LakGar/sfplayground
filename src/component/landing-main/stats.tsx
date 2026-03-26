@@ -69,7 +69,7 @@ const Stats = () => {
       <div className="relative mx-auto max-w-6xl px-4 py-20 md:px-6 md:py-28 lg:px-8">
         <div className="grid grid-cols-1 items-end gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
-            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.35em] text-neutral-500">
+            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.35em] text-neutral-500 test">
               Reach
             </p>
             <h2 className="font-oswald text-4xl font-bold leading-[1.08] tracking-[-0.02em] text-neutral-900 md:text-5xl lg:text-[3.25rem]">
