@@ -9,13 +9,20 @@ const navLinks = [
   { href: "/events", label: "Events" },
   { href: "/success-stories", label: "Portfolio" },
   { href: "/blog", label: "Blog" },
-  { href: "/sponsors", label: "Partners" },
   { href: "/contact", label: "Contact" },
+];
+
+const partnerLinks = [
+  { href: "/vcs", label: "VCs" },
+  { href: "/speakers", label: "Speakers" },
+  { href: "/sponsors", label: "Sponsors" },
+  { href: "/startups", label: "Startups" },
 ];
 
 const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
+  const [isPartnersOpen, setIsPartnersOpen] = useState(false);
   return (
     <div className="absolute top-0 left-0 w-full z-50">
       <div className="animate-nav-slide-in-top relative z-100 mx-auto max-w-6xl px-4 flex items-center justify-between py-4 gap-4">
@@ -42,6 +49,42 @@ const Nav = () => {
               {label}
             </Link>
           ))}
+          <div
+            className="relative"
+            onMouseEnter={() => setIsPartnersOpen(true)}
+            onMouseLeave={() => setIsPartnersOpen(false)}
+          >
+            <button
+              type="button"
+              onClick={() => setIsPartnersOpen((prev) => !prev)}
+              className="text-white text-md hover:text-white/80 transition-all duration-300 inline-flex items-center gap-1"
+              aria-expanded={isPartnersOpen}
+              aria-haspopup="menu"
+            >
+              Partnerships <span className="text-xs">▾</span>
+            </button>
+            <div
+              className={`absolute left-0 top-full pt-2 w-44 transition-all duration-200 ${
+                isPartnersOpen
+                  ? "opacity-100 translate-y-0 pointer-events-auto"
+                  : "opacity-0 -translate-y-1 pointer-events-none"
+              }`}
+              role="menu"
+            >
+              <div className="rounded-xl border border-white/20 bg-black/85 backdrop-blur-md p-2">
+                {partnerLinks.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    className="block rounded-lg px-3 py-2 text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors"
+                    onClick={() => setIsPartnersOpen(false)}
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
         {/* Buttons */}
         <div className="flex items-center gap-4">
@@ -118,24 +161,51 @@ const Nav = () => {
                 {label}
               </Link>
             ))}
+            <div className="w-full max-w-xs">
+              <p className="text-black/60 text-sm mb-2 text-center">Partnerships</p>
+              <div className="rounded-xl border border-black/10 bg-black/3 p-2">
+                {partnerLinks.map(({ href, label }) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setIsOpen(false)}
+                    className="block rounded-lg px-3 py-2 text-black text-base text-center hover:bg-black/5 transition-colors"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
             <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center text-sm text-black/55">
-              <Link href="/startups" onClick={() => setIsOpen(false)} className="hover:text-black">
+              <Link
+                href="/startups"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-black"
+              >
                 Startups
               </Link>
               <span aria-hidden className="text-black/25">
                 ·
               </span>
-              <Link href="/vcs" onClick={() => setIsOpen(false)} className="hover:text-black">
+              <Link
+                href="/vcs"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-black"
+              >
                 VCs
               </Link>
               <span aria-hidden className="text-black/25">
                 ·
               </span>
-              <Link href="/speakers" onClick={() => setIsOpen(false)} className="hover:text-black">
+              <Link
+                href="/speakers"
+                onClick={() => setIsOpen(false)}
+                className="hover:text-black"
+              >
                 Speakers
               </Link>
             </div>
-            <div className="mt-4 flex w-full max-w-xs flex-col gap-3 border-t border-black/10 pt-4">
+            <div className=" flex w-full max-w-xs flex-col gap-3 ">
               <button
                 type="button"
                 onClick={() => {

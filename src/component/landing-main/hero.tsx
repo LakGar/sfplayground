@@ -52,7 +52,6 @@ function TypewriterHeadline({
 }
 
 const Hero = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const parallaxLayerRef = useRef<HTMLDivElement>(null);
 
@@ -62,32 +61,6 @@ const Hero = () => {
   const [showExperience, setShowExperience] = useState(false);
   const [showCta, setShowCta] = useState(false);
   const [isNewsletterOpen, setIsNewsletterOpen] = useState(false);
-
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    const desktopQuery = window.matchMedia("(min-width: 768px)");
-
-    const updateVideo = () => {
-      if (desktopQuery.matches) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-        video.currentTime = 0;
-      }
-    };
-
-    updateVideo();
-    desktopQuery.addEventListener("change", updateVideo);
-    video.addEventListener("loadedmetadata", updateVideo);
-    if (video.readyState >= 1) updateVideo();
-
-    return () => {
-      desktopQuery.removeEventListener("change", updateVideo);
-      video.removeEventListener("loadedmetadata", updateVideo);
-    };
-  }, []);
 
   /** Scroll parallax: video moves slower than the page (avoids global html/body perspective + overflow hacks). */
   const updateParallax = useCallback(() => {
@@ -187,27 +160,18 @@ const Hero = () => {
       >
         {/* Still image: always visible so mobile always shows a background (video is md-only). */}
         <Image
-          src="/hero.jpg"
+          src="/hero-3.avif"
           alt=""
           fill
           priority
+          fetchPriority="high"
           sizes="100vw"
           className="object-cover"
-          aria-hidden
-        />
-        <video
-          ref={videoRef}
-          src={"/hero.mp4"}
-          poster={"/hero.jpg"}
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 z-1 hidden h-full w-full object-cover md:block"
-          data-editable="hero.backgroundVideo"
-          data-editable-type="video"
+          quality={70}
+          aria-hidden="true"
         />
       </div>
-      <div className="absolute inset-0 z-10 bg-black/12" />
+      <div className="absolute inset-0 z-10 bg-black/30" />
       {/* main content container */}
       <div className="relative z-20 h-full w-full flex items-center justify-center px-4 pt-20 pb-28 md:pt-[clamp(5.5rem,14vh,10rem)] md:pb-12">
         <div className="w-full max-w-6xl mx-auto">
