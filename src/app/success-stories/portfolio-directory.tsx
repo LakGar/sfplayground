@@ -128,7 +128,7 @@ export default function PortfolioDirectory({
                       src={c.image}
                       alt=""
                       fill
-                      className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                      className="object-contain object-center p-4 sm:p-5 transition duration-500 group-hover:scale-[1.02]"
                       sizes="(max-width: 768px) 50vw, (max-width: 1280px) 50vw, 33vw"
                       unoptimized={imageNeedsUnoptimized(c.image)}
                     />

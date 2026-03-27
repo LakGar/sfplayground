@@ -162,7 +162,9 @@ const Nav = () => {
               </Link>
             ))}
             <div className="w-full max-w-xs">
-              <p className="text-black/60 text-sm mb-2 text-center">Partnerships</p>
+              <p className="text-black/60 text-sm mb-2 text-center">
+                Partnerships
+              </p>
               <div className="rounded-xl border border-black/10 bg-black/3 p-2">
                 {partnerLinks.map(({ href, label }) => (
                   <Link
