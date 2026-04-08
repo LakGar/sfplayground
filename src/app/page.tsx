@@ -22,6 +22,7 @@ import FAQ from "@/component/landing/faq";
 import Sponsors from "@/component/landing/sponsors";
 import { Features } from "@/component/landing-main/features";
 import { SuccessStories } from "@/component/landing-main/successStories";
+import UpcomingEvent from "@/component/landing-main/upcoming-event";
 
 export const dynamic = "force-dynamic";
 
@@ -106,7 +107,9 @@ const page = async () => {
       <div className="w-screen h-screen flex flex-col items-center justify-center relative transform-style: preserve-3d;">
         <Hero />
       </div>
+      <UpcomingEvent />
       <Sponsors />
+
       <Stats />
 
       <SuccessStories />
