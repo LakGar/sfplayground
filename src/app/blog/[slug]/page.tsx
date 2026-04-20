@@ -43,16 +43,16 @@ export default async function BlogPostPage({ params }: Props) {
 
   const published = post.published_at!;
   const src = post.image_url
-    ? getProxiedImageUrl(post.image_url, { w: 1600 })
+    ? getProxiedImageUrl(post.image_url, { w: 2000 })
     : null;
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-neutral-900 text-white">
       <Nav />
 
       <article>
         {/* Title band — dark, typeset like the blog index */}
-        <header className="relative border-b border-white/[0.08] bg-neutral-950">
+        <header className="relative bg-neutral-900">
           <div className="landing-grain relative">
             <div className="mx-auto max-w-3xl px-5 pb-16 pt-28 sm:px-8 sm:pt-32 lg:px-10 lg:pb-20">
               <Link
@@ -77,7 +77,7 @@ export default async function BlogPostPage({ params }: Props) {
                 {post.title}
               </h1>
               {post.excerpt ? (
-                <p className="mt-8 border-l-2 border-white/25 pl-5 text-pretty text-base leading-relaxed text-white/55 md:text-lg">
+                <p className="mt-8  pl-5 text-pretty text-base leading-relaxed text-white/55 md:text-lg">
                   {post.excerpt}
                 </p>
               ) : null}
@@ -87,29 +87,31 @@ export default async function BlogPostPage({ params }: Props) {
 
         {src ? (
           <figure className="mx-auto max-w-6xl px-0 sm:px-8 lg:px-10">
-            <div className="relative aspect-[16/10] w-full overflow-hidden bg-neutral-900 sm:aspect-[2/1]">
-              <Image
-                src={src}
-                alt=""
-                fill
-                className="object-cover"
-                sizes="(max-width:1152px) 100vw, 1152px"
-                priority
-              />
+            <div className="relative w-full overflow-hidden ">
+              <div className="relative h-[min(60vh,520px)] w-full min-h-[200px] sm:h-[min(62vh,560px)] sm:min-h-[240px] rounded-lg overflow-hidden">
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  className="object-contain object-center rounded-lg"
+                  sizes="(max-width:1152px) 100vw, 1152px"
+                  priority
+                />
+              </div>
             </div>
           </figure>
         ) : null}
 
-        <div className="relative bg-neutral-950">
-          <div className="landing-grain relative border-t border-white/[0.06]">
-            <div className="mx-auto max-w-[40rem] px-5 py-16 sm:px-8 md:py-24 lg:px-10">
+        <div className="relative bg-neutral-900">
+          <div className="landing-grain relative ">
+            <div className="mx-auto max-w-[50rem] px-5 py-16 sm:px-8 md:py-24 lg:px-10">
               <BlogMarkdown content={post.body} />
             </div>
           </div>
         </div>
       </article>
 
-      <section className="bg-black text-white">
+      <section className="border-t border-white/[0.06] bg-neutral-900 text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-center md:py-14 lg:px-10">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-neutral-500">

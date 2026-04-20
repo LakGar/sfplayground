@@ -32,7 +32,7 @@ function formatDate(iso: string | null) {
 
 export default function BlogIndexView({ posts }: { posts: BlogIndexPost[] }) {
   return (
-    <div className="relative min-h-screen overflow-x-clip bg-black text-white">
+    <div className="relative min-h-screen overflow-x-clip bg-neutral-900 text-white">
       <Nav />
 
       {/* Same pattern as About hero: InnerPageHero fullscreen + centered stack */}
@@ -40,6 +40,7 @@ export default function BlogIndexView({ posts }: { posts: BlogIndexPost[] }) {
         variant="fullscreen"
         background="image"
         image={{ ...HERO_IMAGE, priority: true }}
+        className="bg-neutral-900"
       >
         <div className="flex flex-col items-center text-center">
           <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.38em] text-white/45">
@@ -67,7 +68,7 @@ export default function BlogIndexView({ posts }: { posts: BlogIndexPost[] }) {
       </InnerPageHero>
 
       {/* Index */}
-      <section className="border-t border-white/[0.08] bg-black">
+      <section className="border-t border-white/[0.08] bg-neutral-900">
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 md:py-20 lg:px-10">
           <div className="flex flex-col gap-2 border-b border-white/10 pb-8 md:flex-row md:items-end md:justify-between">
             <div>

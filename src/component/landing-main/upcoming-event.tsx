@@ -11,7 +11,6 @@ const UpcomingEvent = () => {
           src="https://luma.com/embed/calendar/cal-MXXaoFnWHFbRyUf/events"
           width="100%"
           height={300}
-          frameBorder={0}
           allowFullScreen
           tabIndex={0}
         />
