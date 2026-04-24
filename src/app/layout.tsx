@@ -135,7 +135,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`} 
       >
         <EditModeGate>
           <PageTransition>{children}</PageTransition>
