@@ -24,15 +24,15 @@ export default async function AdminNewsletterSendPage({
           <strong>Subject:</strong> {draft.subject}
         </p>
         <p className="text-white/60 text-sm font-oswald">
-          This will send to {subscribers.length} subscriber
-          {subscribers.length !== 1 ? "s" : ""}.
+          Choose recipients below. If none are selected, it sends to all{" "}
+          {subscribers.length} subscriber{subscribers.length !== 1 ? "s" : ""}.
         </p>
         {subscribers.length === 0 ? (
           <p className="text-amber-400/90 text-sm font-oswald">
             No subscribers. Add some from the newsletter signup on the site first.
           </p>
         ) : (
-          <SendNewsletterButton draftId={draft.id} />
+          <SendNewsletterButton draftId={draft.id} subscribers={subscribers} />
         )}
       </div>
     </div>

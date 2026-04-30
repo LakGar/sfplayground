@@ -2,7 +2,7 @@ import React from "react";
 
 const UpcomingEvent = () => {
   return (
-    <div className=" h-screen md:h-[700px] flex flex-col justify-center gap-6 items-center p-4 my-20">
+    <div className=" h-screen md:h-[400px] flex flex-col justify-center gap-6 items-center p-4 my-20">
       <h2 className="text-5xl mb-4 transition-all duration-700 text-center ">
         Upcoming Event
       </h2>

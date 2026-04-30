@@ -74,6 +74,14 @@ export async function insertSubscriber(
   }
 }
 
+export async function deleteSubscriberByEmail(email: string): Promise<boolean> {
+  const { rowCount } = await sql`
+    DELETE FROM subscribers
+    WHERE LOWER(TRIM(email)) = LOWER(TRIM(${email}))
+  `;
+  return (rowCount ?? 0) > 0;
+}
+
 export async function getBlogPosts(onlyPublished = false): Promise<BlogPost[]> {
   if (onlyPublished) {
     const { rows } = await sql`

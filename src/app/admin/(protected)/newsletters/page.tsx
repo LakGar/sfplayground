@@ -23,7 +23,7 @@ export default async function AdminNewslettersPage() {
         </Link>
       </div>
       <p className="text-white/60 text-sm mb-6">
-        Draft newsletters and send to all subscribers.
+        Draft newsletters and send to all subscribers or selected recipients.
       </p>
       {drafts.length === 0 ? (
         <div className="rounded-lg border border-white/10 bg-white/5 p-8 text-center text-white/60 font-oswald">
