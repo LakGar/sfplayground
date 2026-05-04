@@ -22,7 +22,9 @@ import FAQ from "@/component/landing/faq";
 import Sponsors from "@/component/landing/sponsors";
 import { Features } from "@/component/landing-main/features";
 import { SuccessStories } from "@/component/landing-main/successStories";
-import UpcomingEvent from "@/component/landing-main/upcoming-event";
+import UpcomingEvent, {
+  type UpcomingEventCard,
+} from "@/component/landing-main/upcoming-event";
 
 export const dynamic = "force-dynamic";
 
@@ -62,7 +64,7 @@ const page = async () => {
         location: row.location,
         hook: row.hook,
         ctaText: row.cta_text,
-        ctaUrl: undefined,
+        ctaUrl: nextEventData.ctaUrl,
         imageUrl: row.image_url ?? undefined,
       };
     }
@@ -100,6 +102,33 @@ const page = async () => {
     // keep site-data fallback
   }
 
+  const siteWithHomeEvents = siteData as typeof siteData & {
+    homepageUpcomingEvents?: UpcomingEventCard[];
+  };
+  const fallbackLuma =
+    nextEventData.ctaUrl ??
+    (siteData.nextEvent as { ctaUrl?: string }).ctaUrl ??
+    "/events";
+  const upcomingCards: UpcomingEventCard[] =
+    siteWithHomeEvents.homepageUpcomingEvents?.length
+      ? siteWithHomeEvents.homepageUpcomingEvents
+      : [
+          {
+            time: nextEventData.time,
+            title: nextEventData.title,
+            location: nextEventData.location,
+            lumaUrl: fallbackLuma,
+            coverImageUrl:
+              nextEventData.imageUrl ?? "/logo/SFPlayground-Logo-256.png",
+            hosts: [
+              {
+                name: "SF Playground",
+                imageUrl: "/logo/SFPlayground-Logo-64.png",
+              },
+            ],
+          },
+        ];
+
   return (
     <div className="relative overflow-x-clip w-full">
       <Nav />
@@ -107,7 +136,7 @@ const page = async () => {
       <div className="w-screen h-screen flex flex-col items-center justify-center relative transform-style: preserve-3d;">
         <Hero />
       </div>
-      <UpcomingEvent />
+      <UpcomingEvent events={upcomingCards} />
       <Sponsors />
 
       <Stats />

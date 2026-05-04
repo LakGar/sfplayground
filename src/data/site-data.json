@@ -8,6 +8,53 @@
     "ctaText": "Get tickets",
     "ctaUrl": "https://luma.com/82fwu1tc"
   },
+  "homepageUpcomingEvents": [
+    {
+      "time": "5:00 PM",
+      "title": "Capital Night for Funded Founders",
+      "location": "Los Altos, CA",
+      "lumaUrl": "https://luma.com/uecei56p",
+      "coverImageUrl": "/images/capital.png",
+      "hosts": [
+        {
+          "name": "SF Playground",
+          "imageUrl": "/logo/logo.png"
+        }
+      ],
+      "tags": ["AI", "Robotics", "Tech"],
+      "statusLabel": "Waitlist"
+    },
+    {
+      "time": "Tuesday, May 12, 2026 · 5:00 PM – 9:00 PM",
+      "title": "Global Wealth Forum 2026 ",
+      "location": "Salesforce Tower, 415 Mission St, San Francisco, CA",
+      "lumaUrl": "https://luma.com/p2qa8jdq",
+      "coverImageUrl": "/images/global.png",
+      "coverImageAlt": "Global Wealth Forum 2026 at Salesforce Tower, San Francisco",
+      "hosts": [
+        {
+          "name": "SF Playground",
+          "imageUrl": "/logo/logo.png"
+        }
+      ],
+      "tags": ["Investors", "Family Offices", "Global Markets"]
+    },
+    {
+      "time": "Thursday, May 21, 2026 · 5:00 PM – 9:00 PM",
+      "title": "Stanford x MIT Summit",
+      "location": "2 Embarcadero Ctr, San Francisco, CA",
+      "lumaUrl": "https://luma.com/silicon",
+      "coverImageUrl": "/images/stanford.png",
+      "coverImageAlt": "Stanford x MIT Summit on AI hardware, chips, and data center infrastructure",
+      "hosts": [
+        {
+          "name": "SF Playground",
+          "imageUrl": "/logo/logo.png"
+        }
+      ],
+      "tags": ["AI Hardware", "Data Centers", "Physical AI"]
+    }
+  ],
   "events": [
     {
       "slug": "jpmorgan",
