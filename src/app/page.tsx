@@ -109,25 +109,25 @@ const page = async () => {
     nextEventData.ctaUrl ??
     (siteData.nextEvent as { ctaUrl?: string }).ctaUrl ??
     "/events";
-  const upcomingCards: UpcomingEventCard[] =
-    siteWithHomeEvents.homepageUpcomingEvents?.length
-      ? siteWithHomeEvents.homepageUpcomingEvents
-      : [
-          {
-            time: nextEventData.time,
-            title: nextEventData.title,
-            location: nextEventData.location,
-            lumaUrl: fallbackLuma,
-            coverImageUrl:
-              nextEventData.imageUrl ?? "/logo/SFPlayground-Logo-256.png",
-            hosts: [
-              {
-                name: "SF Playground",
-                imageUrl: "/logo/SFPlayground-Logo-64.png",
-              },
-            ],
-          },
-        ];
+  const upcomingCards: UpcomingEventCard[] = siteWithHomeEvents
+    .homepageUpcomingEvents?.length
+    ? siteWithHomeEvents.homepageUpcomingEvents
+    : [
+        {
+          time: nextEventData.time,
+          title: nextEventData.title,
+          location: nextEventData.location,
+          lumaUrl: fallbackLuma,
+          coverImageUrl:
+            nextEventData.imageUrl ?? "/logo/SFPlayground-Logo-256.png",
+          hosts: [
+            {
+              name: "SF Playground",
+              imageUrl: "/logo/SFPlayground-Logo-64.png",
+            },
+          ],
+        },
+      ];
 
   return (
     <div className="relative overflow-x-clip w-full">
