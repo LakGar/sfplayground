@@ -1,4 +1,4 @@
--- SF Playground admin dashboard schema
+-- SFPLAYGROUND admin dashboard schema
 -- Run this in Vercel Postgres query console or via: npx tsx scripts/run-migrations.ts
 
 -- Subscribers (newsletter signups)

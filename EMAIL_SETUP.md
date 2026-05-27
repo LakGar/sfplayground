@@ -1,4 +1,4 @@
-# Email Setup Guide for SF Playground
+# Email Setup Guide for SFPLAYGROUND
 
 ## Step 1: Create a Resend Account
 
@@ -10,7 +10,7 @@
 
 1. Go to https://resend.com/api-keys
 2. Click "Create API Key"
-3. Give it a name (e.g., "SF Playground Production")
+3. Give it a name (e.g., "SFPLAYGROUND Production")
 4. Copy the API key (starts with `re_`)
 5. **Important**: Save it immediately - you won't be able to see it again!
 

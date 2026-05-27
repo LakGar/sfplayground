@@ -29,7 +29,7 @@ function withTheme(htmlBody: string, unsubscribeUrl: string): string {
   <div style="margin:0;padding:24px 12px;background:#05070d;">
     <div style="max-width:620px;margin:0 auto;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;background:#0b1020;">
       <div style="padding:24px 24px 18px;background:linear-gradient(135deg,#111827 0%,#0f172a 40%,#1e293b 100%);border-bottom:1px solid rgba(255,255,255,.08);">
-        <p style="margin:0;font-family:Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#cbd5e1;">SF Playground</p>
+        <p style="margin:0;font-family:Arial,sans-serif;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#cbd5e1;">SFPLAYGROUND</p>
         <h1 style="margin:10px 0 0;font-family:Arial,sans-serif;font-size:22px;line-height:1.2;color:#f8fafc;">Community Update</h1>
       </div>
       <div style="padding:22px 24px;font-family:Arial,sans-serif;color:#e2e8f0;font-size:15px;line-height:1.65;">
@@ -37,7 +37,7 @@ function withTheme(htmlBody: string, unsubscribeUrl: string): string {
       </div>
       <div style="padding:16px 24px 22px;border-top:1px solid rgba(255,255,255,.08);font-family:Arial,sans-serif;">
         <p style="margin:0 0 8px;color:#94a3b8;font-size:12px;line-height:1.5;">
-          You are receiving this because you subscribed to SF Playground updates.
+          You are receiving this because you subscribed to SFPLAYGROUND updates.
         </p>
         <p style="margin:0;">
           <a href="${unsubscribeUrl}" style="font-size:12px;color:#cbd5e1;text-decoration:underline;">Unsubscribe</a>
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
         )}&token=${token}`;
         const htmlWithFooter = withTheme(draft.body_html, unsubscribeUrl);
         await resend.emails.send({
-          from: "SF Playground <hello@sfplayground.com>",
+          from: "SFPLAYGROUND <hello@sfplayground.com>",
           to: sub.email,
           subject: draft.subject,
           html: htmlWithFooter,

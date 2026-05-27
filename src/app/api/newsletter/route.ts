@@ -22,11 +22,11 @@ export async function POST(request: NextRequest) {
       ? new Resend(process.env.RESEND_API_KEY)
       : null;
 
-    // Email to SF Playground team
+    // Email to SFPLAYGROUND team
     if (resend) {
       try {
         const notificationEmail = await resend.emails.send({
-        from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
+        from: "SFPLAYGROUND <hello@sfplayground.com>", // Update this with your verified domain
         to: "hello@sfplayground.com",
         replyTo: email, // Allow replying directly to the subscriber
         subject: "New Newsletter Subscription",
@@ -57,13 +57,13 @@ export async function POST(request: NextRequest) {
     if (resend) {
       try {
         const welcomeEmail = await resend.emails.send({
-        from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
+        from: "SFPLAYGROUND <hello@sfplayground.com>", // Update this with your verified domain
         to: email,
-        subject: "Welcome to SF Playground!",
+        subject: "Welcome to SFPLAYGROUND!",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <h2 style="color: #ffffff;">Welcome to SF Playground!</h2>
-            <p>Thank you for subscribing to our newsletter. You're now part of the SF Playground community!</p>
+            <h2 style="color: #ffffff;">Welcome to SFPLAYGROUND!</h2>
+            <p>Thank you for subscribing to our newsletter. You're now part of the SFPLAYGROUND community!</p>
             <p>You'll receive:</p>
             <ul>
               <li>Exclusive updates on upcoming pitch events</li>
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
             <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;" />
             <p style="color: #666; font-size: 14px;">
               Best regards,<br />
-              The SF Playground Team<br />
+              The SFPLAYGROUND Team<br />
               <a href="https://sfplayground.com" style="color: #ffffff;">sfplayground.com</a>
             </p>
           </div>

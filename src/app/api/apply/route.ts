@@ -33,11 +33,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Email to SF Playground team
+    // Email to SFPLAYGROUND team
     if (resend) {
       try {
         const notificationEmail = await resend.emails.send({
-        from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
+        from: "SFPLAYGROUND <hello@sfplayground.com>", // Update this with your verified domain
         to: "hello@sfplayground.com",
         replyTo: email, // Allow replying directly to the applicant
         subject: `New Pitch Application: ${startupName}`,
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
     if (resend) {
       try {
         const confirmationEmail = await resend.emails.send({
-        from: "SF Playground <hello@sfplayground.com>", // Update this with your verified domain
+        from: "SFPLAYGROUND <hello@sfplayground.com>", // Update this with your verified domain
         to: email,
         subject: "Thank You for Your Pitch Application",
         html: `
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
             <hr style="border: none; border-top: 1px solid #eee; margin: 30px 0;" />
             <p style="color: #666; font-size: 14px;">
               Best regards,<br />
-              The SF Playground Team
+              The SFPLAYGROUND Team
             </p>
           </div>
         `,

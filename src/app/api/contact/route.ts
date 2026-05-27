@@ -179,14 +179,14 @@ export async function POST(request: NextRequest) {
       await resend.emails.send({
         from: SFPLAYGROUND_FROM,
         to: safeEmail,
-        subject: "Thanks for reaching out to SF Playground",
+        subject: "Thanks for reaching out to SFPLAYGROUND",
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             <h2 style="color: #ffffff;">Thanks, ${safeName}!</h2>
             <p>We&apos;ve received your message and will get back to you soon.</p>
             <p style="color: #666; font-size: 14px;">
               Best regards,<br />
-              The SF Playground Team
+              The SFPLAYGROUND Team
             </p>
           </div>
         `,

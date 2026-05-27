@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Oswald } from "next/font/google";
+import "@fontsource-variable/stack-sans-headline/wght.css";
 import "./globals.css";
-import { EditModeGate } from "@/component/website-editor/EditModeGate";
-import { Analytics } from "@vercel/analytics/next"
-import { PageTransition } from "@/components/ui/page-transition";
-import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,14 +19,19 @@ const oswald = Oswald({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
-  title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
+  title: "SFPLAYGROUND | Live Startup Pitches & Real Investor Decisions",
   description:
     "An SF-based platform for live startup pitches and real investor decisions. Join us for exclusive pitch events, discover success stories, and connect with the startup community.",
   keywords: [
-    "SF Playground",
-    "SF playground VC",
-    "SF Playground investors",
+    "SFPLAYGROUND",
+    "SFPLAYGROUND VC",
+    "SFPLAYGROUND investors",
     "investors",
     "VC",
     "Pitch Playoffs",
@@ -53,29 +56,29 @@ export const metadata: Metadata = {
     "live pitch events",
     "founder pitch",
   ],
-  authors: [{ name: "SF Playground" }],
-  creator: "SF Playground",
-  publisher: "SF Playground",
+  authors: [{ name: "SFPLAYGROUND" }],
+  creator: "SFPLAYGROUND",
+  publisher: "SFPLAYGROUND",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://sfplayground.com",
-    siteName: "SF Playground",
-    title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
+    siteName: "SFPLAYGROUND",
+    title: "SFPLAYGROUND | Live Startup Pitches & Real Investor Decisions",
     description:
       "An SF-based platform for live startup pitches and real investor decisions.",
     images: [
       {
-        url: "https://sfplayground.com/herohighlight1.jpeg",
+        url: "https://sfplayground.com/images/pp-cta.png",
         width: 1200,
         height: 630,
-        alt: "SF Playground - Live Startup Pitch Events",
+        alt: "SFPLAYGROUND - Live Startup Pitch Events",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SF Playground | Live Startup Pitches & Real Investor Decisions",
+    title: "SFPLAYGROUND | Live Startup Pitches & Real Investor Decisions",
     description:
       "An SF-based platform for live startup pitches and real investor decisions.",
     creator: "@sfplayground",
@@ -104,7 +107,7 @@ export default function RootLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "SF Playground",
+    name: "SFPLAYGROUND",
     url: "https://sfplayground.com",
     logo: "https://sfplayground.com/logo.png",
     description:
@@ -135,13 +138,10 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`} 
+        className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
       >
-        <EditModeGate>
-          <PageTransition>{children}</PageTransition>
-          <Toaster />
-          <Analytics />
-        </EditModeGate>
+        {children}
+        <Analytics />
       </body>
     </html>
   );

@@ -1,4 +1,4 @@
-# SF Playground — Backend, Data & Frontend Reference
+# SFPLAYGROUND — Backend, Data & Frontend Reference
 
 This doc explains **all frontend pages**, **where data comes from**, **how it reaches the UI**, and **what to keep** when you change only the look of the site (same functionality, new design).
 

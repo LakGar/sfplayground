@@ -1,15 +1,12 @@
-import type { Metadata } from "next";
+import { SiliconValleyLanding } from "@/components/silicon-valley/silicon-valley-landing";
 import React from "react";
-import { SiliconValleyLanding } from "@/component/silicon-valley/silicon-valley-landing";
 
-export const metadata: Metadata = {
-  title: "Silicon Valley | SF Playground",
-  description:
-    "Silicon Valley — where Physical AI, capital, and builders meet. SF Playground.",
+const Page = () => {
+  return (
+    <div>
+      <SiliconValleyLanding />
+    </div>
+  );
 };
 
-const SiliconValleyPage = () => {
-  return <SiliconValleyLanding />;
-};
-
-export default SiliconValleyPage;
+export default Page;

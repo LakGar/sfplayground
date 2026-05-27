@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
-const contentSecurityPolicy = [
+const isProd = process.env.NODE_ENV === "production";
+
+const productionCsp = [
   "default-src 'self'",
   "base-uri 'self'",
   "frame-ancestors 'none'",
@@ -16,26 +18,54 @@ const contentSecurityPolicy = [
   "upgrade-insecure-requests",
 ].join("; ");
 
+/** Dev CSP: allow http/ws so LAN IP (http://192.168.x.x:3000) loads CSS/JS/HMR. */
+const developmentCsp = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "frame-ancestors 'none'",
+  "frame-src 'self' https://luma.com",
+  "object-src 'none'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:",
+  "style-src 'self' 'unsafe-inline' https: http:",
+  "img-src 'self' data: blob: https: http:",
+  "media-src 'self' blob: https: http:",
+  "font-src 'self' data: https: http:",
+  "connect-src 'self' https: http: ws: wss:",
+  "form-action 'self' https: http:",
+].join("; ");
+
 const nextConfig: NextConfig = {
   /* config options here */
   async headers() {
+    const commonHeaders = [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      { key: "X-Frame-Options", value: "DENY" },
+      {
+        key: "Permissions-Policy",
+        value: "camera=(), microphone=(), geolocation=()",
+      },
+    ];
+
+    const prodOnlyHeaders = [
+      { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
+      {
+        key: "Strict-Transport-Security",
+        value: "max-age=31536000; includeSubDomains; preload",
+      },
+      { key: "Content-Security-Policy", value: productionCsp },
+    ];
+
+    const devOnlyHeaders = [
+      { key: "Content-Security-Policy", value: developmentCsp },
+    ];
+
     return [
       {
         source: "/(.*)",
         headers: [
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
-          { key: "X-Frame-Options", value: "DENY" },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-          {
-            key: "Strict-Transport-Security",
-            value: "max-age=31536000; includeSubDomains; preload",
-          },
-          { key: "Content-Security-Policy", value: contentSecurityPolicy },
+          ...commonHeaders,
+          ...(isProd ? prodOnlyHeaders : devOnlyHeaders),
         ],
       },
     ];
@@ -74,6 +104,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "luma.com",
+      },
+      {
+        protocol: "https",
+        hostname: "images.lumacdn.com",
       },
       {
         protocol: "https",
