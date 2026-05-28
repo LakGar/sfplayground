@@ -35,7 +35,7 @@ export const NETWORK_HERO_CAROUSEL = [
 ] as const;
 
 export const NETWORK_STATS = [
-  { value: "15K+", label: "Founder, builder, and investor connections." },
+  { value: "25K+", label: "Founder, builder, and investor connections." },
   { value: "26", label: "Live events in 2026 across SF and Silicon Valley." },
   { value: "3m+", label: "Capital raised by startups in our ecosystem." },
   { value: "#1", label: "Fastest growing network in San Francisco." },
@@ -44,74 +44,92 @@ export const NETWORK_STATS = [
 export const NETWORK_PATHS = [
   {
     id: "startups" as const,
+    tag: "Founders",
     title: "Founders & startups",
-    description:
-      "Pitch nights, investor intros, and programs built for teams raising and growing in the Bay Area.",
     tone: "dark" as const,
+    applyLabel: "Apply as founder",
+    who: {
+      headline: "Building and raising in the Bay Area.",
+      line: "Early-stage teams looking for pitch slots, investor intros, and operator access.",
+      image: "/images/previous-events/pitch.png",
+      alt: "Founders pitching at SFPLAYGROUND",
+    },
+    why: {
+      headline: "Launch faster. Raise smarter.",
+      line: "Everything you need to get in front of the right people — and prove traction while you're there.",
+      highlights: [
+        "Demo opportunities",
+        "Early customers",
+        "Social proof",
+        "Warm intros to investors",
+        "Media exposure",
+      ],
+      image: "/images/network1.JPG",
+      alt: "Founders at a SFPLAYGROUND event",
+    },
   },
   {
     id: "vcs" as const,
+    tag: "Investors",
     title: "Investors & VCs",
-    description:
-      "Curated dealflow, judging panels, and rooms aligned to your thesis, stage, and sector focus.",
     tone: "cream" as const,
-  },
-  {
-    id: "speakers" as const,
-    title: "Speakers & experts",
-    description:
-      "Fireside slots, keynotes, and panels in front of founders, investors, and operators.",
-    tone: "stone" as const,
-  },
-] as const;
-
-export const NETWORK_WHY_MASONRY = {
-  headline: "Built for people who show up.",
-  subline:
-    "Whether you're building, investing, or sharing expertise — SFPLAYGROUND has a curated room for you.",
-  tiles: {
-    hero: {
-      tag: "Live events",
-      title: "Rooms that actually matter.",
-      description:
-        "Pitch Playoffs, Capital Night, summits, and founder dinners across San Francisco and Silicon Valley.",
-      image: "/images/network2.JPG",
-      alt: "SFPLAYGROUND live event",
-    },
-    pitch: {
-      tag: "For founders",
-      title: "Pitch. Connect. Raise.",
-      image: "/images/previous-events/pitch.png",
-      alt: "Founders pitching",
-    },
-    capital: {
-      tag: "For investors",
-      title: "Dealflow on demand.",
+    applyLabel: "Apply as investor",
+    who: {
+      headline: "Active investors looking for dealflow.",
+      line: "VCs, angels, and family offices who want vetted founders — not conference foot traffic.",
       image: "/images/previous-events/capitalnight.avif",
       alt: "Investors at Capital Night",
     },
-    community: {
-      tag: "Community",
-      title: "15K+ in the network",
-      image: "/images/network3.JPG",
-      alt: "Community gathering",
-    },
-    cta: {
-      title:
-        "Ready to join? Tell us who you are — we'll route you to the right path.",
-      description:
-        "A short application. No spam, no mass outreach — we review every submission personally.",
-      href: "/network/apply",
-      label: "Start application",
+    why: {
+      headline: "Dealflow and relationships, in one room.",
+      line: "First look at founders raising — plus the network that surrounds them.",
+      highlights: [
+        "Introductions to family offices and LPS",
+        "Early access to curated founders & builders",
+        "Co-investment opportunities",
+        "Media exposure ",
+      ],
+      image: "/images/previous-events/capital.jpeg",
+      alt: "Investors networking at Capital Night",
     },
   },
+  {
+    id: "speakers" as const,
+    tag: "Operators & experts",
+    title: "Operators & experts",
+    tone: "stone" as const,
+    applyLabel: "Apply as operator or expert",
+    who: {
+      headline: "Operators and experts with something to share.",
+      line: "Leaders who want keynotes, fireside slots, and panels in front of builders and backers.",
+      image: "/images/previous-events/stanford.png",
+      alt: "Operator or expert at a SFPLAYGROUND summit",
+    },
+    why: {
+      headline: "Your expertise. The right stage.",
+      line: "Share what you know with founders, investors, and operators who actually build and back companies.",
+      highlights: [
+        "Media exposure",
+        "Keynotes & fireside slots",
+        "High-signal audiences",
+        "Visibility across programs",
+      ],
+      image: "/images/hero7.jpeg",
+      alt: "Operator or expert speaking at a summit",
+    },
+  },
+] as const;
+
+export const NETWORK_PATHS_INTRO = {
+  label: "Join the network",
+  headline: "Connect with the brightest minds in the heart of tech.",
 } as const;
 
 export const NETWORK_FAQ = [
   {
     question: "Who can join SFPLAYGROUND?",
     answer:
-      "Founders and startups, active investors and VCs, and speakers or experts with relevant experience. We review each application for fit with upcoming programs and community quality.",
+      "Founders and startups, active investors and VCs, and operators or experts with relevant experience. We review each application for fit with upcoming programs and community quality.",
   },
   {
     question: "Is there a membership fee?",
@@ -148,8 +166,8 @@ export const NETWORK_ROLES: {
   },
   {
     id: "speakers",
-    label: "Speaker / Expert",
-    description: "I want to speak at SFPLAYGROUND events.",
+    label: "Operator / Expert",
+    description: "I want to share expertise at SFPLAYGROUND events.",
   },
 ];
 

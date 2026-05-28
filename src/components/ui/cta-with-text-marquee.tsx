@@ -84,7 +84,7 @@ export default function CTAWithVerticalMarquee() {
               Join the Network
             </h2>
             <p className="text-lg leading-relaxed text-black/60 md:text-xl animate-fade-in-up [animation-delay:400ms]">
-              Join 15,000+ founders, investors, and customers in one of the
+              Join 25,000+ founders, investors, and customers in one of the
               fastest-growing startup networks in Silicon Valley and San
               Francisco.
             </p>

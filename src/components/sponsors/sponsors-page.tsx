@@ -10,6 +10,7 @@ import PartnerMarquee from "@/components/partner-marquee";
 import SponsorPartnerMasonry from "@/components/sponsors/sponsor-partner-masonry";
 import SponsorHero from "@/components/sponsors/sponsor-hero";
 import { FadeInView } from "@/components/ui/fade-in-view";
+import { StatsGrid } from "@/components/ui/stats-grid";
 import {
   SPONSOR_FAQ,
   SPONSOR_PAGE_SHELL,
@@ -86,27 +87,13 @@ export function SponsorsPage() {
 
       <PartnerMarquee className="bg-transparent" />
 
-      {/* Stats */}
       <section className="px-4 py-16 md:px-8 md:py-24">
-        <FadeInView direction="up">
-          <div className="mx-auto w-full max-w-[1400px]">
-            <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-              {SPONSOR_STATS.map((stat) => (
-                <li
-                  key={stat.value}
-                  className="rounded-[1.5rem]  bg-white/50 px-6 py-8 backdrop-blur-sm md:px-7"
-                >
-                  <p className="font-oswald text-[clamp(2.5rem,6vw,4rem)] font-bold leading-none tracking-tight text-black">
-                    {stat.value}
-                  </p>
-                  <p className="mt-3 max-w-[16rem] text-sm leading-relaxed text-black/65 md:text-[0.9375rem]">
-                    {stat.label}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </FadeInView>
+        <div className="mx-auto w-full max-w-[1400px]">
+          <StatsGrid
+            stats={SPONSOR_STATS}
+            itemClassName="rounded-[1.5rem] bg-white/50 px-6 py-8 backdrop-blur-sm md:px-7"
+          />
+        </div>
       </section>
 
       <SponsorPartnerMasonry />

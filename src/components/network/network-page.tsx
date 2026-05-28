@@ -7,23 +7,17 @@ import { useState } from "react";
 import Footer from "@/components/footer";
 import Nav from "@/components/nav";
 import NetworkHero from "@/components/network/network-hero";
-import NetworkWhyMasonry from "@/components/network/network-why-masonry";
-import PartnerMarquee from "@/components/partner-marquee";
+import NetworkPathSections from "@/components/network/network-path-sections";
 import { FadeInView } from "@/components/ui/fade-in-view";
+import { StatsGrid } from "@/components/ui/stats-grid";
 import {
   NETWORK_FAQ,
+  NETWORK_HERO,
   NETWORK_PAGE_SHELL,
-  NETWORK_PATHS,
   NETWORK_STATS,
 } from "@/data/network-page-data";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-const PATH_TONE = {
-  dark: "bg-[#0c1222] text-white",
-  cream: "bg-[#f3f3f1] text-black",
-  stone: "bg-[#e8e2d8] text-black",
-} as const;
 
 function FaqItem({
   question,
@@ -89,99 +83,32 @@ export function NetworkPage() {
 
       <NetworkHero />
 
-      <PartnerMarquee className="bg-transparent" />
-
       <section className="px-4 py-16 md:px-8 md:py-24">
-        <FadeInView direction="up">
-          <div className="mx-auto w-full max-w-[1400px]">
-            <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-              {NETWORK_STATS.map((stat) => (
-                <li
-                  key={stat.value}
-                  className="rounded-[1.5rem] bg-white/50 px-6 py-8 backdrop-blur-sm md:px-7"
-                >
-                  <p className="font-oswald text-[clamp(2.5rem,6vw,4rem)] font-bold leading-none tracking-tight text-black">
-                    {stat.value}
-                  </p>
-                  <p className="mt-3 max-w-[16rem] text-sm leading-relaxed text-black/65 md:text-[0.9375rem]">
-                    {stat.label}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </FadeInView>
+        <div className="mx-auto w-full max-w-[1400px]">
+          <StatsGrid
+            stats={NETWORK_STATS}
+            itemClassName="rounded-[1.5rem] bg-white/50 px-6 py-8 backdrop-blur-sm md:px-7"
+          />
+        </div>
       </section>
 
-      <NetworkWhyMasonry />
+      <NetworkPathSections />
 
       <section className="px-4 py-16 md:px-8 md:py-24 lg:py-28">
         <FadeInView direction="up">
-          <div className="mx-auto w-full max-w-[1400px]">
-            <div className="max-w-3xl">
-              <p className="text-xs font-medium tracking-[0.2em] text-black/40 uppercase">
-                Choose your path
-              </p>
-              <h2 className="mt-4 font-oswald text-4xl font-bold tracking-tight text-black md:text-5xl">
-                How do you want to join?
+          <div className="mx-auto flex w-full max-w-[1400px] flex-col items-center gap-8 text-center">
+            <div className="max-w-xl">
+              <p className="text-sm text-black/45">2-minute application</p>
+              <h2 className="mt-4 font-oswald text-[clamp(2rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-tight text-black">
+                Ready to join?
               </h2>
             </div>
-            <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
-              {NETWORK_PATHS.map((path) => (
-                <Link
-                  key={path.id}
-                  href={`/network/apply?type=${path.id}`}
-                  className={`group flex flex-col justify-between rounded-[1.75rem] p-7 transition-transform duration-300 hover:scale-[1.01] md:p-8 ${PATH_TONE[path.tone]}`}
-                >
-                  <div>
-                    <h3 className="font-oswald text-2xl font-bold tracking-tight">
-                      {path.title}
-                    </h3>
-                    <p
-                      className={`mt-3 text-sm leading-relaxed ${
-                        path.tone === "dark" ? "text-white/65" : "text-black/55"
-                      }`}
-                    >
-                      {path.description}
-                    </p>
-                  </div>
-                  <span
-                    className={`mt-8 inline-flex w-fit text-sm font-medium tracking-[0.1em] uppercase ${
-                      path.tone === "dark" ? "text-white/80" : "text-black/50"
-                    }`}
-                  >
-                    Apply →
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </FadeInView>
-      </section>
-
-      <section className="px-4 py-16 md:px-8 md:py-24 lg:py-28">
-        <FadeInView direction="up">
-          <div className="mx-auto w-full max-w-[1400px]">
-            <div className="overflow-hidden rounded-[2rem]  bg-white/60 p-8 backdrop-blur-md md:flex md:items-center md:justify-between md:gap-16 md:p-14">
-              <div className="max-w-xl">
-                <p className="text-sm text-black/45">2-minute application</p>
-                <h2 className="mt-4 font-oswald text-[clamp(2rem,4vw,3.25rem)] font-bold leading-[1.08] tracking-tight text-black">
-                  Ready to join the network?
-                </h2>
-                <p className="mt-5 text-base leading-relaxed text-black/60">
-                  One question at a time. Pick your path — founder, investor, or
-                  speaker — and we&apos;ll follow up if there&apos;s a fit.
-                </p>
-              </div>
-              <div className="mt-10 shrink-0 md:mt-0">
-                <Link
-                  href="/network/apply"
-                  className="inline-flex rounded-full bg-[#0c1222] px-10 py-4 text-sm font-medium tracking-widest text-white transition-opacity hover:opacity-85"
-                >
-                  Start application →
-                </Link>
-              </div>
-            </div>
+            <Link
+              href={NETWORK_HERO.ctaHref}
+              className="inline-flex rounded-full bg-[#0c1222] px-10 py-4 text-sm font-medium tracking-widest text-white transition-opacity hover:opacity-85"
+            >
+              {NETWORK_HERO.ctaLabel} →
+            </Link>
           </div>
         </FadeInView>
       </section>
@@ -218,8 +145,7 @@ export function NetworkPage() {
                 Explore SFPLAYGROUND.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-relaxed text-black/60 md:text-base">
-                Browse events, become a sponsor, or reach out to the team
-                directly.
+                Browse events, become a sponsor, or reach out to the team.
               </p>
             </div>
             <div className="flex flex-wrap gap-4">

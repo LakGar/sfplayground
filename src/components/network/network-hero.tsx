@@ -3,7 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useRef } from "react";
 import { RevealText } from "@/components/ui/reveal-text";
+import { ImageTrail } from "@/components/ui/image-trail";
 import {
   NETWORK_HERO,
   NETWORK_HERO_CAROUSEL,
@@ -74,8 +76,42 @@ function CarouselTrack({ trackId }: { trackId: string }) {
 }
 
 export default function NetworkHero() {
+  const trailRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+
   return (
-    <section className="relative flex min-h-[92vh] flex-col overflow-hidden">
+    <section className="relative flex min-h-screen flex-col overflow-hidden">
+      <div ref={trailRef} className="absolute inset-0 z-0" aria-hidden>
+        <ImageTrail
+          containerRef={trailRef}
+          excludeRefs={[headingRef]}
+          excludePadding={20}
+          interval={340}
+          minDistance={64}
+          rotationRange={8}
+          animationSequence={[
+            [{ scale: 1, opacity: 1 }, { duration: 0.55, ease: [0.22, 1, 0.36, 1] }],
+            [{ scale: 0.94, opacity: 0 }, { duration: 1.15, ease: [0.4, 0, 0.2, 1] }],
+          ]}
+        >
+          {NETWORK_HERO_CAROUSEL.map((image) => (
+            <div
+              key={image.src}
+              className="relative h-36 w-28 overflow-hidden rounded-xl md:h-44 md:w-32"
+            >
+              <Image
+                src={image.src}
+                alt=""
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 112px, 136px"
+                unoptimized
+              />
+            </div>
+          ))}
+        </ImageTrail>
+      </div>
+
       <p
         className="pointer-events-none absolute left-4 top-[28%] z-10 hidden -translate-y-1/2 text-[10px] tracking-[0.35em] text-black/70 [writing-mode:vertical-rl] md:left-8 md:block lg:left-12"
         aria-hidden
@@ -90,7 +126,7 @@ export default function NetworkHero() {
         ( JOIN US )
       </p>
 
-      <div className="flex flex-1 flex-col items-center justify-center px-4 pb-20 pt-28 text-center md:px-8 md:pb-12 md:pt-32">
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pb-20 pt-28 text-center md:px-8 md:pb-12 md:pt-32">
         <motion.p
           className="text-xs font-medium tracking-[0.2em] text-black/40 uppercase"
           variants={fadeUp}
@@ -101,7 +137,7 @@ export default function NetworkHero() {
           {NETWORK_HERO.eyebrow}
         </motion.p>
 
-        <h1 className="mt-5 leading-[0.92] md:mt-6">
+        <h1 ref={headingRef} className="mt-5 leading-[0.92] md:mt-6">
           <RevealText
             text={NETWORK_HERO.title}
             textColor="text-black"
@@ -160,7 +196,7 @@ export default function NetworkHero() {
           </a>
         </motion.div>
       </div>
-
+      {/* 
       <motion.div
         className="relative w-full"
         variants={fadeUp}
@@ -183,7 +219,7 @@ export default function NetworkHero() {
           className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-linear-to-l from-[#f3f3f1] via-[#f3f3f1]/80 to-transparent sm:w-24 md:w-32 lg:w-40"
           aria-hidden
         />
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }

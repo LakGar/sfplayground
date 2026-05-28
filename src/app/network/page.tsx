@@ -4,11 +4,11 @@ import { NetworkPage } from "@/components/network/network-page";
 export const metadata: Metadata = {
   title: "Join the Network | SFPLAYGROUND",
   description:
-    "Apply to join SFPLAYGROUND — a curated network of founders, investors, and speakers across San Francisco and Silicon Valley live events.",
+    "Apply to join SFPLAYGROUND — a curated network of founders, investors, and operators across San Francisco and Silicon Valley live events.",
   openGraph: {
     title: "Join the Network | SFPLAYGROUND",
     description:
-      "Founders, investors, and experts — apply to join high-signal rooms across the Bay Area.",
+      "Founders, investors, and operators — apply to join high-signal rooms across the Bay Area.",
   },
 };
 

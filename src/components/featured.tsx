@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import { StatsGrid } from "@/components/ui/stats-grid";
 
 /** Local file for dev; production should set NEXT_PUBLIC_FEATURED_VIDEO_URL (see public/videos/README.md). */
 const LOCAL_VIDEO = encodeURI("/videos/LIMI AI x SF Playground.mp4");
@@ -14,7 +15,7 @@ const STATS = [
     label: "Capital raised by startups in our network.",
   },
   {
-    value: "15K+",
+    value: "25K+",
     label: "Founder, builder, and investor connections.",
   },
   {
@@ -96,18 +97,10 @@ export default function Featured() {
           <FeaturedVideo />
         </div>
 
-        <ul className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4 lg:gap-8">
-          {STATS.map((stat) => (
-            <li key={stat.value}>
-              <p className="font-oswald text-[clamp(2.5rem,6vw,4rem)] font-bold leading-none tracking-tight text-black">
-                {stat.value}
-              </p>
-              <p className="mt-3 max-w-[16rem] text-sm leading-relaxed text-black/65 md:text-[0.9375rem]">
-                {stat.label}
-              </p>
-            </li>
-          ))}
-        </ul>
+        <StatsGrid
+          stats={STATS}
+          className="mt-14 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4 lg:gap-8"
+        />
       </div>
     </section>
   );

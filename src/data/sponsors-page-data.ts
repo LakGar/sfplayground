@@ -7,7 +7,7 @@ export const SPONSOR_HERO = {
     "Put your brand in front of founders, investors, and operators across San Francisco and Silicon Valley.",
   tagline:
     "Live events, real rooms, and measurable brand impact — from pitch nights to summits.",
-  ctaLabel: "Start partnership inquiry",
+  ctaLabel: "Start Sponsorship inquiry",
   ctaHref: "/sponsors/apply",
 } as const;
 
@@ -23,7 +23,10 @@ export const SPONSOR_HERO_LETTER_IMAGES = [
 ] as const;
 
 export const SPONSOR_HERO_CAROUSEL = [
-  { src: "/images/previous-events/capitalnight.avif", alt: "Capital Night event" },
+  {
+    src: "/images/previous-events/capitalnight.avif",
+    alt: "Capital Night event",
+  },
   { src: "/images/previous-events/pitch.png", alt: "Pitch Playoffs" },
   { src: "/images/previous-events/capital.jpeg", alt: "Capital event" },
   { src: "/images/previous-events/stanford.png", alt: "Stanford event" },
@@ -39,7 +42,7 @@ export const SPONSOR_PAGE_SHELL =
 
 export const SPONSOR_STATS = [
   {
-    value: "15K+",
+    value: "25K+",
     label: "Founder, builder, and investor connections in our network.",
   },
   {
@@ -81,7 +84,7 @@ export const SPONSOR_BENEFITS = [
 
 /** Masonry bento tiles for “Why partner with us” */
 export const SPONSOR_PARTNER_MASONRY = {
-  headline: "Partnership built for rooms that matter.",
+  headline: "Reach the right audience for your brand.",
   subline:
     "High-signal events across San Francisco and Silicon Valley — where founders, investors, and operators actually show up.",
   tiles: {
@@ -107,7 +110,7 @@ export const SPONSOR_PARTNER_MASONRY = {
     },
     community: {
       tag: "Community",
-      title: "15K+ connections",
+      title: "25K+ connections",
       image: "/images/network1.JPG",
       alt: "SFPLAYGROUND community",
     },
@@ -147,7 +150,7 @@ export const SPONSOR_PARTNER_MASONRY = {
 
 export const SPONSORSHIP_TIERS = [
   {
-    name: "Event Partner",
+    name: "Event Sponsor",
     description: "High-visibility presence at a single flagship program.",
     highlights: [
       "Logo on event materials & recap",
@@ -158,7 +161,7 @@ export const SPONSORSHIP_TIERS = [
     featured: false,
   },
   {
-    name: "Series Partner",
+    name: "Series Sponsor",
     description: "Recurring visibility across multiple events in a season.",
     highlights: [
       "Priority logo placement",
@@ -169,7 +172,7 @@ export const SPONSORSHIP_TIERS = [
     featured: true,
   },
   {
-    name: "Title Sponsor",
+    name: "Title Partner",
     description: "Lead partner for a flagship SFPLAYGROUND experience.",
     highlights: [
       "Naming rights on select programs",
@@ -298,6 +301,7 @@ export const SPONSOR_QUESTIONNAIRE_STEPS = [
     subtitle: "Brand visibility, pipeline, community — tell us your goals.",
     field: "goals" as const,
     inputType: "textarea" as const,
-    placeholder: "We're looking to reach early-stage founders and co-host a pitch night…",
+    placeholder:
+      "We're looking to reach early-stage founders and co-host a pitch night…",
   },
 ] as const;

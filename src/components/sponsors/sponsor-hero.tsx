@@ -75,7 +75,7 @@ function CarouselTrack({ trackId }: { trackId: string }) {
 
 export default function SponsorHero() {
   return (
-    <section className="relative flex min-h-[92vh] flex-col overflow-hidden">
+    <section className="relative flex min-h-[82vh] flex-col overflow-hidden">
       <p
         className="pointer-events-none absolute left-4 top-[28%] z-10 hidden -translate-y-1/2 text-[10px] tracking-[0.35em] text-black/70 [writing-mode:vertical-rl] md:left-8 md:block lg:left-12"
         aria-hidden
@@ -87,7 +87,7 @@ export default function SponsorHero() {
         className="pointer-events-none absolute right-4 top-[32%] z-10 hidden -translate-y-1/2 text-[10px] tracking-[0.35em] text-black/45 [writing-mode:vertical-rl] md:right-8 md:block lg:right-12"
         aria-hidden
       >
-        ( 15K+ NETWORK )
+        ( 25K+ NETWORK )
       </p>
 
       <div className="flex flex-1 flex-col items-center justify-center px-4 pb-20 pt-28 text-center md:px-8 md:pb-12 md:pt-32">
@@ -161,7 +161,7 @@ export default function SponsorHero() {
         </motion.div>
       </div>
 
-      <motion.div
+      {/* <motion.div
         className="relative w-full"
         variants={fadeUp}
         initial="hidden"
@@ -183,7 +183,7 @@ export default function SponsorHero() {
           className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-linear-to-l from-[#f3f3f1] via-[#f3f3f1]/80 to-transparent sm:w-24 md:w-32 lg:w-40"
           aria-hidden
         />
-      </motion.div>
+      </motion.div> */}
     </section>
   );
 }
