@@ -68,7 +68,7 @@ export const NETWORK_PATHS = [
 export const NETWORK_WHY_MASONRY = {
   headline: "Built for people who show up.",
   subline:
-    "Whether you're building, investing, or sharing expertise — SFPLAYGROUND is a curated room, not a mailing list.",
+    "Whether you're building, investing, or sharing expertise — SFPLAYGROUND has a curated room for you.",
   tiles: {
     hero: {
       tag: "Live events",
@@ -97,7 +97,8 @@ export const NETWORK_WHY_MASONRY = {
       alt: "Community gathering",
     },
     cta: {
-      title: "Ready to join? Tell us who you are — we'll route you to the right path.",
+      title:
+        "Ready to join? Tell us who you are — we'll route you to the right path.",
       description:
         "A short application. No spam, no mass outreach — we review every submission personally.",
       href: "/network/apply",
@@ -137,7 +138,8 @@ export const NETWORK_ROLES: {
   {
     id: "startups",
     label: "Founder / Startup",
-    description: "I'm building a company and want access to investors and programs.",
+    description:
+      "I'm building a company and want access to investors and programs.",
   },
   {
     id: "vcs",
@@ -501,7 +503,10 @@ export function getQuestionnaireForRole(
   return [];
 }
 
-export function getActiveSteps(role: IntakeKind | "", values: Record<string, string>) {
+export function getActiveSteps(
+  role: IntakeKind | "",
+  values: Record<string, string>,
+) {
   const steps = getQuestionnaireForRole(role);
   return steps.filter((s) => !s.skipIf?.(values));
 }

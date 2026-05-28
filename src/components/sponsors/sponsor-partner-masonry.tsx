@@ -19,10 +19,12 @@ function ArrowButton({
   href,
   label,
   dark = false,
+  external = false,
 }: {
-  href?: string;
+  href: string;
   label?: string;
   dark?: boolean;
+  external?: boolean;
 }) {
   const className = `inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-transform duration-300 group-hover:scale-105 ${
     dark ? "bg-white text-black" : "bg-black text-white"
@@ -30,18 +32,24 @@ function ArrowButton({
 
   const icon = <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />;
 
-  if (href) {
+  if (external || href.startsWith("http")) {
     return (
-      <Link href={href} aria-label={label ?? "Learn more"} className={className}>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={label ?? "Learn more"}
+        className={className}
+      >
         {icon}
-      </Link>
+      </a>
     );
   }
 
   return (
-    <span className={className} aria-hidden>
+    <Link href={href} aria-label={label ?? "Learn more"} className={className}>
       {icon}
-    </span>
+    </Link>
   );
 }
 
@@ -78,12 +86,16 @@ function ImageTile({
   title,
   image,
   alt,
+  href,
+  external,
   className = "",
 }: {
   tag: string;
   title: string;
   image: string;
   alt: string;
+  href?: string;
+  external?: boolean;
   className?: string;
 }) {
   return (
@@ -102,12 +114,18 @@ function ImageTile({
         <span className="inline-flex w-fit rounded-full bg-white/15 px-3.5 py-1.5 text-[11px] font-medium tracking-[0.14em] text-white uppercase backdrop-blur-sm">
           {tag}
         </span>
-        <div className="flex items-end justify-between gap-4">
+        {href ? (
+          <div className="flex items-end justify-between gap-4">
+            <h3 className="max-w-56 font-oswald text-2xl font-bold leading-tight tracking-tight text-white md:text-[1.65rem]">
+              {title}
+            </h3>
+            <ArrowButton href={href} label={title} dark external={external} />
+          </div>
+        ) : (
           <h3 className="max-w-56 font-oswald text-2xl font-bold leading-tight tracking-tight text-white md:text-[1.65rem]">
             {title}
           </h3>
-          <ArrowButton dark />
-        </div>
+        )}
       </div>
     </article>
   );
@@ -118,13 +136,18 @@ function AccentCard({
   description,
   tone,
   href,
+  external,
 }: {
   title: string;
   description: string;
   tone: keyof typeof TONE_STYLES;
-  href?: string;
+  href: string;
+  external?: boolean;
 }) {
   const isDark = tone === "dark";
+  const learnMoreClass = `inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium tracking-[0.12em] uppercase transition-opacity hover:opacity-80 ${
+    isDark ? "bg-white/10 text-white" : "bg-black/5 text-black/70"
+  }`;
 
   return (
     <article
@@ -143,19 +166,21 @@ function AccentCard({
         </p>
       </div>
       <div className="mt-6 flex items-center justify-between gap-4">
-        {href ? (
-          <Link
+        {external || href.startsWith("http") ? (
+          <a
             href={href}
-            className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium tracking-[0.12em] uppercase transition-opacity hover:opacity-80 ${
-              isDark ? "bg-white/10 text-white" : "bg-black/5 text-black/70"
-            }`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={learnMoreClass}
           >
             Learn more
-          </Link>
+          </a>
         ) : (
-          <span />
+          <Link href={href} className={learnMoreClass}>
+            Learn more
+          </Link>
         )}
-        <ArrowButton href={href} dark={isDark} />
+        <ArrowButton href={href} label={title} dark={isDark} external={external} />
       </div>
     </article>
   );
@@ -194,10 +219,7 @@ export default function SponsorPartnerMasonry() {
                   delay={index * 0.06}
                   className="flex min-h-0 flex-1 flex-col"
                 >
-                  <AccentCard
-                    {...card}
-                    href={index === 0 ? "/sponsors/apply" : undefined}
-                  />
+                  <AccentCard {...card} />
                 </Reveal>
               ))}
             </div>

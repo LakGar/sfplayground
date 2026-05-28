@@ -1,3 +1,5 @@
+import { INSTAGRAM_PROFILE } from "@/data/social-links";
+
 export const SPONSOR_HERO = {
   eyebrow: "Partnerships",
   title: "SPONSORS",
@@ -123,18 +125,22 @@ export const SPONSOR_PARTNER_MASONRY = {
       description:
         "Get in front of investors, customers, and operators through live pitch nights, demos, and founder programs.",
       tone: "dark" as const,
+      href: "/sponsors/apply",
     },
     {
       title: "VC partners",
       description:
         "Curated dealflow, judging panels, and rooms full of founders raising — aligned to your thesis and stage.",
       tone: "cream" as const,
+      href: "/network/apply?type=vcs",
     },
     {
       title: "Media partners",
       description:
         "Co-branded content, event coverage, and distribution across programs that reach the Bay Area startup ecosystem.",
       tone: "stone" as const,
+      href: INSTAGRAM_PROFILE,
+      external: true,
     },
   ],
 } as const;

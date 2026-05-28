@@ -60,7 +60,7 @@ export const PP_SOCIAL = [
   },
   {
     label: "X",
-    href: "https://x.com/sfplayground",
+    href: "https://x.com/sf_playgro27142",
   },
 ] as const;
 

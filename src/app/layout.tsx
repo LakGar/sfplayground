@@ -130,6 +130,7 @@ export default function RootLayout({
     sameAs: [
       "https://www.linkedin.com/company/sfplayground",
       "https://www.instagram.com/sfplayground/",
+      "https://x.com/sf_playgro27142",
     ],
   };
 

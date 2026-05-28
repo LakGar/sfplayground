@@ -19,7 +19,7 @@ const STATS = [
   },
   {
     value: "26",
-    label: "Live events in 2026 across Silicon Valley to San Francisco.",
+    label: "Live events in 2026 from Silicon Valley to San Francisco.",
   },
   {
     value: "#1",
@@ -88,8 +88,8 @@ export default function Featured() {
     <section className="bg-white px-4 py-16 md:px-8 md:py-24 lg:py-28">
       <div className="mx-auto w-full max-w-[1400px]">
         <h2 className="max-w-4xl font-oswald text-[clamp(2rem,5.5vw,4.25rem)] font-bold leading-[1.08] tracking-[-0.03em] text-black">
-          SFPlayground is a Silicon Valley network shaping bold founders and
-          investor-backed startups.
+          SFPlayground is San Francisco's{" "}
+          <i className="text-red-500/60">fastest growing</i> network.
         </h2>
 
         <div className="mt-10 md:mt-14">

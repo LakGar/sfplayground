@@ -8,7 +8,7 @@ const CONTACT_EMAIL = "staff@sfplaygroundai.com";
 const SOCIAL_LINKS = [
   { label: "LinkedIn", abbr: "LI", href: "https://www.linkedin.com/company/sfplayground" },
   { label: "Instagram", abbr: "IG", href: "https://www.instagram.com/sfplayground/" },
-  { label: "X", abbr: "X", href: "https://x.com/sfplayground" },
+  { label: "X", abbr: "X", href: "https://x.com/sf_playgro27142" },
 ] as const;
 
 const EASE = [0.22, 1, 0.36, 1] as const;

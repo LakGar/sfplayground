@@ -17,9 +17,10 @@ export default function AboutNetwork() {
         </p>
 
         <p className="mt-10 font-oswald text-[clamp(1.75rem,5vw,3.75rem)] font-bold leading-[1.22] tracking-[-0.02em] text-[#0c1222] md:mt-12 md:leading-[1.2]">
-          SFPlayground is a curated Silicon Valley network connecting founders,
-          investors, family offices, and operators through high-signal events,
-          trusted introductions, and early-stage dealflow.
+          SFPlayground is a curated<i className="text-red-500/60"> private</i>{" "}
+          network connecting founders, investors, family offices, and operators
+          through <i className="text-red-500/60">high-signal</i> events, trusted
+          introductions, and early-stage dealflow.
         </p>
 
         <Link

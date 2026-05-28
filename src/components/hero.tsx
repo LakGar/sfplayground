@@ -104,7 +104,7 @@ const SOCIAL_LINKS = [
   },
   {
     label: "X",
-    href: "https://x.com/sfplayground",
+    href: "https://x.com/sf_playgro27142",
     Icon: XIcon,
   },
 ] as const;

@@ -2,20 +2,60 @@
 
 import { ChevronDown } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import Link from "next/link";
 import { useState } from "react";
-import { FAQ_ITEMS } from "@/data/faq-data";
+import type { ReactNode } from "react";
+import { FAQ_ITEMS, type FaqAction } from "@/data/faq-data";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+
+const actionClassName =
+  "mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#0c1222] px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-85";
+
+function FaqActionButton({ action }: { action: FaqAction }) {
+  const content = (
+    <>
+      {action.label}
+      <span aria-hidden>→</span>
+    </>
+  );
+
+  if (
+    action.external ||
+    action.href.startsWith("http") ||
+    action.href.startsWith("mailto:")
+  ) {
+    return (
+      <a
+        href={action.href}
+        className={actionClassName}
+        {...(action.external || action.href.startsWith("http")
+          ? { target: "_blank", rel: "noopener noreferrer" }
+          : {})}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={action.href} className={actionClassName}>
+      {content}
+    </Link>
+  );
+}
 
 function FaqAccordionItem({
   question,
   answer,
+  action,
   isOpen,
   onToggle,
   index,
 }: {
   question: string;
-  answer: string;
+  answer: string | ReactNode;
+  action: FaqAction;
   isOpen: boolean;
   onToggle: () => void;
   index: number;
@@ -67,8 +107,8 @@ function FaqAccordionItem({
         style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
       >
         <div className="overflow-hidden">
-          <motion.p
-            className="max-w-2xl pb-5 text-sm leading-relaxed text-black/55 md:pb-6 md:text-[0.95rem] md:leading-7"
+          <motion.div
+            className="faq-answer max-w-2xl pb-5 text-sm leading-relaxed text-black/55 md:pb-6 md:text-[0.95rem] md:leading-7"
             initial={false}
             animate={{
               opacity: isOpen ? 1 : 0,
@@ -77,7 +117,8 @@ function FaqAccordionItem({
             transition={{ duration: 0.4, ease: EASE }}
           >
             {answer}
-          </motion.p>
+            <FaqActionButton action={action} />
+          </motion.div>
         </div>
       </div>
     </motion.div>
@@ -132,6 +173,7 @@ export default function Faq() {
               index={index}
               question={item.question}
               answer={item.answer}
+              action={item.action}
               isOpen={openIndex === index}
               onToggle={() =>
                 setOpenIndex((current) => (current === index ? -1 : index))
