@@ -42,11 +42,11 @@ export const SPONSOR_STATS = [
   },
   {
     value: "26",
-    label: "Live events hosted across SF and Silicon Valley.",
+    label: "Live events in 2026 across SF and Silicon Valley.",
   },
   {
-    value: "97%",
-    label: "Community satisfaction across programs we run.",
+    value: "#1",
+    label: "Fastest private network in San Francisco.",
   },
   {
     value: "3m+",

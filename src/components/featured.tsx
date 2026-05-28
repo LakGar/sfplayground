@@ -19,11 +19,11 @@ const STATS = [
   },
   {
     value: "26",
-    label: "Live events hosted in Silicon Valley to San Francisco.",
+    label: "Live events in 2026 across Silicon Valley to San Francisco.",
   },
   {
-    value: "97%",
-    label: "Community satisfaction across programs we run.",
+    value: "#1",
+    label: "Fastest private network in San Francisco.",
   },
 ] as const;
 

@@ -69,10 +69,11 @@ export const metadata: Metadata = {
       "An SF-based platform for live startup pitches and real investor decisions.",
     images: [
       {
-        url: "https://sfplayground.com/images/pp-cta.png",
-        width: 1200,
-        height: 630,
-        alt: "SFPLAYGROUND - Live Startup Pitch Events",
+        url: "https://sfplayground.com/images/previous-events/capitalnight.avif",
+        width: 1600,
+        height: 900,
+        alt: "SFPLAYGROUND — Capital Night event",
+        type: "image/avif",
       },
     ],
   },
@@ -82,6 +83,9 @@ export const metadata: Metadata = {
     description:
       "An SF-based platform for live startup pitches and real investor decisions.",
     creator: "@sfplayground",
+    images: [
+      "https://sfplayground.com/images/previous-events/capitalnight.avif",
+    ],
   },
   robots: {
     index: true,

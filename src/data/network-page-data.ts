@@ -36,9 +36,9 @@ export const NETWORK_HERO_CAROUSEL = [
 
 export const NETWORK_STATS = [
   { value: "15K+", label: "Founder, builder, and investor connections." },
-  { value: "26", label: "Live events across SF and Silicon Valley." },
+  { value: "26", label: "Live events in 2026 across SF and Silicon Valley." },
   { value: "3m+", label: "Capital raised by startups in our ecosystem." },
-  { value: "97%", label: "Community satisfaction across programs." },
+  { value: "#1", label: "Fastest private network in San Francisco." },
 ] as const;
 
 export const NETWORK_PATHS = [
