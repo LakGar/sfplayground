@@ -23,7 +23,7 @@ const STATS = [
   },
   {
     value: "#1",
-    label: "Fastest private network in San Francisco.",
+    label: "Fastest growing network in San Francisco.",
   },
 ] as const;
 

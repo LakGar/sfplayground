@@ -46,7 +46,7 @@ export const SPONSOR_STATS = [
   },
   {
     value: "#1",
-    label: "Fastest private network in San Francisco.",
+    label: "Fastest growing network in San Francisco.",
   },
   {
     value: "3m+",

@@ -38,9 +38,7 @@ function EventCard(event: (typeof PREVIOUS_EVENTS)[number]) {
           aria-hidden
         />
         <div className="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/55 via-black/20 to-transparent px-6 pb-6 pt-16 md:px-8 md:pb-8 md:pt-20">
-          {date ? (
-            <p className="text-sm text-white/75">{date}</p>
-          ) : null}
+          {date ? <p className="text-sm text-white/75">{date}</p> : null}
           <h3
             className={`font-oswald text-2xl font-bold leading-tight tracking-tight text-white md:text-[1.75rem] lg:text-3xl ${date ? "mt-1" : ""}`}
           >
@@ -79,56 +77,42 @@ function AnimatedEventCard({
   );
 }
 
-function SectionHeader({ year }: { year: string }) {
+function SectionHeader() {
   const reduceMotion = useReducedMotion();
+  const heading = (
+    <h2
+      id="previous-events-heading"
+      className="font-oswald text-4xl font-bold tracking-tight text-black md:text-5xl lg:text-6xl"
+    >
+      Previous Events
+    </h2>
+  );
 
   if (reduceMotion) {
-    return (
-      <div className="mb-10 flex items-end justify-between gap-6 md:mb-14">
-        <h2
-          id="previous-events-heading"
-          className="font-oswald text-4xl font-bold tracking-tight text-black md:text-5xl lg:text-6xl"
-        >
-          Previous Events
-        </h2>
-        <p className="shrink-0 text-sm tracking-[0.25em] text-black/35">
-          ( _{year} )
-        </p>
-      </div>
-    );
+    return <div className="mb-10 md:mb-14">{heading}</div>;
   }
 
   return (
     <motion.div
-      className="mb-10 flex items-end justify-between gap-6 md:mb-14"
+      className="mb-10 md:mb-14"
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.5 }}
       transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
     >
-      <h2
-        id="previous-events-heading"
-        className="font-oswald text-4xl font-bold tracking-tight text-black md:text-5xl lg:text-6xl"
-      >
-        Previous Events
-      </h2>
-      <p className="shrink-0 text-sm tracking-[0.25em] text-black/35">
-        ( _{year} )
-      </p>
+      {heading}
     </motion.div>
   );
 }
 
 export default function PreviousEvents() {
-  const year = new Date().getFullYear().toString().slice(-2);
-
   return (
     <section
       className="bg-white px-4 py-16 md:px-8 md:py-24 lg:py-28"
       aria-labelledby="previous-events-heading"
     >
       <div className="mx-auto w-full max-w-[1400px]">
-        <SectionHeader year={year} />
+        <SectionHeader />
 
         <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 md:gap-5 lg:gap-6">
           {PREVIOUS_EVENTS.map((event, index) => (
