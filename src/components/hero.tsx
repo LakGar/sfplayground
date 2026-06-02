@@ -16,39 +16,62 @@ const fadeUpTransition = (delay: number) => ({
   ease: [0.22, 1, 0.36, 1] as const,
 });
 
-/** Replace `src` values with your own images under /public when ready */
 const CAROUSEL_IMAGES = [
   {
     src: "/images/hero1.JPG",
-    alt: "Placeholder 1",
+    alt: "Founders and builders at a SFPLAYGROUND event",
   },
   {
     src: "/images/hero2.png",
-    alt: "Placeholder 2",
+    alt: "Attendees gathering at a live startup event",
   },
   {
     src: "/images/hero3.png",
-    alt: "Placeholder 3",
+    alt: "Founder presenting to the SFPLAYGROUND community",
   },
   {
     src: "/images/hero4.png",
-    alt: "Placeholder 4",
+    alt: "Startup operators networking in San Francisco",
   },
   {
     src: "/images/hero5.png",
-    alt: "Placeholder 5",
+    alt: "Event audience during an SFPLAYGROUND session",
   },
   {
     src: "/images/hero6.png",
-    alt: "Placeholder 6",
+    alt: "Founders and investors in conversation",
   },
   {
     src: "/images/hero7.jpeg",
-    alt: "Placeholder 7",
+    alt: "Speaker session at a startup summit",
   },
   {
     src: "/images/hero8.JPG",
-    alt: "Placeholder 8",
+    alt: "Bay Area founders meeting at SFPLAYGROUND",
+  },
+  {
+    src: "/images/ID5A2804.JPG",
+    alt: "Wide crowd moment from a SFPLAYGROUND event",
+  },
+  {
+    src: "/images/ID5A2897.JPG",
+    alt: "Founder speaking with guests at an evening event",
+  },
+  {
+    src: "/images/ID5A2997.JPG",
+    alt: "Attendees listening during a founder program",
+  },
+  {
+    src: "/images/IMG_0508.JPG",
+    alt: "Community members arriving at a startup gathering",
+  },
+  {
+    src: "/images/IMG_0830.JPG",
+    alt: "Panel and audience moment at SFPLAYGROUND",
+  },
+  {
+    src: "/images/IMG_1098.JPG",
+    alt: "Founders connecting after a live session",
   },
 ] as const;
 

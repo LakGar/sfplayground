@@ -96,7 +96,9 @@ export default function CTAWithVerticalMarquee() {
                 Join
               </a>
               <a
-                href="mailto:staff@sfplaygroundai.com?subject=Book%20a%2015%20minute%20call"
+                href="https://calendly.com/sfplayground/30min"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-full border border-black/10 bg-[#f3f3f1] px-8 py-3.5 text-sm font-medium text-black transition-opacity hover:opacity-85 md:text-base"
               >
                 Book a 15 minute call

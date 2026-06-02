@@ -1,27 +1,41 @@
-import { unsplashUrl } from "./pitch-playoffs-unsplash";
-
 export const PP_EVENT = {
   edition: "003",
   contactEmail: "staff@sfplaygroundai.com",
   startupApplyHref: "/network/apply?type=startups",
   investorApplyHref: "/network/apply?type=vcs",
+  calendlyHref: "https://calendly.com/sfplayground/30min",
   eventsHref: "https://www.instagram.com/sfplayground/",
   location: "San Francisco",
 } as const;
 
 export const PP_HERO = {
   title: "Pitch Playoffs",
-  tagline: "Demo booths. Real customers. The room votes. Top 3 pitch live.",
+  tagline: "Demo booths. Real customers. Crowd vote. Top 3 pitch live.",
   meta: `Edition ${PP_EVENT.edition} · ${PP_EVENT.location}`,
   avatars: [
-    "https://randomuser.me/api/portraits/women/44.jpg",
-    "https://randomuser.me/api/portraits/men/32.jpg",
-    "https://randomuser.me/api/portraits/women/68.jpg",
-    "https://randomuser.me/api/portraits/men/75.jpg",
-    "https://randomuser.me/api/portraits/women/17.jpg",
+    "/images/pitch-playoffs/founder-conversation.jpg",
+    "/images/pitch-playoffs/demo-booth.jpg",
+    "/images/pitch-playoffs/booth-feedback.jpg",
+    "/images/pitch-playoffs/booth-floor.jpg",
+    "/images/pitch-playoffs/presentation-room.jpg",
   ],
   avatarMoreLabel: "and 859 more",
   steps: ["Apply", "Booth", "Customers", "Vote", "VC panel", "Intros"],
+  proofPoints: ["200+ in the room", "Customer signal first", "Top 3 earn the panel"],
+  featureImages: [
+    {
+      src: "/images/pitch-playoffs/booth-floor.jpg",
+      alt: "Crowd exploring demo booths at Pitch Playoffs",
+    },
+    {
+      src: "/images/pitch-playoffs/demo-booth.jpg",
+      alt: "Founder demo booth with product materials and visitors",
+    },
+    {
+      src: "/images/pitch-playoffs/panel-presentation.jpg",
+      alt: "Pitch Playoffs presenter speaking to attendees",
+    },
+  ],
 } as const;
 
 export const PP_APPLY_PATHS = {
@@ -70,13 +84,13 @@ export const PP_ABOUT = {
   body: "Most pitch nights optimize for slides. Pitch Playoffs optimizes for what early-stage teams actually need — real buyers at your booth, an honest read from the room, and a short list that earns a live VC conversation.",
   images: [
     {
-      src: "/images/network1.JPG",
-      alt: "Founders and investors networking on an outdoor terrace",
+      src: "/images/pitch-playoffs/demo-booth.jpg",
+      alt: "Founder demo booth with product screens and notes",
       layout: "landscape",
     },
     {
-      src: "/images/hero7.jpeg",
-      alt: "Attendees in conversation at a SFPLAYGROUND event",
+      src: "/images/pitch-playoffs/founder-conversation.jpg",
+      alt: "Pitch Playoffs attendees talking with a founder",
       layout: "portrait",
     },
   ],
@@ -117,8 +131,8 @@ export const PP_PROCESS = [
 
 export const PP_INVESTORS = {
   label: "For investors",
-  headline: "Dealflow after the room has already voted",
-  body: "You don't sit through fifty decks. You watch demo booths, see how founders handle real customers, and only hear from the three the crowd chose.",
+  headline: "Dealflow with live customer signal",
+  body: "You don't sit through fifty cold decks. You watch demo booths, see how founders handle real buyers and users, and hear from the three teams the room chose.",
   perks: [
     "Panel seats for the live top-3 pitches",
     "Booth floor access before the vote",
@@ -127,9 +141,9 @@ export const PP_INVESTORS = {
   ],
   cta: "Apply as investor",
   href: PP_EVENT.investorApplyHref,
-  image: "/images/previous-events/construction.jpeg",
+  image: "/images/pitch-playoffs/booth-feedback.jpg",
   imageAlt:
-    "Speaker presenting to an engaged audience at a SFPLAYGROUND pitch event",
+    "Investors and attendees reviewing a live Pitch Playoffs demo",
 } as const;
 
 export const PP_GLANCE = {
@@ -180,7 +194,7 @@ export const PP_FINAL_CTA = {
   eyebrow: "Pitch Playoffs",
   brandTitle: "Pitch Playoffs",
   brandByline: PP_BRAND.byline,
-  image: unsplashUrl("conferenceStage", 2000),
+  image: "/images/pitch-playoffs/booth-floor.jpg",
 } as const;
 
 export const PP_FOOTER = {

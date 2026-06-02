@@ -70,6 +70,14 @@ export default function PPHero() {
           <Link href={PP_EVENT.investorApplyHref} className="pp-hero-btn pp-hero-btn-secondary">
             Join as investor
           </Link>
+          <a
+            href={PP_EVENT.calendlyHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="pp-hero-btn pp-hero-btn-secondary"
+          >
+            Book a 15 min call
+          </a>
         </motion.div>
       </div>
 
@@ -100,6 +108,11 @@ export default function PPHero() {
                 <p className="pp-avatar-more">{PP_HERO.avatarMoreLabel}</p>
               </div>
               <h2 className="pp-hero-banner-title">{PP_HERO.tagline}</h2>
+              <div className="pp-hero-proof-row" aria-label="Pitch Playoffs highlights">
+                {PP_HERO.proofPoints.map((point) => (
+                  <span key={point}>{point}</span>
+                ))}
+              </div>
             </div>
 
             <div className="pp-hero-social">
@@ -119,6 +132,26 @@ export default function PPHero() {
                 );
               })}
             </div>
+          </div>
+
+          <div className="pp-hero-photo-grid" aria-label="Pitch Playoffs moments">
+            {PP_HERO.featureImages.map((image, i) => (
+              <motion.div
+                key={image.src}
+                className={`pp-hero-photo pp-hero-photo-${i + 1}`}
+                initial={reduce ? false : { opacity: 0, y: 18, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ duration: 0.55, delay: 0.38 + i * 0.08, ease: EASE }}
+              >
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  className="pp-hero-photo-image"
+                  sizes="(max-width: 900px) 42vw, 320px"
+                />
+              </motion.div>
+            ))}
           </div>
         </div>
 

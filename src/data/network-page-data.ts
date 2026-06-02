@@ -14,24 +14,51 @@ export const NETWORK_HERO = {
 
 export const NETWORK_HERO_LETTER_IMAGES = [
   "/images/network1.JPG",
-  "/images/hero1.JPG",
-  "/images/hero2.png",
-  "/images/hero3.png",
-  "/images/hero4.png",
+  "/images/ID5A2804.JPG",
+  "/images/ID5A2897.JPG",
+  "/images/ID5A2913.png",
+  "/images/IMG_0700.JPG",
   "/images/previous-events/pitch.png",
   "/images/previous-events/capitalnight.avif",
-  "/images/hero5.png",
+  "/images/IMG_0835.JPG",
 ] as const;
 
 export const NETWORK_HERO_CAROUSEL = [
   { src: "/images/network1.JPG", alt: "SFPLAYGROUND community" },
   { src: "/images/network2.JPG", alt: "Networking at an event" },
   { src: "/images/network3.JPG", alt: "Founders and investors" },
+  { src: "/images/ID5A2804.JPG", alt: "Crowd gathered at a SFPLAYGROUND event" },
+  { src: "/images/ID5A2897.JPG", alt: "Founder speaking with event guests" },
+  { src: "/images/ID5A2997.JPG", alt: "Audience watching a founder program" },
+  { src: "/images/ID5A3105.JPG", alt: "Attendee portrait from a startup event" },
+  { src: "/images/IMG_0508.JPG", alt: "Guests arriving for a founder gathering" },
+  { src: "/images/IMG_0700.JPG", alt: "Event audience in conversation" },
+  { src: "/images/IMG_0830.JPG", alt: "Panel moment at SFPLAYGROUND" },
   { src: "/images/previous-events/pitch.png", alt: "Pitch event" },
   { src: "/images/hero6.png", alt: "Live event" },
   { src: "/images/previous-events/capital.jpeg", alt: "Capital Night" },
   { src: "/images/hero7.jpeg", alt: "Summit" },
   { src: "/images/previous-events/stanford.png", alt: "Stanford program" },
+] as const;
+
+/** Extra pool for the network hero cursor trail (carousel + additional event photos). */
+export const NETWORK_HERO_TRAIL_IMAGES = [
+  ...NETWORK_HERO_CAROUSEL,
+  { src: "/images/hero1.JPG", alt: "SFPLAYGROUND event" },
+  { src: "/images/hero2.png", alt: "Founders networking" },
+  { src: "/images/hero3.png", alt: "Live pitch night" },
+  { src: "/images/hero4.png", alt: "Community gathering" },
+  { src: "/images/hero5.png", alt: "Bay Area startup event" },
+  { src: "/images/hero8.JPG", alt: "Investors and founders" },
+  { src: "/images/IMG_0632.JPG", alt: "Founder community discussion" },
+  { src: "/images/IMG_0705.JPG", alt: "Networking moment at a live event" },
+  { src: "/images/IMG_0715.JPG", alt: "Guests meeting between sessions" },
+  { src: "/images/IMG_0848 (1).JPG", alt: "Founder speaking on stage" },
+  { src: "/images/IMG_1098.JPG", alt: "Attendees connecting after an event" },
+  { src: "/images/previous-events/capitalnight.avif", alt: "Capital Night" },
+  { src: "/images/previous-events/harvard.jpg", alt: "Harvard x MIT event" },
+  { src: "/images/previous-events/global.png", alt: "Global summit" },
+  { src: "/images/previous-events/construction.jpeg", alt: "Deep tech summit" },
 ] as const;
 
 export const NETWORK_STATS = [
@@ -51,7 +78,7 @@ export const NETWORK_PATHS = [
     who: {
       headline: "Building and raising in the Bay Area.",
       line: "Early-stage teams looking for pitch slots, investor intros, and operator access.",
-      image: "/images/previous-events/pitch.png",
+      image: "/images/IMG_0848 (1).JPG",
       alt: "Founders pitching at SFPLAYGROUND",
     },
     why: {
@@ -64,7 +91,7 @@ export const NETWORK_PATHS = [
         "Warm intros to investors",
         "Media exposure",
       ],
-      image: "/images/network1.JPG",
+      image: "/images/ID5A2997.JPG",
       alt: "Founders at a SFPLAYGROUND event",
     },
   },
@@ -77,7 +104,7 @@ export const NETWORK_PATHS = [
     who: {
       headline: "Active investors looking for dealflow.",
       line: "VCs, angels, and family offices who want vetted founders — not conference foot traffic.",
-      image: "/images/previous-events/capitalnight.avif",
+      image: "/images/ID5A2804.JPG",
       alt: "Investors at Capital Night",
     },
     why: {
@@ -89,7 +116,7 @@ export const NETWORK_PATHS = [
         "Co-investment opportunities",
         "Media exposure ",
       ],
-      image: "/images/previous-events/capital.jpeg",
+      image: "/images/IMG_0830.JPG",
       alt: "Investors networking at Capital Night",
     },
   },
@@ -102,7 +129,7 @@ export const NETWORK_PATHS = [
     who: {
       headline: "Operators and experts with something to share.",
       line: "Leaders who want keynotes, fireside slots, and panels in front of builders and backers.",
-      image: "/images/previous-events/stanford.png",
+      image: "/images/ID5A3105.JPG",
       alt: "Operator or expert at a SFPLAYGROUND summit",
     },
     why: {
@@ -114,7 +141,7 @@ export const NETWORK_PATHS = [
         "High-signal audiences",
         "Visibility across programs",
       ],
-      image: "/images/hero7.jpeg",
+      image: "/images/IMG_1098.JPG",
       alt: "Operator or expert speaking at a summit",
     },
   },

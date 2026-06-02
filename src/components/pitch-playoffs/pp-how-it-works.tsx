@@ -4,7 +4,7 @@ import Image from "next/image";
 import { PP_PROCESS } from "@/data/pitch-playoffs-page-data";
 import { PPReveal, PPRevealItem, PPRevealStagger } from "@/components/pitch-playoffs/pp-reveal";
 
-const PROCESS_IMAGE = "/images/pp-2.png";
+const PROCESS_IMAGE = "/images/pitch-playoffs/presentation-room.jpg";
 
 export default function PPHowItWorks() {
   return (

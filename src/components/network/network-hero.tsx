@@ -10,9 +10,8 @@ import {
   NETWORK_HERO,
   NETWORK_HERO_CAROUSEL,
   NETWORK_HERO_LETTER_IMAGES,
+  NETWORK_HERO_TRAIL_IMAGES,
 } from "@/data/network-page-data";
-
-const CONTACT_EMAIL = "staff@sfplaygroundai.com";
 
 const fadeUp = {
   hidden: { opacity: 0, y: 32 },
@@ -90,11 +89,17 @@ export default function NetworkHero() {
           minDistance={64}
           rotationRange={8}
           animationSequence={[
-            [{ scale: 1, opacity: 1 }, { duration: 0.55, ease: [0.22, 1, 0.36, 1] }],
-            [{ scale: 0.94, opacity: 0 }, { duration: 1.15, ease: [0.4, 0, 0.2, 1] }],
+            [
+              { scale: 1, opacity: 1 },
+              { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+            ],
+            [
+              { scale: 0.94, opacity: 0 },
+              { duration: 1.15, ease: [0.4, 0, 0.2, 1] },
+            ],
           ]}
         >
-          {NETWORK_HERO_CAROUSEL.map((image) => (
+          {NETWORK_HERO_TRAIL_IMAGES.map((image) => (
             <div
               key={image.src}
               className="relative h-36 w-28 overflow-hidden rounded-xl md:h-44 md:w-32"
@@ -189,14 +194,15 @@ export default function NetworkHero() {
             {NETWORK_HERO.ctaLabel}
           </Link>
           <a
-            href={`mailto:${CONTACT_EMAIL}?subject=Sponsorship%20inquiry`}
+            href="https://calendly.com/sfplayground/30min"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-full border border-black/10 bg-white/60 px-8 py-3.5 text-sm font-medium text-black backdrop-blur-sm transition-opacity hover:opacity-85 md:text-base"
           >
-            Email the team
+            Book a 15 min call
           </a>
         </motion.div>
       </div>
-      {/* 
       <motion.div
         className="relative w-full"
         variants={fadeUp}
@@ -219,7 +225,7 @@ export default function NetworkHero() {
           className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-linear-to-l from-[#f3f3f1] via-[#f3f3f1]/80 to-transparent sm:w-24 md:w-32 lg:w-40"
           aria-hidden
         />
-      </motion.div> */}
+      </motion.div>
     </section>
   );
 }

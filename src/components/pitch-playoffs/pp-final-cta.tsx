@@ -12,7 +12,7 @@ export default function PPFinalCta() {
     <section className="pp-final-cta" aria-labelledby="pp-final-cta-heading">
       <div className="pp-final-cta-bg" aria-hidden>
         <Image
-          src="/images/pp-cta.png"
+          src={cta.image}
           alt=""
           fill
           className="pp-final-cta-bg-image"
@@ -66,6 +66,25 @@ export default function PPFinalCta() {
                 </svg>
               </span>
             </Link>
+            <a
+              href={PP_EVENT.calendlyHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pp-final-cta-btn pp-final-cta-btn-alt"
+            >
+              <span>Book a 15 min call</span>
+              <span className="pp-final-cta-btn-icon" aria-hidden>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path
+                    d="M3 7h8M8 4l3 3-3 3"
+                    stroke="currentColor"
+                    strokeWidth="1.25"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            </a>
           </div>
         </PPReveal>
       </div>
