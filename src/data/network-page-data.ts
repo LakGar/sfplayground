@@ -7,7 +7,7 @@ export const NETWORK_HERO = {
   eyebrow: "Join the network",
   title: "NETWORK",
   tagline:
-    "Live events, real intros, and high-signal rooms across San Francisco and Silicon Valley.",
+    "Live events, real intros, and high-signal rooms from San Francisco to Silicon Valley.",
   ctaLabel: "Apply to join",
   ctaHref: "/network/apply",
 } as const;
