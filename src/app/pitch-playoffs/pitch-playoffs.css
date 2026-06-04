@@ -731,6 +731,7 @@
   line-height: 1.14;
   letter-spacing: -0.025em;
   color: #0a0a0a;
+  white-space: pre-line;
 }
 
 .pp-about-images {

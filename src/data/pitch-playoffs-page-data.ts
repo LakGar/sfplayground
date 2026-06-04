@@ -10,7 +10,7 @@ export const PP_EVENT = {
 
 export const PP_HERO = {
   title: "Pitch Playoffs",
-  tagline: "Demo booths. Real customers. Crowd vote. \n Top 3 pitch live.",
+  tagline: "Demo booths. Real customers. Crowd vote. \nTop 3 pitch live.",
   meta: `Edition ${PP_EVENT.edition} · ${PP_EVENT.location}`,
   avatars: [
     "/images/pitch-playoffs/founder-conversation.jpg",
@@ -80,7 +80,7 @@ export const PP_SOCIAL = [
 
 export const PP_ABOUT = {
   label: "The format",
-  headline: "Startups Demo. \n The crowd votes. \n Finalists pitch Investors.",
+  headline: "Startups Demo.\nThe crowd votes.\nFinalists pitch Investors.",
   body: "Founders start with booth demos, real conversations, and direct audience feedback. Attendees vote for the teams they find most compelling, creating visible social proof before the top startups pitch investors.",
   images: [
     {
