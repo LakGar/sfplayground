@@ -236,6 +236,7 @@ export const SPONSOR_FAQ = [
 
 export type SponsorFormData = {
   companyName: string;
+  logoUrl: string;
   contactName: string;
   email: string;
   phone: string;
@@ -246,62 +247,81 @@ export type SponsorFormData = {
   goals: string;
 };
 
-export const SPONSOR_QUESTIONNAIRE_STEPS = [
+export type SponsorQuestionnaireStep = {
+  id: string;
+  title: string;
+  subtitle?: string;
+  field: keyof SponsorFormData;
+  inputType: "text" | "email" | "textarea" | "chips" | "multi-chips" | "logo";
+  placeholder?: string;
+  options?: readonly string[];
+  minWords?: number;
+};
+
+export const SPONSOR_QUESTIONNAIRE_STEPS: SponsorQuestionnaireStep[] = [
   {
     id: "companyName",
     title: "What's your company called?",
     subtitle: "We'll use this to personalize your partnership proposal.",
-    field: "companyName" as const,
-    inputType: "text" as const,
+    field: "companyName",
+    inputType: "text",
     placeholder: "Acme Ventures",
+  },
+  {
+    id: "logoUrl",
+    title: "Upload your company logo",
+    subtitle: "We use this in sponsor materials and on-site branding.",
+    field: "logoUrl",
+    inputType: "logo",
   },
   {
     id: "contactName",
     title: "Who should we reach out to?",
     subtitle: "Your name as the main point of contact.",
-    field: "contactName" as const,
-    inputType: "text" as const,
+    field: "contactName",
+    inputType: "text",
     placeholder: "First and last name",
   },
   {
     id: "email",
     title: "Best email for follow-up?",
     subtitle: "We reply personally — no automated sequences.",
-    field: "email" as const,
-    inputType: "email" as const,
+    field: "email",
+    inputType: "email",
     placeholder: "you@company.com",
   },
   {
     id: "companyType",
     title: "What type of company are you?",
     subtitle: "Helps us match you with the right programs.",
-    field: "companyType" as const,
-    inputType: "chips" as const,
+    field: "companyType",
+    inputType: "chips",
     options: COMPANY_TYPES,
   },
   {
     id: "budget",
     title: "What's your sponsorship budget range?",
     subtitle: "A rough range is fine — we'll tailor options from here.",
-    field: "sponsorshipBudgetRange" as const,
-    inputType: "chips" as const,
+    field: "sponsorshipBudgetRange",
+    inputType: "chips",
     options: BUDGET_RANGES,
   },
   {
     id: "interests",
     title: "Which programs interest you?",
     subtitle: "Select all that apply.",
-    field: "interestedIn" as const,
-    inputType: "multi-chips" as const,
+    field: "interestedIn",
+    inputType: "multi-chips",
     options: SPONSOR_INTERESTS,
   },
   {
     id: "goals",
     title: "What does success look like?",
     subtitle: "Brand visibility, pipeline, community — tell us your goals.",
-    field: "goals" as const,
-    inputType: "textarea" as const,
+    field: "goals",
+    inputType: "textarea",
     placeholder:
       "We're looking to reach early-stage founders and co-host a pitch night…",
+    minWords: 4,
   },
-] as const;
+];

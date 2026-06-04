@@ -1,4 +1,5 @@
 import type { IntakeKind } from "@/lib/intake-types";
+import { INTAKE_FIELD_META } from "@/lib/intake-field-meta";
 
 export function escapeHtml(s: string): string {
   return s
@@ -8,77 +9,7 @@ export function escapeHtml(s: string): string {
     .replace(/"/g, "&quot;");
 }
 
-const INTAKE_LABELS: Record<
-  IntakeKind,
-  { title: string; fields: Record<string, string> }
-> = {
-  sponsors: {
-    title: "Sponsor intake",
-    fields: {
-      companyName: "Company name",
-      contactName: "Contact name",
-      email: "Email",
-      phone: "Phone",
-      website: "Website",
-      companyType: "Company type",
-      sponsorshipBudgetRange: "Sponsorship budget range",
-      interestedIn: "Interested in",
-      goals: "Goals / exposure",
-      anythingElse: "Anything else we should know",
-    },
-  },
-  startups: {
-    title: "Startup intake",
-    fields: {
-      startupName: "Startup name",
-      founderName: "Founder name",
-      email: "Email",
-      phone: "Phone",
-      website: "Website",
-      stage: "Stage",
-      industry: "Industry / category",
-      description: "One-sentence description",
-      fundraising: "Fundraising",
-      roundAndTarget: "Round + target amount",
-      teamSize: "Team size",
-      lookingFor: "What are you looking for from SFPLAYGROUND?",
-      anythingElse: "Anything else we should know",
-    },
-  },
-  vcs: {
-    title: "VC intake",
-    fields: {
-      firmName: "Firm name",
-      investorName: "Investor name",
-      email: "Email",
-      phone: "Phone",
-      website: "Website",
-      checkSize: "Check size",
-      stageFocus: "Stage focus",
-      sectorFocus: "Sector focus",
-      geographicFocus: "Geographic focus",
-      openToJudging: "Open to judging / attending events",
-      startupsToMeet: "Startups they want to meet",
-      anythingElse: "Anything else we should know",
-    },
-  },
-  speakers: {
-    title: "Speaker intake",
-    fields: {
-      fullName: "Full name",
-      email: "Email",
-      phone: "Phone",
-      company: "Company",
-      roleTitle: "Role / title",
-      webOrLinkedin: "Website or LinkedIn",
-      topicExpertise: "Topic expertise",
-      speakingExperience: "Speaking experience",
-      whySpeak: "Why speak at SFPLAYGROUND",
-      preferredEventType: "Preferred event type",
-      anythingElse: "Anything else we should know",
-    },
-  },
-};
+const INTAKE_LABELS = INTAKE_FIELD_META;
 
 export function buildIntakeEmailHtml(
   kind: IntakeKind,

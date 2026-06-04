@@ -244,11 +244,21 @@ export type QuestionnaireStep = {
   id: string;
   title: string;
   subtitle: string;
-  inputType: "text" | "email" | "tel" | "url" | "textarea" | "chips" | "role";
+  inputType:
+    | "text"
+    | "email"
+    | "tel"
+    | "url"
+    | "textarea"
+    | "chips"
+    | "role"
+    | "logo";
   field: string;
   placeholder?: string;
   options?: readonly string[];
   minLength?: number;
+  minWords?: number;
+  maxWords?: number;
   skipIf?: (values: Record<string, string>) => boolean;
 };
 
@@ -324,7 +334,7 @@ export const STARTUP_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "textarea",
     field: "description",
     placeholder: "We help…",
-    minLength: 15,
+    minWords: 3,
   },
   {
     id: "fundraising",
@@ -358,7 +368,7 @@ export const STARTUP_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "textarea",
     field: "lookingFor",
     placeholder: "We're looking for…",
-    minLength: 20,
+    minWords: 4,
   },
 ];
 
@@ -370,6 +380,13 @@ export const VC_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "text",
     field: "firmName",
     placeholder: "Acme Ventures",
+  },
+  {
+    id: "logoUrl",
+    title: "Upload your firm logo",
+    subtitle: "Square or horizontal PNG/JPG works best — we use it in our partner materials.",
+    inputType: "logo",
+    field: "logoUrl",
   },
   {
     id: "investorName",
@@ -450,7 +467,7 @@ export const VC_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "textarea",
     field: "startupsToMeet",
     placeholder: "We're looking for…",
-    minLength: 20,
+    minWords: 4,
   },
 ];
 
@@ -488,6 +505,13 @@ export const SPEAKER_QUESTIONNAIRE: QuestionnaireStep[] = [
     placeholder: "Company name",
   },
   {
+    id: "logoUrl",
+    title: "Upload your organization logo",
+    subtitle: "Used when we feature you on programs and recaps.",
+    inputType: "logo",
+    field: "logoUrl",
+  },
+  {
     id: "roleTitle",
     title: "Role / title?",
     subtitle: "How you should be credited.",
@@ -518,7 +542,7 @@ export const SPEAKER_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "textarea",
     field: "speakingExperience",
     placeholder: "I've spoken at…",
-    minLength: 15,
+    minWords: 3,
   },
   {
     id: "whySpeak",
@@ -527,7 +551,7 @@ export const SPEAKER_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "textarea",
     field: "whySpeak",
     placeholder: "I'd love to…",
-    minLength: 20,
+    minWords: 4,
   },
   {
     id: "preferredEventType",

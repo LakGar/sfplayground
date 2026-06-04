@@ -4,6 +4,8 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { INTAKE_SUCCESS_COPY } from "@/lib/intake-success-copy";
+import { getSponsorStepValidationError } from "@/lib/questionnaire-validation";
+import { LogoUploadField } from "@/components/questionnaire/logo-upload-field";
 import {
   SPONSOR_QUESTIONNAIRE_STEPS,
   type SponsorFormData,
@@ -13,6 +15,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 const INITIAL: SponsorFormData = {
   companyName: "",
+  logoUrl: "",
   contactName: "",
   email: "",
   phone: "",
@@ -37,47 +40,36 @@ export default function SponsorQuestionnaire() {
   const [formStartedAt, setFormStartedAt] = useState<number | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [fieldError, setFieldError] = useState("");
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
   const current = SPONSOR_QUESTIONNAIRE_STEPS[step];
   const totalSteps = SPONSOR_QUESTIONNAIRE_STEPS.length;
   const isLast = step === totalSteps - 1;
+  const showNextControl =
+    current?.inputType !== "chips" && current?.inputType !== "multi-chips";
 
   useEffect(() => {
     setFormStartedAt(Date.now());
   }, []);
 
   useEffect(() => {
+    setFieldError("");
+  }, [step, current?.id]);
+
+  useEffect(() => {
+    if (current?.inputType === "logo") return;
     const t = setTimeout(() => inputRef.current?.focus(), 320);
     return () => clearTimeout(t);
-  }, [step]);
+  }, [step, current?.inputType]);
 
   const patch = useCallback(
     <K extends keyof SponsorFormData>(key: K, value: SponsorFormData[K]) => {
       setForm((prev) => ({ ...prev, [key]: value }));
+      setFieldError("");
     },
     [],
   );
-
-  function canContinue(): boolean {
-    if (!current) return false;
-    const { field, inputType } = current;
-
-    if (inputType === "multi-chips") {
-      return form.interestedIn.length > 0;
-    }
-    if (inputType === "chips") {
-      return Boolean(form[field as "companyType" | "sponsorshipBudgetRange"]);
-    }
-    if (inputType === "textarea") {
-      return form.goals.trim().length >= 20;
-    }
-    const value = form[field as keyof SponsorFormData];
-    if (field === "email") {
-      return typeof value === "string" && value.includes("@");
-    }
-    return typeof value === "string" && value.trim().length > 0;
-  }
 
   async function submit() {
     setStatus("loading");
@@ -90,6 +82,7 @@ export default function SponsorQuestionnaire() {
         body: JSON.stringify({
           type: "sponsors",
           companyName: form.companyName.trim(),
+          logoUrl: form.logoUrl.trim(),
           contactName: form.contactName.trim(),
           email: form.email.trim(),
           phone: form.phone.trim() || "Not provided",
@@ -130,7 +123,14 @@ export default function SponsorQuestionnaire() {
   }
 
   function goNext() {
-    if (!canContinue()) return;
+    if (!current) return;
+    const err = getSponsorStepValidationError(current, form);
+    if (err) {
+      setFieldError(err);
+      return;
+    }
+    setFieldError("");
+
     if (isLast) {
       void submit();
       return;
@@ -139,12 +139,18 @@ export default function SponsorQuestionnaire() {
   }
 
   function goBack() {
+    setFieldError("");
     if (step === 0) return;
     setStep((s) => s - 1);
   }
 
   function handleKeyDown(e: KeyboardEvent) {
-    if (e.key === "Enter" && !e.shiftKey && current?.inputType !== "textarea") {
+    if (
+      e.key === "Enter" &&
+      !e.shiftKey &&
+      current?.inputType !== "textarea" &&
+      current?.inputType !== "logo"
+    ) {
       e.preventDefault();
       goNext();
     }
@@ -206,6 +212,9 @@ export default function SponsorQuestionnaire() {
             <h1 className="font-oswald text-[clamp(1.75rem,4.5vw,2.75rem)] font-bold leading-[1.12] tracking-tight text-black">
               {current.title}
             </h1>
+            {current.subtitle ? (
+              <p className="mt-3 text-sm text-black/45 md:text-base">{current.subtitle}</p>
+            ) : null}
 
             <div className="mt-8 md:mt-10">
               {current.inputType === "text" || current.inputType === "email" ? (
@@ -234,6 +243,14 @@ export default function SponsorQuestionnaire() {
                   placeholder={current.placeholder}
                   rows={5}
                   className="w-full resize-none border-0 border-b border-black/15 bg-transparent py-3 text-base leading-relaxed text-black outline-none placeholder:text-black/25 focus:border-black md:text-lg"
+                />
+              ) : null}
+
+              {current.inputType === "logo" ? (
+                <LogoUploadField
+                  value={form.logoUrl}
+                  onChange={(url) => patch("logoUrl", url)}
+                  label="Choose logo file"
                 />
               ) : null}
 
@@ -289,6 +306,12 @@ export default function SponsorQuestionnaire() {
                 </div>
               ) : null}
             </div>
+
+            {fieldError ? (
+              <p className="mt-4 text-sm text-red-600" role="alert">
+                {fieldError}
+              </p>
+            ) : null}
           </motion.div>
         </AnimatePresence>
 
@@ -314,14 +337,16 @@ export default function SponsorQuestionnaire() {
               ←
             </button>
           ) : null}
-          <button
-            type="button"
-            onClick={goNext}
-            disabled={!canContinue() || status === "loading"}
-            className="text-sm font-medium text-black transition-opacity hover:opacity-50 disabled:opacity-30"
-          >
-            {status === "loading" ? "…" : "→"}
-          </button>
+          {showNextControl ? (
+            <button
+              type="button"
+              onClick={goNext}
+              disabled={status === "loading"}
+              className="rounded-full bg-[#0c1222] px-6 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-85 disabled:opacity-50"
+            >
+              {status === "loading" ? "Sending…" : isLast ? "Send" : "Next"}
+            </button>
+          ) : null}
         </div>
 
         {errorMessage ? (

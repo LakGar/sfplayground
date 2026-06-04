@@ -12,6 +12,8 @@ import {
 } from "react";
 import { INTAKE_SUCCESS_COPY } from "@/lib/intake-success-copy";
 import type { IntakeKind } from "@/lib/intake-types";
+import { getStepValidationError } from "@/lib/questionnaire-validation";
+import { LogoUploadField } from "@/components/questionnaire/logo-upload-field";
 import {
   getActiveSteps,
   NETWORK_ROLES,
@@ -41,6 +43,7 @@ export default function NetworkQuestionnaire() {
   const [formStartedAt, setFormStartedAt] = useState<number | null>(null);
   const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [fieldError, setFieldError] = useState("");
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
   const inRolePhase = !role;
@@ -49,6 +52,8 @@ export default function NetworkQuestionnaire() {
     ? ROLE_SELECT_STEP
     : activeSteps[step];
   const isLast = !inRolePhase && step === activeSteps.length - 1;
+  const showNextControl =
+    current?.inputType !== "chips" || inRolePhase;
 
   useEffect(() => {
     setFormStartedAt(Date.now());
@@ -60,36 +65,26 @@ export default function NetworkQuestionnaire() {
   }, [searchParams]);
 
   useEffect(() => {
+    setFieldError("");
+  }, [step, role, current?.id]);
+
+  useEffect(() => {
+    if (current?.inputType === "logo") return;
     const t = setTimeout(() => inputRef.current?.focus(), 320);
     return () => clearTimeout(t);
-  }, [step, role]);
+  }, [step, role, current?.inputType]);
 
   const patch = useCallback((field: string, value: string) => {
     setValues((prev) => ({ ...prev, [field]: value }));
+    setFieldError("");
   }, []);
 
-  function canContinue(): boolean {
-    if (!current) return false;
-
-    if (current.inputType === "role") {
-      return Boolean(role);
-    }
-
+  function validateCurrentStep(): string | null {
+    if (!current) return "Something went wrong. Go back and try again.";
     const value = values[current.field] ?? "";
-
-    if (current.inputType === "textarea") {
-      return value.trim().length >= (current.minLength ?? 15);
-    }
-    if (current.inputType === "chips") {
-      return value.trim().length > 0;
-    }
-    if (current.inputType === "email") {
-      return value.includes("@");
-    }
-    if (current.inputType === "tel" || current.inputType === "url") {
-      return value.trim().length > 0;
-    }
-    return value.trim().length > 0;
+    return getStepValidationError(current, value, {
+      roleSelected: Boolean(role),
+    });
   }
 
   function buildPayload() {
@@ -126,7 +121,12 @@ export default function NetworkQuestionnaire() {
   }
 
   function goNext() {
-    if (!canContinue()) return;
+    const err = validateCurrentStep();
+    if (err) {
+      setFieldError(err);
+      return;
+    }
+    setFieldError("");
 
     if (inRolePhase) {
       setStep(0);
@@ -142,6 +142,7 @@ export default function NetworkQuestionnaire() {
   }
 
   function goBack() {
+    setFieldError("");
     if (inRolePhase) return;
     if (step === 0) {
       setRole("");
@@ -162,7 +163,8 @@ export default function NetworkQuestionnaire() {
       e.key === "Enter" &&
       !e.shiftKey &&
       current?.inputType !== "textarea" &&
-      current?.inputType !== "role"
+      current?.inputType !== "role" &&
+      current?.inputType !== "logo"
     ) {
       e.preventDefault();
       goNext();
@@ -225,6 +227,9 @@ export default function NetworkQuestionnaire() {
             <h1 className="font-oswald text-[clamp(1.75rem,4.5vw,2.75rem)] font-bold leading-[1.12] tracking-tight text-black">
               {current?.title}
             </h1>
+            {current?.subtitle ? (
+              <p className="mt-3 text-sm text-black/45 md:text-base">{current.subtitle}</p>
+            ) : null}
 
             <div className="mt-8 md:mt-10">
               {current?.inputType === "role" ? (
@@ -279,6 +284,14 @@ export default function NetworkQuestionnaire() {
                 />
               ) : null}
 
+              {current?.inputType === "logo" ? (
+                <LogoUploadField
+                  value={values[current.field] ?? ""}
+                  onChange={(url) => patch(current.field, url)}
+                  label="Choose logo file"
+                />
+              ) : null}
+
               {current?.inputType === "chips" && current.options ? (
                 <div className="flex flex-wrap gap-2.5">
                   {current.options.map((option) => {
@@ -301,6 +314,12 @@ export default function NetworkQuestionnaire() {
                 </div>
               ) : null}
             </div>
+
+            {fieldError ? (
+              <p className="mt-4 text-sm text-red-600" role="alert">
+                {fieldError}
+              </p>
+            ) : null}
           </motion.div>
         </AnimatePresence>
 
@@ -326,14 +345,20 @@ export default function NetworkQuestionnaire() {
               ←
             </button>
           ) : null}
-          <button
-            type="button"
-            onClick={goNext}
-            disabled={!canContinue() || status === "loading"}
-            className="text-sm font-medium text-black transition-opacity hover:opacity-50 disabled:opacity-30"
-          >
-            {status === "loading" ? "…" : "→"}
-          </button>
+          {showNextControl ? (
+            <button
+              type="button"
+              onClick={goNext}
+              disabled={status === "loading"}
+              className="rounded-full bg-[#0c1222] px-6 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-85 disabled:opacity-50"
+            >
+              {status === "loading"
+                ? "Sending…"
+                : isLast
+                  ? "Send"
+                  : "Next"}
+            </button>
+          ) : null}
         </div>
 
         {errorMessage ? (

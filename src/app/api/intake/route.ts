@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 import { buildIntakeEmailHtml } from "@/lib/intake-email-html";
+import { appendIntakeToGoogleSheet } from "@/lib/google-sheets-intake";
 import type { IntakeKind } from "@/lib/intake-types";
 import { INTAKE_SUBJECT } from "@/lib/intake-types";
 import { getTeamRecipients, SFPLAYGROUND_FROM } from "@/lib/team-email";
@@ -66,6 +67,7 @@ function validatePayload(
 
   if (kind === "sponsors") {
     const companyName = pick("companyName");
+    const logoUrl = pick("logoUrl");
     const contactName = pick("contactName");
     const email = pick("email");
     const phone = pick("phone");
@@ -75,7 +77,15 @@ function validatePayload(
     const interestedIn = pick("interestedIn");
     const goals = pick("goals");
     const anythingElse = pick("anythingElse");
-    if (!companyName || !contactName || !email || !phone || !website || !companyType) {
+    if (
+      !companyName ||
+      !logoUrl ||
+      !contactName ||
+      !email ||
+      !phone ||
+      !website ||
+      !companyType
+    ) {
       return { ok: false, error: "Missing required fields" };
     }
     if (!validEmail(email)) return { ok: false, error: "Valid email is required" };
@@ -86,6 +96,7 @@ function validatePayload(
       ok: true,
       data: {
         companyName,
+        logoUrl,
         contactName,
         email,
         phone,
@@ -146,6 +157,7 @@ function validatePayload(
 
   if (kind === "vcs") {
     const firmName = pick("firmName");
+    const logoUrl = pick("logoUrl");
     const investorName = pick("investorName");
     const email = pick("email");
     const phone = pick("phone");
@@ -159,6 +171,7 @@ function validatePayload(
     const anythingElse = pick("anythingElse");
     if (
       !firmName ||
+      !logoUrl ||
       !investorName ||
       !email ||
       !phone ||
@@ -177,6 +190,7 @@ function validatePayload(
       ok: true,
       data: {
         firmName,
+        logoUrl,
         investorName,
         email,
         phone,
@@ -197,6 +211,7 @@ function validatePayload(
   const email = pick("email");
   const phone = pick("phone");
   const company = pick("company");
+  const logoUrl = pick("logoUrl");
   const roleTitle = pick("roleTitle");
   const webOrLinkedin = pick("webOrLinkedin");
   const topicExpertise = pick("topicExpertise");
@@ -209,6 +224,7 @@ function validatePayload(
     !email ||
     !phone ||
     !company ||
+    !logoUrl ||
     !roleTitle ||
     !webOrLinkedin ||
     !topicExpertise ||
@@ -226,6 +242,7 @@ function validatePayload(
       email,
       phone,
       company,
+      logoUrl,
       roleTitle,
       webOrLinkedin,
       topicExpertise,
@@ -269,16 +286,20 @@ export async function POST(request: NextRequest) {
 
     const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-    if (resend) {
-      const html = buildIntakeEmailHtml(kind, data, clientIp);
-      await resend.emails.send({
-        from: SFPLAYGROUND_FROM,
-        to: getTeamRecipients(),
-        replyTo,
-        subject: INTAKE_SUBJECT[kind],
-        html,
-      });
-    }
+    const emailPromise = resend
+      ? resend.emails.send({
+          from: SFPLAYGROUND_FROM,
+          to: getTeamRecipients(),
+          replyTo,
+          subject: INTAKE_SUBJECT[kind],
+          html: buildIntakeEmailHtml(kind, data, clientIp),
+        })
+      : Promise.resolve();
+
+    await Promise.all([
+      appendIntakeToGoogleSheet(kind, data, clientIp),
+      emailPromise,
+    ]);
 
     return NextResponse.json({ success: true, message: "Thank you—we received your submission." }, { status: 200 });
   } catch (error) {
