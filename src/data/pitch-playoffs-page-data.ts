@@ -10,7 +10,7 @@ export const PP_EVENT = {
 
 export const PP_HERO = {
   title: "Pitch Playoffs",
-  tagline: "Demo booths. Real customers. Crowd vote. Top 3 pitch live.",
+  tagline: "Demo booths. Real customers. Crowd vote. \n Top 3 pitch live.",
   meta: `Edition ${PP_EVENT.edition} · ${PP_EVENT.location}`,
   avatars: [
     "/images/pitch-playoffs/founder-conversation.jpg",
@@ -148,13 +148,20 @@ export const PP_INVESTORS = {
     "Investors and attendees reviewing a live Pitch Playoffs demo",
 } as const;
 
-export const PP_GLANCE = {
+export type PitchPlayoffsGlanceStat = {
+  end: number;
+  label: string;
+  prefix?: string;
+  suffix?: string;
+};
+
+export const PP_GLANCE: { stats: readonly PitchPlayoffsGlanceStat[] } = {
   stats: [
     { end: 15, suffix: "+", label: "Curated startup demos" },
     { end: 200, suffix: "+", label: "Audience votes as signal" },
     { end: 5, suffix: "+", label: "Active investors" },
   ],
-} as const;
+};
 
 export const PP_FAQ = {
   founders: [

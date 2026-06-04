@@ -18,8 +18,8 @@ export default function PPAtAGlance() {
                 <p className="pp-glance-value">
                   <StatCountUp
                     end={stat.end}
-                    prefix={"prefix" in stat ? stat.prefix : ""}
-                    suffix={"suffix" in stat ? stat.suffix : ""}
+                    prefix={stat.prefix ?? ""}
+                    suffix={stat.suffix ?? ""}
                     delay={index * 0.12}
                     className="pp-glance-value-inner"
                   />
