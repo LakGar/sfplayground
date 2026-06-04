@@ -14,6 +14,16 @@ const LUMA_COVER = (path: string) =>
 
 export const UPCOMING_EVENTS: UpcomingEventItem[] = [
   {
+    time: "Thursday, June 18, 2026 · 5:30 PM – 9:00 PM",
+    title: "Applied AI Gallery Night",
+    location: "2 Embarcadero Ctr, San Francisco, CA",
+    hostName: "SF Playground",
+    hostImageUrl: "/images/logo.png",
+    coverImageUrl: "/images/events/applied-ai-gallery-night.png",
+    tags: ["Applied AI", "Live demos", "Gallery night"],
+    href: "https://luma.com/user/SFPlayground",
+  },
+  {
     time: "Wednesday, June 24, 2026 · 5:30 PM – 9:30 PM",
     title: "Aexodus Deep Tech Physical AI Summit",
     location: "760 Market St, 4th floor, San Francisco, CA",
