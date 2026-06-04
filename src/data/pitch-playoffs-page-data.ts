@@ -80,8 +80,8 @@ export const PP_SOCIAL = [
 
 export const PP_ABOUT = {
   label: "The format",
-  headline: "Customer signal first. Investor time second.",
-  body: "Most pitch nights optimize for slides. Pitch Playoffs optimizes for what early-stage teams actually need — real buyers at your booth, an honest read from the room, and a short list that earns a live VC conversation.",
+  headline: "Startups Demo. \n The crowd votes. \n Finalists pitch Investors.",
+  body: "Founders start with booth demos, real conversations, and direct audience feedback. Attendees vote for the teams they find most compelling, creating visible social proof before the top startups pitch investors.",
   images: [
     {
       src: "/images/pitch-playoffs/demo-booth.jpg",
@@ -100,27 +100,27 @@ export const PP_PROCESS = [
   {
     step: "01",
     title: "Founders apply",
-    body: "Share stage, product, and what you'll demo live.",
+    body: "Share your startup, product, and what you’ll demo live..",
   },
   {
     step: "02",
     title: "Booth setup",
-    body: "Accepted teams get a booth for the full evening.",
+    body: "Accepted teams get a booth to meet the room all evening.",
   },
   {
     step: "03",
-    title: "Real customers",
-    body: "We bring potential buyers and users to your booth.",
+    title: "Meet the room",
+    body: "Founders connect with potential users, customers, operators, and investors.",
   },
   {
     step: "04",
-    title: "Room vote",
-    body: "The crowd picks who showed the most momentum.",
+    title: "Crowd filters",
+    body: "Attendees vote for the teams they find most compelling.",
   },
   {
     step: "05",
-    title: "Top 3 → VC panel",
-    body: "Three startups pitch live for direct feedback.",
+    title: "Finalists pitch",
+    body: "Top teams pitch investors with social proof already behind them.",
   },
   {
     step: "06",
@@ -132,12 +132,14 @@ export const PP_PROCESS = [
 export const PP_INVESTORS = {
   label: "For investors",
   headline: "Dealflow with live customer signal",
-  body: "You don't sit through fifty cold decks. You watch demo booths, see how founders handle real buyers and users, and hear from the three teams the room chose.",
+  body: "Pitch Playoffs brings together founders from leading universities, accelerator programs, technical communities, and early startup ecosystems. Investors watch social proof form in real time through live demo booths and audience voting, then get a firsthand look as the crowd’s favorite founders pitch their product and receive direct feedback from the panel.",
   perks: [
-    "Panel seats for the live top-3 pitches",
-    "Booth floor access before the vote",
-    "Founders pre-filtered by customer pull, not cold outreach",
-    "Warm follow-up intros coordinated by our team",
+    "See founder-market pull before the panel",
+    "Watch how teams sell, demo, and handle real questions",
+    "Use audience voting as an added diligence signal",
+    "Hear the crowd’s favorite startups pitch live",
+    "Give feedback directly to high-signal finalists",
+    "Get curated follow-up intros to teams that fit your thesis"
   ],
   cta: "Apply as investor",
   href: PP_EVENT.investorApplyHref,
@@ -148,9 +150,9 @@ export const PP_INVESTORS = {
 
 export const PP_GLANCE = {
   stats: [
-    { end: 200, suffix: "+", label: "In the room" },
-    { prefix: "Top ", end: 3, label: "Pitch each night" },
-    { end: 1, suffix: " night", label: "Booth to intro" },
+    { end: 15, suffix: "+", label: "Curated startup demos" },
+    { end: 200, suffix: "+", label: "Audience votes as signal" },
+    { end: 5, suffix: "+", label: "Active investors" },
   ],
 } as const;
 
