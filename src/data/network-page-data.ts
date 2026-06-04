@@ -252,13 +252,15 @@ export type QuestionnaireStep = {
     | "textarea"
     | "chips"
     | "role"
-    | "logo";
+    | "logo"
+    | "document";
   field: string;
   placeholder?: string;
   options?: readonly string[];
   minLength?: number;
   minWords?: number;
   maxWords?: number;
+  optional?: boolean;
   skipIf?: (values: Record<string, string>) => boolean;
 };
 
@@ -370,6 +372,13 @@ export const STARTUP_QUESTIONNAIRE: QuestionnaireStep[] = [
     placeholder: "We're looking for…",
     minWords: 4,
   },
+  {
+    id: "pitchDeckUrl",
+    title: "Upload your pitch deck",
+    subtitle: "PDF or PowerPoint — we review every submission against upcoming programs.",
+    inputType: "document",
+    field: "pitchDeckUrl",
+  },
 ];
 
 export const VC_QUESTIONNAIRE: QuestionnaireStep[] = [
@@ -469,6 +478,14 @@ export const VC_QUESTIONNAIRE: QuestionnaireStep[] = [
     placeholder: "We're looking for…",
     minWords: 4,
   },
+  {
+    id: "additionalInfoFileUrl",
+    title: "Additional materials? (optional)",
+    subtitle: "Fund overview, investment memo, or anything helpful for curation.",
+    inputType: "document",
+    field: "additionalInfoFileUrl",
+    optional: true,
+  },
 ];
 
 export const SPEAKER_QUESTIONNAIRE: QuestionnaireStep[] = [
@@ -560,6 +577,14 @@ export const SPEAKER_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "chips",
     field: "preferredEventType",
     options: SPEAKER_EVENT_TYPES,
+  },
+  {
+    id: "additionalInfoFileUrl",
+    title: "Additional materials? (optional)",
+    subtitle: "Speaker bio, talk outline, or past recording — helps us place you faster.",
+    inputType: "document",
+    field: "additionalInfoFileUrl",
+    optional: true,
   },
 ];
 

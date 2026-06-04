@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
+import {
+  INTAKE_UPLOAD_CONFIG,
+  isAllowedIntakeUpload,
+  type IntakeUploadCategory,
+} from "@/lib/intake-upload-config";
 
 export const dynamic = "force-dynamic";
 
 const UPLOAD_DIR = "public/uploads/intake";
-const MAX_SIZE = 5 * 1024 * 1024;
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
-const RATE_LIMIT_MAX = 15;
+const RATE_LIMIT_MAX = 25;
 
 type RateLimitEntry = { count: number; resetAt: number };
 
@@ -42,6 +46,11 @@ function isRateLimited(ip: string): boolean {
   return existing.count > RATE_LIMIT_MAX;
 }
 
+function parseCategory(raw: FormDataEntryValue | null): IntakeUploadCategory {
+  const value = typeof raw === "string" ? raw : "logo";
+  return value === "document" ? "document" : "logo";
+}
+
 export async function POST(request: NextRequest) {
   try {
     const ip = getClientIp(request);
@@ -54,38 +63,54 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file");
+    const category = parseCategory(formData.get("category"));
 
     if (!file || !(file instanceof File)) {
       return NextResponse.json({ error: "No file provided." }, { status: 400 });
     }
 
+    const config = INTAKE_UPLOAD_CONFIG[category];
     const type = (file.type || "").toLowerCase();
-    if (!type.startsWith("image/")) {
+
+    if (!isAllowedIntakeUpload(category, type, file.name)) {
       return NextResponse.json(
-        { error: "Logo must be an image (PNG, JPG, or WebP)." },
+        {
+          error:
+            category === "logo"
+              ? "Logo must be an image (PNG, JPG, or WebP)."
+              : "Use a PDF, PowerPoint, Word doc, or text file.",
+        },
         { status: 400 },
       );
     }
 
-    if (file.size > MAX_SIZE) {
+    if (file.size > config.maxBytes) {
       return NextResponse.json(
-        { error: "Logo must be 5MB or smaller." },
+        {
+          error: `File must be ${config.maxBytes / 1024 / 1024}MB or smaller.`,
+        },
         { status: 400 },
       );
     }
 
     const ext = path.extname(file.name).toLowerCase();
-    const safeExt = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"].includes(
-      ext,
-    )
+    const safeExt = config.extensions.includes(ext)
       ? ext
-      : ".png";
+      : category === "logo"
+        ? ".png"
+        : ".pdf";
     const basename = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}${safeExt}`;
     const uploadDir = path.join(process.cwd(), UPLOAD_DIR);
     await mkdir(uploadDir, { recursive: true });
-    await writeFile(path.join(uploadDir, basename), Buffer.from(await file.arrayBuffer()));
+    await writeFile(
+      path.join(uploadDir, basename),
+      Buffer.from(await file.arrayBuffer()),
+    );
 
-    return NextResponse.json({ url: `/uploads/intake/${basename}` });
+    return NextResponse.json({
+      url: `/uploads/intake/${basename}`,
+      fileName: file.name,
+    });
   } catch (error) {
     console.error("Intake upload error:", error);
     return NextResponse.json(

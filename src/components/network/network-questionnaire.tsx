@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   useCallback,
@@ -10,9 +9,9 @@ import {
   useState,
   type KeyboardEvent,
 } from "react";
-import { INTAKE_SUCCESS_COPY } from "@/lib/intake-success-copy";
 import type { IntakeKind } from "@/lib/intake-types";
 import { getStepValidationError } from "@/lib/questionnaire-validation";
+import { IntakeFileUpload } from "@/components/questionnaire/intake-file-upload";
 import { LogoUploadField } from "@/components/questionnaire/logo-upload-field";
 import {
   getActiveSteps,
@@ -34,6 +33,7 @@ function isValidKind(v: string | null): v is IntakeKind {
 }
 
 export default function NetworkQuestionnaire() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const reduceMotion = useReducedMotion();
   const [role, setRole] = useState<IntakeKind | "">("");
@@ -41,7 +41,7 @@ export default function NetworkQuestionnaire() {
   const [values, setValues] = useState<Record<string, string>>({});
   const [fax, setFax] = useState("");
   const [formStartedAt, setFormStartedAt] = useState<number | null>(null);
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldError, setFieldError] = useState("");
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
@@ -69,7 +69,9 @@ export default function NetworkQuestionnaire() {
   }, [step, role, current?.id]);
 
   useEffect(() => {
-    if (current?.inputType === "logo") return;
+    if (current?.inputType === "logo" || current?.inputType === "document") {
+      return;
+    }
     const t = setTimeout(() => inputRef.current?.focus(), 320);
     return () => clearTimeout(t);
   }, [step, role, current?.inputType]);
@@ -111,7 +113,7 @@ export default function NetworkQuestionnaire() {
       if (!res.ok) {
         throw new Error(data?.error ?? "Something went wrong. Please try again.");
       }
-      setStatus("success");
+      router.push(`/network/apply/thank-you?type=${role}`);
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Something went wrong. Please try again.",
@@ -164,52 +166,17 @@ export default function NetworkQuestionnaire() {
       !e.shiftKey &&
       current?.inputType !== "textarea" &&
       current?.inputType !== "role" &&
-      current?.inputType !== "logo"
+      current?.inputType !== "logo" &&
+      current?.inputType !== "document"
     ) {
       e.preventDefault();
       goNext();
     }
   }
 
-  const successCopy = role ? INTAKE_SUCCESS_COPY[role] : null;
-
-  if (status === "success" && successCopy) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: EASE }}
-        className="mx-auto flex min-h-[70vh] w-full max-w-xl flex-col justify-center px-4 py-24 md:px-0"
-      >
-        <p className="text-xs font-medium tracking-[0.2em] text-black/40 uppercase">
-          Application received
-        </p>
-        <h1 className="mt-4 font-oswald text-4xl font-bold leading-tight tracking-tight text-black md:text-5xl">
-          {successCopy.headline}
-        </h1>
-        <p className="mt-5 text-base leading-relaxed text-black/60">{successCopy.body}</p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          {successCopy.links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="inline-flex rounded-full border border-black/10 bg-white/80 px-6 py-3 text-sm font-medium text-black backdrop-blur-sm transition-opacity hover:opacity-75"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href="/network"
-            className="inline-flex rounded-full bg-[#0c1222] px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-85"
-          >
-            Back to network
-          </Link>
-        </div>
-      </motion.div>
-    );
-  }
-
   const showBack = !inRolePhase && (step > 0 || role);
+  const isOptionalDocument =
+    current?.inputType === "document" && current.optional;
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-xl flex-col justify-center px-6 py-20 md:px-0">
@@ -292,6 +259,19 @@ export default function NetworkQuestionnaire() {
                 />
               ) : null}
 
+              {current?.inputType === "document" ? (
+                <IntakeFileUpload
+                  value={values[current.field] ?? ""}
+                  onChange={(url) => patch(current.field, url)}
+                  category="document"
+                  label={
+                    current.field === "pitchDeckUrl"
+                      ? "Upload pitch deck"
+                      : "Upload file"
+                  }
+                />
+              ) : null}
+
               {current?.inputType === "chips" && current.options ? (
                 <div className="flex flex-wrap gap-2.5">
                   {current.options.map((option) => {
@@ -343,6 +323,19 @@ export default function NetworkQuestionnaire() {
               className="text-sm text-black/35 transition-colors hover:text-black"
             >
               ←
+            </button>
+          ) : null}
+          {isOptionalDocument ? (
+            <button
+              type="button"
+              onClick={() => {
+                patch(current.field, "");
+                goNext();
+              }}
+              disabled={status === "loading"}
+              className="text-sm text-black/45 transition-colors hover:text-black"
+            >
+              Skip
             </button>
           ) : null}
           {showNextControl ? (

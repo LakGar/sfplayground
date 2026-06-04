@@ -5,6 +5,10 @@ import { appendIntakeToGoogleSheet } from "@/lib/google-sheets-intake";
 import type { IntakeKind } from "@/lib/intake-types";
 import { INTAKE_SUBJECT } from "@/lib/intake-types";
 import { getTeamRecipients, SFPLAYGROUND_FROM } from "@/lib/team-email";
+import {
+  checkIntakeDuplicate,
+  recordIntakeSubmission,
+} from "@/lib/intake-duplicate-guard";
 
 const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
 const RATE_LIMIT_MAX_REQUESTS = 8;
@@ -76,6 +80,7 @@ function validatePayload(
     const sponsorshipBudgetRange = pick("sponsorshipBudgetRange");
     const interestedIn = pick("interestedIn");
     const goals = pick("goals");
+    const additionalInfoFileUrl = pick("additionalInfoFileUrl") || "—";
     const anythingElse = pick("anythingElse");
     if (
       !companyName ||
@@ -105,6 +110,7 @@ function validatePayload(
         sponsorshipBudgetRange,
         interestedIn,
         goals,
+        additionalInfoFileUrl,
         anythingElse,
       },
     };
@@ -123,8 +129,19 @@ function validatePayload(
     const roundAndTarget = pick("roundAndTarget");
     const teamSize = pick("teamSize");
     const lookingFor = pick("lookingFor");
+    const pitchDeckUrl = pick("pitchDeckUrl");
     const anythingElse = pick("anythingElse");
-    if (!startupName || !founderName || !email || !phone || !website || !stage || !industry || !description) {
+    if (
+      !startupName ||
+      !founderName ||
+      !email ||
+      !phone ||
+      !website ||
+      !stage ||
+      !industry ||
+      !description ||
+      !pitchDeckUrl
+    ) {
       return { ok: false, error: "Missing required fields" };
     }
     if (!validEmail(email)) return { ok: false, error: "Valid email is required" };
@@ -150,6 +167,7 @@ function validatePayload(
         roundAndTarget: roundAndTarget || "—",
         teamSize,
         lookingFor,
+        pitchDeckUrl,
         anythingElse,
       },
     };
@@ -168,6 +186,7 @@ function validatePayload(
     const geographicFocus = pick("geographicFocus");
     const openToJudging = pick("openToJudging");
     const startupsToMeet = pick("startupsToMeet");
+    const additionalInfoFileUrl = pick("additionalInfoFileUrl") || "—";
     const anythingElse = pick("anythingElse");
     if (
       !firmName ||
@@ -201,6 +220,7 @@ function validatePayload(
         geographicFocus,
         openToJudging,
         startupsToMeet,
+        additionalInfoFileUrl,
         anythingElse,
       },
     };
@@ -218,6 +238,7 @@ function validatePayload(
   const speakingExperience = pick("speakingExperience");
   const whySpeak = pick("whySpeak");
   const preferredEventType = pick("preferredEventType");
+  const additionalInfoFileUrl = pick("additionalInfoFileUrl") || "—";
   const anythingElse = pick("anythingElse");
   if (
     !fullName ||
@@ -249,6 +270,7 @@ function validatePayload(
       speakingExperience,
       whySpeak,
       preferredEventType,
+      additionalInfoFileUrl,
       anythingElse,
     },
   };
@@ -284,6 +306,17 @@ export async function POST(request: NextRequest) {
     const { data } = validated;
     const replyTo = data.email;
 
+    const { duplicate } = checkIntakeDuplicate(kind, replyTo);
+    if (duplicate) {
+      return NextResponse.json(
+        {
+          error:
+            "We already received an application from this email recently. Check your inbox or contact staff@sfplaygroundai.com if you need to update it.",
+        },
+        { status: 409 },
+      );
+    }
+
     const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
     const emailPromise = resend
@@ -300,6 +333,8 @@ export async function POST(request: NextRequest) {
       appendIntakeToGoogleSheet(kind, data, clientIp),
       emailPromise,
     ]);
+
+    recordIntakeSubmission(kind, replyTo);
 
     return NextResponse.json({ success: true, message: "Thank you—we received your submission." }, { status: 200 });
   } catch (error) {

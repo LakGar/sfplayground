@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { INTAKE_SUCCESS_COPY } from "@/lib/intake-success-copy";
 import { getSponsorStepValidationError } from "@/lib/questionnaire-validation";
+import { IntakeFileUpload } from "@/components/questionnaire/intake-file-upload";
 import { LogoUploadField } from "@/components/questionnaire/logo-upload-field";
 import {
   SPONSOR_QUESTIONNAIRE_STEPS,
@@ -24,6 +24,7 @@ const INITIAL: SponsorFormData = {
   sponsorshipBudgetRange: "",
   interestedIn: [],
   goals: "",
+  additionalInfoFileUrl: "",
 };
 
 const slideVariants = {
@@ -33,12 +34,13 @@ const slideVariants = {
 };
 
 export default function SponsorQuestionnaire() {
+  const router = useRouter();
   const reduceMotion = useReducedMotion();
   const [step, setStep] = useState(0);
   const [form, setForm] = useState<SponsorFormData>(INITIAL);
   const [fax, setFax] = useState("");
   const [formStartedAt, setFormStartedAt] = useState<number | null>(null);
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [fieldError, setFieldError] = useState("");
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
@@ -58,7 +60,9 @@ export default function SponsorQuestionnaire() {
   }, [step, current?.id]);
 
   useEffect(() => {
-    if (current?.inputType === "logo") return;
+    if (current?.inputType === "logo" || current?.inputType === "document") {
+      return;
+    }
     const t = setTimeout(() => inputRef.current?.focus(), 320);
     return () => clearTimeout(t);
   }, [step, current?.inputType]);
@@ -91,6 +95,7 @@ export default function SponsorQuestionnaire() {
           sponsorshipBudgetRange: form.sponsorshipBudgetRange,
           interestedIn: form.interestedIn.join(", "),
           goals: form.goals.trim(),
+          additionalInfoFileUrl: form.additionalInfoFileUrl.trim() || "",
           anythingElse: "",
           fax,
           formStartedAt,
@@ -105,7 +110,7 @@ export default function SponsorQuestionnaire() {
         throw new Error(data?.error ?? "Something went wrong. Please try again.");
       }
 
-      setStatus("success");
+      router.push("/sponsors/apply/thank-you");
     } catch (error) {
       setErrorMessage(
         error instanceof Error
@@ -149,52 +154,16 @@ export default function SponsorQuestionnaire() {
       e.key === "Enter" &&
       !e.shiftKey &&
       current?.inputType !== "textarea" &&
-      current?.inputType !== "logo"
+      current?.inputType !== "logo" &&
+      current?.inputType !== "document"
     ) {
       e.preventDefault();
       goNext();
     }
   }
 
-  const successCopy = INTAKE_SUCCESS_COPY.sponsors;
-
-  if (status === "success") {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: EASE }}
-        className="mx-auto flex min-h-[70vh] w-full max-w-xl flex-col justify-center px-4 py-24 md:px-0"
-      >
-        <p className="text-xs font-medium tracking-[0.2em] text-black/40 uppercase">
-          Submission received
-        </p>
-        <h1 className="mt-4 font-oswald text-4xl font-bold leading-tight tracking-tight text-black md:text-5xl">
-          {successCopy.headline}
-        </h1>
-        <p className="mt-5 text-base leading-relaxed text-black/60">
-          {successCopy.body}
-        </p>
-        <div className="mt-10 flex flex-wrap gap-3">
-          {successCopy.links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="inline-flex rounded-full border border-black/10 bg-white/80 px-6 py-3 text-sm font-medium text-black backdrop-blur-sm transition-opacity hover:opacity-75"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            href="/sponsors"
-            className="inline-flex rounded-full bg-[#0c1222] px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-85"
-          >
-            Back to sponsors
-          </Link>
-        </div>
-      </motion.div>
-    );
-  }
+  const isOptionalDocument =
+    current?.inputType === "document" && current.optional;
 
   return (
     <div className="mx-auto flex min-h-[calc(100vh-5rem)] w-full max-w-xl flex-col justify-center px-6 py-20 md:px-0">
@@ -251,6 +220,15 @@ export default function SponsorQuestionnaire() {
                   value={form.logoUrl}
                   onChange={(url) => patch("logoUrl", url)}
                   label="Choose logo file"
+                />
+              ) : null}
+
+              {current.inputType === "document" ? (
+                <IntakeFileUpload
+                  value={form.additionalInfoFileUrl}
+                  onChange={(url) => patch("additionalInfoFileUrl", url)}
+                  category="document"
+                  label="Upload partnership materials"
                 />
               ) : null}
 
@@ -335,6 +313,19 @@ export default function SponsorQuestionnaire() {
               className="text-sm text-black/35 transition-colors hover:text-black"
             >
               ←
+            </button>
+          ) : null}
+          {isOptionalDocument ? (
+            <button
+              type="button"
+              onClick={() => {
+                patch("additionalInfoFileUrl", "");
+                goNext();
+              }}
+              disabled={status === "loading"}
+              className="text-sm text-black/45 transition-colors hover:text-black"
+            >
+              Skip
             </button>
           ) : null}
           {showNextControl ? (

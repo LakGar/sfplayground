@@ -245,6 +245,7 @@ export type SponsorFormData = {
   sponsorshipBudgetRange: string;
   interestedIn: string[];
   goals: string;
+  additionalInfoFileUrl: string;
 };
 
 export type SponsorQuestionnaireStep = {
@@ -252,10 +253,18 @@ export type SponsorQuestionnaireStep = {
   title: string;
   subtitle?: string;
   field: keyof SponsorFormData;
-  inputType: "text" | "email" | "textarea" | "chips" | "multi-chips" | "logo";
+  inputType:
+    | "text"
+    | "email"
+    | "textarea"
+    | "chips"
+    | "multi-chips"
+    | "logo"
+    | "document";
   placeholder?: string;
   options?: readonly string[];
   minWords?: number;
+  optional?: boolean;
 };
 
 export const SPONSOR_QUESTIONNAIRE_STEPS: SponsorQuestionnaireStep[] = [
@@ -323,5 +332,13 @@ export const SPONSOR_QUESTIONNAIRE_STEPS: SponsorQuestionnaireStep[] = [
     placeholder:
       "We're looking to reach early-stage founders and co-host a pitch night…",
     minWords: 4,
+  },
+  {
+    id: "additionalInfoFileUrl",
+    title: "Partnership deck or one-pager? (optional)",
+    subtitle: "Helps us tailor options before we reply.",
+    field: "additionalInfoFileUrl",
+    inputType: "document",
+    optional: true,
   },
 ];

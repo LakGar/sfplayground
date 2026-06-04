@@ -8,7 +8,13 @@ export function countWords(text: string): number {
 
 type ValidatableStep = Pick<
   QuestionnaireStep,
-  "inputType" | "field" | "minLength" | "minWords" | "maxWords" | "title"
+  | "inputType"
+  | "field"
+  | "minLength"
+  | "minWords"
+  | "maxWords"
+  | "title"
+  | "optional"
 >;
 
 export function getStepValidationError(
@@ -27,6 +33,13 @@ export function getStepValidationError(
       return "Upload your logo to continue (PNG, JPG, or WebP, max 5MB).";
     }
     return null;
+  }
+
+  if (step.inputType === "document") {
+    if (step.optional || trimmed) return null;
+    return step.field === "pitchDeckUrl"
+      ? "Upload your pitch deck to continue (PDF or PowerPoint, max 15MB)."
+      : "Upload a file to continue (PDF, PPT, or DOC, max 15MB).";
   }
 
   if (step.inputType === "email") {
@@ -78,8 +91,16 @@ export function getStepValidationError(
 
 export type SponsorQuestionnaireStep = {
   field: string;
-  inputType: "text" | "email" | "textarea" | "chips" | "multi-chips" | "logo";
+  inputType:
+    | "text"
+    | "email"
+    | "textarea"
+    | "chips"
+    | "multi-chips"
+    | "logo"
+    | "document";
   minWords?: number;
+  optional?: boolean;
 };
 
 export function getSponsorStepValidationError(
@@ -93,12 +114,18 @@ export function getSponsorStepValidationError(
     interestedIn: string[];
     goals: string;
     logoUrl: string;
+    additionalInfoFileUrl: string;
   },
 ): string | null {
   if (step.inputType === "logo") {
     return form.logoUrl.trim()
       ? null
       : "Upload your company logo to continue (PNG, JPG, or WebP, max 5MB).";
+  }
+
+  if (step.inputType === "document") {
+    if (step.optional || form.additionalInfoFileUrl.trim()) return null;
+    return null;
   }
 
   if (step.inputType === "multi-chips") {

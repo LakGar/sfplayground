@@ -6,12 +6,12 @@ Network and sponsor applications (`/api/intake`) append each submission to a Goo
 
 One spreadsheet with **four tabs** (exact names):
 
-| Tab name | Form type |
-|----------|-----------|
-| `Startups` | Founder / startup apply |
-| `Investors` | VC / investor apply |
+| Tab name              | Form type               |
+| --------------------- | ----------------------- |
+| `Startups`            | Founder / startup apply |
+| `Investors`           | VC / investor apply     |
 | `Operators & Experts` | Operator / expert apply |
-| `Sponsors` | Sponsor apply |
+| `Sponsors`            | Sponsor apply           |
 
 Each row: **Submitted at (UTC)**, all form fields, **IP address**. Headers are added automatically on first submission per tab.
 
@@ -21,7 +21,7 @@ Each row: **Submitted at (UTC)**, all form fields, **IP address**. Headers are a
 
 Use this if your Google Workspace shows:
 
-> *Organization Policy … `iam.disableServiceAccountKeyCreation`*
+> _Organization Policy … `iam.disableServiceAccountKeyCreation`_
 
 You do **not** need a JSON key or `sfplayground-intake@drive-488410.iam.gserviceaccount.com` sheet sharing. The script runs as **you** (staff@sfplaygroundai.com) when someone submits a form.
 
@@ -108,13 +108,13 @@ If both webhook URL and service account are set, the **webhook is used first**.
 
 ## Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| `Unauthorized` | `GOOGLE_SHEETS_WEBHOOK_SECRET` must match Apps Script `INTAKE_SECRET`. |
-| `Invalid intake kind` | Check form type; tab names must match the table above. |
-| Row not appearing | Redeploy web app as **Me**; run a new deployment version after script edits. |
-| Still asked for service account key | Use **Apps Script** method above; ignore service account steps. |
-| `The caller does not have permission` (service account only) | Share sheet with the service account email as Editor. |
+| Issue                                                        | Fix                                                                          |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------- |
+| `Unauthorized`                                               | `GOOGLE_SHEETS_WEBHOOK_SECRET` must match Apps Script `INTAKE_SECRET`.       |
+| `Invalid intake kind`                                        | Check form type; tab names must match the table above.                       |
+| Row not appearing                                            | Redeploy web app as **Me**; run a new deployment version after script edits. |
+| Still asked for service account key                          | Use **Apps Script** method above; ignore service account steps.              |
+| `The caller does not have permission` (service account only) | Share sheet with the service account email as Editor.                        |
 
 ---
 
