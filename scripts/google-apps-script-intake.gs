@@ -162,6 +162,19 @@ function doPost(e) {
       return jsonResponse_({ ok: false, error: "Unauthorized" });
     }
 
+    if (body.action === "uploadFile") {
+      if (!body.data) {
+        return jsonResponse_({ ok: false, error: "Missing file data" });
+      }
+      var driveUrl = uploadIntakeFileToDrive_(
+        body.data,
+        body.fileName,
+        body.mimeType,
+        body.category,
+      );
+      return jsonResponse_({ ok: true, url: driveUrl });
+    }
+
     var kind = body.kind;
     var sheetName = TAB_BY_KIND[kind];
     if (!sheetName) {
@@ -178,19 +191,6 @@ function doPost(e) {
       var checkEmail = normalizeEmail_(body.email);
       var duplicate = sheetHasRecentDuplicate_(sheet, checkEmail, null);
       return jsonResponse_({ ok: true, duplicate: duplicate });
-    }
-
-    if (body.action === "uploadFile") {
-      if (!body.data) {
-        return jsonResponse_({ ok: false, error: "Missing file data" });
-      }
-      var driveUrl = uploadIntakeFileToDrive_(
-        body.data,
-        body.fileName,
-        body.mimeType,
-        body.category,
-      );
-      return jsonResponse_({ ok: true, url: driveUrl });
     }
 
     var headers = body.headers;
