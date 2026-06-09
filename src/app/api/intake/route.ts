@@ -6,7 +6,8 @@ import type { IntakeKind } from "@/lib/intake-types";
 import { INTAKE_SUBJECT } from "@/lib/intake-types";
 import { getTeamRecipients, SFPLAYGROUND_FROM } from "@/lib/team-email";
 import {
-  checkIntakeDuplicate,
+  INTAKE_DUPLICATE_MESSAGE,
+  isIntakeDuplicate,
   recordIntakeSubmission,
 } from "@/lib/intake-duplicate-guard";
 
@@ -306,13 +307,9 @@ export async function POST(request: NextRequest) {
     const { data } = validated;
     const replyTo = data.email;
 
-    const { duplicate } = checkIntakeDuplicate(kind, replyTo);
-    if (duplicate) {
+    if (await isIntakeDuplicate(kind, replyTo)) {
       return NextResponse.json(
-        {
-          error:
-            "We already received an application from this email recently. Check your inbox or contact staff@sfplaygroundai.com if you need to update it.",
-        },
+        { error: INTAKE_DUPLICATE_MESSAGE },
         { status: 409 },
       );
     }
@@ -334,10 +331,20 @@ export async function POST(request: NextRequest) {
       emailPromise,
     ]);
 
-    recordIntakeSubmission(kind, replyTo);
+    await recordIntakeSubmission(kind, replyTo, clientIp);
 
     return NextResponse.json({ success: true, message: "Thank you—we received your submission." }, { status: 200 });
   } catch (error) {
+    const code =
+      error instanceof Error
+        ? (error as Error & { code?: string }).code
+        : undefined;
+    if (code === "INTAKE_DUPLICATE" || (error instanceof Error && error.message === "duplicate")) {
+      return NextResponse.json(
+        { error: INTAKE_DUPLICATE_MESSAGE },
+        { status: 409 },
+      );
+    }
     console.error("Error in intake route:", error);
     return NextResponse.json(
       {

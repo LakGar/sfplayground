@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  INTAKE_THANK_YOU_PAGES,
-  isIntakeKind,
-  type IntakeThankYouPage,
-} from "@/data/intake-thank-you-pages";
+import { isIntakeKind } from "@/data/intake-thank-you-pages";
 import type { IntakeKind } from "@/lib/intake-types";
+import {
+  clearIntakeThankYou,
+  formatFirstName,
+  personalizeThankYouPage,
+  readIntakeThankYou,
+  type IntakeThankYouStored,
+  type PersonalizedThankYou,
+} from "@/lib/intake-thank-you-personalize";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -39,11 +44,14 @@ function CheckIcon({ accent }: { accent: string }) {
 export function IntakeThankYouContent({
   kind,
   page,
+  name,
 }: {
   kind: IntakeKind;
-  page: IntakeThankYouPage;
+  page: PersonalizedThankYou;
+  name: string;
 }) {
   const reduceMotion = useReducedMotion();
+  const first = formatFirstName(name);
 
   return (
     <motion.div
@@ -60,9 +68,19 @@ export function IntakeThankYouContent({
       <h1 className="mt-3 font-oswald text-4xl font-bold leading-tight tracking-tight text-black md:text-5xl">
         {page.headline}
       </h1>
+      <p className="mt-2 font-oswald text-xl font-medium text-black/70 md:text-2xl">
+        {page.subheadline}
+      </p>
       <p className="mt-5 max-w-xl text-base leading-relaxed text-black/60">
         {page.body}
       </p>
+
+      {first ? (
+        <p className="mt-4 text-sm text-black/45">
+          We saved your details under the name you provided
+          {name.trim() !== first ? ` (${name.trim()})` : ""}.
+        </p>
+      ) : null}
 
       <ol className="mt-10 space-y-4 border-t border-black/[0.06] pt-10">
         {page.steps.map((step, index) => (
@@ -107,7 +125,7 @@ export function IntakeThankYouContent({
       </div>
 
       <p className="mt-8 text-xs text-black/35">
-        Reference: {kind} application ·{" "}
+        {kind} application ·{" "}
         <Link href="/" className="underline-offset-2 hover:underline">
           sfplayground.com
         </Link>
@@ -118,14 +136,36 @@ export function IntakeThankYouContent({
 
 export function IntakeThankYouFromParam({
   typeParam,
+  nameParam,
   backHref,
   backLabel,
 }: {
   typeParam: string | null;
+  nameParam?: string | null;
   backHref: string;
   backLabel: string;
 }) {
-  if (!isIntakeKind(typeParam)) {
+  const [stored, setStored] = useState<IntakeThankYouStored | null>(null);
+
+  useEffect(() => {
+    setStored(readIntakeThankYou());
+    clearIntakeThankYou();
+  }, []);
+
+  const resolvedName = stored?.name || nameParam?.trim() || "";
+  const kind =
+    typeParam && isIntakeKind(typeParam)
+      ? typeParam
+      : stored?.kind && isIntakeKind(stored.kind)
+        ? stored.kind
+        : null;
+
+  const page = useMemo(() => {
+    if (!kind || !isIntakeKind(kind)) return null;
+    return personalizeThankYouPage(kind, resolvedName);
+  }, [kind, resolvedName]);
+
+  if (!kind || !page) {
     return (
       <div className="mx-auto max-w-xl px-4 py-24 text-center">
         <p className="text-black/60">We couldn’t find that confirmation page.</p>
@@ -139,6 +179,5 @@ export function IntakeThankYouFromParam({
     );
   }
 
-  const page = INTAKE_THANK_YOU_PAGES[typeParam];
-  return <IntakeThankYouContent kind={typeParam} page={page} />;
+  return <IntakeThankYouContent kind={kind} page={page} name={resolvedName} />;
 }

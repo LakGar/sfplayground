@@ -1,0 +1,67 @@
+.bbb-root {
+  --bbb-blue: #1e3a8a;
+  --bbb-red: #b91c1c;
+  --bbb-navy: #0c1222;
+  --bbb-cream: #f4f6fa;
+  min-height: 100vh;
+  color: var(--bbb-navy);
+  background: var(--bbb-cream);
+}
+
+.bbb-hero {
+  display: flex;
+  min-height: calc(100vh - 5rem);
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 4rem;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(30, 58, 138, 0.08),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 100% 100%,
+      rgba(185, 28, 28, 0.06),
+      transparent 65%
+    ),
+    var(--bbb-cream);
+}
+
+.bbb-hero-inner {
+  width: min(100%, 52rem);
+  text-align: center;
+}
+
+.bbb-hero-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--bbb-red);
+}
+
+.bbb-hero-title {
+  margin-top: 1rem;
+  font-family: var(--font-oswald), sans-serif;
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+.bbb-hero-title-blue {
+  color: var(--bbb-blue);
+}
+
+.bbb-hero-title-red {
+  color: var(--bbb-red);
+}
+
+.bbb-hero-lead {
+  margin: 1.5rem auto 0;
+  max-width: 34rem;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  line-height: 1.65;
+  color: rgba(12, 18, 34, 0.62);
+}

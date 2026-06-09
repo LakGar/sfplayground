@@ -75,43 +75,83 @@ function buildDataRow(
   ];
 }
 
-async function appendViaWebhook(
-  kind: IntakeKind,
-  data: Record<string, string>,
-  clientIp: string,
-): Promise<void> {
+async function postWebhook(
+  payload: Record<string, unknown>,
+): Promise<{ ok?: boolean; error?: string; duplicate?: boolean }> {
   const url = getWebhookUrl();
   if (!url) {
     throw new Error("GOOGLE_SHEETS_WEBHOOK_URL is not set");
   }
 
   const secret = process.env.GOOGLE_SHEETS_WEBHOOK_SECRET?.trim();
-  const payload = {
-    secret: secret || undefined,
-    kind,
-    headers: buildHeaderRow(kind),
-    row: buildDataRow(kind, data, clientIp),
-  };
-
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ ...payload, secret: secret || undefined }),
     signal: AbortSignal.timeout(15_000),
   });
 
   const text = await res.text();
-  let parsed: { ok?: boolean; error?: string } = {};
+  let parsed: { ok?: boolean; error?: string; duplicate?: boolean } = {};
   try {
-    parsed = JSON.parse(text) as { ok?: boolean; error?: string };
+    parsed = JSON.parse(text) as {
+      ok?: boolean;
+      error?: string;
+      duplicate?: boolean;
+    };
   } catch {
-    /* non-JSON response */
+    /* non-JSON */
   }
 
   if (!res.ok || parsed.ok === false) {
+    if (parsed.duplicate || parsed.error === "duplicate") {
+      return { ok: false, duplicate: true, error: "duplicate" };
+    }
     throw new Error(
       parsed.error || `Google Sheets webhook failed (${res.status})`,
     );
+  }
+
+  return parsed;
+}
+
+/** Scans the intake sheet for the same email within the last 24 hours (Apps Script). */
+export async function checkIntakeDuplicateInGoogleSheet(
+  kind: IntakeKind,
+  email: string,
+): Promise<boolean> {
+  if (!getWebhookUrl()) return false;
+  const normalized = email.trim().toLowerCase();
+  if (!normalized.includes("@")) return false;
+
+  try {
+    const result = await postWebhook({
+      action: "checkDuplicate",
+      kind,
+      email: normalized,
+    });
+    return result.duplicate === true;
+  } catch (error) {
+    console.warn("Google Sheets duplicate check failed:", error);
+    return false;
+  }
+}
+
+async function appendViaWebhook(
+  kind: IntakeKind,
+  data: Record<string, string>,
+  clientIp: string,
+): Promise<void> {
+  const result = await postWebhook({
+    kind,
+    headers: buildHeaderRow(kind),
+    row: buildDataRow(kind, data, clientIp),
+  });
+
+  if (result.duplicate) {
+    const err = new Error("duplicate");
+    (err as Error & { code: string }).code = "INTAKE_DUPLICATE";
+    throw err;
   }
 }
 

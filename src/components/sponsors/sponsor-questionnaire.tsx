@@ -3,6 +3,12 @@
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
+import {
+  hasClientIntakeDuplicate,
+  markClientIntakeDuplicate,
+} from "@/lib/intake-duplicate-client";
+import { INTAKE_DUPLICATE_MESSAGE } from "@/lib/intake-duplicate-messages";
+import { storeIntakeThankYou } from "@/lib/intake-thank-you-personalize";
 import { getSponsorStepValidationError } from "@/lib/questionnaire-validation";
 import { IntakeFileUpload } from "@/components/questionnaire/intake-file-upload";
 import { LogoUploadField } from "@/components/questionnaire/logo-upload-field";
@@ -75,7 +81,38 @@ export default function SponsorQuestionnaire() {
     [],
   );
 
+  async function checkDuplicateBeforeSubmit(email: string): Promise<boolean> {
+    if (hasClientIntakeDuplicate("sponsors", email)) {
+      setErrorMessage(INTAKE_DUPLICATE_MESSAGE);
+      return true;
+    }
+    try {
+      const res = await fetch("/api/intake/check-duplicate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "sponsors", email: email.trim() }),
+      });
+      const data = (await res.json().catch(() => null)) as {
+        duplicate?: boolean;
+        message?: string;
+      } | null;
+      if (data?.duplicate) {
+        markClientIntakeDuplicate("sponsors", email);
+        setErrorMessage(data.message ?? INTAKE_DUPLICATE_MESSAGE);
+        return true;
+      }
+    } catch {
+      /* proceed */
+    }
+    return false;
+  }
+
   async function submit() {
+    const email = form.email.trim();
+    if (await checkDuplicateBeforeSubmit(email)) {
+      return;
+    }
+
     setStatus("loading");
     setErrorMessage("");
 
@@ -110,6 +147,8 @@ export default function SponsorQuestionnaire() {
         throw new Error(data?.error ?? "Something went wrong. Please try again.");
       }
 
+      markClientIntakeDuplicate("sponsors", email);
+      storeIntakeThankYou("sponsors", form.contactName);
       router.push("/sponsors/apply/thank-you");
     } catch (error) {
       setErrorMessage(

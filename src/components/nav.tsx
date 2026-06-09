@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 const NAV_LINKS = [
   { label: "Sponsors", href: "/sponsors" },
   { label: "Join Network", href: "/network" },
+  { label: "Built Beyond Borders", href: "/built-beyond-borders" },
   { label: "Pitch Playoffs", href: "/pitch-playoffs" },
   { label: "Members Only", href: "/silicon-valley" },
 ] as const;

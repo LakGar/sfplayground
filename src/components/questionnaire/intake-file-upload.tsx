@@ -6,6 +6,7 @@ import {
   INTAKE_UPLOAD_CONFIG,
   type IntakeUploadCategory,
 } from "@/lib/intake-upload-config";
+import { getProxiedImageUrl } from "@/utils/convertDriveImageUrl";
 
 type IntakeFileUploadProps = {
   value: string;
@@ -73,7 +74,10 @@ export function IntakeFileUpload({
   const isImage =
     category === "logo" ||
     displayName.match(/\.(png|jpe?g|webp|gif)$/i) ||
-    value.match(/\.(png|jpe?g|webp|gif)$/i);
+    value.match(/\.(png|jpe?g|webp|gif)$/i) ||
+    value.includes("drive.google.com");
+
+  const imageSrc = isImage ? getProxiedImageUrl(value) : value;
 
   return (
     <div>
@@ -93,7 +97,7 @@ export function IntakeFileUpload({
           {isImage ? (
             <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-neutral-50">
               <Image
-                src={value}
+                src={imageSrc}
                 alt=""
                 fill
                 className="object-contain p-2"

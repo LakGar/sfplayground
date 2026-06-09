@@ -37,12 +37,16 @@ You do **not** need a JSON key or `sfplayground-intake@drive-488410.iam.gservice
 2. Delete any sample code and paste the contents of **`scripts/google-apps-script-intake.gs`** from this repo.
 3. **Save** the project (e.g. name it `SFPLAYGROUND Intake`).
 
-### 3. Set a secret (recommended)
+### 3. Set script properties (recommended)
 
-1. In Apps Script: **Project Settings** (gear) → **Script properties**.
-2. Add property:
-   - **Property:** `INTAKE_SECRET`
-   - **Value:** a long random string (e.g. from a password generator)
+1. In Google Drive, create a folder **SFPLAYGROUND Intake Uploads** (or any name).
+2. Copy the folder ID from the URL: `https://drive.google.com/drive/folders/FOLDER_ID_HERE`
+3. In Apps Script: **Project Settings** (gear) → **Script properties**.
+4. Add properties:
+   - **Property:** `INTAKE_SECRET` — **Value:** a long random string (e.g. from a password generator)
+   - **Property:** `INTAKE_DRIVE_FOLDER_ID` — **Value:** the Drive folder ID from step 2
+
+If `INTAKE_DRIVE_FOLDER_ID` is omitted, the script creates **SFPLAYGROUND Intake Uploads** in the account that runs the web app.
 
 ### 4. Deploy as web app
 
@@ -57,12 +61,19 @@ You do **not** need a JSON key or `sfplayground-intake@drive-488410.iam.gservice
 **Local (`.env.local`):**
 
 ```bash
-GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
+GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycbwwEhPWom3F0fRVgesI0gfWX-DhKpWH_8iUZg3qFGXY93UmYlZ37Rrg04Zt1spdHyhj/exec
 GOOGLE_SHEETS_WEBHOOK_SECRET=same_value_as_INTAKE_SECRET
 RESEND_API_KEY=re_...
 ```
 
-**Vercel:** add the same two variables → **Redeploy**.
+**Apps Script script properties (current intake folder):**
+
+| Property | Value |
+| -------- | ----- |
+| `INTAKE_DRIVE_FOLDER_ID` | `1hI67qJcXZ-L1I1Z8IIsDp5OwExungA71` |
+| `INTAKE_SECRET` | Same as `GOOGLE_SHEETS_WEBHOOK_SECRET` |
+
+**Vercel (`sfplayground`):** `GOOGLE_SHEETS_WEBHOOK_URL` and `GOOGLE_SHEETS_WEBHOOK_SECRET` on Production + Preview → **Redeploy** after changes.
 
 Optional:
 
@@ -99,12 +110,46 @@ If both webhook URL and service account are set, the **webhook is used first**.
 
 ---
 
+## File uploads (logos, pitch decks, documents)
+
+Intake forms upload files via `/api/intake/upload`. When the Apps Script webhook is configured, each file is stored in Google Drive and the form saves a real link like `https://drive.google.com/file/d/…/view` in the spreadsheet (not a local `/uploads/…` path).
+
+1. Complete the script properties above (`INTAKE_DRIVE_FOLDER_ID`).
+2. **Redeploy** the web app after updating `scripts/google-apps-script-intake.gs`.
+3. Submit a test form with a logo or document and confirm the sheet cell contains a Drive URL.
+
+**Local dev without webhook:** files save under `public/uploads/intake/` for testing only. On Vercel, uploads require the webhook or service account + `GOOGLE_DRIVE_INTAKE_FOLDER_ID`.
+
+### Service account file uploads (optional)
+
+If you use a service account instead of Apps Script for sheets, you can also upload files with:
+
+```bash
+GOOGLE_DRIVE_INTAKE_FOLDER_ID=your_drive_folder_id
+GOOGLE_SERVICE_ACCOUNT_JSON={...}
+```
+
+Share the Drive folder with the service account email as **Editor**.
+
+---
+
 ## Behavior
 
 - Env vars **missing** → forms still work; email only (if Resend is set).
 - Webhook or service account **configured** → each submission must save to the sheet; on failure the API returns an error.
+- File uploads on Vercel **require** Drive configuration; local-only `/uploads/` paths are not persisted in production.
 
 ---
+
+## Duplicate prevention
+
+The intake API blocks the same **email + form type** from submitting again within **24 hours**. Checks run against:
+
+1. Google Sheet rows (Apps Script — redeploy the script after updates)
+2. Postgres `intake_submissions` table (if `POSTGRES_URL` is set — run `scripts/init-db.sql`)
+3. In-memory cache (fallback on serverless)
+
+Redeploy Apps Script after pulling the latest `scripts/google-apps-script-intake.gs`.
 
 ## Troubleshooting
 
@@ -115,6 +160,8 @@ If both webhook URL and service account are set, the **webhook is used first**.
 | Row not appearing                                            | Redeploy web app as **Me**; run a new deployment version after script edits. |
 | Still asked for service account key                          | Use **Apps Script** method above; ignore service account steps.              |
 | `The caller does not have permission` (service account only) | Share sheet with the service account email as Editor.                        |
+| Upload works locally but fails on Vercel                     | Set `GOOGLE_SHEETS_WEBHOOK_URL` and redeploy Apps Script with `uploadFile`.  |
+| Sheet shows `/uploads/intake/…` instead of Drive URL       | Redeploy Apps Script; confirm webhook env vars are set on Vercel.            |
 
 ---
 

@@ -14,6 +14,16 @@ const LUMA_COVER = (path: string) =>
 
 export const UPCOMING_EVENTS: UpcomingEventItem[] = [
   {
+    time: "Monday, June 29, 2026 · 5:30 PM – 9:00 PM",
+    title: "Built Beyond Borders",
+    location: "San Francisco, CA",
+    hostName: "SFPLAYGROUND",
+    hostImageUrl: "/images/logo.png",
+    coverImageUrl: "/images/events/built-beyond-borders.png",
+    tags: ["Visa 2 Venture Week", "Immigrant founders", "Demo night"],
+    href: "/built-beyond-borders",
+  },
+  {
     time: "Thursday, June 18, 2026 · 5:30 PM – 9:00 PM",
     title: "Applied AI Gallery Night",
     location: "2 Embarcadero Ctr, San Francisco, CA",

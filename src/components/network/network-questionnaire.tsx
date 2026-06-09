@@ -10,6 +10,15 @@ import {
   type KeyboardEvent,
 } from "react";
 import type { IntakeKind } from "@/lib/intake-types";
+import {
+  hasClientIntakeDuplicate,
+  markClientIntakeDuplicate,
+} from "@/lib/intake-duplicate-client";
+import { INTAKE_DUPLICATE_MESSAGE } from "@/lib/intake-duplicate-messages";
+import {
+  getNetworkIntakeDisplayName,
+  storeIntakeThankYou,
+} from "@/lib/intake-thank-you-personalize";
 import { getStepValidationError } from "@/lib/questionnaire-validation";
 import { IntakeFileUpload } from "@/components/questionnaire/intake-file-upload";
 import { LogoUploadField } from "@/components/questionnaire/logo-upload-field";
@@ -98,8 +107,40 @@ export default function NetworkQuestionnaire() {
     };
   }
 
+  async function checkDuplicateBeforeSubmit(email: string): Promise<boolean> {
+    if (!role) return false;
+    if (hasClientIntakeDuplicate(role, email)) {
+      setErrorMessage(INTAKE_DUPLICATE_MESSAGE);
+      return true;
+    }
+    try {
+      const res = await fetch("/api/intake/check-duplicate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: role, email: email.trim() }),
+      });
+      const data = (await res.json().catch(() => null)) as {
+        duplicate?: boolean;
+        message?: string;
+      } | null;
+      if (data?.duplicate) {
+        markClientIntakeDuplicate(role, email);
+        setErrorMessage(data.message ?? INTAKE_DUPLICATE_MESSAGE);
+        return true;
+      }
+    } catch {
+      /* proceed — server enforces on submit */
+    }
+    return false;
+  }
+
   async function submit() {
     if (!role) return;
+    const email = values.email?.trim() ?? "";
+    if (await checkDuplicateBeforeSubmit(email)) {
+      return;
+    }
+
     setStatus("loading");
     setErrorMessage("");
 
@@ -113,6 +154,8 @@ export default function NetworkQuestionnaire() {
       if (!res.ok) {
         throw new Error(data?.error ?? "Something went wrong. Please try again.");
       }
+      markClientIntakeDuplicate(role, email);
+      storeIntakeThankYou(role, getNetworkIntakeDisplayName(role, values));
       router.push(`/network/apply/thank-you?type=${role}`);
     } catch (error) {
       setErrorMessage(

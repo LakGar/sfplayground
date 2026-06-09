@@ -128,6 +128,18 @@ CREATE TABLE IF NOT EXISTS success_stories (
 
 CREATE INDEX IF NOT EXISTS idx_success_stories_slug ON success_stories(slug);
 
+-- Intake duplicate prevention (24h window per kind + email)
+CREATE TABLE IF NOT EXISTS intake_submissions (
+  id SERIAL PRIMARY KEY,
+  kind VARCHAR(32) NOT NULL,
+  email VARCHAR(320) NOT NULL,
+  ip_address VARCHAR(64),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_intake_submissions_kind_email_created
+  ON intake_submissions (kind, LOWER(email), created_at DESC);
+
 -- Website content (visual editor key-value store)
 CREATE TABLE IF NOT EXISTS website_content (
   key TEXT PRIMARY KEY,
