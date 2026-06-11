@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "video:intro": "node scripts/generate-intro-video.mjs",
     "seed:events": "npx tsx scripts/seed-events.ts",
     "seed:success-stories": "npx tsx scripts/seed-success-stories.ts"
   },
