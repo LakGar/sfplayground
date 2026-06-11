@@ -14,26 +14,6 @@ const LUMA_COVER = (path: string) =>
 
 export const UPCOMING_EVENTS: UpcomingEventItem[] = [
   {
-    time: "Monday, June 29, 2026 · 5:30 PM – 9:00 PM",
-    title: "Built Beyond Borders",
-    location: "San Francisco, CA",
-    hostName: "SFPLAYGROUND",
-    hostImageUrl: "/images/logo.png",
-    coverImageUrl: "/images/events/built-beyond-borders.png",
-    tags: ["Visa 2 Venture Week", "Immigrant founders", "Demo night"],
-    href: "/built-beyond-borders",
-  },
-  {
-    time: "Thursday, June 18, 2026 · 5:30 PM – 9:00 PM",
-    title: "Applied AI Gallery Night",
-    location: "2 Embarcadero Ctr, San Francisco, CA",
-    hostName: "SF Playground",
-    hostImageUrl: "/images/logo.png",
-    coverImageUrl: "/images/events/applied-ai-gallery-night.png",
-    tags: ["Applied AI", "Live demos", "Gallery night"],
-    href: "https://luma.com/user/SFPlayground",
-  },
-  {
     time: "Wednesday, June 24, 2026 · 5:30 PM – 9:30 PM",
     title: "Aexodus Deep Tech Physical AI Summit",
     location: "760 Market St, 4th floor, San Francisco, CA",
@@ -56,5 +36,29 @@ export const UPCOMING_EVENTS: UpcomingEventItem[] = [
     ),
     tags: ["Aerospace", "Defense", "Deep Tech"],
     href: "https://luma.com/user/SFPlayground",
+  },
+  {
+    time: "Monday, June 29, 2026 · 6:00 PM – 9:00 PM",
+    title: "Immigrant Founders: Lightning Pitch & Fireside Night",
+    location: "2 Embarcadero Ctr, San Francisco, CA",
+    hostName: "SFPLAYGROUND",
+    hostImageUrl: "/images/logo.png",
+    coverImageUrl: LUMA_COVER(
+      "/uploads/3t/fc3d98b6-8052-4c04-9cee-3cc21db44884.png",
+    ),
+    tags: ["Visa 2 Venture Week", "Immigrant founders", "Lightning pitches"],
+    href: "https://luma.com/tuc7ugzt",
+  },
+  {
+    time: "Thursday, July 2, 2026 · 6:00 PM – 9:00 PM",
+    title: "The New American Dream: Immigrant Founder Forum at Salesforce Tower",
+    location: "Salesforce Tower, San Francisco, CA",
+    hostName: "SFPLAYGROUND",
+    hostImageUrl: "/images/logo.png",
+    coverImageUrl: LUMA_COVER(
+      "/uploads/68/1fe26eb1-7d09-4f78-8a82-d5ef4539afda.png",
+    ),
+    tags: ["Visa 2 Venture Week", "Immigrant founders", "Founder forum"],
+    href: "https://luma.com/3ltsdmt0",
   },
 ];
