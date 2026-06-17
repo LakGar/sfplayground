@@ -9,6 +9,7 @@ const fallback = siteData.nextEvent as {
   location: string;
   hook: string;
   ctaText: string;
+  ctaUrl?: string;
 };
 
 export async function GET() {
@@ -22,6 +23,7 @@ export async function GET() {
         location: row.location,
         hook: row.hook,
         ctaText: row.cta_text,
+        ctaUrl: row.cta_url ?? undefined,
         imageUrl: row.image_url ?? undefined,
       });
     }
@@ -35,6 +37,7 @@ export async function GET() {
     location: fallback.location,
     hook: fallback.hook,
     ctaText: fallback.ctaText,
+    ctaUrl: fallback.ctaUrl,
     imageUrl: undefined,
   });
 }

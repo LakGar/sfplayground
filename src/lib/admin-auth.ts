@@ -5,16 +5,16 @@ import { ADMIN_PROFILES, type AdminId as ProfileAdminId } from "@/data/admin-pro
 const COOKIE_NAME = "admin_session";
 const MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 days
 
-const ENV_KEYS: Record<ProfileAdminId, string> = {
-  lakshay: "ADMIN_LAKSHAY_PASSWORD",
-  ben: "ADMIN_BEN_PASSWORD",
-  kayvan: "ADMIN_KAYVAN_PASSWORD",
+const ENV_KEYS: Record<ProfileAdminId, string[]> = {
+  lakshay: ["ADMIN_LAKSHAY_PASSWORD"],
+  benjamin: ["ADMIN_BENJAMIN_PASSWORD", "ADMIN_BEN_PASSWORD"],
+  kavon: ["ADMIN_KAVON_PASSWORD", "ADMIN_KAYVAN_PASSWORD"],
 };
 
 export const ADMIN_USERS = ADMIN_PROFILES.map((p) => ({
   ...p,
-  envKey: ENV_KEYS[p.id],
-})) as ReadonlyArray<(typeof ADMIN_PROFILES)[number] & { envKey: string }>;
+  envKeys: ENV_KEYS[p.id],
+})) as ReadonlyArray<(typeof ADMIN_PROFILES)[number] & { envKeys: string[] }>;
 
 export type AdminId = ProfileAdminId;
 
@@ -72,9 +72,9 @@ export function clearSessionCookie(): string {
 export function verifyPassword(adminId: string, password: string): boolean {
   const user = ADMIN_USERS.find((u) => u.id === adminId);
   if (!user) return false;
-  const envPassword = process.env[user.envKey];
+  const envPassword = user.envKeys.map((key) => process.env[key]).find(Boolean);
   if (!envPassword) return false;
-  const a = createHash("sha256").update(password, "utf8").digest();
-  const b = createHash("sha256").update(envPassword, "utf8").digest();
+  const a = createHash("sha256").update(password.trim(), "utf8").digest();
+  const b = createHash("sha256").update(envPassword.trim(), "utf8").digest();
   return a.length === b.length && timingSafeEqual(a, b);
 }

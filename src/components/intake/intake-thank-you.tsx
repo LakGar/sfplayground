@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { isIntakeKind } from "@/data/intake-thank-you-pages";
 import type { IntakeKind } from "@/lib/intake-types";
@@ -145,12 +145,11 @@ export function IntakeThankYouFromParam({
   backHref: string;
   backLabel: string;
 }) {
-  const [stored, setStored] = useState<IntakeThankYouStored | null>(null);
-
-  useEffect(() => {
-    setStored(readIntakeThankYou());
+  const [stored] = useState<IntakeThankYouStored | null>(() => {
+    const nextStored = readIntakeThankYou();
     clearIntakeThankYou();
-  }, []);
+    return nextStored;
+  });
 
   const resolvedName = stored?.name || nameParam?.trim() || "";
   const kind =

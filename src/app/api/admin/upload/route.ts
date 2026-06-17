@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
@@ -59,6 +60,14 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(await file.arrayBuffer());
     await writeFile(filePath, buffer);
     const url = `/uploads/${basename}`;
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "file_uploaded",
+      targetType: isVideo ? "video" : "image",
+      targetId: basename,
+      details: { name: file.name, size: file.size, type: file.type, url },
+    });
     return NextResponse.json({ url });
   } catch (err) {
     console.error("Upload error:", err);

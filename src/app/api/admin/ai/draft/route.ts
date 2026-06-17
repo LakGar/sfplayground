@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { NextRequest, NextResponse } from "next/server";
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
@@ -91,6 +92,13 @@ export async function POST(request: NextRequest) {
     if (type === "newsletter") {
       const subject = parsed.subject ?? "";
       const body_html = parsed.body_html ?? "";
+      await recordAuditEvent({
+        adminId: session.id,
+        adminName: session.name,
+        action: "ai_newsletter_draft_generated",
+        targetType: "ai_draft",
+        details: { startingPoint: point.slice(0, 160), subject },
+      });
       return NextResponse.json({ subject, body_html });
     }
 
@@ -98,6 +106,13 @@ export async function POST(request: NextRequest) {
     const slug = parsed.slug ?? "";
     const excerpt = parsed.excerpt ?? "";
     const bodyContent = parsed.body ?? "";
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "ai_blog_draft_generated",
+      targetType: "ai_draft",
+      details: { startingPoint: point.slice(0, 160), title, slug },
+    });
     return NextResponse.json({ title, slug, excerpt, body: bodyContent });
   } catch (err) {
     console.error("AI draft error:", err);

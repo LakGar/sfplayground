@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { upsertNextEvent } from "@/lib/db";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
@@ -17,6 +18,7 @@ export async function PATCH(request: NextRequest) {
       location,
       hook,
       ctaText,
+      ctaUrl,
       imageUrl,
     } = body;
     if (!title || !date || !location || !hook || !ctaText) {
@@ -32,7 +34,16 @@ export async function PATCH(request: NextRequest) {
       location,
       hook,
       cta_text: ctaText,
+      cta_url: ctaUrl ?? null,
       image_url: imageUrl ? convertGoogleDriveImageUrl(imageUrl) : null,
+    });
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "next_event_updated",
+      targetType: "next_event",
+      targetId: row.id,
+      details: { title: row.title, date: row.date },
     });
     return NextResponse.json({
       title: row.title,
@@ -41,6 +52,7 @@ export async function PATCH(request: NextRequest) {
       location: row.location,
       hook: row.hook,
       ctaText: row.cta_text,
+      ctaUrl: row.cta_url ?? undefined,
       imageUrl: row.image_url ?? undefined,
     });
   } catch (err) {

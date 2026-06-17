@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import {
   deleteNewsletterDraft,
   getNewsletterDraftById,
@@ -33,6 +34,14 @@ export async function PATCH(
       subject: subject ?? existing.subject,
       body_html: body_html ?? existing.body_html,
     });
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "newsletter_draft_updated",
+      targetType: "newsletter_draft",
+      targetId: draftId,
+      details: { subject: subject ?? existing.subject },
+    });
     return NextResponse.json(updated);
   } catch (err) {
     console.error("Newsletter draft update error:", err);
@@ -63,5 +72,12 @@ export async function DELETE(
       { status: 404 }
     );
   }
+  await recordAuditEvent({
+    adminId: session.id,
+    adminName: session.name,
+    action: "newsletter_draft_deleted",
+    targetType: "newsletter_draft",
+    targetId: draftId,
+  });
   return new NextResponse(null, { status: 204 });
 }

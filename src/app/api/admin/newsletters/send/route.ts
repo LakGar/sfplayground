@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import {
   getNewsletterDraftById,
   getSubscribers,
@@ -127,6 +128,19 @@ export async function POST(request: NextRequest) {
     }
 
     await recordNewsletterSend(draft.id, sent);
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "newsletter_sent",
+      targetType: "newsletter_draft",
+      targetId: draft.id,
+      details: {
+        subject: draft.subject,
+        sent,
+        selectedRecipients: filteredSubscribers.length,
+        errors: errors.length,
+      },
+    });
 
     return NextResponse.json({
       message: `Sent to ${sent} of ${filteredSubscribers.length} selected recipients.`,

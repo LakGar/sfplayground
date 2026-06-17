@@ -1,4 +1,6 @@
 import { sql } from "@vercel/postgres";
+import { PREVIOUS_EVENTS } from "@/data/previous-events";
+import { UPCOMING_EVENTS } from "@/data/upcoming-events";
 
 export { sql };
 
@@ -44,6 +46,7 @@ export type NextEventRow = {
   location: string;
   hook: string;
   cta_text: string;
+  cta_url: string | null;
   image_url: string | null;
   updated_at: Date;
 };
@@ -302,12 +305,17 @@ export async function getLatestSendPerDraftId(): Promise<
 }
 
 export async function getNextEvent(): Promise<NextEventRow | null> {
+  await ensureNextEventColumns();
   const { rows } = await sql`
-    SELECT id, title, date, time, location, hook, cta_text, image_url, updated_at
+    SELECT id, title, date, time, location, hook, cta_text, cta_url, image_url, updated_at
     FROM next_event
     LIMIT 1
   `;
   return (rows[0] as NextEventRow) ?? null;
+}
+
+async function ensureNextEventColumns(): Promise<void> {
+  await sql.query("ALTER TABLE next_event ADD COLUMN IF NOT EXISTS cta_url TEXT");
 }
 
 export async function upsertNextEvent(data: {
@@ -317,22 +325,24 @@ export async function upsertNextEvent(data: {
   location: string;
   hook: string;
   cta_text: string;
+  cta_url?: string | null;
   image_url?: string | null;
 }): Promise<NextEventRow> {
   const existing = await getNextEvent();
   const image_url = data.image_url ?? existing?.image_url ?? null;
+  const cta_url = data.cta_url ?? existing?.cta_url ?? null;
   if (existing) {
     await sql`
       UPDATE next_event
       SET title = ${data.title}, date = ${data.date}, time = ${data.time},
           location = ${data.location}, hook = ${data.hook}, cta_text = ${data.cta_text},
-          image_url = ${image_url}, updated_at = NOW()
+          cta_url = ${cta_url}, image_url = ${image_url}, updated_at = NOW()
       WHERE id = ${existing.id}
     `;
   } else {
     await sql`
-      INSERT INTO next_event (title, date, time, location, hook, cta_text, image_url)
-      VALUES (${data.title}, ${data.date}, ${data.time}, ${data.location}, ${data.hook}, ${data.cta_text}, ${image_url})
+      INSERT INTO next_event (title, date, time, location, hook, cta_text, cta_url, image_url)
+      VALUES (${data.title}, ${data.date}, ${data.time}, ${data.location}, ${data.hook}, ${data.cta_text}, ${cta_url}, ${image_url})
     `;
   }
   const next = await getNextEvent();
@@ -367,9 +377,12 @@ export type EventRow = {
   slug: string;
   title: string;
   date: string;
+  time: string | null;
   location: string;
   attendees: number;
   status: string;
+  organizer: string;
+  luma_url: string | null;
   cover_image: string | null;
   description: string;
   images: string[];
@@ -377,11 +390,86 @@ export type EventRow = {
   updated_at: Date;
 };
 
+async function ensureEventColumns(): Promise<void> {
+  await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS time TEXT");
+  await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS organizer TEXT NOT NULL DEFAULT 'SFPLAYGROUND'");
+  await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS luma_url TEXT");
+}
+
+function slugify(value: string): string {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+async function seedEventsFromSiteData(): Promise<void> {
+  await ensureEventColumns();
+
+  for (const event of UPCOMING_EVENTS) {
+    const slug = slugify(event.title);
+    await sql`
+      INSERT INTO events (
+        slug, title, date, time, location, attendees, status, organizer, luma_url,
+        cover_image, description, images, updated_at
+      )
+      SELECT
+        ${slug},
+        ${event.title},
+        ${event.time.split(" · ")[0] ?? event.time},
+        ${event.time},
+        ${event.location},
+        0,
+        'upcoming',
+        'SFPLAYGROUND',
+        ${event.href},
+        ${event.coverImageUrl},
+        ${event.tags.join(", ")},
+        ${JSON.stringify([event.coverImageUrl])}::jsonb,
+        NOW()
+      WHERE NOT EXISTS (
+        SELECT 1 FROM events WHERE LOWER(TRIM(slug)) = LOWER(TRIM(${slug}))
+      )
+    `;
+  }
+
+  for (const event of PREVIOUS_EVENTS) {
+    await sql`
+      INSERT INTO events (
+        slug, title, date, time, location, attendees, status, organizer, luma_url,
+        cover_image, description, images, updated_at
+      )
+      SELECT
+        ${event.slug},
+        ${event.title},
+        ${event.date || "Previous event"},
+        ${event.date || null},
+        'San Francisco Bay Area',
+        0,
+        'past',
+        'SFPLAYGROUND',
+        ${event.href},
+        ${event.imageUrl},
+        'Imported from the public SFPLAYGROUND previous events section.',
+        ${JSON.stringify([event.imageUrl])}::jsonb,
+        NOW()
+      WHERE NOT EXISTS (
+        SELECT 1 FROM events WHERE LOWER(TRIM(slug)) = LOWER(TRIM(${event.slug}))
+      )
+    `;
+  }
+}
+
 export async function getEvents(): Promise<EventRow[]> {
+  await seedEventsFromSiteData();
   const { rows } = await sql`
-    SELECT id, slug, title, date, location, attendees, status, cover_image, description, images, created_at, updated_at
+    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
     FROM events
-    ORDER BY date DESC
+    ORDER BY
+      CASE WHEN status = 'upcoming' THEN 0 ELSE 1 END,
+      updated_at DESC
   `;
   return (rows as { images: unknown }[]).map((r) => ({
     ...r,
@@ -390,8 +478,9 @@ export async function getEvents(): Promise<EventRow[]> {
 }
 
 export async function getEventBySlug(slug: string): Promise<EventRow | null> {
+  await ensureEventColumns();
   const { rows } = await sql`
-    SELECT id, slug, title, date, location, attendees, status, cover_image, description, images, created_at, updated_at
+    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
     FROM events
     WHERE LOWER(TRIM(slug)) = LOWER(TRIM(${slug}))
     LIMIT 1
@@ -402,8 +491,9 @@ export async function getEventBySlug(slug: string): Promise<EventRow | null> {
 }
 
 export async function getEventById(id: number): Promise<EventRow | null> {
+  await ensureEventColumns();
   const { rows } = await sql`
-    SELECT id, slug, title, date, location, attendees, status, cover_image, description, images, created_at, updated_at
+    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
     FROM events
     WHERE id = ${id}
     LIMIT 1
@@ -417,18 +507,22 @@ export async function createEvent(data: {
   slug: string;
   title: string;
   date: string;
+  time?: string | null;
   location: string;
   attendees?: number;
   status?: string;
+  organizer?: string;
+  luma_url?: string | null;
   cover_image?: string | null;
   description: string;
   images?: string[];
 }): Promise<EventRow> {
+  await ensureEventColumns();
   const images = data.images ?? [];
   const { rows } = await sql`
-    INSERT INTO events (slug, title, date, location, attendees, status, cover_image, description, images, updated_at)
-    VALUES (${data.slug}, ${data.title}, ${data.date}, ${data.location}, ${data.attendees ?? 0}, ${data.status ?? "past"}, ${data.cover_image ?? null}, ${data.description}, ${JSON.stringify(images)}::jsonb, NOW())
-    RETURNING id, slug, title, date, location, attendees, status, cover_image, description, images, created_at, updated_at
+    INSERT INTO events (slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, updated_at)
+    VALUES (${data.slug}, ${data.title}, ${data.date}, ${data.time ?? null}, ${data.location}, ${data.attendees ?? 0}, ${data.status ?? "past"}, ${data.organizer ?? "SFPLAYGROUND"}, ${data.luma_url ?? null}, ${data.cover_image ?? null}, ${data.description}, ${JSON.stringify(images)}::jsonb, NOW())
+    RETURNING id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
   `;
   const r = rows[0] as EventRow & { images: unknown };
   return { ...r, images: Array.isArray(r.images) ? r.images : [] } as EventRow;
@@ -440,9 +534,12 @@ export async function updateEvent(
     slug: string;
     title: string;
     date: string;
+    time: string | null;
     location: string;
     attendees: number;
     status: string;
+    organizer: string;
+    luma_url: string | null;
     cover_image: string | null;
     description: string;
     images: string[];
@@ -453,16 +550,19 @@ export async function updateEvent(
   const slug = data.slug ?? existing.slug;
   const title = data.title ?? existing.title;
   const date = data.date ?? existing.date;
+  const time = data.time !== undefined ? data.time : existing.time;
   const location = data.location ?? existing.location;
   const attendees = data.attendees ?? existing.attendees;
   const status = data.status ?? existing.status;
+  const organizer = data.organizer ?? existing.organizer;
+  const luma_url = data.luma_url !== undefined ? data.luma_url : existing.luma_url;
   const cover_image = data.cover_image !== undefined ? data.cover_image : existing.cover_image;
   const description = data.description ?? existing.description;
   const images = data.images ?? existing.images;
   await sql`
     UPDATE events
-    SET slug = ${slug}, title = ${title}, date = ${date}, location = ${location},
-        attendees = ${attendees}, status = ${status}, cover_image = ${cover_image},
+    SET slug = ${slug}, title = ${title}, date = ${date}, time = ${time}, location = ${location},
+        attendees = ${attendees}, status = ${status}, organizer = ${organizer}, luma_url = ${luma_url}, cover_image = ${cover_image},
         description = ${description}, images = ${JSON.stringify(images)}::jsonb, updated_at = NOW()
     WHERE id = ${id}
   `;

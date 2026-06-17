@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { createEvent, getEvents } from "@/lib/db";
 import {
   convertGoogleDriveImageUrl,
@@ -22,7 +23,21 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body = await request.json();
-    const { slug, title, date, location, attendees, status, cover_image, description, images } = body;
+    const {
+      slug,
+      title,
+      date,
+      time,
+      location,
+      attendees,
+      status,
+      organizer,
+      luma_url,
+      lumaUrl,
+      cover_image,
+      description,
+      images,
+    } = body;
     if (!slug || !title || !date || !location || !description) {
       return NextResponse.json(
         { error: "slug, title, date, location, and description are required" },
@@ -33,12 +48,23 @@ export async function POST(request: NextRequest) {
       slug: String(slug).trim().toLowerCase().replace(/\s+/g, "-"),
       title,
       date,
+      time: time || null,
       location,
       attendees: typeof attendees === "number" ? attendees : 0,
       status: status ?? "past",
+      organizer: organizer || "SFPLAYGROUND",
+      luma_url: luma_url || lumaUrl || null,
       cover_image: cover_image ? convertGoogleDriveImageUrl(cover_image) : null,
       description,
       images: Array.isArray(images) ? convertGoogleDriveImageUrls(images) : [],
+    });
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "event_created",
+      targetType: "event",
+      targetId: event.id,
+      details: { title, slug: event.slug },
     });
     return NextResponse.json(event);
   } catch (err) {

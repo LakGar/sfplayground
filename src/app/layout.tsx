@@ -3,6 +3,8 @@ import { Geist, Geist_Mono, Oswald } from "next/font/google";
 import "@fontsource-variable/stack-sans-headline/wght.css";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -145,7 +147,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${oswald.variable} antialiased`}
       >
-        {children}
+        <TooltipProvider>{children}</TooltipProvider>
+        <Toaster richColors />
         <Analytics />
       </body>
     </html>

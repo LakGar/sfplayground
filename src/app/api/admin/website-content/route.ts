@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { getWebsiteContent, setWebsiteContent } from "@/lib/db";
 import { WEBSITE_CONTENT_CONFIG } from "@/data/website-content-keys";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
@@ -41,6 +42,13 @@ export async function PATCH(request: NextRequest) {
     }
     await setWebsiteContent(updates);
     const content = await getWebsiteContent();
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "website_content_updated",
+      targetType: "website_content",
+      details: { keys: Object.keys(updates) },
+    });
     return NextResponse.json(content);
   } catch (err) {
     console.error("Website content update error:", err);

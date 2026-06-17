@@ -89,7 +89,7 @@ export default function Featured() {
     <section className="bg-white px-4 py-16 md:px-8 md:py-24 lg:py-28">
       <div className="mx-auto w-full max-w-[1400px]">
         <h2 className="max-w-4xl font-oswald text-[clamp(2rem,5.5vw,4.25rem)] font-bold leading-[1.08] tracking-[-0.03em] text-black">
-          SFPlayground is San Francisco's{" "}
+          SFPlayground is San Francisco&apos;s{" "}
           <i className="text-red-500/60">fastest growing</i> network.
         </h2>
 

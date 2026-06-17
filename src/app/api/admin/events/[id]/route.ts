@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { getEventById, updateEvent, deleteEvent } from "@/lib/db";
 import {
   convertGoogleDriveImageUrl,
@@ -45,9 +46,12 @@ export async function PATCH(
       slug: body.slug,
       title: body.title,
       date: body.date,
+      time: body.time,
       location: body.location,
       attendees: body.attendees,
       status: body.status,
+      organizer: body.organizer,
+      luma_url: body.luma_url ?? body.lumaUrl,
       cover_image:
         coverRaw !== undefined
           ? coverRaw
@@ -63,6 +67,14 @@ export async function PATCH(
           : undefined,
     });
     if (!event) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "event_updated",
+      targetType: "event",
+      targetId: eventId,
+      details: { title: event.title, slug: event.slug },
+    });
     return NextResponse.json(event);
   } catch (err) {
     console.error("Event update error:", err);
@@ -88,5 +100,12 @@ export async function DELETE(
   }
   const ok = await deleteEvent(eventId);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  await recordAuditEvent({
+    adminId: session.id,
+    adminName: session.name,
+    action: "event_deleted",
+    targetType: "event",
+    targetId: eventId,
+  });
   return NextResponse.json({ ok: true });
 }

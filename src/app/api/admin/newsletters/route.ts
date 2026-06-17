@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { createNewsletterDraft } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -17,6 +18,14 @@ export async function POST(request: NextRequest) {
       );
     }
     const draft = await createNewsletterDraft({ subject, body_html });
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "newsletter_draft_created",
+      targetType: "newsletter_draft",
+      targetId: draft.id,
+      details: { subject },
+    });
     return NextResponse.json(draft);
   } catch (err) {
     console.error("Newsletter draft create error:", err);

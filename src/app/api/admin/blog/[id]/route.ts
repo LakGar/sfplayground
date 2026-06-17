@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { deleteBlogPost, getBlogPostById, updateBlogPost } from "@/lib/db";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
@@ -33,6 +34,14 @@ export async function PATCH(
     if (publish === true) updates.published_at = new Date();
     if (publish === false) updates.published_at = null;
     const updated = await updateBlogPost(postId, updates);
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: publish === true ? "blog_post_published" : publish === false ? "blog_post_unpublished" : "blog_post_updated",
+      targetType: "blog_post",
+      targetId: postId,
+      details: { title: title ?? existing.title, slug: slug ?? existing.slug },
+    });
     return NextResponse.json(updated);
   } catch (err) {
     console.error("Blog update error:", err);
@@ -60,5 +69,12 @@ export async function DELETE(
   if (!deleted) {
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
+  await recordAuditEvent({
+    adminId: session.id,
+    adminName: session.name,
+    action: "blog_post_deleted",
+    targetType: "blog_post",
+    targetId: postId,
+  });
   return new NextResponse(null, { status: 204 });
 }

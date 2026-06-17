@@ -1,6 +1,7 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 import { buildIntakeEmailHtml } from "@/lib/intake-email-html";
+import { insertCrmIntakeRecord } from "@/lib/admin-crm";
 import { appendIntakeToGoogleSheet } from "@/lib/google-sheets-intake";
 import type { IntakeKind } from "@/lib/intake-types";
 import { INTAKE_SUBJECT } from "@/lib/intake-types";
@@ -329,6 +330,7 @@ export async function POST(request: NextRequest) {
     await Promise.all([
       appendIntakeToGoogleSheet(kind, data, clientIp),
       emailPromise,
+      insertCrmIntakeRecord(kind, data),
     ]);
 
     await recordIntakeSubmission(kind, replyTo, clientIp);

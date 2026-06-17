@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { getSuccessStoryById, updateSuccessStory, deleteSuccessStory } from "@/lib/db";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
@@ -61,6 +62,14 @@ export async function PATCH(
       why_matters: body.why_matters,
     });
     if (!story) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "success_story_updated",
+      targetType: "success_story",
+      targetId: storyId,
+      details: { title: story.title, slug: story.slug },
+    });
     return NextResponse.json(story);
   } catch (err) {
     console.error("Success story update error:", err);
@@ -86,5 +95,12 @@ export async function DELETE(
   }
   const ok = await deleteSuccessStory(storyId);
   if (!ok) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  await recordAuditEvent({
+    adminId: session.id,
+    adminName: session.name,
+    action: "success_story_deleted",
+    targetType: "success_story",
+    targetId: storyId,
+  });
   return NextResponse.json({ ok: true });
 }

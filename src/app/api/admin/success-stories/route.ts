@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { createSuccessStory, getSuccessStories } from "@/lib/db";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
@@ -43,6 +44,14 @@ export async function POST(request: NextRequest) {
       attendee_quote: body.attendee_quote ?? null,
       founder_quote2: body.founder_quote2 ?? null,
       why_matters: body.why_matters ?? null,
+    });
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "success_story_created",
+      targetType: "success_story",
+      targetId: story.id,
+      details: { title: story.title, slug: story.slug },
     });
     return NextResponse.json(story);
   } catch (err) {

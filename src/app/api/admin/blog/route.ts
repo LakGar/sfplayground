@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { recordAuditEvent } from "@/lib/admin-audit";
 import { createBlogPost, getBlogPosts } from "@/lib/db";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
 import { NextRequest, NextResponse } from "next/server";
@@ -39,8 +40,24 @@ export async function POST(request: NextRequest) {
       const { updateBlogPost } = await import("@/lib/db");
       await updateBlogPost(post.id, { published_at: new Date() });
       const updated = await (await import("@/lib/db")).getBlogPostById(post.id);
+      await recordAuditEvent({
+        adminId: session.id,
+        adminName: session.name,
+        action: "blog_post_published",
+        targetType: "blog_post",
+        targetId: post.id,
+        details: { title, slug: post.slug },
+      });
       return NextResponse.json(updated ?? post);
     }
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "blog_post_created",
+      targetType: "blog_post",
+      targetId: post.id,
+      details: { title, slug: post.slug },
+    });
     return NextResponse.json(post);
   } catch (err) {
     console.error("Blog create error:", err);
