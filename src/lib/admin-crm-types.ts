@@ -30,6 +30,8 @@ export type CrmRecord = {
   source: string;
   updated: string;
   nextStep: string;
+  nextSteps: string[];
+  priorityNotes: string;
   notes: string;
   tags: string[];
   links: CrmLink[];

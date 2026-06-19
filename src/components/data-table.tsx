@@ -116,6 +116,8 @@ type NewRecordForm = {
   owner: string;
   value: string;
   nextStep: string;
+  nextSteps: string;
+  priorityNotes: string;
   notes: string;
   tags: string;
 };
@@ -132,6 +134,8 @@ const emptyNewRecordForm: NewRecordForm = {
   owner: "Staff",
   value: "",
   nextStep: "",
+  nextSteps: "",
+  priorityNotes: "",
   notes: "",
   tags: "",
 };
@@ -404,6 +408,9 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
         "source",
         "updated",
         "nextStep",
+        "nextSteps",
+        "priorityNotes",
+        "notes",
       ];
       const csv = [
         headers.join(","),
@@ -798,6 +805,26 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
             />
           </div>
           <div className="grid gap-2">
+            <Label htmlFor="new-record-next-steps">Next steps</Label>
+            <textarea
+              id="new-record-next-steps"
+              value={newRecordForm.nextSteps}
+              onChange={(event) => updateNewRecordForm("nextSteps", event.target.value)}
+              placeholder="One follow-up per line"
+              className="min-h-24 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="new-record-priority-notes">Priority notes</Label>
+            <textarea
+              id="new-record-priority-notes"
+              value={newRecordForm.priorityNotes}
+              onChange={(event) => updateNewRecordForm("priorityNotes", event.target.value)}
+              placeholder="Why this relationship is high, medium, or low priority"
+              className="min-h-24 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="new-record-tags">Tags</Label>
             <Input
               id="new-record-tags"
@@ -887,6 +914,22 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
               <div className="font-medium">Next step</div>
               <div className="text-muted-foreground">{item.nextStep}</div>
             </div>
+            {item.nextSteps.length > 0 ? (
+              <div>
+                <div className="font-medium">Next steps</div>
+                <ul className="list-disc space-y-1 pl-5 text-muted-foreground">
+                  {item.nextSteps.map((step, index) => (
+                    <li key={`${item.id}-next-step-${index}`}>{step}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {item.priorityNotes ? (
+              <div>
+                <div className="font-medium">Priority notes</div>
+                <div className="text-muted-foreground">{item.priorityNotes}</div>
+              </div>
+            ) : null}
             <div>
               <div className="font-medium">Notes</div>
               <div className="text-muted-foreground">{item.notes}</div>

@@ -135,6 +135,11 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
   ]);
   const notes = firstPresent(row, ["Anything else we should know?", "Outreach Notes"]);
   const status = firstPresent(row, ["Outreach Status"]);
+  const nextStep = source.includes("Accepted")
+    ? "Prepare event logistics and investor matching"
+    : status === "Not Contacted"
+      ? "Send founder outreach"
+      : "Review for next founder room";
 
   const links = [
     { label: "Website", url: normalizeUrl(website) },
@@ -158,11 +163,13 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
     value: stage || firstPresent(row, ["How much have you raised?"]) || "Startup",
     source,
     updated: firstPresent(row, ["Timestamp"]) || "Sheet import",
-    nextStep: source.includes("Accepted")
-      ? "Prepare event logistics and investor matching"
-      : status === "Not Contacted"
-        ? "Send founder outreach"
-        : "Review for next founder room",
+    nextStep,
+    nextSteps: [nextStep],
+    priorityNotes: source.includes("Accepted")
+      ? "Accepted founder record; prioritize event logistics and investor matching."
+      : status
+        ? `Outreach status: ${status}.`
+        : "",
     notes: [description, notes].filter(Boolean).join(" "),
     tags: [industry, stage, firstPresent(row, ["Source"])].filter(Boolean).slice(0, 4),
     links,
@@ -199,6 +206,11 @@ function intakeRecordToCrm(row: {
   const category = intakeKindToCategory(row.kind);
   const payload = row.payload ?? {};
   const website = normalizeUrl(row.website ?? "");
+  const nextSteps = Array.isArray(payload.nextSteps)
+    ? payload.nextSteps.filter((step): step is string => typeof step === "string" && step.trim().length > 0)
+    : payload.nextStep
+      ? [payload.nextStep]
+      : ["Review new intake and assign owner"];
   const links = [
     { label: "Website", url: website },
     { label: "Pitch deck", url: normalizeUrl(payload.pitchDeckUrl ?? "") },
@@ -228,7 +240,9 @@ function intakeRecordToCrm(row: {
       category,
     source: row.source,
     updated: row.updated_at.toISOString().slice(0, 10),
-    nextStep: payload.nextStep || "Review new intake and assign owner",
+    nextStep: payload.nextStep || nextSteps[0] || "Review new intake and assign owner",
+    nextSteps,
+    priorityNotes: payload.priorityNotes || "",
     notes:
       payload.notes ||
       payload.description ||
@@ -290,6 +304,8 @@ function subscriberRecordToCrm(row: {
     source: "Postgres subscribers",
     updated,
     nextStep: "Segment for founder, investor, sponsor, or community outreach",
+    nextSteps: ["Segment for founder, investor, sponsor, or community outreach"],
+    priorityNotes: "Low-priority nurture until the subscriber indicates a founder, investor, sponsor, or operator path.",
     notes: "Imported from the live subscribers table.",
     tags: ["Newsletter"],
     links: [],
@@ -336,6 +352,8 @@ export async function insertAdminCrmRecord(input: {
   owner: string;
   value: string;
   nextStep: string;
+  nextSteps?: string[];
+  priorityNotes: string;
   notes: string;
   tags?: string[];
 }): Promise<CrmRecord> {
@@ -346,6 +364,8 @@ export async function insertAdminCrmRecord(input: {
     owner: input.owner,
     value: input.value,
     nextStep: input.nextStep,
+    nextSteps: input.nextSteps ?? [input.nextStep].filter(Boolean),
+    priorityNotes: input.priorityNotes,
     notes: input.notes,
     tags: input.tags ?? [],
   };

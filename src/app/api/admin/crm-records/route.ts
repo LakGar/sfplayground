@@ -13,6 +13,18 @@ function clean(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function cleanList(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.map(clean).filter(Boolean).slice(0, 8);
+  }
+
+  return clean(value)
+    .split(/\n|,/)
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .slice(0, 8);
+}
+
 export async function POST(request: Request) {
   const session = await getSession();
   if (!session) {
@@ -28,6 +40,8 @@ export async function POST(request: Request) {
     const priority = priorities.has(body.priority) ? (body.priority as CrmPriority) : "Medium";
     const company = clean(body.company);
     const email = clean(body.email);
+    const nextSteps = cleanList(body.nextSteps);
+    const nextStep = clean(body.nextStep) || nextSteps[0] || "Follow up from SFPlayground";
 
     if (!company) {
       return NextResponse.json({ error: "Company is required" }, { status: 400 });
@@ -50,7 +64,9 @@ export async function POST(request: Request) {
       priority,
       owner: clean(body.owner) || session.name,
       value: clean(body.value) || category,
-      nextStep: clean(body.nextStep) || "Follow up from SFPlayground",
+      nextStep,
+      nextSteps: nextSteps.length > 0 ? nextSteps : [nextStep],
+      priorityNotes: clean(body.priorityNotes),
       notes: clean(body.notes),
       tags,
     });
