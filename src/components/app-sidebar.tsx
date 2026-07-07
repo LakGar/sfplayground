@@ -9,6 +9,7 @@ import {
   CircleHelp,
   Database,
   Handshake,
+  Rocket,
   LayoutDashboard,
   Mail,
   Megaphone,
@@ -47,6 +48,11 @@ const data = {
       title: "Relationships",
       url: "/admin/relationships",
       icon: Users,
+    },
+    {
+      title: "Startups",
+      url: "/admin/startups",
+      icon: Rocket,
     },
     {
       title: "Sponsor Pipeline",

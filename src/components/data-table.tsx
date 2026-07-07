@@ -103,6 +103,7 @@ const stages: CrmStage[] = [
 ];
 
 const priorities: CrmPriority[] = ["High", "Medium", "Low"];
+const ALL_FILTER_VALUE = "__all";
 
 type NewRecordForm = {
   category: Exclude<CrmCategory, "Subscriber">;
@@ -154,6 +155,39 @@ function stageIcon(stage: CrmStage) {
 function filterData(data: CrmRecord[], category: string) {
   if (category === "All") return data;
   return data.filter((item) => item.category === category);
+}
+
+function uniqueSorted(values: string[]) {
+  return Array.from(new Set(values.map((value) => value.trim()).filter(Boolean))).sort(
+    (a, b) => a.localeCompare(b),
+  );
+}
+
+function recordMatchesQuery(record: CrmRecord, query: string) {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return true;
+
+  return [
+    record.company,
+    record.name,
+    record.email,
+    record.phone,
+    record.website,
+    record.stage,
+    record.priority,
+    record.value,
+    record.source,
+    record.owner,
+    record.nextStep,
+    record.priorityNotes,
+    record.notes,
+    ...record.tags,
+    ...record.nextSteps,
+    ...record.links.flatMap((link) => [link.label, link.url]),
+  ]
+    .join(" ")
+    .toLowerCase()
+    .includes(normalized);
 }
 
 const columns: ColumnDef<CrmRecord>[] = [
@@ -304,6 +338,11 @@ const columns: ColumnDef<CrmRecord>[] = [
 export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
   const [records, setRecords] = React.useState(initialData);
   const [activeCategory, setActiveCategory] = React.useState("All");
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [stageFilter, setStageFilter] = React.useState(ALL_FILTER_VALUE);
+  const [priorityFilter, setPriorityFilter] = React.useState(ALL_FILTER_VALUE);
+  const [sourceFilter, setSourceFilter] = React.useState(ALL_FILTER_VALUE);
+  const [tagFilter, setTagFilter] = React.useState(ALL_FILTER_VALUE);
   const [newRecordOpen, setNewRecordOpen] = React.useState(false);
   const [newRecordForm, setNewRecordForm] = React.useState<NewRecordForm>(emptyNewRecordForm);
   const [isCreatingRecord, setIsCreatingRecord] = React.useState(false);
@@ -316,10 +355,40 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     pageSize: 10,
   });
 
-  const data = React.useMemo(
+  const categoryData = React.useMemo(
     () => filterData(records, activeCategory),
     [activeCategory, records],
   );
+
+  const sourceOptions = React.useMemo(
+    () => uniqueSorted(categoryData.map((record) => record.source)),
+    [categoryData],
+  );
+  const tagOptions = React.useMemo(
+    () => uniqueSorted(categoryData.flatMap((record) => record.tags)),
+    [categoryData],
+  );
+
+  const data = React.useMemo(
+    () =>
+      categoryData.filter((record) => {
+        if (!recordMatchesQuery(record, searchQuery)) return false;
+        if (stageFilter !== ALL_FILTER_VALUE && record.stage !== stageFilter) return false;
+        if (priorityFilter !== ALL_FILTER_VALUE && record.priority !== priorityFilter) return false;
+        if (sourceFilter !== ALL_FILTER_VALUE && record.source !== sourceFilter) return false;
+        if (tagFilter !== ALL_FILTER_VALUE && !record.tags.includes(tagFilter)) return false;
+        return true;
+      }),
+    [categoryData, priorityFilter, searchQuery, sourceFilter, stageFilter, tagFilter],
+  );
+
+  const hasActiveFilters =
+    searchQuery.trim().length > 0 ||
+    stageFilter !== ALL_FILTER_VALUE ||
+    priorityFilter !== ALL_FILTER_VALUE ||
+    sourceFilter !== ALL_FILTER_VALUE ||
+    tagFilter !== ALL_FILTER_VALUE;
+
   const recordsRef = React.useRef(records);
   const dataRef = React.useRef(data);
 
@@ -331,6 +400,11 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     recordsRef.current = records;
     dataRef.current = data;
   }, [data, records]);
+
+  React.useEffect(() => {
+    setPagination((current) => ({ ...current, pageIndex: 0 }));
+    setRowSelection({});
+  }, [activeCategory, priorityFilter, searchQuery, sourceFilter, stageFilter, tagFilter]);
 
   React.useEffect(() => {
     if (window.sessionStorage.getItem("sfpg-open-new-record") === "1") {
@@ -412,9 +486,10 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
         "priorityNotes",
         "notes",
       ];
+      const exportRows = dataRef.current;
       const csv = [
         headers.join(","),
-        ...recordsRef.current.map((record) =>
+        ...exportRows.map((record) =>
           headers
             .map((header) => {
               const value = String(record[header as keyof CrmRecord] ?? "");
@@ -430,7 +505,7 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
       link.download = "sfplayground-crm.csv";
       link.click();
       URL.revokeObjectURL(url);
-      toast.success("CRM export downloaded.");
+      toast.success(`Exported ${exportRows.length.toLocaleString()} visible records.`);
     };
 
     const openNewRecordForm = () => setNewRecordOpen(true);
@@ -485,9 +560,9 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
             <Search className="pointer-events-none absolute left-2.5 top-2.5 text-muted-foreground" />
             <Input
               id="crm-search"
-              placeholder="Search companies, people, notes..."
-              value={(table.getColumn("company")?.getFilterValue() as string) ?? ""}
-              onChange={(event) => table.getColumn("company")?.setFilterValue(event.target.value)}
+              placeholder="Search company, founder, tags, notes..."
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
               className="pl-8"
             />
           </div>
@@ -549,7 +624,84 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
           </Button>
         </div>
       </div>
+      <div className="grid gap-3 px-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:px-6">
+        <Select value={stageFilter} onValueChange={setStageFilter}>
+          <SelectTrigger size="sm" className="w-full" aria-label="Filter by stage">
+            <SelectValue placeholder="Stage" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_FILTER_VALUE}>All stages</SelectItem>
+            {stages.map((stage) => (
+              <SelectItem key={stage} value={stage}>
+                {stage}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+          <SelectTrigger size="sm" className="w-full" aria-label="Filter by priority">
+            <SelectValue placeholder="Priority" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_FILTER_VALUE}>All priorities</SelectItem>
+            {priorities.map((priority) => (
+              <SelectItem key={priority} value={priority}>
+                {priority}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={sourceFilter} onValueChange={setSourceFilter}>
+          <SelectTrigger size="sm" className="w-full" aria-label="Filter by source">
+            <SelectValue placeholder="Source" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_FILTER_VALUE}>All sources</SelectItem>
+            {sourceOptions.map((source) => (
+              <SelectItem key={source} value={source}>
+                {source}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={tagFilter} onValueChange={setTagFilter}>
+          <SelectTrigger size="sm" className="w-full" aria-label="Filter by tag or funding stage">
+            <SelectValue placeholder="Tag / funding stage" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={ALL_FILTER_VALUE}>All tags / stages</SelectItem>
+            {tagOptions.map((tag) => (
+              <SelectItem key={tag} value={tag}>
+                {tag}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={!hasActiveFilters}
+          onClick={() => {
+            setSearchQuery("");
+            setStageFilter(ALL_FILTER_VALUE);
+            setPriorityFilter(ALL_FILTER_VALUE);
+            setSourceFilter(ALL_FILTER_VALUE);
+            setTagFilter(ALL_FILTER_VALUE);
+          }}
+        >
+          Clear filters
+        </Button>
+      </div>
       <TabsContent value={activeCategory} className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6">
+        <div className="flex flex-col gap-1 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <span>
+            Showing {data.length.toLocaleString()} of {categoryData.length.toLocaleString()}{" "}
+            {activeCategory === "All" ? "relationships" : activeCategory.toLowerCase() + " records"}
+          </span>
+          <span>
+            Search checks names, companies, notes, sources, next steps, tags, and funding/segment values.
+          </span>
+        </div>
         <div className="overflow-hidden rounded-lg border bg-card">
           <Table>
             <TableHeader className="bg-muted">
@@ -613,7 +765,8 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
               </Select>
             </div>
             <div className="flex w-fit items-center justify-center text-sm font-medium">
-              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+              Page {Math.min(table.getState().pagination.pageIndex + 1, Math.max(table.getPageCount(), 1))} of{" "}
+              {Math.max(table.getPageCount(), 1)}
             </div>
             <div className="ml-auto flex items-center gap-2 lg:ml-0">
               <Button
