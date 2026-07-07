@@ -8,8 +8,8 @@ export const HERO_TITLE_LETTER_IMAGES = [
   "/images/hero5.png",
   "/images/hero6.png",
   "/images/hero7.jpeg",
-  "/images/hero8.JPG",
+  "/images/salesforce-summit/venture-network-panel.jpg",
   "/images/previous-events/capitalnight.avif",
-  "/images/previous-events/capital.jpeg",
+  "/images/salesforce-summit/group-overhead.jpg",
   "/images/previous-events/pitch.png",
 ] as const;

@@ -13,27 +13,55 @@ export const SPONSOR_HERO = {
 
 export const SPONSOR_HERO_LETTER_IMAGES = [
   "/images/previous-events/capitalnight.avif",
-  "/images/previous-events/pitch.png",
+  "/images/salesforce-summit/group-overhead.jpg",
   "/images/previous-events/capital.jpeg",
+  "/images/salesforce-summit/venture-network-panel.jpg",
   "/images/previous-events/harvard.jpg",
+  "/images/previous-events/aerospace-defense.png",
   "/images/hero1.JPG",
-  "/images/hero2.png",
-  "/images/hero3.png",
-  "/images/hero4.png",
+  "/images/salesforce-summit/step-repeat.jpg",
 ] as const;
 
 export const SPONSOR_HERO_CAROUSEL = [
   {
+    src: "/images/salesforce-summit/group-overhead.jpg",
+    alt: "Group photo at a Salesforce Tower venture summit",
+  },
+  {
     src: "/images/previous-events/capitalnight.avif",
     alt: "Capital Night event",
   },
+  {
+    src: "/images/salesforce-summit/venture-network-panel.jpg",
+    alt: "Venture network panel at Salesforce Tower",
+  },
   { src: "/images/previous-events/pitch.png", alt: "Pitch Playoffs" },
+  {
+    src: "/images/previous-events/aerospace-defense.png",
+    alt: "Aerospace and defense panel at SFPLAYGROUND",
+  },
   { src: "/images/previous-events/capital.jpeg", alt: "Capital event" },
+  {
+    src: "/images/salesforce-summit/step-repeat.jpg",
+    alt: "SFPLAYGROUND step and repeat sponsor moment",
+  },
   { src: "/images/previous-events/stanford.png", alt: "Stanford event" },
+  {
+    src: "/images/salesforce-summit/audience-wide.jpg",
+    alt: "Audience at a flagship SFPLAYGROUND summit",
+  },
   { src: "/images/hero5.png", alt: "SFPLAYGROUND community" },
+  {
+    src: "/images/salesforce-summit/networking-conversation.jpg",
+    alt: "SFPLAYGROUND community conversation",
+  },
   { src: "/images/hero6.png", alt: "Networking event" },
   { src: "/images/previous-events/global.png", alt: "Global summit" },
   { src: "/images/hero7.jpeg", alt: "Founder event" },
+  {
+    src: "/images/salesforce-summit/panel-speaker-close.jpg",
+    alt: "Panel speaker during an SFPLAYGROUND summit",
+  },
 ] as const;
 
 /** Shared page shell — one continuous gradient across the sponsors experience */

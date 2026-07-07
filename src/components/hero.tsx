@@ -18,32 +18,64 @@ const fadeUpTransition = (delay: number) => ({
 
 const CAROUSEL_IMAGES = [
   {
+    src: "/images/salesforce-summit/venture-network-panel.jpg",
+    alt: "SFPLAYGROUND panel at Salesforce Tower",
+  },
+  {
     src: "/images/hero1.JPG",
     alt: "Founders and builders at a SFPLAYGROUND event",
+  },
+  {
+    src: "/images/salesforce-summit/audience-wide.jpg",
+    alt: "Audience seated at a Salesforce Tower venture summit",
   },
   {
     src: "/images/hero2.png",
     alt: "Attendees gathering at a live startup event",
   },
   {
+    src: "/images/salesforce-summit/networking-conversation.jpg",
+    alt: "Founders and investors networking after a summit",
+  },
+  {
     src: "/images/hero3.png",
     alt: "Founder presenting to the SFPLAYGROUND community",
+  },
+  {
+    src: "/images/salesforce-summit/group-overhead.jpg",
+    alt: "Group photo from the New American Dream Venture Summit",
   },
   {
     src: "/images/hero4.png",
     alt: "Startup operators networking in San Francisco",
   },
   {
+    src: "/images/salesforce-summit/step-repeat.jpg",
+    alt: "SFPLAYGROUND step and repeat photo moment",
+  },
+  {
     src: "/images/hero5.png",
     alt: "Event audience during an SFPLAYGROUND session",
+  },
+  {
+    src: "/images/previous-events/aerospace-defense.png",
+    alt: "Aerospace and defense panel at SFPLAYGROUND",
   },
   {
     src: "/images/hero6.png",
     alt: "Founders and investors in conversation",
   },
   {
+    src: "/images/pitch-playoffs/demo-booth.jpg",
+    alt: "Pitch Playoffs demo booth",
+  },
+  {
     src: "/images/hero7.jpeg",
     alt: "Speaker session at a startup summit",
+  },
+  {
+    src: "/images/salesforce-summit/panel-speaker-close.jpg",
+    alt: "Panel speaker at a venture summit",
   },
   {
     src: "/images/hero8.JPG",

@@ -1,16 +1,24 @@
 import Image from "next/image";
 import { PARTNER_BRANDS } from "@/data/partner-brands";
 
-function PartnerLogo({ name, logo }: (typeof PARTNER_BRANDS)[number]) {
+function PartnerLogo({ name, logo, wide }: (typeof PARTNER_BRANDS)[number]) {
   return (
     <div className="flex shrink-0 items-center justify-center px-8 md:px-10">
-      <div className="relative h-9 w-[7.5rem] opacity-60 grayscale transition-opacity duration-300 hover:opacity-90 hover:grayscale-0 md:h-10 md:w-[8.5rem]">
+      <div
+        className={`relative h-9 opacity-60 grayscale transition-opacity duration-300 hover:opacity-90 hover:grayscale-0 md:h-10 ${
+          wide ? "w-[13rem] md:w-[17rem]" : "w-[7.5rem] md:w-[8.5rem]"
+        }`}
+      >
         <Image
           src={logo}
           alt={name}
           fill
           className="object-contain object-center"
-          sizes="(max-width: 768px) 120px, 136px"
+          sizes={
+            wide
+              ? "(max-width: 768px) 208px, 272px"
+              : "(max-width: 768px) 120px, 136px"
+          }
         />
       </div>
     </div>

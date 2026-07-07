@@ -18,9 +18,9 @@ export const NETWORK_HERO_LETTER_IMAGES = [
   "/images/ID5A2897.JPG",
   "/images/ID5A2913.png",
   "/images/IMG_0700.JPG",
-  "/images/previous-events/pitch.png",
+  "/images/salesforce-summit/group-overhead.jpg",
   "/images/previous-events/capitalnight.avif",
-  "/images/IMG_0835.JPG",
+  "/images/salesforce-summit/networking-conversation.jpg",
 ] as const;
 
 export const NETWORK_HERO_CAROUSEL = [
@@ -39,6 +39,22 @@ export const NETWORK_HERO_CAROUSEL = [
   { src: "/images/previous-events/capital.jpeg", alt: "Capital Night" },
   { src: "/images/hero7.jpeg", alt: "Summit" },
   { src: "/images/previous-events/stanford.png", alt: "Stanford program" },
+  {
+    src: "/images/salesforce-summit/venture-network-panel.jpg",
+    alt: "Venture network panel at Salesforce Tower",
+  },
+  {
+    src: "/images/salesforce-summit/audience-wide.jpg",
+    alt: "Audience at a Salesforce Tower summit",
+  },
+  {
+    src: "/images/salesforce-summit/roundtable-speaker.jpg",
+    alt: "Founder speaking during a roundtable",
+  },
+  {
+    src: "/images/salesforce-summit/group-overhead.jpg",
+    alt: "SFPLAYGROUND summit group photo",
+  },
 ] as const;
 
 /** Extra pool for the network hero cursor trail (carousel + additional event photos). */
@@ -59,6 +75,26 @@ export const NETWORK_HERO_TRAIL_IMAGES = [
   { src: "/images/previous-events/harvard.jpg", alt: "Harvard x MIT event" },
   { src: "/images/previous-events/global.png", alt: "Global summit" },
   { src: "/images/previous-events/construction.jpeg", alt: "Deep tech summit" },
+  {
+    src: "/images/pitch-playoffs/demo-booth.jpg",
+    alt: "Pitch Playoffs demo booth",
+  },
+  {
+    src: "/images/pitch-playoffs/booth-feedback.jpg",
+    alt: "Guests giving feedback at Pitch Playoffs",
+  },
+  {
+    src: "/images/pitch-playoffs/founder-conversation.jpg",
+    alt: "Founder conversation at Pitch Playoffs",
+  },
+  {
+    src: "/images/pitch-playoffs/panel-presentation.jpg",
+    alt: "Pitch Playoffs panel presentation",
+  },
+  {
+    src: "/images/pitch-playoffs/presentation-room.jpg",
+    alt: "Pitch Playoffs presentation room",
+  },
 ] as const;
 
 export const NETWORK_STATS = [
@@ -116,8 +152,8 @@ export const NETWORK_PATHS = [
         "Co-investment opportunities",
         "Media exposure ",
       ],
-      image: "/images/IMG_0830.JPG",
-      alt: "Investors networking at Capital Night",
+      image: "/images/previous-events/aerospace-defense.png",
+      alt: "Investors and operators in a SFPLAYGROUND panel conversation",
     },
   },
   {

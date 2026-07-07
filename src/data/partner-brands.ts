@@ -1,6 +1,7 @@
 export type PartnerBrand = {
   name: string;
   logo: string;
+  wide?: boolean;
 };
 
 /** Logo strip — partners & friends horizontal marquee */
@@ -16,6 +17,11 @@ export const PARTNER_BRANDS: PartnerBrand[] = [
   { name: "MIT", logo: "/images/partners/mit.png" },
   { name: "Salesforce", logo: "/images/partners/salesforce.png" },
   { name: "Stanford", logo: "/images/partners/stanford.png" },
+  {
+    name: "Stelmakh & Associates LLC",
+    logo: "/images/partners/stelmalkh.png",
+    wide: true,
+  },
   { name: "Three", logo: "/images/partners/three.png" },
 ];
 

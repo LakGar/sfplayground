@@ -28,7 +28,7 @@ const Page = () => {
         <AboutNetwork />
       </FadeInView>
 
-      <PreviousEvents />
+      <PreviousEvents limit={6} showViewAll />
 
       <FadeInView direction="up">
         <Featured />

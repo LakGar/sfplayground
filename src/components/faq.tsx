@@ -10,7 +10,7 @@ import { FAQ_ITEMS, type FaqAction } from "@/data/faq-data";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const actionClassName =
-  "mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#0c1222] px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-85";
+  "mt-5 flex w-fit items-center gap-2.5 rounded-full bg-[#0c1222] px-6 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-85";
 
 function FaqActionButton({ action }: { action: FaqAction }) {
   const content = (

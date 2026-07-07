@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { getEventPublicUrl, PREVIOUS_EVENTS } from "@/data/previous-events";
 
@@ -77,14 +78,14 @@ function AnimatedEventCard({
   );
 }
 
-function SectionHeader() {
+function SectionHeader({ title }: { title: string }) {
   const reduceMotion = useReducedMotion();
   const heading = (
     <h2
       id="previous-events-heading"
       className="font-oswald text-4xl font-bold tracking-tight text-black md:text-5xl lg:text-6xl"
     >
-      Previous Events
+      {title}
     </h2>
   );
 
@@ -105,20 +106,44 @@ function SectionHeader() {
   );
 }
 
-export default function PreviousEvents() {
+type PreviousEventsProps = {
+  heading?: string;
+  limit?: number;
+  showViewAll?: boolean;
+};
+
+export default function PreviousEvents({
+  heading = "Previous Events",
+  limit,
+  showViewAll = false,
+}: PreviousEventsProps) {
+  const events =
+    typeof limit === "number" ? PREVIOUS_EVENTS.slice(0, limit) : PREVIOUS_EVENTS;
+
   return (
     <section
       className="bg-white px-4 py-16 md:px-8 md:py-24 lg:py-28"
       aria-labelledby="previous-events-heading"
     >
       <div className="mx-auto w-full max-w-[1400px]">
-        <SectionHeader />
+        <SectionHeader title={heading} />
 
         <div className="grid grid-cols-1 gap-4 sm:gap-5 md:grid-cols-2 md:gap-5 lg:gap-6">
-          {PREVIOUS_EVENTS.map((event, index) => (
+          {events.map((event, index) => (
             <AnimatedEventCard key={event.slug} index={index} {...event} />
           ))}
         </div>
+
+        {showViewAll ? (
+          <div className="mt-10 flex justify-center md:mt-14">
+            <Link
+              href="/previous-events"
+              className="rounded-full bg-black px-7 py-3 text-sm font-semibold tracking-wide text-white transition-opacity hover:opacity-80"
+            >
+              View all previous events
+            </Link>
+          </div>
+        ) : null}
       </div>
     </section>
   );
