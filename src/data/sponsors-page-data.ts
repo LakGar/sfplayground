@@ -17,6 +17,7 @@ export const SPONSOR_HERO_LETTER_IMAGES = [
   "/images/previous-events/capital.jpeg",
   "/images/salesforce-summit/venture-network-panel.jpg",
   "/images/previous-events/harvard.jpg",
+  "/images/immigrant-founders-night/founder-handshake.jpg",
   "/images/previous-events/aerospace-defense.png",
   "/images/hero1.JPG",
   "/images/salesforce-summit/step-repeat.jpg",
@@ -26,6 +27,10 @@ export const SPONSOR_HERO_CAROUSEL = [
   {
     src: "/images/salesforce-summit/group-overhead.jpg",
     alt: "Group photo at a Salesforce Tower venture summit",
+  },
+  {
+    src: "/images/immigrant-founders-night/lightning-pitch-room.jpg",
+    alt: "Founder pitching to a full SFPLAYGROUND room",
   },
   {
     src: "/images/previous-events/capitalnight.avif",
@@ -45,6 +50,10 @@ export const SPONSOR_HERO_CAROUSEL = [
     src: "/images/salesforce-summit/step-repeat.jpg",
     alt: "SFPLAYGROUND step and repeat sponsor moment",
   },
+  {
+    src: "/images/immigrant-founders-night/founder-handshake.jpg",
+    alt: "Sponsor and founder handshake at an SFPLAYGROUND event",
+  },
   { src: "/images/previous-events/stanford.png", alt: "Stanford event" },
   {
     src: "/images/salesforce-summit/audience-wide.jpg",
@@ -54,6 +63,10 @@ export const SPONSOR_HERO_CAROUSEL = [
   {
     src: "/images/salesforce-summit/networking-conversation.jpg",
     alt: "SFPLAYGROUND community conversation",
+  },
+  {
+    src: "/images/immigrant-founders-night/demo-conversation.jpg",
+    alt: "Startup demo conversation during a sponsor-supported event",
   },
   { src: "/images/hero6.png", alt: "Networking event" },
   { src: "/images/previous-events/global.png", alt: "Global summit" },

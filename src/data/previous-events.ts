@@ -34,7 +34,7 @@ export const PREVIOUS_EVENTS: PreviousEventItem[] = [
     title:
       "Immigrant Founders Pitch Night: Fireside Chat, Lightning Pitches & Gallery Demos",
     date: "June 29, 2026",
-    imageUrl: "/images/salesforce-summit/networking-conversation.jpg",
+    imageUrl: "/images/immigrant-founders-night/lightning-pitch-room.jpg",
     href: "https://luma.com/tuc7ugzt",
     linkedInHref:
       "https://www.linkedin.com/posts/arkadiybaltser_immigrant-founders-pitch-night-fireside-activity-7476818188907855872-aD8o",

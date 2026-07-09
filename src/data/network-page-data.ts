@@ -18,6 +18,7 @@ export const NETWORK_HERO_LETTER_IMAGES = [
   "/images/ID5A2897.JPG",
   "/images/ID5A2913.png",
   "/images/IMG_0700.JPG",
+  "/images/immigrant-founders-night/demo-conversation.jpg",
   "/images/salesforce-summit/group-overhead.jpg",
   "/images/previous-events/capitalnight.avif",
   "/images/salesforce-summit/networking-conversation.jpg",
@@ -33,6 +34,10 @@ export const NETWORK_HERO_CAROUSEL = [
   { src: "/images/ID5A3105.JPG", alt: "Attendee portrait from a startup event" },
   { src: "/images/IMG_0508.JPG", alt: "Guests arriving for a founder gathering" },
   { src: "/images/IMG_0700.JPG", alt: "Event audience in conversation" },
+  {
+    src: "/images/immigrant-founders-night/lightning-pitch-room.jpg",
+    alt: "Founder pitching at Immigrant Founders Pitch Night",
+  },
   { src: "/images/IMG_0830.JPG", alt: "Panel moment at SFPLAYGROUND" },
   { src: "/images/previous-events/pitch.png", alt: "Pitch event" },
   { src: "/images/hero6.png", alt: "Live event" },
@@ -50,6 +55,10 @@ export const NETWORK_HERO_CAROUSEL = [
   {
     src: "/images/salesforce-summit/roundtable-speaker.jpg",
     alt: "Founder speaking during a roundtable",
+  },
+  {
+    src: "/images/immigrant-founders-night/demo-conversation.jpg",
+    alt: "Founder demo conversation after a pitch session",
   },
   {
     src: "/images/salesforce-summit/group-overhead.jpg",
@@ -86,6 +95,10 @@ export const NETWORK_HERO_TRAIL_IMAGES = [
   {
     src: "/images/pitch-playoffs/founder-conversation.jpg",
     alt: "Founder conversation at Pitch Playoffs",
+  },
+  {
+    src: "/images/immigrant-founders-night/founder-handshake.jpg",
+    alt: "Founders and partners connecting at a live event",
   },
   {
     src: "/images/pitch-playoffs/panel-presentation.jpg",

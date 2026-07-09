@@ -22,6 +22,10 @@ const CAROUSEL_IMAGES = [
     alt: "SFPLAYGROUND panel at Salesforce Tower",
   },
   {
+    src: "/images/immigrant-founders-night/lightning-pitch-room.jpg",
+    alt: "Founder presenting during Immigrant Founders Pitch Night",
+  },
+  {
     src: "/images/hero1.JPG",
     alt: "Founders and builders at a SFPLAYGROUND event",
   },
@@ -36,6 +40,10 @@ const CAROUSEL_IMAGES = [
   {
     src: "/images/salesforce-summit/networking-conversation.jpg",
     alt: "Founders and investors networking after a summit",
+  },
+  {
+    src: "/images/immigrant-founders-night/blueprints-speaker.jpg",
+    alt: "Blueprints AI founder presenting at a pitch event",
   },
   {
     src: "/images/hero3.png",
@@ -68,6 +76,10 @@ const CAROUSEL_IMAGES = [
   {
     src: "/images/pitch-playoffs/demo-booth.jpg",
     alt: "Pitch Playoffs demo booth",
+  },
+  {
+    src: "/images/immigrant-founders-night/demo-conversation.jpg",
+    alt: "Guests speaking with a startup team after pitches",
   },
   {
     src: "/images/hero7.jpeg",
