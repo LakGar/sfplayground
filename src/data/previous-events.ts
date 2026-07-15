@@ -23,22 +23,6 @@ export function getEventPublicUrl(event: PreviousEventItem): string {
 
 export const PREVIOUS_EVENTS: PreviousEventItem[] = [
   {
-    slug: "shift-vc-2026-rooftop-community",
-    title: "Shift VC 2026: Rooftop Drinks, Bites & Community",
-    date: "July 9, 2026",
-    imageUrl:
-      "https://images.lumacdn.com/event-social/a3/08b264df-5400-4a17-b3ac-0586002d7f70.png",
-    href: "https://luma.com/mudmhvdh",
-  },
-  {
-    slug: "250-years-usa-independence-pre-party",
-    title: '"250 Years USA" Independence Pre-Party',
-    date: "July 2, 2026",
-    imageUrl:
-      "https://images.lumacdn.com/event-social/9j/67ed4de1-e376-46be-aa5b-b70c2e2080bc.png",
-    href: "https://luma.com/sf-independence",
-  },
-  {
     slug: "new-american-dream-venture-summit-salesforce-tower",
     title: "The New American Dream Venture Summit — Salesforce Tower",
     date: "July 2, 2026",

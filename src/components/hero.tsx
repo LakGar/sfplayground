@@ -33,12 +33,9 @@ const CAROUSEL_IMAGES = [
     src: "/images/salesforce-summit/audience-wide.jpg",
     alt: "Audience seated at a Salesforce Tower venture summit",
   },
+
   {
-    src: "/images/hero2.png",
-    alt: "Attendees gathering at a live startup event",
-  },
-  {
-    src: "/images/salesforce-summit/networking-conversation.jpg",
+    src: "/images/salesforce-summit/founder-skyline-portrait.jpg",
     alt: "Founders and investors networking after a summit",
   },
   {
@@ -74,7 +71,7 @@ const CAROUSEL_IMAGES = [
     alt: "Founders and investors in conversation",
   },
   {
-    src: "/images/pitch-playoffs/demo-booth.jpg",
+    src: "/images/IMG_0705.jpg",
     alt: "Pitch Playoffs demo booth",
   },
   {
@@ -86,7 +83,7 @@ const CAROUSEL_IMAGES = [
     alt: "Speaker session at a startup summit",
   },
   {
-    src: "/images/salesforce-summit/panel-speaker-close.jpg",
+    src: "/images/salesforce-summit/speaker-podium.jpg",
     alt: "Panel speaker at a venture summit",
   },
   {
@@ -98,16 +95,8 @@ const CAROUSEL_IMAGES = [
     alt: "Wide crowd moment from a SFPLAYGROUND event",
   },
   {
-    src: "/images/ID5A2897.JPG",
+    src: "/images/IMG_0705.JPG",
     alt: "Founder speaking with guests at an evening event",
-  },
-  {
-    src: "/images/ID5A2997.JPG",
-    alt: "Attendees listening during a founder program",
-  },
-  {
-    src: "/images/IMG_0508.JPG",
-    alt: "Community members arriving at a startup gathering",
   },
   {
     src: "/images/IMG_0830.JPG",

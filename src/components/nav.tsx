@@ -18,9 +18,11 @@ const CONTACT_EMAIL = "staff@sfplaygroundai.com";
 function ThinPlusIcon({
   open,
   onClick,
+  light,
 }: {
   open: boolean;
   onClick: () => void;
+  light?: boolean;
 }) {
   return (
     <button
@@ -28,7 +30,9 @@ function ThinPlusIcon({
       onClick={onClick}
       aria-label={open ? "Close menu" : "Open menu"}
       aria-expanded={open}
-      className="relative flex h-[60px] w-[60px] shrink-0 items-center justify-center text-black transition-colors hover:opacity-60"
+      className={`relative flex h-[60px] w-[60px] shrink-0 items-center justify-center transition-colors hover:opacity-60 ${
+        light ? "text-white" : "text-black"
+      }`}
     >
       <svg
         width="60"
@@ -75,7 +79,12 @@ const linkVariants = {
   }),
 };
 
-export default function Nav() {
+type NavProps = {
+  /** Transparent bar, no blur — for dark hero sections */
+  heroOverlay?: boolean;
+};
+
+export default function Nav({ heroOverlay = false }: NavProps) {
   const [open, setOpen] = useState(false);
   const toggle = useCallback(() => setOpen((o) => !o), []);
   const close = useCallback(() => setOpen(false), []);
@@ -98,7 +107,13 @@ export default function Nav() {
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-[60]">
-        <div className="bg-white/50 backdrop-blur-sm">
+        <div
+          className={
+            heroOverlay
+              ? "bg-transparent"
+              : "bg-white/50 backdrop-blur-sm"
+          }
+        >
           <div className="mx-auto w-full px-4 py-4 md:px-8">
             <div className="flex items-center justify-between">
               <Link
@@ -114,7 +129,11 @@ export default function Nav() {
                   priority
                 />
               </Link>
-              <ThinPlusIcon open={open} onClick={toggle} />
+              <ThinPlusIcon
+                open={open}
+                onClick={toggle}
+                light={heroOverlay}
+              />
             </div>
           </div>
         </div>

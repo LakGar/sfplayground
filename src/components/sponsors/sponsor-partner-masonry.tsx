@@ -10,9 +10,9 @@ import { SPONSOR_PARTNER_MASONRY } from "@/data/sponsors-page-data";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const TONE_STYLES = {
-  dark: "bg-[#0c1222] text-white",
-  cream: "bg-[#f3f3f1] text-black",
-  stone: "bg-[#e8e2d8] text-black",
+  dark: "bg-black text-white",
+  cream: "bg-white text-black",
+  stone: "bg-neutral-100 text-black",
 } as const;
 
 function ArrowButton({
@@ -146,7 +146,7 @@ function AccentCard({
 }) {
   const isDark = tone === "dark";
   const learnMoreClass = `inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-medium tracking-[0.12em] uppercase transition-opacity hover:opacity-80 ${
-    isDark ? "bg-white/10 text-white" : "bg-black/5 text-black/70"
+    isDark ? "bg-white/10 text-white" : "bg-black/8 text-black"
   }`;
 
   return (
@@ -159,7 +159,7 @@ function AccentCard({
         </h3>
         <p
           className={`mt-3 text-sm leading-relaxed md:text-[0.9375rem] ${
-            isDark ? "text-white/65" : "text-black/55"
+            isDark ? "text-white/65" : "text-black/58"
           }`}
         >
           {description}
@@ -195,14 +195,14 @@ export default function SponsorPartnerMasonry() {
         <Reveal>
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
-              <p className="text-xs font-medium tracking-[0.2em] text-black/40 uppercase">
+              <p className="text-xs font-semibold tracking-[0.2em] text-black/45 uppercase">
                 Why partner with us
               </p>
-              <h2 className="mt-4 font-oswald text-[clamp(2.25rem,5vw,4rem)] font-bold leading-[1.06] tracking-tight text-black">
+              <h2 className="mt-4 text-[clamp(2.25rem,5vw,4rem)] font-bold leading-[1.06] tracking-tight text-black">
                 {headline}
               </h2>
             </div>
-            <p className="max-w-md text-sm leading-relaxed text-black/55 md:text-base lg:pb-1">
+            <p className="max-w-md text-sm leading-relaxed text-black/60 md:text-base lg:pb-1">
               {subline}
             </p>
           </div>
@@ -294,18 +294,18 @@ export default function SponsorPartnerMasonry() {
             </Reveal>
 
             <Reveal delay={0.16} className="flex min-h-[280px] flex-col lg:min-h-0 lg:h-full">
-              <article className="flex h-full min-h-[280px] flex-col justify-between rounded-[1.75rem] bg-[#0c1222] p-7 text-white md:rounded-[2rem] md:p-9">
+              <article className="flex h-full min-h-[280px] flex-col justify-between rounded-[1.75rem] bg-black p-7 text-white md:rounded-[2rem] md:p-9">
                 <div>
                   <h3 className="font-oswald text-2xl font-bold leading-tight tracking-tight md:text-3xl lg:text-[2rem]">
                     {tiles.cta.title}
                   </h3>
-                  <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/65 md:text-base">
+                  <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/68 md:text-base">
                     {tiles.cta.description}
                   </p>
                 </div>
                 <Link
                   href={tiles.cta.href}
-                  className="mt-8 inline-flex w-fit items-center gap-3 rounded-full bg-white px-6 py-3.5 text-sm font-medium text-black transition-opacity hover:opacity-90"
+                  className="mt-8 inline-flex w-fit items-center gap-3 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-black transition-opacity hover:opacity-90"
                 >
                   {tiles.cta.label}
                   <ArrowUpRight className="h-4 w-4" strokeWidth={1.75} />
