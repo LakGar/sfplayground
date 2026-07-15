@@ -23,11 +23,27 @@ export function getEventPublicUrl(event: PreviousEventItem): string {
 
 export const PREVIOUS_EVENTS: PreviousEventItem[] = [
   {
+    slug: "shift-vc-2026-rooftop-community",
+    title: "Shift VC 2026: Rooftop Drinks, Bites & Community",
+    date: "July 9, 2026",
+    imageUrl:
+      "https://images.lumacdn.com/event-social/a3/08b264df-5400-4a17-b3ac-0586002d7f70.png",
+    href: "https://luma.com/mudmhvdh",
+  },
+  {
+    slug: "250-years-usa-independence-pre-party",
+    title: '"250 Years USA" Independence Pre-Party',
+    date: "July 2, 2026",
+    imageUrl:
+      "https://images.lumacdn.com/event-social/9j/67ed4de1-e376-46be-aa5b-b70c2e2080bc.png",
+    href: "https://luma.com/sf-independence",
+  },
+  {
     slug: "new-american-dream-venture-summit-salesforce-tower",
     title: "The New American Dream Venture Summit — Salesforce Tower",
     date: "July 2, 2026",
     imageUrl: "/images/salesforce-summit/group-overhead.jpg",
-    href: "https://luma.com/3ltsdmt0",
+    href: "https://www.linkedin.com/feed/update/urn:li:ugcPost:7479227797132029952/?actorCompanyId=110189215",
   },
   {
     slug: "immigrant-founders-pitch-night-gallery-demos",
@@ -36,15 +52,13 @@ export const PREVIOUS_EVENTS: PreviousEventItem[] = [
     date: "June 29, 2026",
     imageUrl: "/images/immigrant-founders-night/lightning-pitch-room.jpg",
     href: "https://luma.com/tuc7ugzt",
-    linkedInHref:
-      "https://www.linkedin.com/posts/arkadiybaltser_immigrant-founders-pitch-night-fireside-activity-7476818188907855872-aD8o",
   },
   {
     slug: "aerospace-defense-deep-tech-summit",
     title: "Aerospace & Defense — Deep Tech Summit",
     date: "June 25, 2026",
     imageUrl: "/images/previous-events/aerospace-defense.png",
-    href: "https://luma.com/deep-ot9l",
+    href: "https://www.linkedin.com/posts/sfplayground_sfplayground-deeptechweek-aerospace-activity-7477898436961280000-bUmV",
   },
   {
     slug: "aexodus-deep-tech-physical-ai-summit",
@@ -57,39 +71,31 @@ export const PREVIOUS_EVENTS: PreviousEventItem[] = [
     slug: "stanford-mit-ai-hardware-stack",
     title:
       "Stanford x MIT Summit: The AI Hardware Stack — From Chip to Chiller",
-    date: "June 2026",
+    date: "May 21, 2026",
     imageUrl: "/images/previous-events/stanford.png",
     href: "https://luma.com/silicon",
-    linkedInHref:
-      "https://www.linkedin.com/feed/update/urn:li:activity:7464388250107875328/",
   },
   {
     slug: "global-wealth-forum-2026",
     title: "Global Wealth Forum 2026 — Salesforce Tower",
-    date: "May 2026",
+    date: "May 12, 2026",
     imageUrl: "/images/previous-events/global.png",
     href: "https://luma.com/p2qa8jdq",
-    linkedInHref:
-      "https://www.linkedin.com/posts/innovateukbusinessconnect_invest-uk-professionalservices-activity-7459980773941534722-GIFJ",
   },
   {
     slug: "capital-night-funded-founders",
     title: "Capital Night for Funded Founders",
     date: "May 6, 2026",
     imageUrl: "/images/previous-events/capitalnight.avif",
-    href: "https://luma.com/uecei56p",
-    linkedInHref:
-      "https://www.linkedin.com/posts/sfplayground_capitalnight-sfplayground-founders-activity-7460539880025137152-arQ9",
+    href: "https://www.linkedin.com/posts/sfplayground_what-an-evening-on-wednesday-at-limis-los-activity-7458658325270872064-GBYv",
   },
   {
     slug: "harvard-mit-ai-construction",
     title:
       "Harvard x MIT Summit: AI in Construction & Real Estate — Open Registration",
-    date: "Spring 2026",
+    date: "April 28, 2026",
     imageUrl: "/images/previous-events/construction.jpeg",
     href: "https://luma.com/harvardmitproperty",
-    linkedInHref:
-      "https://www.linkedin.com/posts/benjaminshlemis_hosted-and-moderated-the-massachusetts-institute-activity-7457157115615432704-HjLw",
   },
   {
     slug: "physical-ai-pitch-playoffs-gtc-2026",
@@ -97,8 +103,6 @@ export const PREVIOUS_EVENTS: PreviousEventItem[] = [
     date: "March 17, 2026",
     imageUrl: "/images/previous-events/pitch2.png",
     href: "https://luma.com/82fwu1tc",
-    linkedInHref:
-      "https://www.linkedin.com/feed/update/urn:li:activity:7440454266391003136/",
   },
   {
     slug: "harvard-mit-robotics-physical-ai",
@@ -106,8 +110,6 @@ export const PREVIOUS_EVENTS: PreviousEventItem[] = [
     date: "Spring 2026",
     imageUrl: "/images/previous-events/harvard.jpg",
     href: INSTAGRAM_PROFILE,
-    linkedInHref:
-      "https://www.linkedin.com/posts/benjaminshlemis_inside-a-harvard-mit-robotics-event-three-activity-7440492204269318144-eQXW",
   },
   {
     slug: "ai-healthcare-silicon-valley-investing-summit",
@@ -119,10 +121,15 @@ export const PREVIOUS_EVENTS: PreviousEventItem[] = [
   {
     slug: "pitch-playoffs-001",
     title: "Pitch Playoffs 001",
-    date: "Early 2026",
+    date: "December 11, 2025",
     imageUrl: "/images/previous-events/pitch.png",
-    href: "https://www.linkedin.com/posts/benjaminshlemis_great-ideas-deserve-a-real-stage-more-to-activity-7407877272311042049-QSjq",
-    linkedInHref:
-      "https://www.linkedin.com/posts/benjaminshlemis_great-ideas-deserve-a-real-stage-more-to-activity-7407877272311042049-QSjq",
+    href: "https://luma.com/ai-x-physical-reality",
+  },
+  {
+    slug: "pitch-playoffs-physical-ai",
+    title: "Pitch Playoffs: Physical AI",
+    date: "December 11, 2025",
+    imageUrl: "/images/pitch-playoffs/panel-presentation.jpg",
+    href: "https://luma.com/54kzxvy6",
   },
 ];

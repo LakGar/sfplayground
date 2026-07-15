@@ -11,7 +11,28 @@ export type UpcomingEventItem = {
 
 export const UPCOMING_EVENTS: UpcomingEventItem[] = [
   {
-    time: "Thursday, July 30, 2026 · 5:30 PM – 9:00 PM",
+    time: "Thursday, August 13, 2026 · 6:00 PM – 9:00 PM",
+    title: "AI Healthtech Summit at AngelList",
+    location: "AngelList, 90 Gold St, San Francisco, CA",
+    hostName: "SFPLAYGROUND",
+    hostImageUrl: "/images/logo.png",
+    coverImageUrl: "/images/events/ai-healthtech-summit.png",
+    tags: ["AI Healthtech", "Clinical workflows", "Regulated care"],
+    href: "https://luma.com/aihealthtechsf",
+  },
+  {
+    time: "Tuesday, August 25, 2026 · 6:00 PM – 9:00 PM",
+    title: "AI Data Center Night",
+    location: "AngelList, 90 Gold St, San Francisco, CA",
+    hostName: "SFPLAYGROUND",
+    hostImageUrl: "/images/logo.png",
+    coverImageUrl:
+      "https://images.lumacdn.com/event-social/cd/a18398df-9971-4937-92bd-3d8899944087.png",
+    tags: ["AI Infrastructure", "Data centers", "Energy"],
+    href: "https://luma.com/datacenterai",
+  },
+  {
+    time: "Thursday, September 17, 2026 · 6:00 PM – 9:00 PM",
     title: "The AI GTM Night",
     location: "2 Embarcadero Center, San Francisco, CA",
     hostName: "SFPLAYGROUND",
@@ -21,13 +42,25 @@ export const UPCOMING_EVENTS: UpcomingEventItem[] = [
     href: "https://luma.com/sfplay-gd9n",
   },
   {
-    time: "Thursday, August 13, 2026 · 6:00 PM – 9:00 PM",
-    title: "AI Healthtech Summit at AngelList",
+    time: "Thursday, October 8, 2026 · 6:00 PM – 9:00 PM",
+    title: "AI Law, Compliance, & GovTech Summit",
     location: "AngelList, 90 Gold St, San Francisco, CA",
     hostName: "SFPLAYGROUND",
     hostImageUrl: "/images/logo.png",
-    coverImageUrl: "/images/events/ai-healthtech-summit.png",
-    tags: ["AI Healthtech", "Clinical workflows", "Regulated care"],
-    href: "https://luma.com/aihealthtechsf",
+    coverImageUrl:
+      "https://images.lumacdn.com/event-social/24/ea3829e2-7b06-4562-a3e2-4fca481af893.png",
+    tags: ["AI Law", "Compliance", "GovTech"],
+    href: "https://luma.com/ailaw",
+  },
+  {
+    time: "Thursday, October 15, 2026 · 6:00 PM – 9:00 PM",
+    title: "Industrial AI Summit: The Future of Manufacturing",
+    location: "AngelList, 90 Gold St, San Francisco, CA",
+    hostName: "SFPLAYGROUND",
+    hostImageUrl: "/images/logo.png",
+    coverImageUrl:
+      "https://images.lumacdn.com/event-social/yf/15636170-d5d5-4378-9d35-cb8b8d824778.png",
+    tags: ["Industrial AI", "Manufacturing", "Automation"],
+    href: "https://luma.com/industrialai",
   },
 ];
