@@ -2,7 +2,7 @@
 export const HERO_TITLE_LETTER_IMAGES = [
   "/images/skyline.png",
   "/images/hero1.JPG",
-  "/images/hero2.png",
+  "/images/salesforce-summit/founder-skyline-portrait.jpg",
   "/images/hero3.png",
   "/images/hero4.png",
   "/images/hero5.png",

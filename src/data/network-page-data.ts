@@ -32,7 +32,10 @@ export const NETWORK_HERO_CAROUSEL = [
   { src: "/images/ID5A2897.JPG", alt: "Founder speaking with event guests" },
   { src: "/images/ID5A2997.JPG", alt: "Audience watching a founder program" },
   { src: "/images/ID5A3105.JPG", alt: "Attendee portrait from a startup event" },
-  { src: "/images/IMG_0508.JPG", alt: "Guests arriving for a founder gathering" },
+  {
+    src: "/images/salesforce-summit/networking-conversation.jpg",
+    alt: "Guests arriving for a founder gathering",
+  },
   { src: "/images/IMG_0700.JPG", alt: "Event audience in conversation" },
   {
     src: "/images/immigrant-founders-night/lightning-pitch-room.jpg",
@@ -70,7 +73,10 @@ export const NETWORK_HERO_CAROUSEL = [
 export const NETWORK_HERO_TRAIL_IMAGES = [
   ...NETWORK_HERO_CAROUSEL,
   { src: "/images/hero1.JPG", alt: "SFPLAYGROUND event" },
-  { src: "/images/hero2.png", alt: "Founders networking" },
+  {
+    src: "/images/salesforce-summit/founder-skyline-portrait.jpg",
+    alt: "Founders networking",
+  },
   { src: "/images/hero3.png", alt: "Live pitch night" },
   { src: "/images/hero4.png", alt: "Community gathering" },
   { src: "/images/hero5.png", alt: "Bay Area startup event" },
