@@ -26,8 +26,7 @@ export const UPCOMING_EVENTS: UpcomingEventItem[] = [
     location: "AngelList, 90 Gold St, San Francisco, CA",
     hostName: "SFPLAYGROUND",
     hostImageUrl: "/images/logo.png",
-    coverImageUrl:
-      "https://images.lumacdn.com/event-social/cd/a18398df-9971-4937-92bd-3d8899944087.png",
+    coverImageUrl: "/images/events/ai-data-center-night.png",
     tags: ["AI Infrastructure", "Data centers", "Energy"],
     href: "https://luma.com/datacenterai",
   },
@@ -47,8 +46,7 @@ export const UPCOMING_EVENTS: UpcomingEventItem[] = [
     location: "AngelList, 90 Gold St, San Francisco, CA",
     hostName: "SFPLAYGROUND",
     hostImageUrl: "/images/logo.png",
-    coverImageUrl:
-      "https://images.lumacdn.com/event-social/24/ea3829e2-7b06-4562-a3e2-4fca481af893.png",
+    coverImageUrl: "/images/events/ai-law-govtech-summit.png",
     tags: ["AI Law", "Compliance", "GovTech"],
     href: "https://luma.com/ailaw",
   },
@@ -58,8 +56,7 @@ export const UPCOMING_EVENTS: UpcomingEventItem[] = [
     location: "AngelList, 90 Gold St, San Francisco, CA",
     hostName: "SFPLAYGROUND",
     hostImageUrl: "/images/logo.png",
-    coverImageUrl:
-      "https://images.lumacdn.com/event-social/yf/15636170-d5d5-4378-9d35-cb8b8d824778.png",
+    coverImageUrl: "/images/events/industrial-ai-summit.png",
     tags: ["Industrial AI", "Manufacturing", "Automation"],
     href: "https://luma.com/industrialai",
   },
