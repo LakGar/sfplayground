@@ -128,7 +128,7 @@ export default function NetworkHero() {
         className="pointer-events-none absolute right-4 top-[32%] z-10 hidden -translate-y-1/2 text-[10px] tracking-[0.35em] text-black/45 [writing-mode:vertical-rl] md:right-8 md:block lg:right-12"
         aria-hidden
       >
-        ( JOIN US )
+        ( 50K+ NETWORK )
       </p>
 
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-4 pb-20 pt-28 text-center md:px-8 md:pb-12 md:pt-32">
@@ -165,7 +165,7 @@ export default function NetworkHero() {
           animate="visible"
           transition={fadeUpTransition(0.85)}
         >
-          Join a curated room of{" "}
+          Join 50K+ people in our network —{" "}
           <i className="text-red-500/60">founders, investors, and operators</i>{" "}
           across San Francisco and Silicon Valley.
         </motion.p>

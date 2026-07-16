@@ -4,7 +4,7 @@ export const NETWORK_PAGE_SHELL =
   "min-h-screen bg-linear-to-b from-white from-0% via-[#f3f3f1] via-[38%] via-[#fafaf8] via-[72%] to-white to-100%";
 
 export const NETWORK_HERO = {
-  eyebrow: "Join the network",
+  eyebrow: "50K+ people in our network",
   title: "NETWORK",
   tagline:
     "Live events, real intros, and high-signal rooms from San Francisco to Silicon Valley.",
@@ -113,7 +113,7 @@ export const NETWORK_HERO_TRAIL_IMAGES = [
 ] as const;
 
 export const NETWORK_STATS = [
-  { value: "50K+", label: "Founder, builder, and investor connections." },
+  { value: "50K+", label: "People in our network." },
   { value: "26", label: "Live events in 2026 across SF and Silicon Valley." },
   { value: "3m+", label: "Capital raised by startups in our ecosystem." },
   { value: "#1", label: "Fastest growing network in San Francisco." },
@@ -199,7 +199,7 @@ export const NETWORK_PATHS = [
 ] as const;
 
 export const NETWORK_PATHS_INTRO = {
-  label: "Join the network",
+  label: "50K+ people in our network",
   headline: "Connect with the brightest minds in the heart of tech.",
 } as const;
 

@@ -83,7 +83,7 @@ export const SPONSOR_PAGE_SHELL =
 export const SPONSOR_STATS = [
   {
     value: "50K+",
-    label: "Members across founders, investors, executives, and operators.",
+    label: "People in our network.",
   },
   {
     value: "20",
@@ -191,7 +191,7 @@ export const SPONSOR_PARTNER_MASONRY = {
     },
     community: {
       tag: "Community",
-      title: "50K+ connections",
+      title: "50K+ people in our network",
       image: "/images/network1.JPG",
       alt: "SFPLAYGROUND community",
     },

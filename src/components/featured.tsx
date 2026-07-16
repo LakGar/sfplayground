@@ -16,7 +16,7 @@ const STATS = [
   },
   {
     value: "50K+",
-    label: "Founder, builder, and investor connections.",
+    label: "People in our network.",
   },
   {
     value: "26",
