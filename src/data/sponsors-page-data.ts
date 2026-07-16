@@ -191,7 +191,7 @@ export const SPONSOR_PARTNER_MASONRY = {
     },
     community: {
       tag: "Community",
-      title: "25K+ connections",
+      title: "50K+ connections",
       image: "/images/network1.JPG",
       alt: "SFPLAYGROUND community",
     },

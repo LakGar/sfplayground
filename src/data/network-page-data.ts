@@ -91,10 +91,6 @@ export const NETWORK_HERO_TRAIL_IMAGES = [
   { src: "/images/previous-events/global.png", alt: "Global summit" },
   { src: "/images/previous-events/construction.jpeg", alt: "Deep tech summit" },
   {
-    src: "/images/pitch-playoffs/demo-booth.jpg",
-    alt: "Pitch Playoffs demo booth",
-  },
-  {
     src: "/images/pitch-playoffs/booth-feedback.jpg",
     alt: "Guests giving feedback at Pitch Playoffs",
   },
@@ -117,7 +113,7 @@ export const NETWORK_HERO_TRAIL_IMAGES = [
 ] as const;
 
 export const NETWORK_STATS = [
-  { value: "25K+", label: "Founder, builder, and investor connections." },
+  { value: "50K+", label: "Founder, builder, and investor connections." },
   { value: "26", label: "Live events in 2026 across SF and Silicon Valley." },
   { value: "3m+", label: "Capital raised by startups in our ecosystem." },
   { value: "#1", label: "Fastest growing network in San Francisco." },

@@ -7,7 +7,7 @@ import { parseStatValue } from "@/lib/parse-stat-value";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 type StatCountUpProps = {
-  /** Display string such as `25K+`, `#1`, or `26`. Parsed when numeric parts are present. */
+  /** Display string such as `50K+`, `#1`, or `26`. Parsed when numeric parts are present. */
   value?: string;
   end?: number;
   prefix?: string;

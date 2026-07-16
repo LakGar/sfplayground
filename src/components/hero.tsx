@@ -71,10 +71,6 @@ const CAROUSEL_IMAGES = [
     alt: "Founders and investors in conversation",
   },
   {
-    src: "/images/IMG_0705.jpg",
-    alt: "Pitch Playoffs demo booth",
-  },
-  {
     src: "/images/immigrant-founders-night/demo-conversation.jpg",
     alt: "Guests speaking with a startup team after pitches",
   },
@@ -87,8 +83,8 @@ const CAROUSEL_IMAGES = [
     alt: "Panel speaker at a venture summit",
   },
   {
-    src: "/images/hero8.JPG",
-    alt: "Bay Area founders meeting at SFPLAYGROUND",
+    src: "/images/capital-night-step-repeat-founders.png",
+    alt: "Capital Night guests at the SFPLAYGROUND step and repeat",
   },
   {
     src: "/images/ID5A2804.JPG",

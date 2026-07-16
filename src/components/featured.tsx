@@ -15,7 +15,7 @@ const STATS = [
     label: "Capital raised by startups in our network.",
   },
   {
-    value: "25K+",
+    value: "50K+",
     label: "Founder, builder, and investor connections.",
   },
   {

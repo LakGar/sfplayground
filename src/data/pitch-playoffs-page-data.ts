@@ -14,7 +14,7 @@ export const PP_HERO = {
   meta: `Edition ${PP_EVENT.edition} · ${PP_EVENT.location}`,
   avatars: [
     "/images/pitch-playoffs/founder-conversation.jpg",
-    "/images/pitch-playoffs/demo-booth.jpg",
+    "/images/pitch-playoffs/panel-presentation.jpg",
     "/images/pitch-playoffs/booth-feedback.jpg",
     "/images/pitch-playoffs/booth-floor.jpg",
     "/images/pitch-playoffs/presentation-room.jpg",
@@ -28,8 +28,8 @@ export const PP_HERO = {
       alt: "Crowd exploring demo booths at Pitch Playoffs",
     },
     {
-      src: "/images/pitch-playoffs/demo-booth.jpg",
-      alt: "Founder demo booth with product materials and visitors",
+      src: "/images/pitch-playoffs/founder-conversation.jpg",
+      alt: "Founder speaking with guests during Pitch Playoffs",
     },
     {
       src: "/images/pitch-playoffs/panel-presentation.jpg",
@@ -84,8 +84,8 @@ export const PP_ABOUT = {
   body: "Founders start with booth demos, real conversations, and direct audience feedback. Attendees vote for the teams they find most compelling, creating visible social proof before the top startups pitch investors.",
   images: [
     {
-      src: "/images/pitch-playoffs/demo-booth.jpg",
-      alt: "Founder demo booth with product screens and notes",
+      src: "/images/pitch-playoffs/booth-feedback.jpg",
+      alt: "Guests reviewing a founder demo during Pitch Playoffs",
       layout: "landscape",
     },
     {
