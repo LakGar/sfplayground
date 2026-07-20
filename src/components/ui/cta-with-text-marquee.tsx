@@ -89,9 +89,7 @@ export default function CTAWithVerticalMarquee() {
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up [animation-delay:600ms]">
               <a
-                href="https://luma.com/user/SFPlayground"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/network"
                 className="inline-flex items-center justify-center rounded-full bg-[#0c1222] px-8 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-85 md:text-base"
               >
                 Join

@@ -9,7 +9,7 @@ export const NETWORK_HERO = {
   tagline:
     "Live events, real intros, and high-signal rooms from San Francisco to Silicon Valley.",
   ctaLabel: "Join our network",
-  ctaHref: "https://luma.com/user/SFPlayground",
+  ctaHref: "/network",
 } as const;
 
 export const NETWORK_HERO_LETTER_IMAGES = [

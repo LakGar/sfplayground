@@ -7,7 +7,7 @@ import { useCallback, useEffect, useState } from "react";
 
 const NAV_LINKS = [
   { label: "Sponsors", href: "/sponsors" },
-  { label: "Join Network", href: "https://luma.com/user/SFPlayground" },
+  { label: "Join Network", href: "/network" },
   { label: "Previous Events", href: "/previous-events" },
   { label: "Pitch Playoffs", href: "/pitch-playoffs" },
   { label: "Members Only", href: "/silicon-valley" },
