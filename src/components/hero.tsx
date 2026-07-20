@@ -87,6 +87,10 @@ const CAROUSEL_IMAGES = [
     alt: "Capital Night guests at the SFPLAYGROUND step and repeat",
   },
   {
+    src: "/images/immigrant-founders-night/founder-handshake.jpg",
+    alt: "Founders and partners connecting at an SFPLAYGROUND event",
+  },
+  {
     src: "/images/ID5A2804.JPG",
     alt: "Wide crowd moment from a SFPLAYGROUND event",
   },
