@@ -472,7 +472,7 @@ export function AdminEventsPage({
                 id="event-cover"
                 value={form.cover_image}
                 onChange={(event) => updateForm("cover_image", event.target.value)}
-                placeholder="/images/events/poster.png"
+                placeholder="/images/events/ai-gtm-night.png"
               />
             </div>
             <div className="grid gap-2">

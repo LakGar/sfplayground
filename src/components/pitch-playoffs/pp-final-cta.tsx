@@ -72,7 +72,7 @@ export default function PPFinalCta() {
               rel="noopener noreferrer"
               className="pp-final-cta-btn pp-final-cta-btn-alt"
             >
-              <span>Book a 15 min call</span>
+              <span>Book a 30 min call</span>
               <span className="pp-final-cta-btn-icon" aria-hidden>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path

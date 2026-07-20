@@ -76,7 +76,7 @@ export default function PPHero() {
             rel="noopener noreferrer"
             className="pp-hero-btn pp-hero-btn-secondary"
           >
-            Book a 15 min call
+            Book a 30 min call
           </a>
         </motion.div>
       </div>

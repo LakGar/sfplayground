@@ -8,8 +8,8 @@ export const NETWORK_HERO = {
   title: "NETWORK",
   tagline:
     "Live events, real intros, and high-signal rooms from San Francisco to Silicon Valley.",
-  ctaLabel: "Apply to join",
-  ctaHref: "/network/apply",
+  ctaLabel: "Join our network",
+  ctaHref: "https://luma.com/user/SFPlayground",
 } as const;
 
 export const NETWORK_HERO_LETTER_IMAGES = [

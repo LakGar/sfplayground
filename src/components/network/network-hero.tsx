@@ -189,6 +189,8 @@ export default function NetworkHero() {
         >
           <Link
             href={NETWORK_HERO.ctaHref}
+            target={NETWORK_HERO.ctaHref.startsWith("http") ? "_blank" : undefined}
+            rel={NETWORK_HERO.ctaHref.startsWith("http") ? "noopener noreferrer" : undefined}
             className="inline-flex items-center justify-center rounded-full bg-[#0c1222] px-8 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-85 md:text-base"
           >
             {NETWORK_HERO.ctaLabel}
@@ -199,7 +201,7 @@ export default function NetworkHero() {
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-full border border-black/10 bg-white/60 px-8 py-3.5 text-sm font-medium text-black backdrop-blur-sm transition-opacity hover:opacity-85 md:text-base"
           >
-            Book a 15 min call
+            Book a 30 min call
           </a>
         </motion.div>
       </div>

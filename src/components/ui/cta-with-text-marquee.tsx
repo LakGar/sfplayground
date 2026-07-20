@@ -89,7 +89,9 @@ export default function CTAWithVerticalMarquee() {
             </p>
             <div className="flex flex-wrap gap-4 animate-fade-in-up [animation-delay:600ms]">
               <a
-                href="mailto:staff@sfplaygroundai.com?subject=Join%20the%20SF%20Playground%20network"
+                href="https://luma.com/user/SFPlayground"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-full bg-[#0c1222] px-8 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-85 md:text-base"
               >
                 Join
@@ -100,7 +102,7 @@ export default function CTAWithVerticalMarquee() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-full border border-black/10 bg-[#f3f3f1] px-8 py-3.5 text-sm font-medium text-black transition-opacity hover:opacity-85 md:text-base"
               >
-                Book a 15 minute call
+                Book a 30 minute call
               </a>
             </div>
           </div>
