@@ -366,6 +366,7 @@ export function AdminEventsPage({
         .map((image) => image.trim())
         .filter(Boolean);
       const payload = {
+        id: form.id,
         slug: form.slug || slugify(form.title),
         title: form.title,
         date: form.date,
@@ -380,7 +381,7 @@ export function AdminEventsPage({
         images,
       };
       const result = await fetchJsonWithTimeout<EventRow>(
-        form.id ? `/api/admin/events/${form.id}` : "/api/admin/events",
+        "/api/admin/events",
         {
           method: form.id ? "PATCH" : "POST",
           headers: { "Content-Type": "application/json" },
@@ -466,8 +467,10 @@ export function AdminEventsPage({
     if (!form.id || !confirm(`Delete ${form.title}?`)) return;
     setSaving(true);
     try {
-      await fetchJsonWithTimeout<{ ok: boolean }>(`/api/admin/events/${form.id}`, {
+      await fetchJsonWithTimeout<{ ok: boolean }>("/api/admin/events", {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: form.id }),
       });
       setItems((current) => current.filter((event) => event.id !== form.id));
       setOpen(false);
