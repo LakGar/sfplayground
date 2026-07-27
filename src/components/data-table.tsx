@@ -846,7 +846,7 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
         </div>
       </div>
       <div className="hidden min-w-0 px-4 lg:px-6 @4xl/main:block">
-        <TabsList className="h-auto max-w-full flex-wrap justify-start gap-1 overflow-x-auto **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1">
+        <TabsList className="h-auto max-w-full flex-wrap justify-start gap-1 overflow-x-auto **:data-[slot=badge]:h-5 **:data-[slot=badge]:min-w-6 **:data-[slot=badge]:rounded-md **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1.5">
           {categories.map((category) => (
             <TabsTrigger key={category} value={category}>
               {category}
