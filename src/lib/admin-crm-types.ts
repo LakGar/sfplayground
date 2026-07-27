@@ -12,7 +12,12 @@ export type CrmPriority = "High" | "Medium" | "Low";
 
 export type CrmTier = "Tier 1" | "Tier 2" | "Tier 3" | "";
 
-export type CrmFlag = "Do not reach out" | "Standout" | "";
+export type CrmFlag =
+  | "Do not contact"
+  | "Waiting to be contacted"
+  | "Meeting"
+  | "Coming to event"
+  | "";
 
 export type CrmLink = {
   label: string;

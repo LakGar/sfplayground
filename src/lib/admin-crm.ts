@@ -69,14 +69,19 @@ function inferTier(row: Record<string, string>): CrmTier {
 function inferFlag(row: Record<string, string>, notes: string): CrmFlag {
   const value = [
     firstPresent(row, ["Flag", "Status Flag", "Outreach Flag", "Color", "Highlight"]),
+    firstPresent(row, ["Outreach Status", "Status", "Next Step"]),
     notes,
   ]
     .join(" ")
     .toLowerCase();
   if (/red|do not reach|don'?t reach|do not contact|no outreach|blacklist/.test(value)) {
-    return "Do not reach out";
+    return "Do not contact";
   }
-  if (/green|standout|high[- ]priority|priority lead|strong fit/.test(value)) return "Standout";
+  if (/green|coming|attending|confirmed|rsvp|event ready|accepted/.test(value)) return "Coming to event";
+  if (/yellow|meeting|call scheduled|scheduled|intro call|intro booked/.test(value)) return "Meeting";
+  if (/white|waiting|not contacted|not yet contacted|to contact|new/.test(value)) {
+    return "Waiting to be contacted";
+  }
   return "";
 }
 
@@ -179,7 +184,7 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
     company,
   ]);
   const tier = inferTier(row);
-  const flag = inferFlag(row, notes);
+  const flag = inferFlag(row, notes) || "Waiting to be contacted";
   const status = firstPresent(row, ["Outreach Status"]);
   const nextStep = source.includes("Accepted")
     ? "Prepare event logistics and investor matching"
@@ -204,7 +209,7 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
     phone: firstPresent(row, ["Phone Number", "Phone"]),
     website: normalizeUrl(website),
     stage: status === "Contacted" ? "Follow-up" : source.includes("Accepted") ? "Intro ready" : "Review",
-    priority: flag === "Standout" || tier === "Tier 3" || source.includes("Accepted") ? "High" : "Medium",
+    priority: flag === "Coming to event" || tier === "Tier 3" || source.includes("Accepted") ? "High" : "Medium",
     tier,
     flag,
     owner: "Staff",
@@ -293,7 +298,9 @@ function intakeRecordToCrm(row: {
       ? payload.priority
       : "High",
     tier: normalizeTier(payload.tier),
-    flag: normalizeFlag(payload.flag),
+    flag:
+      normalizeFlag(payload.flag) ||
+      (category === "Startup" || category === "Investor" ? "Waiting to be contacted" : ""),
     owner: payload.owner || "Staff",
     industry:
       payload.industry ||
@@ -357,7 +364,16 @@ function normalizeTier(tier: unknown): CrmTier {
 }
 
 function normalizeFlag(flag: unknown): CrmFlag {
-  if (flag === "Do not reach out" || flag === "Standout") return flag;
+  if (
+    flag === "Do not contact" ||
+    flag === "Waiting to be contacted" ||
+    flag === "Meeting" ||
+    flag === "Coming to event"
+  ) {
+    return flag;
+  }
+  if (flag === "Do not reach out") return "Do not contact";
+  if (flag === "Standout") return "Coming to event";
   return "";
 }
 

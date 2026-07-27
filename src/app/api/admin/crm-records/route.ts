@@ -9,7 +9,13 @@ const categories = new Set<CrmCategory>(["Startup", "Investor", "Sponsor", "Oper
 const stages = new Set<CrmStage>(["New", "Review", "Qualified", "Intro ready", "Follow-up", "Closed"]);
 const priorities = new Set<CrmPriority>(["High", "Medium", "Low"]);
 const tiers = new Set<CrmTier>(["Tier 1", "Tier 2", "Tier 3", ""]);
-const flags = new Set<CrmFlag>(["Do not reach out", "Standout", ""]);
+const flags = new Set<CrmFlag>([
+  "Do not contact",
+  "Waiting to be contacted",
+  "Meeting",
+  "Coming to event",
+  "",
+]);
 
 function clean(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";

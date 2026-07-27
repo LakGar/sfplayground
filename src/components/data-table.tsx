@@ -122,7 +122,12 @@ const stages: CrmStage[] = [
 
 const priorities: CrmPriority[] = ["High", "Medium", "Low"];
 const tiers: Exclude<CrmTier, "">[] = ["Tier 1", "Tier 2", "Tier 3"];
-const flags: Exclude<CrmFlag, "">[] = ["Do not reach out", "Standout"];
+const flags: Exclude<CrmFlag, "">[] = [
+  "Do not contact",
+  "Waiting to be contacted",
+  "Meeting",
+  "Coming to event",
+];
 const ALL_FILTER_VALUE = "__all";
 
 type NewRecordForm = {
@@ -156,7 +161,7 @@ const emptyNewRecordForm: NewRecordForm = {
   stage: "New",
   priority: "Medium",
   tier: "",
-  flag: "",
+  flag: "Waiting to be contacted",
   owner: "Staff",
   industry: "",
   value: "",
@@ -174,9 +179,18 @@ function priorityVariant(priority: CrmPriority): "default" | "secondary" | "outl
 }
 
 function flagVariant(flag: CrmFlag): "default" | "secondary" | "destructive" | "outline" {
-  if (flag === "Do not reach out") return "destructive";
-  if (flag === "Standout") return "default";
+  if (flag === "Do not contact") return "destructive";
+  if (flag === "Coming to event") return "default";
+  if (flag === "Meeting") return "secondary";
   return "outline";
+}
+
+function flagTintClass(record: CrmRecord): string {
+  if (record.category !== "Startup" && record.category !== "Investor") return "";
+  if (record.flag === "Do not contact") return "bg-red-50/80 hover:bg-red-50";
+  if (record.flag === "Meeting") return "bg-yellow-50/90 hover:bg-yellow-50";
+  if (record.flag === "Coming to event") return "bg-green-50/90 hover:bg-green-50";
+  return "bg-white hover:bg-muted/30";
 }
 
 function stageIcon(stage: CrmStage) {
@@ -584,7 +598,17 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
   }, [autoRefresh, router]);
 
   const updateNewRecordForm = (key: keyof NewRecordForm, value: string) => {
-    setNewRecordForm((current) => ({ ...current, [key]: value }));
+    setNewRecordForm((current) => {
+      if (key === "category") {
+        const needsRelationshipFlag = value === "Startup" || value === "Investor";
+        return {
+          ...current,
+          category: value as NewRecordForm["category"],
+          flag: needsRelationshipFlag ? current.flag || "Waiting to be contacted" : "",
+        };
+      }
+      return { ...current, [key]: value };
+    });
   };
 
   const applySpaceSearch = (query: string) => {
@@ -1001,7 +1025,11 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
             <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className={flagTintClass(row.original)}
+                  >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
