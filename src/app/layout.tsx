@@ -26,14 +26,27 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const SITE_URL = "https://www.sfplayground.com";
+const SITE_NAME = "SFPlayground";
+const SITE_TITLE = `${SITE_NAME} | San Francisco Venture Network`;
+const SITE_DESCRIPTION =
+  "SFPlayground is San Francisco's venture network for live startup pitches, real investor decisions, curated founder events, and high-signal startup community. Also searched as SFPlaygroundAI.";
+const SOCIAL_IMAGE = "/images/previous-events/capitalnight.avif";
+
 export const metadata: Metadata = {
-  title: "SFPLAYGROUND | Live Startup Pitches & Real Investor Decisions",
-  description:
-    "An SF-based platform for live startup pitches and real investor decisions. Join us for exclusive pitch events, discover success stories, and connect with the startup community.",
+  metadataBase: new URL(SITE_URL),
+  applicationName: SITE_NAME,
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
   keywords: [
+    "SFPlayground",
+    "SFPlaygroundAI",
+    "sfplaygroundai",
+    "SF Playground",
     "SFPLAYGROUND",
     "SFPLAYGROUND VC",
     "SFPLAYGROUND investors",
+    "San Francisco venture network",
     "investors",
     "VC",
     "Pitch Playoffs",
@@ -58,36 +71,43 @@ export const metadata: Metadata = {
     "live pitch events",
     "founder pitch",
   ],
-  authors: [{ name: "SFPLAYGROUND" }],
-  creator: "SFPLAYGROUND",
-  publisher: "SFPLAYGROUND",
+  authors: [{ name: SITE_NAME }],
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  alternates: {
+    canonical: "/",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-icon.png", type: "image/png", sizes: "180x180" }],
+  },
+  manifest: "/manifest.webmanifest",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://sfplayground.com",
-    siteName: "SFPLAYGROUND",
-    title: "SFPLAYGROUND | Live Startup Pitches & Real Investor Decisions",
-    description:
-      "An SF-based platform for live startup pitches and real investor decisions.",
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     images: [
       {
-        url: "https://sfplayground.com/images/previous-events/capitalnight.avif",
+        url: SOCIAL_IMAGE,
         width: 1600,
         height: 900,
-        alt: "SFPLAYGROUND — Capital Night event",
+        alt: "SFPlayground Capital Night event",
         type: "image/avif",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SFPLAYGROUND | Live Startup Pitches & Real Investor Decisions",
-    description:
-      "An SF-based platform for live startup pitches and real investor decisions.",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     creator: "@sfplayground",
-    images: [
-      "https://sfplayground.com/images/previous-events/capitalnight.avif",
-    ],
+    images: [SOCIAL_IMAGE],
   },
   robots: {
     index: true,
@@ -113,11 +133,12 @@ export default function RootLayout({
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "SFPLAYGROUND",
-    url: "https://sfplayground.com",
-    logo: "https://sfplayground.com/logo.png",
-    description:
-      "An SF-based platform for live startup pitches and real investor decisions.",
+    name: SITE_NAME,
+    alternateName: ["SFPlaygroundAI", "sfplaygroundai", "SF Playground"],
+    url: SITE_URL,
+    logo: `${SITE_URL}/icon.png`,
+    image: `${SITE_URL}/images/logo.png`,
+    description: SITE_DESCRIPTION,
     address: {
       "@type": "PostalAddress",
       addressLocality: "San Francisco",

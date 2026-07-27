@@ -1,0 +1,22 @@
+{
+  "name": "SFPlayground",
+  "short_name": "SFPlayground",
+  "description": "San Francisco's venture network for live startup pitches, investor decisions, founder events, and startup community.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

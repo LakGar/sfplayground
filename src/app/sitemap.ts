@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { getEventPublicUrl, PREVIOUS_EVENTS } from "@/data/previous-events";
 import { INSTAGRAM_PROFILE } from "@/data/social-links";
 
-const BASE_URL = "https://sfplayground.com";
+const BASE_URL = "https://www.sfplayground.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages: MetadataRoute.Sitemap = [
