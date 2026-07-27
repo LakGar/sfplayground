@@ -795,14 +795,6 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
           </Select>
         </div>
         <div className="flex min-w-0 max-w-full flex-wrap items-center justify-start gap-2 overflow-hidden lg:justify-end">
-          <TabsList className="hidden h-auto max-w-full flex-wrap justify-start overflow-x-auto **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1 @4xl/main:flex">
-            {categories.map((category) => (
-              <TabsTrigger key={category} value={category}>
-                {category}
-                <Badge variant="secondary">{filterData(records, category).length}</Badge>
-              </TabsTrigger>
-            ))}
-          </TabsList>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
@@ -852,6 +844,16 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
             <span className="lg:hidden">Add</span>
           </Button>
         </div>
+      </div>
+      <div className="hidden min-w-0 px-4 lg:px-6 @4xl/main:block">
+        <TabsList className="h-auto max-w-full flex-wrap justify-start gap-1 overflow-x-auto **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1">
+          {categories.map((category) => (
+            <TabsTrigger key={category} value={category}>
+              {category}
+              <Badge variant="secondary">{filterData(records, category).length}</Badge>
+            </TabsTrigger>
+          ))}
+        </TabsList>
       </div>
       <div className="grid min-w-0 grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3 px-4 lg:px-6">
         <Select value={stageFilter} onValueChange={setStageFilter}>
@@ -1501,6 +1503,24 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
                   </SelectContent>
                 </Select>
               </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor={`${item.id}-flag`}>Flag</Label>
+                <Select defaultValue={item.flag || ALL_FILTER_VALUE}>
+                  <SelectTrigger id={`${item.id}-flag`} className="w-full">
+                    <SelectValue placeholder="Select flag" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={ALL_FILTER_VALUE}>No flag</SelectItem>
+                    {flags.map((flag) => (
+                      <SelectItem value={flag} key={flag}>
+                        {flag}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-value`}>Value</Label>
                 <Input id={`${item.id}-value`} defaultValue={item.value} />
