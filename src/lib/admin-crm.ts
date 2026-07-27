@@ -42,6 +42,14 @@ const CRM_TABLE_SQL = `
   );
 `;
 
+const CRM_OVERRIDES_TABLE_SQL = `
+  CREATE TABLE IF NOT EXISTS crm_record_overrides (
+    record_key TEXT PRIMARY KEY,
+    payload JSONB NOT NULL DEFAULT '{}',
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  );
+`;
+
 function normalizeUrl(value: string): string {
   const trimmed = value.trim();
   if (!trimmed) return "";
@@ -93,6 +101,13 @@ function uniqueTags(values: unknown[]): string[] {
         .filter(Boolean),
     ),
   ).slice(0, 6);
+}
+
+function recordKeyFor(record: Pick<CrmRecord, "category" | "email" | "company" | "source" | "id">): string {
+  const identity = (record.email || record.company || `${record.source}:${record.id}`)
+    .trim()
+    .toLowerCase();
+  return `${record.category}:${identity}`;
 }
 
 function parseCsv(csv: string): string[][] {
@@ -202,6 +217,7 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
 
   return {
     id,
+    recordKey: "",
     name: founder || "Unknown contact",
     company,
     category: "Startup",
@@ -287,6 +303,7 @@ function intakeRecordToCrm(row: {
 
   return {
     id: 100000 + row.id,
+    recordKey: "",
     name: row.name ?? "Unknown contact",
     company: row.company ?? row.email,
     category,
@@ -390,6 +407,7 @@ function subscriberRecordToCrm(row: {
 
   return {
     id: 200000 + row.id,
+    recordKey: "",
     name: row.name || row.email,
     company: row.email,
     category: "Subscriber",
@@ -416,9 +434,102 @@ function subscriberRecordToCrm(row: {
 
 async function ensureCrmTable(): Promise<void> {
   await sql.query(CRM_TABLE_SQL);
+  await sql.query(CRM_OVERRIDES_TABLE_SQL);
   await sql.query(
     "CREATE INDEX IF NOT EXISTS idx_crm_intake_records_kind_updated ON crm_intake_records (kind, updated_at DESC)",
   );
+}
+
+function applyRecordOverride(record: CrmRecord, payload: Record<string, unknown> | undefined): CrmRecord {
+  const recordKey = record.recordKey || recordKeyFor(record);
+  if (!payload) return { ...record, recordKey };
+
+  const tags = Array.isArray(payload.tags)
+    ? payload.tags.filter((tag): tag is string => typeof tag === "string" && tag.trim().length > 0)
+    : record.tags;
+  const nextSteps = Array.isArray(payload.nextSteps)
+    ? payload.nextSteps.filter((step): step is string => typeof step === "string" && step.trim().length > 0)
+    : record.nextSteps;
+
+  return {
+    ...record,
+    recordKey,
+    name: typeof payload.name === "string" ? payload.name : record.name,
+    company: typeof payload.company === "string" ? payload.company : record.company,
+    email: typeof payload.email === "string" ? payload.email : record.email,
+    phone: typeof payload.phone === "string" ? payload.phone : record.phone,
+    website: typeof payload.website === "string" ? normalizeUrl(payload.website) : record.website,
+    stage: normalizeStage(typeof payload.stage === "string" ? payload.stage : record.stage),
+    priority:
+      payload.priority === "High" || payload.priority === "Medium" || payload.priority === "Low"
+        ? payload.priority
+        : record.priority,
+    tier: normalizeTier(payload.tier),
+    flag: normalizeFlag(payload.flag),
+    owner: typeof payload.owner === "string" ? payload.owner : record.owner,
+    industry: typeof payload.industry === "string" ? payload.industry : record.industry,
+    value: typeof payload.value === "string" ? payload.value : record.value,
+    nextStep: typeof payload.nextStep === "string" ? payload.nextStep : record.nextStep,
+    nextSteps,
+    priorityNotes:
+      typeof payload.priorityNotes === "string" ? payload.priorityNotes : record.priorityNotes,
+    notes: typeof payload.notes === "string" ? payload.notes : record.notes,
+    tags,
+    updated: "Admin edit",
+  };
+}
+
+export async function updateAdminCrmRecord(input: {
+  recordKey: string;
+  name: string;
+  company: string;
+  email: string;
+  phone?: string;
+  website?: string;
+  stage: CrmStage;
+  priority: "High" | "Medium" | "Low";
+  owner: string;
+  tier?: CrmTier;
+  flag?: CrmFlag;
+  industry?: string;
+  value: string;
+  nextStep: string;
+  nextSteps?: string[];
+  priorityNotes: string;
+  notes: string;
+  tags?: string[];
+}): Promise<void> {
+  await ensureCrmTable();
+  const recordKey = input.recordKey.trim();
+  if (!recordKey) throw new Error("Record key is required");
+
+  const payload = {
+    name: input.name,
+    company: input.company,
+    email: input.email,
+    phone: input.phone ?? "",
+    website: input.website ?? "",
+    stage: input.stage,
+    priority: input.priority,
+    owner: input.owner,
+    tier: input.tier ?? "",
+    flag: input.flag ?? "",
+    industry: input.industry ?? "",
+    value: input.value,
+    nextStep: input.nextStep,
+    nextSteps: input.nextSteps ?? [input.nextStep].filter(Boolean),
+    priorityNotes: input.priorityNotes,
+    notes: input.notes,
+    tags: uniqueTags(input.tags ?? []),
+  };
+
+  await sql`
+    INSERT INTO crm_record_overrides (record_key, payload, updated_at)
+    VALUES (${recordKey}, ${JSON.stringify(payload)}::jsonb, NOW())
+    ON CONFLICT (record_key) DO UPDATE
+    SET payload = EXCLUDED.payload,
+        updated_at = NOW()
+  `;
 }
 
 export async function insertCrmIntakeRecord(
@@ -602,12 +713,31 @@ export async function getAdminCrmData(): Promise<{
   }
 
   const records = Array.from(deduped.values());
-  const startups = records.filter((record) => record.category === "Startup").length;
-  const investors = records.filter((record) => record.category === "Investor").length;
-  const sponsors = records.filter((record) => record.category === "Sponsor").length;
+  const keys = records.map((record) => record.recordKey || recordKeyFor(record));
+  records.forEach((record, index) => {
+    record.recordKey = keys[index] ?? recordKeyFor(record);
+  });
+  const { rows: overrideRows } = keys.length
+    ? await sql.query(
+        "SELECT record_key, payload FROM crm_record_overrides WHERE record_key = ANY($1::text[])",
+        [keys],
+      )
+    : { rows: [] };
+  const overrides = new Map(
+    overrideRows.map((row) => [
+      String(row.record_key),
+      row.payload as Record<string, unknown>,
+    ]),
+  );
+  const overriddenRecords = records.map((record) =>
+    applyRecordOverride(record, overrides.get(record.recordKey)),
+  );
+  const startups = overriddenRecords.filter((record) => record.category === "Startup").length;
+  const investors = overriddenRecords.filter((record) => record.category === "Investor").length;
+  const sponsors = overriddenRecords.filter((record) => record.category === "Sponsor").length;
 
   return {
-    records,
+    records: overriddenRecords,
     stats: [
       {
         label: "Subscribers",

@@ -26,6 +26,7 @@ export type CrmLink = {
 
 export type CrmRecord = {
   id: number;
+  recordKey: string;
   name: string;
   company: string;
   category: CrmCategory;

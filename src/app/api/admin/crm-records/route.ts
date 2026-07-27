@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 import { recordAuditEvent } from "@/lib/admin-audit";
 import { getSession } from "@/lib/admin-auth";
-import { insertAdminCrmRecord } from "@/lib/admin-crm";
+import { insertAdminCrmRecord, updateAdminCrmRecord } from "@/lib/admin-crm";
 import type { CrmCategory, CrmFlag, CrmPriority, CrmStage, CrmTier } from "@/lib/admin-crm-types";
 
 const categories = new Set<CrmCategory>(["Startup", "Investor", "Sponsor", "Operator", "Subscriber"]);
@@ -103,6 +103,100 @@ export async function POST(request: Request) {
     console.error("CRM record create error:", error);
     return NextResponse.json(
       { error: error instanceof Error ? error.message : "Failed to create CRM record" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const body = await request.json();
+    const recordKey = clean(body.recordKey);
+    const stage = stages.has(body.stage) ? (body.stage as CrmStage) : "New";
+    const priority = priorities.has(body.priority) ? (body.priority as CrmPriority) : "Medium";
+    const tier = tiers.has(body.tier) ? (body.tier as CrmTier) : "";
+    const flag = flags.has(body.flag) ? (body.flag as CrmFlag) : "";
+    const company = clean(body.company);
+    const email = clean(body.email);
+    const nextSteps = cleanList(body.nextSteps);
+    const nextStep = clean(body.nextStep) || nextSteps[0] || "Follow up from SFPlayground";
+
+    if (!recordKey) {
+      return NextResponse.json({ error: "Record key is required" }, { status: 400 });
+    }
+    if (!company) {
+      return NextResponse.json({ error: "Company is required" }, { status: 400 });
+    }
+
+    const tags = clean(body.tags)
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean)
+      .slice(0, 6);
+
+    await updateAdminCrmRecord({
+      recordKey,
+      name: clean(body.name) || "Unknown contact",
+      company,
+      email,
+      phone: clean(body.phone),
+      website: clean(body.website),
+      stage,
+      priority,
+      tier,
+      flag,
+      owner: clean(body.owner) || session.name,
+      industry: clean(body.industry),
+      value: clean(body.value) || "Relationship",
+      nextStep,
+      nextSteps: nextSteps.length > 0 ? nextSteps : [nextStep],
+      priorityNotes: clean(body.priorityNotes),
+      notes: clean(body.notes),
+      tags,
+    });
+
+    await recordAuditEvent({
+      adminId: session.id,
+      adminName: session.name,
+      action: "crm_record_updated",
+      targetType: "crm_record",
+      targetId: recordKey,
+      details: {
+        company,
+        email,
+        recordKey,
+      },
+    });
+
+    return NextResponse.json({
+      recordKey,
+      name: clean(body.name) || "Unknown contact",
+      company,
+      email,
+      phone: clean(body.phone),
+      website: clean(body.website),
+      stage,
+      priority,
+      tier,
+      flag,
+      owner: clean(body.owner) || session.name,
+      industry: clean(body.industry),
+      value: clean(body.value) || "Relationship",
+      nextStep,
+      nextSteps: nextSteps.length > 0 ? nextSteps : [nextStep],
+      priorityNotes: clean(body.priorityNotes),
+      notes: clean(body.notes),
+      tags,
+    });
+  } catch (error) {
+    console.error("CRM record update error:", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Failed to update CRM record" },
       { status: 500 },
     );
   }

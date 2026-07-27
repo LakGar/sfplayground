@@ -151,6 +151,26 @@ type NewRecordForm = {
   tags: string;
 };
 
+type RelationshipEditForm = {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  website: string;
+  stage: CrmStage;
+  priority: CrmPriority;
+  tier: CrmTier;
+  flag: CrmFlag;
+  owner: string;
+  industry: string;
+  value: string;
+  nextStep: string;
+  nextSteps: string;
+  priorityNotes: string;
+  notes: string;
+  tags: string;
+};
+
 const emptyNewRecordForm: NewRecordForm = {
   category: "Startup",
   name: "",
@@ -272,6 +292,40 @@ function countSpace(records: CrmRecord[], space: IndustrySpace) {
     total: matches.length,
     founders: matches.filter((record) => record.category === "Startup").length,
     investors: matches.filter((record) => record.category === "Investor").length,
+  };
+}
+
+function editFormFromRecord(record: CrmRecord): RelationshipEditForm {
+  return {
+    name: record.name,
+    company: record.company,
+    email: record.email,
+    phone: record.phone,
+    website: record.website,
+    stage: record.stage,
+    priority: record.priority,
+    tier: record.tier,
+    flag: record.flag,
+    owner: record.owner,
+    industry: record.industry,
+    value: record.value,
+    nextStep: record.nextStep,
+    nextSteps: record.nextSteps.join("\n"),
+    priorityNotes: record.priorityNotes,
+    notes: record.notes,
+    tags: record.tags.join(", "),
+  };
+}
+
+function mergeRecordUpdate(record: CrmRecord, update: Partial<CrmRecord>): CrmRecord {
+  return {
+    ...record,
+    ...update,
+    recordKey: record.recordKey,
+    id: record.id,
+    source: record.source,
+    links: record.links,
+    updated: "Admin edit",
   };
 }
 
@@ -556,6 +610,21 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
   React.useEffect(() => {
     setRecords(initialData);
   }, [initialData]);
+
+  React.useEffect(() => {
+    const updateRecord = (event: Event) => {
+      const detail = (event as CustomEvent<Partial<CrmRecord> & { recordKey?: string }>).detail;
+      if (!detail?.recordKey) return;
+      setRecords((current) =>
+        current.map((record) =>
+          record.recordKey === detail.recordKey ? mergeRecordUpdate(record, detail) : record,
+        ),
+      );
+    };
+
+    window.addEventListener("admin:update-record", updateRecord);
+    return () => window.removeEventListener("admin:update-record", updateRecord);
+  }, []);
 
   React.useEffect(() => {
     recordsRef.current = records;
@@ -1379,6 +1448,45 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
 
 function RelationshipViewer({ item }: { item: CrmRecord }) {
   const isMobile = useIsMobile();
+  const [form, setForm] = React.useState<RelationshipEditForm>(() => editFormFromRecord(item));
+  const [isSaving, setIsSaving] = React.useState(false);
+
+  React.useEffect(() => {
+    setForm(editFormFromRecord(item));
+  }, [item]);
+
+  const updateForm = (key: keyof RelationshipEditForm, value: string) => {
+    setForm((current) => ({ ...current, [key]: value }));
+  };
+
+  const saveRelationship = async () => {
+    if (!form.company.trim()) {
+      toast.error("Company is required.");
+      return;
+    }
+
+    setIsSaving(true);
+    try {
+      const response = await fetch("/api/admin/crm-records", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          recordKey: item.recordKey,
+          ...form,
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || "Could not save relationship.");
+      }
+      window.dispatchEvent(new CustomEvent("admin:update-record", { detail: result }));
+      toast.success("Relationship saved.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not save relationship.");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <Drawer direction={isMobile ? "bottom" : "right"}>
@@ -1468,27 +1576,43 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-name`}>Contact</Label>
-                <Input id={`${item.id}-name`} defaultValue={item.name} />
+                <Input
+                  id={`${item.id}-name`}
+                  value={form.name}
+                  onChange={(event) => updateForm("name", event.target.value)}
+                />
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-company`}>Company</Label>
-                <Input id={`${item.id}-company`} defaultValue={item.company} />
+                <Input
+                  id={`${item.id}-company`}
+                  value={form.company}
+                  onChange={(event) => updateForm("company", event.target.value)}
+                />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-email`}>Email</Label>
-                <Input id={`${item.id}-email`} defaultValue={item.email} />
+                <Input
+                  id={`${item.id}-email`}
+                  value={form.email}
+                  onChange={(event) => updateForm("email", event.target.value)}
+                />
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-phone`}>Phone</Label>
-                <Input id={`${item.id}-phone`} defaultValue={item.phone} />
+                <Input
+                  id={`${item.id}-phone`}
+                  value={form.phone}
+                  onChange={(event) => updateForm("phone", event.target.value)}
+                />
               </div>
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-stage`}>Stage</Label>
-                <Select defaultValue={item.stage}>
+                <Select value={form.stage} onValueChange={(value) => updateForm("stage", value)}>
                   <SelectTrigger id={`${item.id}-stage`} className="w-full">
                     <SelectValue placeholder="Select stage" />
                   </SelectTrigger>
@@ -1505,7 +1629,12 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-flag`}>Flag</Label>
-                <Select defaultValue={item.flag || ALL_FILTER_VALUE}>
+                <Select
+                  value={form.flag || ALL_FILTER_VALUE}
+                  onValueChange={(value) =>
+                    updateForm("flag", value === ALL_FILTER_VALUE ? "" : value)
+                  }
+                >
                   <SelectTrigger id={`${item.id}-flag`} className="w-full">
                     <SelectValue placeholder="Select flag" />
                   </SelectTrigger>
@@ -1522,15 +1651,128 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
             </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-3">
-                <Label htmlFor={`${item.id}-value`}>Value</Label>
-                <Input id={`${item.id}-value`} defaultValue={item.value} />
+                <Label htmlFor={`${item.id}-priority`}>Priority</Label>
+                <Select
+                  value={form.priority}
+                  onValueChange={(value) => updateForm("priority", value)}
+                >
+                  <SelectTrigger id={`${item.id}-priority`} className="w-full">
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {priorities.map((priority) => (
+                      <SelectItem value={priority} key={priority}>
+                        {priority}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor={`${item.id}-tier`}>Tier</Label>
+                <Select
+                  value={form.tier || ALL_FILTER_VALUE}
+                  onValueChange={(value) =>
+                    updateForm("tier", value === ALL_FILTER_VALUE ? "" : value)
+                  }
+                >
+                  <SelectTrigger id={`${item.id}-tier`} className="w-full">
+                    <SelectValue placeholder="Select tier" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={ALL_FILTER_VALUE}>No tier</SelectItem>
+                    {tiers.map((tier) => (
+                      <SelectItem value={tier} key={tier}>
+                        {tier}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="flex flex-col gap-3">
+                <Label htmlFor={`${item.id}-owner`}>Owner</Label>
+                <Input
+                  id={`${item.id}-owner`}
+                  value={form.owner}
+                  onChange={(event) => updateForm("owner", event.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor={`${item.id}-value`}>Value</Label>
+                <Input
+                  id={`${item.id}-value`}
+                  value={form.value}
+                  onChange={(event) => updateForm("value", event.target.value)}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor={`${item.id}-industry`}>Industry / category</Label>
+              <Input
+                id={`${item.id}-industry`}
+                value={form.industry}
+                onChange={(event) => updateForm("industry", event.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor={`${item.id}-website`}>Website or LinkedIn</Label>
+              <Input
+                id={`${item.id}-website`}
+                value={form.website}
+                onChange={(event) => updateForm("website", event.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor={`${item.id}-next-step`}>Next step</Label>
+              <Input
+                id={`${item.id}-next-step`}
+                value={form.nextStep}
+                onChange={(event) => updateForm("nextStep", event.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor={`${item.id}-next-steps`}>Next steps</Label>
+              <textarea
+                id={`${item.id}-next-steps`}
+                value={form.nextSteps}
+                onChange={(event) => updateForm("nextSteps", event.target.value)}
+                className="min-h-24 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor={`${item.id}-priority-notes`}>Priority notes</Label>
+              <textarea
+                id={`${item.id}-priority-notes`}
+                value={form.priorityNotes}
+                onChange={(event) => updateForm("priorityNotes", event.target.value)}
+                className="min-h-24 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor={`${item.id}-tags`}>Tags</Label>
+              <Input
+                id={`${item.id}-tags`}
+                value={form.tags}
+                onChange={(event) => updateForm("tags", event.target.value)}
+                placeholder="AI, agtech, investor"
+              />
+            </div>
+            <div className="flex flex-col gap-3">
+              <Label htmlFor={`${item.id}-notes`}>Notes</Label>
+              <textarea
+                id={`${item.id}-notes`}
+                value={form.notes}
+                onChange={(event) => updateForm("notes", event.target.value)}
+                className="min-h-28 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              />
             </div>
           </form>
         </div>
         <DrawerFooter>
-          <Button onClick={() => toast.success("Relationship changes saved locally.")}>
-            Save relationship
+          <Button onClick={saveRelationship} disabled={isSaving}>
+            {isSaving ? "Saving..." : "Save relationship"}
           </Button>
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>
