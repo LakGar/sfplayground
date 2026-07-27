@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { getEventPublicUrl, PREVIOUS_EVENTS } from "@/data/previous-events";
+import type { PublicPreviousEvent } from "@/lib/public-events";
 
 function eventImageSrc(url: string) {
   if (url.startsWith("http")) {
@@ -12,7 +13,7 @@ function eventImageSrc(url: string) {
   return url;
 }
 
-function EventCard(event: (typeof PREVIOUS_EVENTS)[number]) {
+function EventCard(event: PublicPreviousEvent) {
   const { title, date, imageUrl } = event;
   const outboundUrl = getEventPublicUrl(event);
   const src = eventImageSrc(imageUrl);
@@ -54,7 +55,7 @@ function EventCard(event: (typeof PREVIOUS_EVENTS)[number]) {
 function AnimatedEventCard({
   index,
   ...event
-}: (typeof PREVIOUS_EVENTS)[number] & { index: number }) {
+}: PublicPreviousEvent & { index: number }) {
   const reduceMotion = useReducedMotion();
   const isLeftColumn = index % 2 === 0;
   const hiddenY = isLeftColumn ? 40 : -40;
@@ -107,18 +108,25 @@ function SectionHeader({ title }: { title: string }) {
 }
 
 type PreviousEventsProps = {
+  events?: PublicPreviousEvent[];
   heading?: string;
   limit?: number;
   showViewAll?: boolean;
 };
 
 export default function PreviousEvents({
+  events: providedEvents,
   heading = "Previous Events",
   limit,
   showViewAll = false,
 }: PreviousEventsProps) {
-  const events =
-    typeof limit === "number" ? PREVIOUS_EVENTS.slice(0, limit) : PREVIOUS_EVENTS;
+  const sourceEvents =
+    providedEvents ??
+    PREVIOUS_EVENTS.map((event) => ({
+      ...event,
+      href: getEventPublicUrl(event),
+    }));
+  const events = typeof limit === "number" ? sourceEvents.slice(0, limit) : sourceEvents;
 
   return (
     <section

@@ -95,13 +95,13 @@ export function AdminOutreachPage({ records }: { records: CrmRecord[] }) {
   };
 
   return (
-    <div className="grid gap-4 px-4 pb-6 lg:px-6">
+    <div className="grid min-w-0 max-w-full gap-4 overflow-hidden px-4 pb-6 lg:px-6">
       <Card>
         <CardHeader>
           <CardTitle>Audience</CardTitle>
           <CardDescription>Select who this outreach is for before you send anything.</CardDescription>
         </CardHeader>
-        <div className="grid gap-3 px-6 pb-6 md:grid-cols-2 xl:grid-cols-5">
+        <div className="grid min-w-0 gap-3 px-6 pb-6 md:grid-cols-2 xl:grid-cols-[repeat(3,minmax(0,1fr))_minmax(0,2fr)]">
           <div className="grid gap-2">
             <Label>People type</Label>
             <Select value={category} onValueChange={(value) => setCategory(value as "All" | CrmCategory)}>

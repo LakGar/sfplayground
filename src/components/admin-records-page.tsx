@@ -13,9 +13,8 @@ export function AdminRecordsPage({
     : records;
 
   return (
-    <div className="pb-6">
+    <div className="grid min-w-0 max-w-full gap-4 overflow-hidden pb-8 pt-2">
       <DataTable data={scopedRecords} />
     </div>
   );
 }
-

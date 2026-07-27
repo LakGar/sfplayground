@@ -3,11 +3,13 @@ import { NextResponse } from "next/server";
 import { recordAuditEvent } from "@/lib/admin-audit";
 import { getSession } from "@/lib/admin-auth";
 import { insertAdminCrmRecord } from "@/lib/admin-crm";
-import type { CrmCategory, CrmPriority, CrmStage } from "@/lib/admin-crm-types";
+import type { CrmCategory, CrmFlag, CrmPriority, CrmStage, CrmTier } from "@/lib/admin-crm-types";
 
 const categories = new Set<CrmCategory>(["Startup", "Investor", "Sponsor", "Operator", "Subscriber"]);
 const stages = new Set<CrmStage>(["New", "Review", "Qualified", "Intro ready", "Follow-up", "Closed"]);
 const priorities = new Set<CrmPriority>(["High", "Medium", "Low"]);
+const tiers = new Set<CrmTier>(["Tier 1", "Tier 2", "Tier 3", ""]);
+const flags = new Set<CrmFlag>(["Do not reach out", "Standout", ""]);
 
 function clean(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
@@ -38,6 +40,8 @@ export async function POST(request: Request) {
       : "Startup";
     const stage = stages.has(body.stage) ? (body.stage as CrmStage) : "New";
     const priority = priorities.has(body.priority) ? (body.priority as CrmPriority) : "Medium";
+    const tier = tiers.has(body.tier) ? (body.tier as CrmTier) : "";
+    const flag = flags.has(body.flag) ? (body.flag as CrmFlag) : "";
     const company = clean(body.company);
     const email = clean(body.email);
     const nextSteps = cleanList(body.nextSteps);
@@ -62,7 +66,10 @@ export async function POST(request: Request) {
       website: clean(body.website),
       stage,
       priority,
+      tier,
+      flag,
       owner: clean(body.owner) || session.name,
+      industry: clean(body.industry),
       value: clean(body.value) || category,
       nextStep,
       nextSteps: nextSteps.length > 0 ? nextSteps : [nextStep],

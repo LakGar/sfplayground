@@ -17,17 +17,17 @@ export function SiteHeader() {
   };
 
   return (
-    <header className="flex h-(--header-height) shrink-0 items-center gap-2 border-b bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+    <header className="flex min-h-(--header-height) shrink-0 items-center gap-2 border-b bg-background transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:min-h-(--header-height)">
+      <div className="flex min-w-0 w-full flex-wrap items-center gap-1 px-4 py-2 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1" />
         <Separator orientation="vertical" className="mx-2 data-[orientation=vertical]:h-4" />
-        <div className="min-w-0">
+        <div className="min-w-0 flex-1">
           <h1 className="truncate text-base font-medium">SFPlayground</h1>
           <p className="hidden text-xs text-muted-foreground sm:block">
             Startup, investor, sponsor, and operator relationships
           </p>
         </div>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex max-w-full flex-wrap items-center justify-end gap-2">
           <Button
             variant="outline"
             size="sm"
@@ -50,7 +50,8 @@ export function SiteHeader() {
           </Button>
           <Button size="sm" onClick={openNewRecord}>
             <Plus />
-            New record
+            <span className="hidden sm:inline">New record</span>
+            <span className="sm:hidden">New</span>
           </Button>
         </div>
       </div>

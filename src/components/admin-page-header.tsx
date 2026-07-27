@@ -10,13 +10,12 @@ export function AdminPageHeader({
   action?: ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
-      <div>
+    <div className="flex min-w-0 flex-col gap-3 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6">
+      <div className="min-w-0">
         <h1 className="text-xl font-semibold tracking-tight">{title}</h1>
         <p className="text-sm text-muted-foreground">{description}</p>
       </div>
-      {action ? <div className="flex flex-wrap gap-2">{action}</div> : null}
+      {action ? <div className="flex max-w-full flex-wrap gap-2">{action}</div> : null}
     </div>
   );
 }
-

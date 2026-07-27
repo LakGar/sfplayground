@@ -4,6 +4,7 @@ import Link from "next/link";
 import Footer from "@/components/footer";
 import Nav from "@/components/nav";
 import PreviousEvents from "@/components/previous-events";
+import { getPublicEventLists } from "@/lib/public-events";
 
 export const metadata: Metadata = {
   title: "Previous Events | SFPLAYGROUND",
@@ -11,7 +12,11 @@ export const metadata: Metadata = {
     "Explore SFPLAYGROUND previous events, summits, pitch nights, and founder rooms across San Francisco and Silicon Valley.",
 };
 
-export default function PreviousEventsPage() {
+export const dynamic = "force-dynamic";
+
+export default async function PreviousEventsPage() {
+  const { previous } = await getPublicEventLists();
+
   return (
     <div className="min-h-screen bg-white">
       <Nav />
@@ -55,7 +60,7 @@ export default function PreviousEventsPage() {
           </div>
         </section>
 
-        <PreviousEvents heading="All Previous Events" />
+        <PreviousEvents events={previous} heading="All Previous Events" />
       </main>
 
       <Footer />

@@ -46,6 +46,7 @@ export async function PATCH(request: NextRequest) {
       details: { title: row.title, date: row.date },
     });
     return NextResponse.json({
+      id: row.id,
       title: row.title,
       date: row.date,
       time: row.time,
@@ -54,6 +55,7 @@ export async function PATCH(request: NextRequest) {
       ctaText: row.cta_text,
       ctaUrl: row.cta_url ?? undefined,
       imageUrl: row.image_url ?? undefined,
+      updatedAt: row.updated_at,
     });
   } catch (err) {
     console.error("Next event update error:", err);

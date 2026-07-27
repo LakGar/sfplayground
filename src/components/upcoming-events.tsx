@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { UPCOMING_EVENTS } from "@/data/upcoming-events";
+import type { PublicUpcomingEvent } from "@/lib/public-events";
 
 function MapPinIcon({ className }: { className?: string }) {
   return (
@@ -31,7 +32,7 @@ function EventCard({
   coverImageUrl,
   tags,
   href,
-}: (typeof UPCOMING_EVENTS)[number]) {
+}: PublicUpcomingEvent) {
   const isExternal = href.startsWith("http");
 
   const card = (
@@ -110,7 +111,11 @@ function EventCard({
   );
 }
 
-export default function UpcomingEvents() {
+export default function UpcomingEvents({
+  events = UPCOMING_EVENTS,
+}: {
+  events?: PublicUpcomingEvent[];
+}) {
   return (
     <section
       className="bg-gradient-to-b from-[#fff] to-[#f3f3f1] px-4 py-16 md:px-8 md:py-24"
@@ -125,7 +130,7 @@ export default function UpcomingEvents() {
         </h2>
 
         <div className="mt-10 flex flex-col gap-4 md:mt-12 md:gap-5">
-          {UPCOMING_EVENTS.map((event) => (
+          {events.map((event) => (
             <EventCard key={event.title} {...event} />
           ))}
         </div>

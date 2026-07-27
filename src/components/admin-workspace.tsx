@@ -297,29 +297,29 @@ export function AdminWorkspace({
   }
 
   return (
-    <div className="@container/main flex flex-1 flex-col gap-2">
-      <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+    <div className="@container/main flex min-w-0 max-w-full flex-1 flex-col gap-2 overflow-hidden">
+      <div className="flex min-w-0 max-w-full flex-col gap-4 overflow-hidden py-4 md:gap-6 md:py-6">
         <SectionCards stats={stats} />
         <div className="px-4 lg:px-6">
           <ChartAreaInteractive data={chart} />
         </div>
-        <Tabs defaultValue="crm" className="w-full gap-5 px-4 lg:px-6">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+        <Tabs defaultValue="crm" className="min-w-0 max-w-full gap-5 overflow-hidden px-4 lg:px-6">
+          <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
             <div>
               <h2 className="text-lg font-semibold">Workspace</h2>
               <p className="text-sm text-muted-foreground">Signed in as {session.name}</p>
             </div>
-            <TabsList className="flex flex-wrap">
+            <TabsList className="flex h-auto max-w-full flex-wrap overflow-x-auto">
               <TabsTrigger value="crm"><Users /> CRM</TabsTrigger>
               <TabsTrigger value="blogs"><FileText /> Blogs</TabsTrigger>
               <TabsTrigger value="newsletter"><Mail /> Newsletters</TabsTrigger>
               <TabsTrigger value="audit"><ShieldCheck /> Audit</TabsTrigger>
             </TabsList>
           </div>
-          <TabsContent value="crm" className="m-0">
+          <TabsContent value="crm" className="m-0 min-w-0 overflow-hidden">
             <DataTable data={records} />
           </TabsContent>
-          <TabsContent value="blogs" className="m-0 grid gap-4 xl:grid-cols-[360px_1fr]">
+          <TabsContent value="blogs" className="m-0 grid min-w-0 gap-4 overflow-hidden xl:grid-cols-[minmax(280px,360px)_minmax(0,1fr)]">
             <Card className="h-fit">
               <CardHeader>
                 <CardTitle>Posts</CardTitle>

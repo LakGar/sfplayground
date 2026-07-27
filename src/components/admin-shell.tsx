@@ -17,9 +17,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
       <AppSidebar variant="inset" />
       <SidebarInset>
         <SiteHeader />
-        <main className="flex flex-1 flex-col">{children}</main>
+        <main className="flex min-w-0 flex-1 flex-col">{children}</main>
       </SidebarInset>
     </SidebarProvider>
   );
 }
-

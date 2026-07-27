@@ -10,6 +10,10 @@ export type CrmStage =
 
 export type CrmPriority = "High" | "Medium" | "Low";
 
+export type CrmTier = "Tier 1" | "Tier 2" | "Tier 3" | "";
+
+export type CrmFlag = "Do not reach out" | "Standout" | "";
+
 export type CrmLink = {
   label: string;
   url: string;
@@ -25,7 +29,10 @@ export type CrmRecord = {
   website: string;
   stage: CrmStage;
   priority: CrmPriority;
+  tier: CrmTier;
+  flag: CrmFlag;
   owner: string;
+  industry: string;
   value: string;
   source: string;
   updated: string;
@@ -44,6 +51,7 @@ export type CrmStat = {
   trend: "up" | "down";
   title: string;
   note: string;
+  href?: string;
 };
 
 export type CrmChartPoint = {

@@ -9,15 +9,20 @@ import PreviousEvents from "@/components/previous-events";
 import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
 import { FadeInView } from "@/components/ui/fade-in-view";
 import UpcomingEvents from "@/components/upcoming-events";
+import { getPublicEventLists } from "@/lib/public-events";
 
-const Page = () => {
+export const dynamic = "force-dynamic";
+
+const Page = async () => {
+  const { upcoming, previous } = await getPublicEventLists();
+
   return (
     <div className="min-h-screen bg-white">
       <Nav />
       <Hero />
 
       <FadeInView direction="up">
-        <UpcomingEvents />
+        <UpcomingEvents events={upcoming} />
       </FadeInView>
 
       <FadeInView direction="down">
@@ -28,7 +33,7 @@ const Page = () => {
         <AboutNetwork />
       </FadeInView>
 
-      <PreviousEvents limit={6} showViewAll />
+      <PreviousEvents events={previous} limit={6} showViewAll />
 
       <FadeInView direction="up">
         <Featured />

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CalendarDays, ExternalLink, MapPin, Pencil, Plus, Trash2 } from "lucide-react";
+import { CalendarDays, ExternalLink, ImagePlus, MapPin, Pencil, Plus, Trash2, Upload } from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -41,6 +41,17 @@ type EventForm = {
   images: string;
 };
 
+type NextEventForm = {
+  title: string;
+  date: string;
+  time: string;
+  location: string;
+  hook: string;
+  cta_text: string;
+  cta_url: string;
+  image_url: string;
+};
+
 const emptyForm: EventForm = {
   slug: "",
   title: "",
@@ -54,6 +65,17 @@ const emptyForm: EventForm = {
   cover_image: "",
   description: "",
   images: "",
+};
+
+const emptyNextEventForm: NextEventForm = {
+  title: "",
+  date: "",
+  time: "",
+  location: "",
+  hook: "",
+  cta_text: "Get tickets",
+  cta_url: "",
+  image_url: "",
 };
 
 function formFromEvent(event: EventRow): EventForm {
@@ -74,6 +96,20 @@ function formFromEvent(event: EventRow): EventForm {
   };
 }
 
+function formFromNextEvent(event: NextEventRow | null): NextEventForm {
+  if (!event) return emptyNextEventForm;
+  return {
+    title: event.title,
+    date: event.date,
+    time: event.time ?? "",
+    location: event.location,
+    hook: event.hook,
+    cta_text: event.cta_text,
+    cta_url: event.cta_url ?? "",
+    image_url: event.image_url ?? "",
+  };
+}
+
 function slugify(value: string): string {
   return value
     .trim()
@@ -81,6 +117,45 @@ function slugify(value: string): string {
     .replace(/&/g, "and")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+async function fetchJsonWithTimeout<T>(
+  url: string,
+  init: RequestInit,
+  timeoutMs = 15000,
+): Promise<T> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    const response = await fetch(url, { ...init, signal: controller.signal });
+    const result = (await response.json().catch(() => ({}))) as { error?: string };
+    if (!response.ok) {
+      throw new Error(result.error || `Request failed with status ${response.status}.`);
+    }
+    return result as T;
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error("Save timed out. Check the image/link values and try again.");
+    }
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+async function uploadFile(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append("file", file);
+  const result = await fetchJsonWithTimeout<{ url: string }>(
+    "/api/admin/upload",
+    {
+      method: "POST",
+      body: formData,
+    },
+    30000,
+  );
+  return result.url;
 }
 
 function EventImage({
@@ -196,9 +271,13 @@ export function AdminEventsPage({
   nextEvent: NextEventRow | null;
 }) {
   const [items, setItems] = React.useState(events);
+  const [nextEventItem, setNextEventItem] = React.useState(nextEvent);
   const [form, setForm] = React.useState<EventForm>(emptyForm);
+  const [nextForm, setNextForm] = React.useState<NextEventForm>(() => formFromNextEvent(nextEvent));
   const [open, setOpen] = React.useState(false);
+  const [nextOpen, setNextOpen] = React.useState(false);
   const [saving, setSaving] = React.useState(false);
+  const [uploading, setUploading] = React.useState<string | null>(null);
 
   const upcoming = items.filter((event) => event.status === "upcoming");
   const previous = items.filter((event) => event.status !== "upcoming");
@@ -211,9 +290,67 @@ export function AdminEventsPage({
     }));
   };
 
+  const updateNextForm = (key: keyof NextEventForm, value: string) => {
+    setNextForm((current) => ({ ...current, [key]: value }));
+  };
+
   const openNew = (status: "upcoming" | "past") => {
     setForm({ ...emptyForm, status });
     setOpen(true);
+  };
+
+  const openNextEditor = () => {
+    setNextForm(formFromNextEvent(nextEventItem));
+    setNextOpen(true);
+  };
+
+  const uploadCoverImage = async (file: File | null) => {
+    if (!file) return;
+    setUploading("event-cover");
+    try {
+      const url = await uploadFile(file);
+      updateForm("cover_image", url);
+      toast.success("Cover image uploaded.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Upload failed.");
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  const uploadGalleryImages = async (files: FileList | null) => {
+    if (!files?.length) return;
+    setUploading("event-gallery");
+    try {
+      const urls: string[] = [];
+      for (const file of Array.from(files)) {
+        urls.push(await uploadFile(file));
+      }
+      setForm((current) => ({
+        ...current,
+        cover_image: current.cover_image || urls[0] || "",
+        images: [current.images, ...urls].filter(Boolean).join("\n"),
+      }));
+      toast.success(`${urls.length} image${urls.length === 1 ? "" : "s"} uploaded.`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Upload failed.");
+    } finally {
+      setUploading(null);
+    }
+  };
+
+  const uploadNextImage = async (file: File | null) => {
+    if (!file) return;
+    setUploading("next-image");
+    try {
+      const url = await uploadFile(file);
+      updateNextForm("image_url", url);
+      toast.success("Next event image uploaded.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Upload failed.");
+    } finally {
+      setUploading(null);
+    }
   };
 
   const saveEvent = async () => {
@@ -224,6 +361,10 @@ export function AdminEventsPage({
 
     setSaving(true);
     try {
+      const images = form.images
+        .split("\n")
+        .map((image) => image.trim())
+        .filter(Boolean);
       const payload = {
         slug: form.slug || slugify(form.title),
         title: form.title,
@@ -234,20 +375,18 @@ export function AdminEventsPage({
         status: form.status,
         organizer: form.organizer || "SFPLAYGROUND",
         luma_url: form.luma_url || null,
-        cover_image: form.cover_image || null,
+        cover_image: form.cover_image || images[0] || null,
         description: form.description,
-        images: form.images
-          .split("\n")
-          .map((image) => image.trim())
-          .filter(Boolean),
+        images,
       };
-      const response = await fetch(form.id ? `/api/admin/events/${form.id}` : "/api/admin/events", {
-        method: form.id ? "PATCH" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Could not save event.");
+      const result = await fetchJsonWithTimeout<EventRow>(
+        form.id ? `/api/admin/events/${form.id}` : "/api/admin/events",
+        {
+          method: form.id ? "PATCH" : "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
       setItems((current) =>
         form.id
           ? current.map((event) => (event.id === form.id ? result : event))
@@ -263,13 +402,73 @@ export function AdminEventsPage({
     }
   };
 
+  const saveNextEvent = async () => {
+    if (
+      !nextForm.title.trim() ||
+      !nextForm.date.trim() ||
+      !nextForm.location.trim() ||
+      !nextForm.hook.trim() ||
+      !nextForm.cta_text.trim()
+    ) {
+      toast.error("Title, date, location, hook, and CTA text are required.");
+      return;
+    }
+
+    setSaving(true);
+    try {
+      const result = await fetchJsonWithTimeout<{
+        id: number;
+        title: string;
+        date: string;
+        time: string | null;
+        location: string;
+        hook: string;
+        ctaText: string;
+        ctaUrl?: string;
+        imageUrl?: string;
+        updatedAt: string;
+      }>("/api/admin/next-event", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: nextForm.title,
+          date: nextForm.date,
+          time: nextForm.time || null,
+          location: nextForm.location,
+          hook: nextForm.hook,
+          ctaText: nextForm.cta_text,
+          ctaUrl: nextForm.cta_url || null,
+          imageUrl: nextForm.image_url || null,
+        }),
+      });
+      setNextEventItem({
+        id: result.id,
+        title: result.title,
+        date: result.date,
+        time: result.time,
+        location: result.location,
+        hook: result.hook,
+        cta_text: result.ctaText,
+        cta_url: result.ctaUrl ?? null,
+        image_url: result.imageUrl ?? null,
+        updated_at: new Date(result.updatedAt),
+      });
+      setNextOpen(false);
+      toast.success("Featured next event updated.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not save next event.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const deleteEvent = async () => {
     if (!form.id || !confirm(`Delete ${form.title}?`)) return;
     setSaving(true);
     try {
-      const response = await fetch(`/api/admin/events/${form.id}`, { method: "DELETE" });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.error || "Could not delete event.");
+      await fetchJsonWithTimeout<{ ok: boolean }>(`/api/admin/events/${form.id}`, {
+        method: "DELETE",
+      });
       setItems((current) => current.filter((event) => event.id !== form.id));
       setOpen(false);
       toast.success("Event deleted.");
@@ -281,15 +480,15 @@ export function AdminEventsPage({
   };
 
   return (
-    <div className="grid gap-8 px-4 pb-8 lg:px-6">
-      <div className="flex flex-col gap-3 rounded-lg border bg-card p-4 md:flex-row md:items-center md:justify-between">
+    <div className="grid min-w-0 max-w-full gap-8 overflow-hidden px-4 pb-8 lg:px-6">
+      <div className="flex min-w-0 flex-col gap-3 rounded-lg border bg-card p-4 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="text-sm font-medium">Site event source</div>
           <p className="text-sm text-muted-foreground">
             Imported from the public upcoming and previous event sections. Organizer defaults to SFPLAYGROUND.
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex max-w-full flex-wrap gap-2">
           <Button onClick={() => openNew("upcoming")}>
             <Plus />
             Upcoming event
@@ -301,45 +500,62 @@ export function AdminEventsPage({
         </div>
       </div>
 
-      {nextEvent ? (
+      {nextEventItem ? (
         <section className="grid gap-3">
           <div className="flex items-center justify-between gap-3">
             <h2 className="font-oswald text-2xl font-bold tracking-tight">Featured Next Event</h2>
-            <Badge>{nextEvent.date}</Badge>
+            <div className="flex items-center gap-2">
+              <Badge>{nextEventItem.date}</Badge>
+              <Button size="sm" variant="outline" onClick={openNextEditor}>
+                <Pencil />
+                Edit
+              </Button>
+            </div>
           </div>
-          <div className="grid gap-4 rounded-2xl border bg-white p-4 text-black md:grid-cols-[140px_1fr]">
+          <div className="grid min-w-0 gap-4 rounded-2xl border bg-white p-4 text-black md:grid-cols-[140px_minmax(0,1fr)]">
             <div className="aspect-square overflow-hidden rounded-xl bg-neutral-100">
               <EventImage
-                src={nextEvent.image_url}
-                alt={nextEvent.title}
+                src={nextEventItem.image_url}
+                alt={nextEventItem.title}
                 className="h-full w-full object-cover"
               />
             </div>
             <div className="grid gap-2">
-              <h3 className="font-oswald text-2xl font-bold">{nextEvent.title}</h3>
+              <h3 className="font-oswald text-2xl font-bold">{nextEventItem.title}</h3>
               <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-black/60">
                 <span className="inline-flex items-center gap-2">
                   <CalendarDays className="size-4" />
-                  {nextEvent.time || "Time TBD"}
+                  {nextEventItem.time || "Time TBD"}
                 </span>
                 <span className="inline-flex items-center gap-2">
                   <MapPin className="size-4" />
-                  {nextEvent.location}
+                  {nextEventItem.location}
                 </span>
               </div>
-              <p className="text-sm text-black/70">{nextEvent.hook}</p>
-              {nextEvent.cta_url ? (
+              <p className="text-sm text-black/70">{nextEventItem.hook}</p>
+              {nextEventItem.cta_url ? (
                 <Button size="sm" className="w-fit" asChild>
-                  <a href={nextEvent.cta_url} target="_blank" rel="noreferrer">
+                  <a href={nextEventItem.cta_url} target="_blank" rel="noreferrer">
                     <ExternalLink />
-                    {nextEvent.cta_text}
+                    {nextEventItem.cta_text}
                   </a>
                 </Button>
               ) : null}
             </div>
           </div>
         </section>
-      ) : null}
+      ) : (
+        <section className="flex flex-col gap-3 rounded-2xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-oswald text-2xl font-bold tracking-tight">Featured Next Event</h2>
+            <p className="text-sm text-muted-foreground">Create the homepage/event API featured card.</p>
+          </div>
+          <Button onClick={openNextEditor}>
+            <Plus />
+            Create featured event
+          </Button>
+        </section>
+      )}
 
       <section className="grid gap-4">
         <div>
@@ -468,12 +684,43 @@ export function AdminEventsPage({
             </div>
             <div className="grid gap-2">
               <Label htmlFor="event-cover">Image URL</Label>
-              <Input
-                id="event-cover"
-                value={form.cover_image}
-                onChange={(event) => updateForm("cover_image", event.target.value)}
-                placeholder="/images/events/ai-gtm-night.png"
-              />
+              <div className="flex min-w-0 gap-2">
+                <Input
+                  id="event-cover"
+                  value={form.cover_image}
+                  onChange={(event) => updateForm("cover_image", event.target.value)}
+                  placeholder="/images/events/ai-gtm-night.png"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={uploading === "event-cover"}
+                  asChild
+                >
+                  <label>
+                    <Upload />
+                    {uploading === "event-cover" ? "Uploading" : "Upload"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={(event) => {
+                        void uploadCoverImage(event.target.files?.[0] ?? null);
+                        event.target.value = "";
+                      }}
+                    />
+                  </label>
+                </Button>
+              </div>
+              {form.cover_image ? (
+                <div className="h-32 overflow-hidden rounded-lg border bg-neutral-100">
+                  <EventImage
+                    src={form.cover_image}
+                    alt="Event cover preview"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : null}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="event-description">Description / tags</Label>
@@ -485,7 +732,31 @@ export function AdminEventsPage({
               />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="event-images">Gallery images</Label>
+              <div className="flex items-center justify-between gap-2">
+                <Label htmlFor="event-images">Gallery images</Label>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant="outline"
+                  disabled={uploading === "event-gallery"}
+                  asChild
+                >
+                  <label>
+                    <ImagePlus />
+                    {uploading === "event-gallery" ? "Uploading" : "Add images"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      className="sr-only"
+                      onChange={(event) => {
+                        void uploadGalleryImages(event.target.files);
+                        event.target.value = "";
+                      }}
+                    />
+                  </label>
+                </Button>
+              </div>
               <textarea
                 id="event-images"
                 value={form.images}
@@ -507,6 +778,131 @@ export function AdminEventsPage({
             </Button>
             <Button onClick={saveEvent} disabled={saving}>
               {saving ? "Saving..." : "Save event"}
+            </Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={nextOpen} onOpenChange={setNextOpen}>
+        <SheetContent className="w-full overflow-y-auto sm:max-w-xl">
+          <SheetHeader>
+            <SheetTitle>Edit featured next event</SheetTitle>
+            <SheetDescription>
+              This powers the highlighted next-event API card and can share the same image upload flow.
+            </SheetDescription>
+          </SheetHeader>
+          <div className="grid gap-5 px-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="next-event-title">Title</Label>
+              <Input
+                id="next-event-title"
+                value={nextForm.title}
+                onChange={(event) => updateNextForm("title", event.target.value)}
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid gap-2">
+                <Label htmlFor="next-event-date">Date</Label>
+                <Input
+                  id="next-event-date"
+                  value={nextForm.date}
+                  onChange={(event) => updateNextForm("date", event.target.value)}
+                  placeholder="March 17, 2026"
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="next-event-time">Time</Label>
+                <Input
+                  id="next-event-time"
+                  value={nextForm.time}
+                  onChange={(event) => updateNextForm("time", event.target.value)}
+                  placeholder="5:30 PM"
+                />
+              </div>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="next-event-location">Location</Label>
+              <Input
+                id="next-event-location"
+                value={nextForm.location}
+                onChange={(event) => updateNextForm("location", event.target.value)}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="next-event-hook">Hook</Label>
+              <textarea
+                id="next-event-hook"
+                value={nextForm.hook}
+                onChange={(event) => updateNextForm("hook", event.target.value)}
+                className="min-h-20 rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-xs outline-none transition-[color,box-shadow] placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+              />
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div className="grid gap-2">
+                <Label htmlFor="next-event-cta-text">CTA text</Label>
+                <Input
+                  id="next-event-cta-text"
+                  value={nextForm.cta_text}
+                  onChange={(event) => updateNextForm("cta_text", event.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="next-event-cta-url">CTA URL</Label>
+                <Input
+                  id="next-event-cta-url"
+                  value={nextForm.cta_url}
+                  onChange={(event) => updateNextForm("cta_url", event.target.value)}
+                  placeholder="https://luma.com/..."
+                />
+              </div>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="next-event-image">Image URL</Label>
+              <div className="flex min-w-0 gap-2">
+                <Input
+                  id="next-event-image"
+                  value={nextForm.image_url}
+                  onChange={(event) => updateNextForm("image_url", event.target.value)}
+                  placeholder="/uploads/event-cover.jpg"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={uploading === "next-image"}
+                  asChild
+                >
+                  <label>
+                    <Upload />
+                    {uploading === "next-image" ? "Uploading" : "Upload"}
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="sr-only"
+                      onChange={(event) => {
+                        void uploadNextImage(event.target.files?.[0] ?? null);
+                        event.target.value = "";
+                      }}
+                    />
+                  </label>
+                </Button>
+              </div>
+              {nextForm.image_url ? (
+                <div className="h-32 overflow-hidden rounded-lg border bg-neutral-100">
+                  <EventImage
+                    src={nextForm.image_url}
+                    alt="Featured next event preview"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <SheetFooter className="gap-2">
+            <Button variant="outline" onClick={() => setNextOpen(false)} disabled={saving}>
+              Cancel
+            </Button>
+            <Button onClick={saveNextEvent} disabled={saving}>
+              {saving ? "Saving..." : "Save featured event"}
             </Button>
           </SheetFooter>
         </SheetContent>

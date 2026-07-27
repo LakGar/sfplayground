@@ -8,6 +8,7 @@ import {
   CalendarDays,
   CircleHelp,
   Database,
+  FileText,
   Handshake,
   Rocket,
   LayoutDashboard,
@@ -68,6 +69,11 @@ const data = {
       title: "Events",
       url: "/admin/events",
       icon: CalendarDays,
+    },
+    {
+      title: "Website Content",
+      url: "/admin/website-content",
+      icon: FileText,
     },
     {
       title: "Outreach",

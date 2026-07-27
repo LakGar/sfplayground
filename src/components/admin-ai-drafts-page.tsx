@@ -48,7 +48,7 @@ export function AdminAiDraftsPage() {
   }
 
   return (
-    <div className="grid gap-4 px-4 pb-6 lg:px-6 xl:grid-cols-[360px_1fr]">
+    <div className="grid min-w-0 max-w-full gap-4 overflow-hidden px-4 pb-6 lg:px-6 xl:grid-cols-[minmax(280px,360px)_minmax(0,1fr)]">
       <Card className="h-fit">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -114,4 +114,3 @@ export function AdminAiDraftsPage() {
     </div>
   );
 }
-

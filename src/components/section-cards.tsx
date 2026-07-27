@@ -1,4 +1,5 @@
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 
 import type { CrmStat } from "@/lib/admin-crm-types";
 import { Badge } from "@/components/ui/badge";
@@ -16,9 +17,8 @@ export function SectionCards({ stats }: { stats: CrmStat[] }) {
     <div className="grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
       {stats.map((stat) => {
         const TrendIcon = stat.trend === "up" ? ArrowUpRight : ArrowDownRight;
-
-        return (
-          <Card className="@container/card" key={stat.label}>
+        const card = (
+          <Card className="@container/card h-full transition hover:border-primary/40 hover:shadow-md">
             <CardHeader>
               <CardDescription>{stat.label}</CardDescription>
               <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">
@@ -38,6 +38,21 @@ export function SectionCards({ stats }: { stats: CrmStat[] }) {
               <div className="text-muted-foreground">{stat.note}</div>
             </CardFooter>
           </Card>
+        );
+
+        return (
+          <div key={stat.label}>
+            {stat.href ? (
+              <Link
+                href={stat.href}
+                className="block h-full rounded-xl outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+              >
+                {card}
+              </Link>
+            ) : (
+              card
+            )}
+          </div>
         );
       })}
     </div>

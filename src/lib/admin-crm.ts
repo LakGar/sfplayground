@@ -4,11 +4,14 @@ import { sql } from "@/lib/db";
 import type {
   CrmCategory,
   CrmChartPoint,
+  CrmFlag,
   CrmLink,
   CrmRecord,
   CrmStage,
   CrmStat,
+  CrmTier,
 } from "@/lib/admin-crm-types";
+import { classifyIndustryText } from "@/lib/industry-taxonomy";
 import type { IntakeKind } from "@/lib/intake-types";
 
 const SHEETS = [
@@ -53,6 +56,38 @@ function firstPresent(row: Record<string, string>, keys: string[]): string {
     if (value) return value;
   }
   return "";
+}
+
+function inferTier(row: Record<string, string>): CrmTier {
+  const value = firstPresent(row, ["Tier", "VC Tier", "Startup Tier", "Priority Tier"]).toLowerCase();
+  if (/\b3\b|tier\s*3|highest|top/.test(value)) return "Tier 3";
+  if (/\b2\b|tier\s*2/.test(value)) return "Tier 2";
+  if (/\b1\b|tier\s*1/.test(value)) return "Tier 1";
+  return "";
+}
+
+function inferFlag(row: Record<string, string>, notes: string): CrmFlag {
+  const value = [
+    firstPresent(row, ["Flag", "Status Flag", "Outreach Flag", "Color", "Highlight"]),
+    notes,
+  ]
+    .join(" ")
+    .toLowerCase();
+  if (/red|do not reach|don'?t reach|do not contact|no outreach|blacklist/.test(value)) {
+    return "Do not reach out";
+  }
+  if (/green|standout|high[- ]priority|priority lead|strong fit/.test(value)) return "Standout";
+  return "";
+}
+
+function uniqueTags(values: unknown[]): string[] {
+  return Array.from(
+    new Set(
+      values
+        .map((value) => (typeof value === "string" ? value.trim() : ""))
+        .filter(Boolean),
+    ),
+  ).slice(0, 6);
 }
 
 function parseCsv(csv: string): string[][] {
@@ -128,12 +163,23 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
   const logo = firstPresent(row, ["Upload Logo"]);
   const stage = firstPresent(row, ["Funding Stage", "Development Stage?"]);
   const industry = firstPresent(row, ["Industry"]);
+  const sector = firstPresent(row, ["Sector", "Sector Focus", "Stage Focus"]);
   const description = firstPresent(row, [
     "1-Sentence Company Description\n(What do you build & for who?)",
     "Physical AI Product",
     "Tagline",
   ]);
   const notes = firstPresent(row, ["Anything else we should know?", "Outreach Notes"]);
+  const canonical = classifyIndustryText([
+    industry,
+    sector,
+    stage,
+    description,
+    notes,
+    company,
+  ]);
+  const tier = inferTier(row);
+  const flag = inferFlag(row, notes);
   const status = firstPresent(row, ["Outreach Status"]);
   const nextStep = source.includes("Accepted")
     ? "Prepare event logistics and investor matching"
@@ -158,8 +204,11 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
     phone: firstPresent(row, ["Phone Number", "Phone"]),
     website: normalizeUrl(website),
     stage: status === "Contacted" ? "Follow-up" : source.includes("Accepted") ? "Intro ready" : "Review",
-    priority: source.includes("Accepted") ? "High" : "Medium",
+    priority: flag === "Standout" || tier === "Tier 3" || source.includes("Accepted") ? "High" : "Medium",
+    tier,
+    flag,
     owner: "Staff",
+    industry: industry || canonical[0] || sector,
     value: stage || firstPresent(row, ["How much have you raised?"]) || "Startup",
     source,
     updated: firstPresent(row, ["Timestamp"]) || "Sheet import",
@@ -171,7 +220,7 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
         ? `Outreach status: ${status}.`
         : "",
     notes: [description, notes].filter(Boolean).join(" "),
-    tags: [industry, stage, firstPresent(row, ["Source"])].filter(Boolean).slice(0, 4),
+    tags: uniqueTags([industry, sector, ...canonical, stage, tier, flag, firstPresent(row, ["Source"])]),
     links,
   };
 }
@@ -217,6 +266,19 @@ function intakeRecordToCrm(row: {
     { label: "Additional file", url: normalizeUrl(payload.additionalInfoFileUrl ?? "") },
     { label: "Logo", url: normalizeUrl(payload.logoUrl ?? "") },
   ].filter((link) => link.url);
+  const canonical = classifyIndustryText([
+    payload.industry,
+    payload.stageFocus,
+    payload.sectorFocus,
+    payload.companyType,
+    payload.topicExpertise,
+    payload.description,
+    payload.goals,
+    payload.startupsToMeet,
+    payload.whySpeak,
+    payload.anythingElse,
+    row.company,
+  ]);
 
   return {
     id: 100000 + row.id,
@@ -230,7 +292,17 @@ function intakeRecordToCrm(row: {
     priority: payload.priority === "Low" || payload.priority === "Medium" || payload.priority === "High"
       ? payload.priority
       : "High",
+    tier: normalizeTier(payload.tier),
+    flag: normalizeFlag(payload.flag),
     owner: payload.owner || "Staff",
+    industry:
+      payload.industry ||
+      canonical[0] ||
+      payload.sectorFocus ||
+      payload.stageFocus ||
+      payload.companyType ||
+      payload.topicExpertise ||
+      "",
     value:
       payload.value ||
       payload.roundAndTarget ||
@@ -251,16 +323,17 @@ function intakeRecordToCrm(row: {
       payload.whySpeak ||
       payload.anythingElse ||
       "",
-    tags: [
+    tags: uniqueTags([
       payload.stage,
       payload.industry,
       payload.stageFocus,
       payload.sectorFocus,
       payload.companyType,
       payload.topicExpertise,
-    ]
-      .filter(Boolean)
-      .slice(0, 4),
+      ...canonical,
+      payload.tier,
+      payload.flag,
+    ]),
     links,
   };
 }
@@ -276,6 +349,16 @@ const stagesSet = new Set<CrmStage>([
 
 function normalizeStage(stage: string): CrmStage {
   return stagesSet.has(stage as CrmStage) ? (stage as CrmStage) : "New";
+}
+
+function normalizeTier(tier: unknown): CrmTier {
+  if (tier === "Tier 1" || tier === "Tier 2" || tier === "Tier 3") return tier;
+  return "";
+}
+
+function normalizeFlag(flag: unknown): CrmFlag {
+  if (flag === "Do not reach out" || flag === "Standout") return flag;
+  return "";
 }
 
 function subscriberRecordToCrm(row: {
@@ -299,7 +382,10 @@ function subscriberRecordToCrm(row: {
     website: "",
     stage: "New",
     priority: "Low",
+    tier: "",
+    flag: "",
     owner: "Staff",
+    industry: "",
     value: "Newsletter subscriber",
     source: "Postgres subscribers",
     updated,
@@ -350,6 +436,9 @@ export async function insertAdminCrmRecord(input: {
   stage: CrmStage;
   priority: "High" | "Medium" | "Low";
   owner: string;
+  tier?: CrmTier;
+  flag?: CrmFlag;
+  industry?: string;
   value: string;
   nextStep: string;
   nextSteps?: string[];
@@ -359,15 +448,26 @@ export async function insertAdminCrmRecord(input: {
 }): Promise<CrmRecord> {
   await ensureCrmTable();
   const kind = categoryToIntakeKind(input.category);
+  const canonical = classifyIndustryText([
+    input.industry,
+    input.value,
+    input.priorityNotes,
+    input.notes,
+    input.company,
+    ...(input.tags ?? []),
+  ]);
   const payload = {
     priority: input.priority,
     owner: input.owner,
+    tier: input.tier ?? "",
+    flag: input.flag ?? "",
+    industry: input.industry || canonical[0] || "",
     value: input.value,
     nextStep: input.nextStep,
     nextSteps: input.nextSteps ?? [input.nextStep].filter(Boolean),
     priorityNotes: input.priorityNotes,
     notes: input.notes,
-    tags: input.tags ?? [],
+    tags: uniqueTags([...(input.tags ?? []), ...canonical]),
   };
 
   const { rows } = await sql`
@@ -500,6 +600,7 @@ export async function getAdminCrmData(): Promise<{
         trend: "up",
         title: "Real newsletter audience from Postgres.",
         note: `${newsletterDrafts} drafts, ${newsletterSends} sent newsletters. Latest ${subscriberRecords.length} in CRM.`,
+        href: "/admin/relationships?category=Subscriber",
       },
       {
         label: "Startup records",
@@ -508,6 +609,7 @@ export async function getAdminCrmData(): Promise<{
         trend: "up",
         title: "Imported from shared startup spreadsheets.",
         note: "Includes outreach, form responses, and accepted pitch cohorts.",
+        href: "/admin/startups",
       },
       {
         label: "Events",
@@ -516,6 +618,7 @@ export async function getAdminCrmData(): Promise<{
         trend: "up",
         title: "Editable event records in Postgres.",
         note: "Includes the live next-event card and past event library.",
+        href: "/admin/events",
       },
       {
         label: "Success stories",
@@ -524,6 +627,7 @@ export async function getAdminCrmData(): Promise<{
         trend: "up",
         title: "Postgres stories plus CRM relationships.",
         note: "Investor and sponsor records appear as forms are persisted.",
+        href: "/admin/investors",
       },
     ],
     chart: [
