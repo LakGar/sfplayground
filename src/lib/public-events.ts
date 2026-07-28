@@ -57,6 +57,82 @@ function toPreviousEvent(event: EventRow): PublicPreviousEvent {
   };
 }
 
+function parseEventDate(value: string | null | undefined): number {
+  if (!value) return 0;
+
+  const datePart = value.split("·")[0]?.trim() || value.trim();
+  const exactDate = Date.parse(datePart);
+
+  if (!Number.isNaN(exactDate)) {
+    return exactDate;
+  }
+
+  const yearMatch = datePart.match(/\b(20\d{2})\b/);
+  const year = yearMatch ? Number(yearMatch[1]) : 0;
+
+  if (datePart.includes("Spring") && year) {
+    return Date.UTC(year, 3, 15);
+  }
+
+  const monthMatch = datePart.match(
+    /January|February|March|April|May|June|July|August|September|October|November|December/,
+  );
+
+  if (monthMatch && year) {
+    return Date.parse(`${monthMatch[0]} 1, ${year}`);
+  }
+
+  return 0;
+}
+
+function isUpcomingByDate(event: EventRow): boolean {
+  const eventDate = parseEventDate(event.time || event.date);
+
+  if (!eventDate) {
+    return event.status === "upcoming";
+  }
+
+  const now = new Date();
+  const todayStart = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+  ).getTime();
+
+  return eventDate >= todayStart;
+}
+
+function eventDedupeKey(item: { slug?: string; title: string; date?: string }): string {
+  const normalizedTitle = item.title
+    .trim()
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  const dateKey = parseEventDate(item.date) || "undated";
+
+  if (normalizedTitle.includes("new-american-dream")) {
+    return `${dateKey}:new-american-dream`;
+  }
+
+  if (normalizedTitle.includes("immigrant-founders")) {
+    return `${dateKey}:immigrant-founders`;
+  }
+
+  return `${dateKey}:${item.slug || normalizedTitle}`;
+}
+
+function dedupeEvents<T extends { slug?: string; title: string; date?: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+
+  return items.filter((item) => {
+    const key = eventDedupeKey(item);
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 export async function getPublicEventLists(): Promise<{
   upcoming: PublicUpcomingEvent[];
   previous: PublicPreviousEvent[];
@@ -64,20 +140,20 @@ export async function getPublicEventLists(): Promise<{
   try {
     const events = await getEvents();
     const upcoming = events
-      .filter((event) => event.status === "upcoming")
-      .map(toUpcomingEvent);
-    const previous = events
-      .filter((event) => event.status !== "upcoming")
-      .map(toPreviousEvent);
+      .filter(isUpcomingByDate)
+      .map(toUpcomingEvent)
+      .sort((a, b) => parseEventDate(a.time) - parseEventDate(b.time));
+    const previous = dedupeEvents([
+      ...PREVIOUS_EVENTS.map((event) => ({
+        ...event,
+        href: getEventPublicUrl(event),
+      })),
+      ...events.filter((event) => !isUpcomingByDate(event)).map(toPreviousEvent),
+    ]).sort((a, b) => parseEventDate(b.date) - parseEventDate(a.date));
 
     return {
       upcoming: upcoming.length ? upcoming : UPCOMING_EVENTS,
-      previous: previous.length
-        ? previous
-        : PREVIOUS_EVENTS.map((event) => ({
-            ...event,
-            href: getEventPublicUrl(event),
-          })),
+      previous,
     };
   } catch (error) {
     console.error("Public events fetch error:", error);
