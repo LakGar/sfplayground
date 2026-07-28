@@ -126,7 +126,7 @@ function eventDedupeKey(item: { slug?: string; title: string; date?: string }): 
     return `${dateKey}:aerospace-defense`;
   }
 
-  return `${dateKey}:${item.slug || normalizedTitle}`;
+  return normalizedTitle;
 }
 
 function dedupeEvents<T extends { slug?: string; title: string; date?: string }>(items: T[]): T[] {
