@@ -21,7 +21,32 @@ export function getEventPublicUrl(event: PreviousEventItem): string {
   return event.linkedInHref ?? event.href;
 }
 
-export const PREVIOUS_EVENTS: PreviousEventItem[] = [
+function previousEventSortDate(event: PreviousEventItem): number {
+  const exactDate = Date.parse(event.date);
+
+  if (!Number.isNaN(exactDate)) {
+    return exactDate;
+  }
+
+  const yearMatch = event.date.match(/\b(20\d{2})\b/);
+  const year = yearMatch ? Number(yearMatch[1]) : 0;
+
+  if (event.date.includes("Spring")) {
+    return Date.UTC(year, 3, 15);
+  }
+
+  const monthMatch = event.date.match(
+    /January|February|March|April|May|June|July|August|September|October|November|December/,
+  );
+
+  if (monthMatch && year) {
+    return Date.parse(`${monthMatch[0]} 1, ${year}`);
+  }
+
+  return 0;
+}
+
+const previousEvents: PreviousEventItem[] = [
   {
     slug: "new-american-dream-venture-summit-salesforce-tower",
     title: "The New American Dream Venture Summit — Salesforce Tower",
@@ -117,3 +142,7 @@ export const PREVIOUS_EVENTS: PreviousEventItem[] = [
     href: "https://luma.com/54kzxvy6",
   },
 ];
+
+export const PREVIOUS_EVENTS: PreviousEventItem[] = [...previousEvents].sort(
+  (a, b) => previousEventSortDate(b) - previousEventSortDate(a),
+);
