@@ -119,6 +119,13 @@ function eventDedupeKey(item: { slug?: string; title: string; date?: string }): 
     return `${dateKey}:immigrant-founders`;
   }
 
+  if (
+    normalizedTitle.includes("aerospace") &&
+    normalizedTitle.includes("defense")
+  ) {
+    return `${dateKey}:aerospace-defense`;
+  }
+
   return `${dateKey}:${item.slug || normalizedTitle}`;
 }
 
