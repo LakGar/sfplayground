@@ -363,6 +363,7 @@ export const STARTUP_QUESTIONNAIRE: QuestionnaireStep[] = [
     inputType: "tel",
     field: "phone",
     placeholder: "+1 (555) 000-0000",
+    optional: true,
   },
   {
     id: "stage",
@@ -425,8 +426,9 @@ export const STARTUP_QUESTIONNAIRE: QuestionnaireStep[] = [
   },
   {
     id: "pitchDeckUrl",
-    title: "Upload your pitch deck",
-    subtitle: "PDF or PowerPoint — we review every submission against upcoming programs.",
+    title: "Deck link or file?",
+    subtitle:
+      "Paste a Drive, DocSend, Dropbox, or Notion link, or upload a PDF / PowerPoint.",
     inputType: "document",
     field: "pitchDeckUrl",
   },

@@ -394,44 +394,6 @@ function normalizeFlag(flag: unknown): CrmFlag {
   return "";
 }
 
-function subscriberRecordToCrm(row: {
-  id: number;
-  email: string;
-  name: string | null;
-  subscribed_at: Date | string | null;
-}): CrmRecord {
-  const updated =
-    row.subscribed_at instanceof Date
-      ? row.subscribed_at.toISOString().slice(0, 10)
-      : row.subscribed_at?.slice(0, 10) || "Subscriber";
-
-  return {
-    id: 200000 + row.id,
-    recordKey: "",
-    name: row.name || row.email,
-    company: row.email,
-    category: "Subscriber",
-    email: row.email,
-    phone: "",
-    website: "",
-    stage: "New",
-    priority: "Low",
-    tier: "",
-    flag: "",
-    owner: "Staff",
-    industry: "",
-    value: "Newsletter subscriber",
-    source: "Postgres subscribers",
-    updated,
-    nextStep: "Segment for founder, investor, sponsor, or community outreach",
-    nextSteps: ["Segment for founder, investor, sponsor, or community outreach"],
-    priorityNotes: "Low-priority nurture until the subscriber indicates a founder, investor, sponsor, or operator path.",
-    notes: "Imported from the live subscribers table.",
-    tags: ["Newsletter"],
-    links: [],
-  };
-}
-
 async function ensureCrmTable(): Promise<void> {
   await sql.query(CRM_TABLE_SQL);
   await sql.query(CRM_OVERRIDES_TABLE_SQL);
@@ -632,62 +594,16 @@ async function getCrmIntakeRecords(): Promise<CrmRecord[]> {
   );
 }
 
-async function getSubscriberRecords(): Promise<CrmRecord[]> {
-  try {
-    const { rows } = await sql`
-      SELECT id, email, name, subscribed_at
-      FROM subscribers
-      ORDER BY subscribed_at DESC
-      LIMIT 500
-    `;
-    return rows.map((row) =>
-      subscriberRecordToCrm(
-        row as {
-          id: number;
-          email: string;
-          name: string | null;
-          subscribed_at: Date | string | null;
-        },
-      ),
-    );
-  } catch {
-    return [];
-  }
-}
-
-async function countTable(table: string): Promise<number> {
-  try {
-    const result = await sql.query(`SELECT COUNT(*)::int AS count FROM ${table}`);
-    return Number(result.rows[0]?.count ?? 0);
-  } catch {
-    return 0;
-  }
-}
-
 export async function getAdminCrmData(): Promise<{
   stats: CrmStat[];
   chart: CrmChartPoint[];
   records: CrmRecord[];
 }> {
   const [
-    subscriberCount,
-    newsletterSends,
-    nextEventCount,
-    eventsCount,
-    successStoriesCount,
-    newsletterDrafts,
     crmIntakeRecords,
-    subscriberRecords,
     sheetGroups,
   ] = await Promise.all([
-    countTable("subscribers"),
-    countTable("newsletter_sends"),
-    countTable("next_event"),
-    countTable("events"),
-    countTable("success_stories"),
-    countTable("newsletter_drafts"),
     getCrmIntakeRecords(),
-    getSubscriberRecords(),
     Promise.all(
       SHEETS.flatMap((sheet) =>
         sheet.tabs.map(async (tab) => ({
@@ -706,7 +622,7 @@ export async function getAdminCrmData(): Promise<{
     .filter((record): record is CrmRecord => Boolean(record));
 
   const deduped = new Map<string, CrmRecord>();
-  for (const record of [...crmIntakeRecords, ...sheetRecords, ...subscriberRecords]) {
+  for (const record of [...crmIntakeRecords, ...sheetRecords]) {
     const key = `${record.email || record.company}`.toLowerCase();
     if (!key || deduped.has(key)) continue;
     deduped.set(key, record);
@@ -735,19 +651,11 @@ export async function getAdminCrmData(): Promise<{
   const startups = overriddenRecords.filter((record) => record.category === "Startup").length;
   const investors = overriddenRecords.filter((record) => record.category === "Investor").length;
   const sponsors = overriddenRecords.filter((record) => record.category === "Sponsor").length;
+  const operators = overriddenRecords.filter((record) => record.category === "Operator").length;
 
   return {
     records: overriddenRecords,
     stats: [
-      {
-        label: "Subscribers",
-        value: subscriberCount.toLocaleString(),
-        delta: `${newsletterSends} sends`,
-        trend: "up",
-        title: "Real newsletter audience from Postgres.",
-        note: `${newsletterDrafts} drafts, ${newsletterSends} sent newsletters. Latest ${subscriberRecords.length} in CRM.`,
-        href: "/admin/relationships?category=Subscriber",
-      },
       {
         label: "Startup records",
         value: startups.toLocaleString(),
@@ -758,34 +666,38 @@ export async function getAdminCrmData(): Promise<{
         href: "/admin/startups",
       },
       {
-        label: "Events",
-        value: eventsCount.toLocaleString(),
-        delta: `${nextEventCount} next`,
+        label: "Investors / VCs",
+        value: investors.toLocaleString(),
+        delta: "relationship records",
         trend: "up",
-        title: "Editable event records in Postgres.",
-        note: "Includes the live next-event card and past event library.",
-        href: "/admin/events",
+        title: "Real investor relationships from intake and admin records.",
+        note: "Only investor and VC contacts are included here.",
+        href: "/admin/investors",
       },
       {
-        label: "Success stories",
-        value: successStoriesCount.toLocaleString(),
-        delta: `${investors + sponsors} CRM`,
+        label: "Sponsors",
+        value: sponsors.toLocaleString(),
+        delta: "relationship records",
         trend: "up",
-        title: "Postgres stories plus CRM relationships.",
-        note: "Investor and sponsor records appear as forms are persisted.",
-        href: "/admin/investors",
+        title: "Real sponsor relationships from intake and admin records.",
+        note: "Newsletter-only subscribers are excluded from this board.",
+        href: "/admin/sponsors",
+      },
+      {
+        label: "Expert / operators",
+        value: operators.toLocaleString(),
+        delta: "relationship records",
+        trend: "up",
+        title: "Real operator and expert relationships.",
+        note: "Speaker and operator intakes appear here after review.",
+        href: "/admin/relationships?category=Operator",
       },
     ],
     chart: [
-      { month: "Subscribers", startups: subscriberCount, investors: 0, sponsors: 0 },
       { month: "Startups", startups, investors: 0, sponsors: 0 },
-      { month: "Events", startups: eventsCount, investors: nextEventCount, sponsors: 0 },
-      {
-        month: "Stories",
-        startups: successStoriesCount,
-        investors: newsletterSends,
-        sponsors: newsletterDrafts,
-      },
+      { month: "Investors", startups: 0, investors, sponsors: 0 },
+      { month: "Sponsors", startups: 0, investors: 0, sponsors },
+      { month: "Operators", startups: operators, investors: 0, sponsors: 0 },
     ],
   };
 }

@@ -26,7 +26,6 @@ const categories: Array<"All" | CrmCategory> = [
   "Investor",
   "Sponsor",
   "Operator",
-  "Subscriber",
 ];
 
 const stages: Array<"All" | CrmStage> = [

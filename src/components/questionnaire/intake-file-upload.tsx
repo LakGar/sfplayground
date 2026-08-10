@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   INTAKE_UPLOAD_CONFIG,
   type IntakeUploadCategory,
@@ -14,6 +14,7 @@ type IntakeFileUploadProps = {
   onChange: (url: string, fileName?: string) => void;
   category: IntakeUploadCategory;
   label?: string;
+  allowLink?: boolean;
 };
 
 export function IntakeFileUpload({
@@ -22,18 +23,47 @@ export function IntakeFileUpload({
   onChange,
   category,
   label,
+  allowLink = category === "document",
 }: IntakeFileUploadProps) {
   const config = INTAKE_UPLOAD_CONFIG[category];
   const inputRef = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState("");
   const [displayName, setDisplayName] = useState(fileName ?? "");
+  const [linkInput, setLinkInput] = useState(isHttpUrl(value) ? value : "");
 
   const defaultLabel =
     category === "logo" ? "Choose logo file" : "Choose file to upload";
+  const linkLabel =
+    category === "document" ? "Paste a deck or file link" : "Paste file link";
+  const readyLabel = useMemo(() => {
+    if (displayName) return displayName;
+    if (isHttpUrl(value)) {
+      return getHostLabel(value) ?? "Linked file";
+    }
+    return "Uploaded file";
+  }, [displayName, value]);
+
+  function applyLink() {
+    setUploadError("");
+    const normalized = normalizeUrl(linkInput);
+    if (!normalized || !isHttpUrl(normalized)) {
+      setUploadError("Paste a valid link starting with http:// or https://.");
+      return;
+    }
+    setDisplayName(getHostLabel(normalized) ?? "Linked file");
+    onChange(normalized, getHostLabel(normalized) ?? "Linked file");
+  }
 
   async function handleFile(file: File) {
     setUploadError("");
+    if (file.size > config.maxBytes) {
+      setUploadError(
+        `That file is over ${formatBytes(config.maxBytes)}. Paste a Google Drive, DocSend, Dropbox, or Notion link instead.`,
+      );
+      if (inputRef.current) inputRef.current.value = "";
+      return;
+    }
     setUploading(true);
     try {
       const formData = new FormData();
@@ -52,12 +82,13 @@ export function IntakeFileUpload({
         throw new Error(data?.error ?? "Upload failed. Try again.");
       }
       setDisplayName(data.fileName ?? file.name);
+      setLinkInput("");
       onChange(data.url, data.fileName ?? file.name);
     } catch (error) {
-      onChange("", "");
-      setDisplayName("");
       setUploadError(
-        error instanceof Error ? error.message : "Upload failed. Try again.",
+        error instanceof Error
+          ? `${error.message} You can paste a deck link instead.`
+          : "Upload failed. You can paste a deck link instead.",
       );
     } finally {
       setUploading(false);
@@ -67,15 +98,17 @@ export function IntakeFileUpload({
   function clear() {
     onChange("", "");
     setDisplayName("");
+    setLinkInput("");
     setUploadError("");
     if (inputRef.current) inputRef.current.value = "";
   }
 
-  const isImage =
-    category === "logo" ||
+  const fileLooksImage =
     displayName.match(/\.(png|jpe?g|webp|gif)$/i) ||
-    value.match(/\.(png|jpe?g|webp|gif)$/i) ||
-    value.includes("drive.google.com");
+    value.match(/\.(png|jpe?g|webp|gif)(\?|$)/i);
+  const isImage =
+    Boolean(fileLooksImage) ||
+    (category === "logo" && value.includes("drive.google.com"));
 
   const imageSrc = isImage ? getProxiedImageUrl(value) : value;
 
@@ -111,9 +144,11 @@ export function IntakeFileUpload({
           )}
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-medium text-black">
-              {displayName || "Uploaded file"}
+              {readyLabel}
             </p>
-            <p className="mt-1 text-xs text-black/45">Ready to submit</p>
+            <p className="mt-1 text-xs text-black/45">
+              {isHttpUrl(value) ? "Linked and ready to submit" : "Ready to submit"}
+            </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <button
@@ -148,9 +183,75 @@ export function IntakeFileUpload({
         </button>
       )}
 
+      {allowLink ? (
+        <div className="mt-4 rounded-2xl border border-black/[0.08] bg-white p-4">
+          <label className="block font-oswald text-sm font-medium uppercase tracking-[0.12em] text-black/45">
+            {linkLabel}
+          </label>
+          <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+            <input
+              type="url"
+              value={linkInput}
+              onChange={(event) => {
+                setLinkInput(event.target.value);
+                setUploadError("");
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  applyLink();
+                }
+              }}
+              placeholder="https://drive.google.com/…"
+              className="min-w-0 flex-1 rounded-full border border-black/10 px-4 py-2.5 text-sm text-black outline-none transition-colors placeholder:text-black/30 focus:border-black"
+            />
+            <button
+              type="button"
+              onClick={applyLink}
+              disabled={uploading}
+              className="rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition-opacity hover:opacity-85 disabled:opacity-40"
+            >
+              Use link
+            </button>
+          </div>
+          <p className="mt-2 text-xs text-black/45">
+            Drive, DocSend, Dropbox, Notion, or a direct deck link works.
+          </p>
+        </div>
+      ) : null}
+
       {uploadError ? (
         <p className="mt-3 text-sm text-red-600">{uploadError}</p>
       ) : null}
     </div>
   );
+}
+
+function normalizeUrl(value: string): string {
+  const trimmed = value.trim();
+  if (!trimmed) return "";
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  return `https://${trimmed}`;
+}
+
+function isHttpUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+function getHostLabel(value: string): string | null {
+  try {
+    return new URL(value).hostname.replace(/^www\./, "");
+  } catch {
+    return null;
+  }
+}
+
+function formatBytes(bytes: number): string {
+  const mb = bytes / 1024 / 1024;
+  return `${Number.isInteger(mb) ? mb : mb.toFixed(1)}MB`;
 }

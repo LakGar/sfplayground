@@ -28,6 +28,10 @@ export function getStepValidationError(
 
   const trimmed = value.trim();
 
+  if (step.optional && !trimmed) {
+    return null;
+  }
+
   if (step.inputType === "logo") {
     if (!trimmed) {
       return "Upload your logo to continue (PNG, JPG, or WebP, max 5MB).";
@@ -38,8 +42,8 @@ export function getStepValidationError(
   if (step.inputType === "document") {
     if (step.optional || trimmed) return null;
     return step.field === "pitchDeckUrl"
-      ? "Upload your pitch deck to continue (PDF or PowerPoint, max 15MB)."
-      : "Upload a file to continue (PDF, PPT, or DOC, max 15MB).";
+      ? "Upload your pitch deck or paste a deck link to continue."
+      : "Upload a file or paste a link to continue.";
   }
 
   if (step.inputType === "email") {

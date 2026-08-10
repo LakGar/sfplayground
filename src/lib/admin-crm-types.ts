@@ -1,4 +1,4 @@
-export type CrmCategory = "Startup" | "Investor" | "Sponsor" | "Operator" | "Subscriber";
+export type CrmCategory = "Startup" | "Investor" | "Sponsor" | "Operator";
 
 export type CrmStage =
   | "New"

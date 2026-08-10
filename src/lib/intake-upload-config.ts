@@ -18,10 +18,10 @@ export const INTAKE_UPLOAD_CONFIG: Record<
     extensions: [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"],
   },
   document: {
-    maxBytes: 15 * 1024 * 1024,
+    maxBytes: 25 * 1024 * 1024,
     accept:
       "application/pdf,.pdf,application/vnd.ms-powerpoint,.ppt,application/vnd.openxmlformats-officedocument.presentationml.presentation,.pptx,application/msword,.doc,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.docx,text/plain,.txt,image/png,image/jpeg,image/webp",
-    hint: "PDF, PPT, DOC, or TXT · max 15MB",
+    hint: "PDF, PPT, DOC, or TXT · max 25MB · links welcome",
     mimePrefixes: [
       "image/",
       "application/pdf",

@@ -5,7 +5,7 @@ import { getSession } from "@/lib/admin-auth";
 import { insertAdminCrmRecord, updateAdminCrmRecord } from "@/lib/admin-crm";
 import type { CrmCategory, CrmFlag, CrmPriority, CrmStage, CrmTier } from "@/lib/admin-crm-types";
 
-const categories = new Set<CrmCategory>(["Startup", "Investor", "Sponsor", "Operator", "Subscriber"]);
+const categories = new Set<CrmCategory>(["Startup", "Investor", "Sponsor", "Operator"]);
 const stages = new Set<CrmStage>(["New", "Review", "Qualified", "Intro ready", "Follow-up", "Closed"]);
 const priorities = new Set<CrmPriority>(["High", "Medium", "Low"]);
 const tiers = new Set<CrmTier>(["Tier 1", "Tier 2", "Tier 3", ""]);
@@ -41,9 +41,7 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json();
-    const category = categories.has(body.category) && body.category !== "Subscriber"
-      ? (body.category as CrmCategory)
-      : "Startup";
+    const category = categories.has(body.category) ? (body.category as CrmCategory) : "Startup";
     const stage = stages.has(body.stage) ? (body.stage as CrmStage) : "New";
     const priority = priorities.has(body.priority) ? (body.priority as CrmPriority) : "Medium";
     const tier = tiers.has(body.tier) ? (body.tier as CrmTier) : "";

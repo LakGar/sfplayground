@@ -108,7 +108,6 @@ const categories: Array<"All" | CrmCategory> = [
   "Investor",
   "Sponsor",
   "Operator",
-  "Subscriber",
 ];
 
 const stages: CrmStage[] = [
@@ -131,7 +130,7 @@ const flags: Exclude<CrmFlag, "">[] = [
 const ALL_FILTER_VALUE = "__all";
 
 type NewRecordForm = {
-  category: Exclude<CrmCategory, "Subscriber">;
+  category: CrmCategory;
   name: string;
   company: string;
   email: string;

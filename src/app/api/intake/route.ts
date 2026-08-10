@@ -133,16 +133,15 @@ function validatePayload(
     const lookingFor = pick("lookingFor");
     const pitchDeckUrl = pick("pitchDeckUrl");
     const anythingElse = pick("anythingElse");
+    const deckOrProfileUrl = pitchDeckUrl || website;
     if (
       !startupName ||
       !founderName ||
       !email ||
-      !phone ||
-      !website ||
+      !deckOrProfileUrl ||
       !stage ||
       !industry ||
-      !description ||
-      !pitchDeckUrl
+      !description
     ) {
       return { ok: false, error: "Missing required fields" };
     }
@@ -160,8 +159,8 @@ function validatePayload(
         startupName,
         founderName,
         email,
-        phone,
-        website,
+        phone: phone || "—",
+        website: website || "—",
         stage,
         industry,
         description,
@@ -169,7 +168,7 @@ function validatePayload(
         roundAndTarget: roundAndTarget || "—",
         teamSize,
         lookingFor,
-        pitchDeckUrl,
+        pitchDeckUrl: deckOrProfileUrl,
         anythingElse,
       },
     };
