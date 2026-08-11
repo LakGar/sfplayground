@@ -49,6 +49,7 @@ export function getNetworkIntakeDisplayName(
   if (kind === "startups") return values.founderName ?? "";
   if (kind === "vcs") return values.investorName ?? "";
   if (kind === "speakers") return values.fullName ?? "";
+  if (kind === "popup-market") return values.founderName ?? "";
   return "";
 }
 
@@ -176,6 +177,30 @@ const PERSONALIZED_COPY: Record<
         description: first
           ? `Expect a personal note for ${you} within a few business days.`
           : "Expect a personal reply within a few business days.",
+      },
+    ],
+  }),
+  "popup-market": (you, first) => ({
+    body: first
+      ? `${first}, your pop-up market application is with our team. We’ll review the product link, category fit, and booth readiness, then follow up if your startup is approved for the $500 booth.`
+      : "Your pop-up market application is with our team. We’ll review the product link, category fit, and booth readiness, then follow up if your startup is approved for the $500 booth.",
+    steps: [
+      {
+        title: "We review your product",
+        description: first
+          ? `${first}, we’ll check that the product is physical, consumer-facing, and ready for a real market setting.`
+          : "We’ll check that the product is physical, consumer-facing, and ready for a real market setting.",
+      },
+      {
+        title: "We confirm fit",
+        description:
+          "Approved categories include consumer electronics, robotics, healthtech, pet tech, and adjacent physical products.",
+      },
+      {
+        title: "We send booth next steps",
+        description: first
+          ? `If approved, we’ll email ${you} with payment and logistics for the $500 booth.`
+          : "If approved, we’ll email you with payment and logistics for the $500 booth.",
       },
     ],
   }),

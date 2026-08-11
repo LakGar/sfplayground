@@ -114,6 +114,7 @@ export function getSponsorStepValidationError(
     contactName: string;
     email: string;
     companyType: string;
+    eventInterest: string;
     sponsorshipBudgetRange: string;
     interestedIn: string[];
     goals: string;
@@ -139,8 +140,7 @@ export function getSponsorStepValidationError(
   }
 
   if (step.inputType === "chips") {
-    const value =
-      step.field === "companyType" ? form.companyType : form.sponsorshipBudgetRange;
+    const value = String(form[step.field as keyof typeof form] ?? "");
     return value.trim() ? null : "Select an option to continue.";
   }
 

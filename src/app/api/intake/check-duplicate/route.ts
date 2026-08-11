@@ -10,6 +10,7 @@ const INTAKE_KINDS = new Set<IntakeKind>([
   "startups",
   "vcs",
   "speakers",
+  "popup-market",
 ]);
 
 export async function POST(request: NextRequest) {

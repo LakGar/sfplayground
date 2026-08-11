@@ -39,4 +39,12 @@ export const INTAKE_SUCCESS_COPY: Record<
       { href: MAILTO, label: "Email the team" },
     ],
   },
+  "popup-market": {
+    headline: "Thanks — your product is in review.",
+    body: "We’ll review your physical product, category fit, and booth readiness. Approved startups pay a flat $500 booth fee for the day, with no revenue share.",
+    links: [
+      { href: "/network", label: "Back to network" },
+      { href: MAILTO, label: "Questions? Email us" },
+    ],
+  },
 };

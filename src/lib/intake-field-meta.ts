@@ -14,6 +14,7 @@ export const INTAKE_FIELD_META: Record<
       phone: "Phone",
       website: "Website",
       companyType: "Company type",
+      eventInterest: "Event interest",
       sponsorshipBudgetRange: "Sponsorship budget range",
       interestedIn: "Interested in",
       goals: "Goals / exposure",
@@ -29,6 +30,7 @@ export const INTAKE_FIELD_META: Record<
       email: "Email",
       phone: "Phone",
       website: "Website",
+      eventInterest: "Event interest",
       stage: "Stage",
       industry: "Industry / category",
       description: "One-sentence description",
@@ -49,6 +51,7 @@ export const INTAKE_FIELD_META: Record<
       email: "Email",
       phone: "Phone",
       website: "Website",
+      eventInterest: "Event interest",
       checkSize: "Check size",
       stageFocus: "Stage focus",
       sectorFocus: "Sector focus",
@@ -67,6 +70,7 @@ export const INTAKE_FIELD_META: Record<
       phone: "Phone",
       company: "Company",
       logoUrl: "Organization logo",
+      eventInterest: "Event interest",
       roleTitle: "Role / title",
       webOrLinkedin: "Website or LinkedIn",
       topicExpertise: "Topic expertise",
@@ -77,6 +81,22 @@ export const INTAKE_FIELD_META: Record<
       anythingElse: "Anything else we should know",
     },
   },
+  "popup-market": {
+    title: "Pop-up market application",
+    fields: {
+      startupName: "Startup name",
+      founderName: "Founder name",
+      email: "Email",
+      phone: "Phone",
+      website: "Website",
+      productName: "Product name",
+      productCategory: "Product category",
+      productLink: "Product / shop link",
+      productDescription: "Product description",
+      boothFeeAcknowledged: "Booth fee acknowledged",
+      anythingElse: "Anything else we should know",
+    },
+  },
 };
 
 export const INTAKE_SHEET_TABS: Record<IntakeKind, string> = {
@@ -84,6 +104,7 @@ export const INTAKE_SHEET_TABS: Record<IntakeKind, string> = {
   vcs: "Investors",
   speakers: "Operators & Experts",
   sponsors: "Sponsors",
+  "popup-market": "Pop-up Market",
 };
 
 export function intakeFieldKeys(kind: IntakeKind): string[] {

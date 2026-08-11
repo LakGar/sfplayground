@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { buildIntakeEmailHtml } from "@/lib/intake-email-html";
 import { insertCrmIntakeRecord } from "@/lib/admin-crm";
 import { appendIntakeToGoogleSheet } from "@/lib/google-sheets-intake";
+import { GENERAL_EVENT_OPTION } from "@/data/intake-event-options";
 import type { IntakeKind } from "@/lib/intake-types";
 import { INTAKE_SUBJECT } from "@/lib/intake-types";
 import { getTeamRecipients, SFPLAYGROUND_FROM } from "@/lib/team-email";
@@ -58,7 +59,13 @@ function validEmail(v: string): boolean {
   return v.includes("@") && v.length < 320;
 }
 
-const INTAKE_KINDS = new Set<IntakeKind>(["sponsors", "startups", "vcs", "speakers"]);
+const INTAKE_KINDS = new Set<IntakeKind>([
+  "sponsors",
+  "startups",
+  "vcs",
+  "speakers",
+  "popup-market",
+]);
 
 function validatePayload(
   kind: IntakeKind,
@@ -79,6 +86,7 @@ function validatePayload(
     const phone = pick("phone");
     const website = pick("website");
     const companyType = pick("companyType");
+    const eventInterest = pick("eventInterest") || GENERAL_EVENT_OPTION;
     const sponsorshipBudgetRange = pick("sponsorshipBudgetRange");
     const interestedIn = pick("interestedIn");
     const goals = pick("goals");
@@ -109,6 +117,7 @@ function validatePayload(
         phone,
         website,
         companyType,
+        eventInterest,
         sponsorshipBudgetRange,
         interestedIn,
         goals,
@@ -124,6 +133,7 @@ function validatePayload(
     const email = pick("email");
     const phone = pick("phone");
     const website = pick("website");
+    const eventInterest = pick("eventInterest") || GENERAL_EVENT_OPTION;
     const stage = pick("stage");
     const industry = pick("industry");
     const description = pick("description");
@@ -161,6 +171,7 @@ function validatePayload(
         email,
         phone: phone || "—",
         website: website || "—",
+        eventInterest,
         stage,
         industry,
         description,
@@ -181,6 +192,7 @@ function validatePayload(
     const email = pick("email");
     const phone = pick("phone");
     const website = pick("website");
+    const eventInterest = pick("eventInterest") || GENERAL_EVENT_OPTION;
     const checkSize = pick("checkSize");
     const stageFocus = pick("stageFocus");
     const sectorFocus = pick("sectorFocus");
@@ -215,6 +227,7 @@ function validatePayload(
         email,
         phone,
         website,
+        eventInterest,
         checkSize,
         stageFocus,
         sectorFocus,
@@ -227,12 +240,57 @@ function validatePayload(
     };
   }
 
+  if (kind === "popup-market") {
+    const startupName = pick("startupName");
+    const founderName = pick("founderName");
+    const email = pick("email");
+    const phone = pick("phone");
+    const website = pick("website");
+    const productName = pick("productName");
+    const productCategory = pick("productCategory");
+    const productLink = pick("productLink");
+    const productDescription = pick("productDescription");
+    const boothFeeAcknowledged = pick("boothFeeAcknowledged");
+    const anythingElse = pick("anythingElse") || "—";
+    if (
+      !startupName ||
+      !founderName ||
+      !email ||
+      !website ||
+      !productName ||
+      !productCategory ||
+      !productLink ||
+      !productDescription ||
+      !boothFeeAcknowledged
+    ) {
+      return { ok: false, error: "Missing required fields" };
+    }
+    if (!validEmail(email)) return { ok: false, error: "Valid email is required" };
+    return {
+      ok: true,
+      data: {
+        startupName,
+        founderName,
+        email,
+        phone: phone || "—",
+        website,
+        productName,
+        productCategory,
+        productLink,
+        productDescription,
+        boothFeeAcknowledged,
+        anythingElse,
+      },
+    };
+  }
+
   /* speakers */
   const fullName = pick("fullName");
   const email = pick("email");
   const phone = pick("phone");
   const company = pick("company");
   const logoUrl = pick("logoUrl");
+  const eventInterest = pick("eventInterest") || GENERAL_EVENT_OPTION;
   const roleTitle = pick("roleTitle");
   const webOrLinkedin = pick("webOrLinkedin");
   const topicExpertise = pick("topicExpertise");
@@ -265,6 +323,7 @@ function validatePayload(
       phone,
       company,
       logoUrl,
+      eventInterest,
       roleTitle,
       webOrLinkedin,
       topicExpertise,

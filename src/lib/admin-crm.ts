@@ -253,6 +253,11 @@ function intakeKindToCategory(kind: string): CrmCategory {
   return "Startup";
 }
 
+function intakeKindToSource(kind: IntakeKind): string {
+  if (kind === "popup-market") return "Pop-up market intake";
+  return "Intake form";
+}
+
 function categoryToIntakeKind(category: CrmCategory): IntakeKind {
   if (category === "Investor") return "vcs";
   if (category === "Sponsor") return "sponsors";
@@ -286,6 +291,7 @@ function intakeRecordToCrm(row: {
     { label: "Pitch deck", url: normalizeUrl(payload.pitchDeckUrl ?? "") },
     { label: "Additional file", url: normalizeUrl(payload.additionalInfoFileUrl ?? "") },
     { label: "Logo", url: normalizeUrl(payload.logoUrl ?? "") },
+    { label: "Product link", url: normalizeUrl(payload.productLink ?? "") },
   ].filter((link) => link.url);
   const canonical = classifyIndustryText([
     payload.industry,
@@ -293,6 +299,10 @@ function intakeRecordToCrm(row: {
     payload.sectorFocus,
     payload.companyType,
     payload.topicExpertise,
+    payload.eventInterest,
+    payload.productCategory,
+    payload.productName,
+    payload.productDescription,
     payload.description,
     payload.goals,
     payload.startupsToMeet,
@@ -325,6 +335,8 @@ function intakeRecordToCrm(row: {
       payload.sectorFocus ||
       payload.stageFocus ||
       payload.companyType ||
+      payload.eventInterest ||
+      payload.productCategory ||
       payload.topicExpertise ||
       "",
     value:
@@ -333,6 +345,7 @@ function intakeRecordToCrm(row: {
       payload.checkSize ||
       payload.sponsorshipBudgetRange ||
       payload.preferredEventType ||
+      (row.kind === "popup-market" ? "Booth: $500/day" : "") ||
       category,
     source: row.source,
     updated: row.updated_at.toISOString().slice(0, 10),
@@ -344,6 +357,7 @@ function intakeRecordToCrm(row: {
       payload.description ||
       payload.goals ||
       payload.startupsToMeet ||
+      payload.productDescription ||
       payload.whySpeak ||
       payload.anythingElse ||
       "",
@@ -353,6 +367,9 @@ function intakeRecordToCrm(row: {
       payload.stageFocus,
       payload.sectorFocus,
       payload.companyType,
+      payload.eventInterest,
+      payload.productCategory,
+      payload.boothFeeAcknowledged ? "$500 booth" : "",
       payload.topicExpertise,
       ...canonical,
       payload.tier,
@@ -507,9 +524,11 @@ export async function insertCrmIntakeRecord(
   const website = data.website || data.webOrLinkedin || "";
   const phone = data.phone || "";
 
+  const source = intakeKindToSource(kind);
+
   await sql`
     INSERT INTO crm_intake_records (kind, email, name, company, phone, website, source, payload, updated_at)
-    VALUES (${kind}, ${email}, ${name}, ${company}, ${phone}, ${website}, 'Intake form', ${JSON.stringify(
+    VALUES (${kind}, ${email}, ${name}, ${company}, ${phone}, ${website}, ${source}, ${JSON.stringify(
       data,
     )}::jsonb, NOW())
   `;

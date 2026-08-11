@@ -10,6 +10,7 @@ import {
   Database,
   FileText,
   Handshake,
+  Store,
   Rocket,
   LayoutDashboard,
   Mail,
@@ -54,6 +55,11 @@ const data = {
       title: "Startups",
       url: "/admin/startups",
       icon: Rocket,
+    },
+    {
+      title: "Pop-up Market",
+      url: "/admin/pop-up-market",
+      icon: Store,
     },
     {
       title: "Sponsor Pipeline",

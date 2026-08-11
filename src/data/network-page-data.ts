@@ -1,4 +1,5 @@
 import type { IntakeKind } from "@/lib/intake-types";
+import { INTAKE_EVENT_OPTIONS } from "@/data/intake-event-options";
 
 export const NETWORK_PAGE_SHELL =
   "min-h-screen bg-linear-to-b from-white from-0% via-[#f3f3f1] via-[38%] via-[#fafaf8] via-[72%] to-white to-100%";
@@ -366,6 +367,14 @@ export const STARTUP_QUESTIONNAIRE: QuestionnaireStep[] = [
     optional: true,
   },
   {
+    id: "eventInterest",
+    title: "Which event are you interested in?",
+    subtitle: "Pick an upcoming event, or choose General if you are not sure yet.",
+    inputType: "chips",
+    field: "eventInterest",
+    options: INTAKE_EVENT_OPTIONS,
+  },
+  {
     id: "stage",
     title: "What stage are you at?",
     subtitle: "Helps us match you with the right rooms.",
@@ -483,6 +492,14 @@ export const VC_QUESTIONNAIRE: QuestionnaireStep[] = [
     placeholder: "+1 (555) 000-0000",
   },
   {
+    id: "eventInterest",
+    title: "Which event do you want dealflow for?",
+    subtitle: "Pick an upcoming event, or choose General if you are open-ended.",
+    inputType: "chips",
+    field: "eventInterest",
+    options: INTAKE_EVENT_OPTIONS,
+  },
+  {
     id: "checkSize",
     title: "Typical check size?",
     subtitle: "Rough range is fine.",
@@ -580,6 +597,14 @@ export const SPEAKER_QUESTIONNAIRE: QuestionnaireStep[] = [
     subtitle: "Used when we feature you on programs and recaps.",
     inputType: "logo",
     field: "logoUrl",
+  },
+  {
+    id: "eventInterest",
+    title: "Which event should we consider you for?",
+    subtitle: "Pick an upcoming event, or choose General if you are flexible.",
+    inputType: "chips",
+    field: "eventInterest",
+    options: INTAKE_EVENT_OPTIONS,
   },
   {
     id: "roleTitle",

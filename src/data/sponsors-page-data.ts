@@ -1,4 +1,5 @@
 import { INSTAGRAM_PROFILE } from "@/data/social-links";
+import { INTAKE_EVENT_OPTIONS } from "@/data/intake-event-options";
 
 export const SPONSOR_HERO = {
   title: "SPONSORSHIP",
@@ -435,6 +436,7 @@ export type SponsorFormData = {
   phone: string;
   website: string;
   companyType: string;
+  eventInterest: string;
   sponsorshipBudgetRange: string;
   interestedIn: string[];
   goals: string;
@@ -499,6 +501,14 @@ export const SPONSOR_QUESTIONNAIRE_STEPS: SponsorQuestionnaireStep[] = [
     field: "companyType",
     inputType: "chips",
     options: COMPANY_TYPES,
+  },
+  {
+    id: "eventInterest",
+    title: "Which event should we talk about?",
+    subtitle: "Pick an upcoming event, or choose General if the partnership is open-ended.",
+    field: "eventInterest",
+    inputType: "chips",
+    options: INTAKE_EVENT_OPTIONS,
   },
   {
     id: "budget",

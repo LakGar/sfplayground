@@ -51,6 +51,15 @@ export const INTAKE_THANK_YOU_PAGES: Record<IntakeKind, IntakeThankYouPage> = {
     secondaryCta: { href: "/sponsors", label: "Back to sponsors" },
     accent: "#1a3d5c",
   },
+  "popup-market": {
+    eyebrow: "Application received",
+    subheadline: "Your pop-up market application is in review.",
+    body: "",
+    steps: [],
+    primaryCta: { href: "/network", label: "Back to network" },
+    secondaryCta: { href: MAILTO, label: "Email the team" },
+    accent: "#0c1222",
+  },
 };
 
 export function isIntakeKind(value: string | null): value is IntakeKind {
@@ -58,6 +67,7 @@ export function isIntakeKind(value: string | null): value is IntakeKind {
     value === "startups" ||
     value === "vcs" ||
     value === "speakers" ||
-    value === "sponsors"
+    value === "sponsors" ||
+    value === "popup-market"
   );
 }
