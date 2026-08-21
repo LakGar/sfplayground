@@ -4,7 +4,7 @@ import ShowroomPage from "@/components/showroom/showroom-page";
 export const metadata: Metadata = {
   title: "The Showroom | SFPLAYGROUND",
   description:
-    "The Showroom by SFPLAYGROUND: a one-day luxury technology store at 800 Market Street in San Francisco on October 6, 2026.",
+    "The Showroom by SFPLAYGROUND: a one-day luxury technology store at 800 Market Street in San Francisco.",
   alternates: {
     canonical: "/showroom",
   },

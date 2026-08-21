@@ -255,7 +255,7 @@ export default function ShowroomPage() {
           <FadeUp delay={0.36}>
             <p className="mt-7 max-w-3xl text-xl leading-relaxed text-black/68 md:text-2xl">
               A two story luxury technology store in the heart of San Francisco.
-              One day. October 6, 2026. 800 Market Street.
+              One day at 800 Market Street.
             </p>
           </FadeUp>
           <FadeUp delay={0.46}>
