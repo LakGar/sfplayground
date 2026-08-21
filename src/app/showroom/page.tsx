@@ -14,9 +14,9 @@ export const metadata: Metadata = {
       "See it. Try it. Take it home. A one-day luxury technology store for robotics, wearables, AI devices, smart home, mobility and consumer hardware.",
     images: [
       {
-        url: "/images/showroom-hero-generated.png",
-        width: 1680,
-        height: 920,
+        url: "/images/showroom-source/img-6342.jpg",
+        width: 1351,
+        height: 900,
         alt: "The Showroom by SFPLAYGROUND",
       },
     ],

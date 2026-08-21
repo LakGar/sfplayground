@@ -231,8 +231,8 @@ export default function ShowroomPage() {
 
       <section className="relative min-h-screen overflow-hidden bg-[#fbfbf7] text-black">
         <Image
-          src="/images/showroom-hero-generated.png"
-          alt="Luxury technology showroom concept at 800 Market Street"
+          src="/images/showroom-source/img-6342.jpg"
+          alt="800 Market Street in San Francisco"
           fill
           priority
           className="object-cover object-center opacity-92"
@@ -319,10 +319,10 @@ export default function ShowroomPage() {
         <div className="min-h-[420px] p-5 md:p-8 lg:min-h-[760px] lg:p-10">
           <div className="relative h-full min-h-[380px] overflow-hidden rounded-[0.875rem] border border-black/10 bg-[#fbfbf7] shadow-[0_22px_70px_rgba(0,0,0,0.07)]">
             <Image
-              src="/images/showroom-demo-generated.png"
-              alt="Robotics and hardware shown inside a showroom"
+              src="/images/showroom-source/loopnet-listing.png"
+              alt="SFPLAYGROUND Showroom concept for 800 Market Street"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 50vw"
               unoptimized
             />
@@ -391,10 +391,10 @@ export default function ShowroomPage() {
         <div className="min-h-[420px] p-5 md:p-8 lg:min-h-[760px] lg:p-10">
           <div className="relative h-full min-h-[380px] overflow-hidden rounded-[0.875rem] border border-black/10 bg-[#fbfbf7] shadow-[0_22px_70px_rgba(0,0,0,0.07)]">
             <Image
-              src="/images/showroom-market-generated.png"
-              alt="800 Market Street in San Francisco"
+              src="/images/showroom-source/img-6343.jpg"
+              alt="800 Market Street at night in San Francisco"
               fill
-              className="object-cover"
+              className="object-cover object-center"
               sizes="(max-width: 1024px) 100vw, 45vw"
               unoptimized
             />
