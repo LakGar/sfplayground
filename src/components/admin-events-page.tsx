@@ -1,7 +1,19 @@
 "use client";
 
 import * as React from "react";
-import { CalendarDays, ExternalLink, ImagePlus, MapPin, Pencil, Plus, Trash2, Upload } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUp,
+  CalendarDays,
+  ExternalLink,
+  GripVertical,
+  ImagePlus,
+  MapPin,
+  Pencil,
+  Plus,
+  Trash2,
+  Upload,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { Badge } from "@/components/ui/badge";
@@ -344,6 +356,79 @@ function PreviousCard({ event, onEdit }: { event: EventRow; onEdit: (event: Even
   );
 }
 
+function PreviousOrderList({
+  events,
+  saving,
+  onMove,
+  onEdit,
+}: {
+  events: EventRow[];
+  saving: boolean;
+  onMove: (eventId: number, direction: "up" | "down") => void;
+  onEdit: (event: EventRow) => void;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl border bg-white">
+      <div className="border-b bg-neutral-50 px-4 py-3">
+        <p className="text-sm font-medium text-black">Main page display order</p>
+        <p className="text-xs text-black/50">
+          Top item shows first. Changes save immediately.
+        </p>
+      </div>
+      <div className="divide-y">
+        {events.map((event, index) => (
+          <div
+            key={event.id}
+            className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3"
+          >
+            <GripVertical className="size-4 text-black/25" aria-hidden />
+            <div className="min-w-0">
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="font-oswald text-sm font-bold text-black/35">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="truncate text-sm font-medium text-black">{event.title}</p>
+              </div>
+              <p className="mt-0.5 truncate text-xs text-black/45">{event.date}</p>
+            </div>
+            <div className="flex items-center gap-1">
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                disabled={saving || index === 0}
+                onClick={() => onMove(event.id, "up")}
+                aria-label={`Move ${event.title} up`}
+              >
+                <ArrowUp />
+              </Button>
+              <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                disabled={saving || index === events.length - 1}
+                onClick={() => onMove(event.id, "down")}
+                aria-label={`Move ${event.title} down`}
+              >
+                <ArrowDown />
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant="ghost"
+                onClick={() => onEdit(event)}
+              >
+                <Pencil />
+                Edit
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function AdminEventsPage({
   events,
   nextEvent,
@@ -358,10 +443,16 @@ export function AdminEventsPage({
   const [open, setOpen] = React.useState(false);
   const [nextOpen, setNextOpen] = React.useState(false);
   const [saving, setSaving] = React.useState(false);
+  const [savingOrder, setSavingOrder] = React.useState(false);
   const [uploading, setUploading] = React.useState<string | null>(null);
 
   const upcoming = items.filter((event) => event.status === "upcoming");
   const previous = items.filter((event) => event.status !== "upcoming");
+
+  const openEditor = (selected: EventRow) => {
+    setForm(formFromEvent(selected));
+    setOpen(true);
+  };
 
   const updateForm = (key: keyof EventForm, value: string) => {
     setForm((current) => ({
@@ -563,6 +654,38 @@ export function AdminEventsPage({
     }
   };
 
+  const persistPreviousOrder = async (nextPrevious: EventRow[]) => {
+    setSavingOrder(true);
+    try {
+      const result = await fetchJsonWithTimeout<EventRow[]>("/api/admin/events/order", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: nextPrevious.map((event) => event.id) }),
+      });
+      setItems(result);
+      toast.success("Previous event order updated.");
+    } catch (error) {
+      setItems(events);
+      toast.error(error instanceof Error ? error.message : "Could not update order.");
+    } finally {
+      setSavingOrder(false);
+    }
+  };
+
+  const movePreviousEvent = (eventId: number, direction: "up" | "down") => {
+    const from = previous.findIndex((event) => event.id === eventId);
+    if (from < 0) return;
+    const to = direction === "up" ? from - 1 : from + 1;
+    if (to < 0 || to >= previous.length) return;
+
+    const nextPrevious = [...previous];
+    const [moved] = nextPrevious.splice(from, 1);
+    if (!moved) return;
+    nextPrevious.splice(to, 0, moved);
+    setItems([...upcoming, ...nextPrevious]);
+    void persistPreviousOrder(nextPrevious);
+  };
+
   return (
     <div className="grid min-w-0 max-w-full gap-8 overflow-hidden px-4 pb-8 lg:px-6">
       <div className="flex min-w-0 flex-col gap-3 rounded-lg border bg-card p-4 md:flex-row md:items-center md:justify-between">
@@ -648,10 +771,7 @@ export function AdminEventsPage({
         </div>
         <div className="grid gap-4 xl:grid-cols-2">
           {upcoming.map((event) => (
-            <UpcomingCard key={event.id} event={event} onEdit={(selected) => {
-              setForm(formFromEvent(selected));
-              setOpen(true);
-            }} />
+            <UpcomingCard key={event.id} event={event} onEdit={openEditor} />
           ))}
         </div>
       </section>
@@ -661,12 +781,15 @@ export function AdminEventsPage({
           <h2 className="font-oswald text-3xl font-bold tracking-tight">Previous Events</h2>
           <p className="text-sm text-muted-foreground">Poster cards matching the public previous events section.</p>
         </div>
+        <PreviousOrderList
+          events={previous}
+          saving={savingOrder}
+          onMove={movePreviousEvent}
+          onEdit={openEditor}
+        />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {previous.map((event) => (
-            <PreviousCard key={event.id} event={event} onEdit={(selected) => {
-              setForm(formFromEvent(selected));
-              setOpen(true);
-            }} />
+            <PreviousCard key={event.id} event={event} onEdit={openEditor} />
           ))}
         </div>
       </section>

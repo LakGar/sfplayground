@@ -384,6 +384,7 @@ export type EventRow = {
   cover_image: string | null;
   description: string;
   images: string[];
+  event_order: number | null;
   created_at: Date;
   updated_at: Date;
 };
@@ -392,15 +393,17 @@ async function ensureEventColumns(): Promise<void> {
   await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS time TEXT");
   await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS organizer TEXT NOT NULL DEFAULT 'SFPLAYGROUND'");
   await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS luma_url TEXT");
+  await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS event_order INTEGER");
 }
 
 export async function getEvents(): Promise<EventRow[]> {
   await ensureEventColumns();
   const { rows } = await sql`
-    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
+    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, event_order, created_at, updated_at
     FROM events
     ORDER BY
       CASE WHEN status = 'upcoming' THEN 0 ELSE 1 END,
+      CASE WHEN status = 'upcoming' THEN NULL ELSE COALESCE(event_order, 1000000) END ASC,
       updated_at DESC
   `;
   return (rows as { images: unknown }[]).map((r) => ({
@@ -412,7 +415,7 @@ export async function getEvents(): Promise<EventRow[]> {
 export async function getEventBySlug(slug: string): Promise<EventRow | null> {
   await ensureEventColumns();
   const { rows } = await sql`
-    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
+    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, event_order, created_at, updated_at
     FROM events
     WHERE LOWER(TRIM(slug)) = LOWER(TRIM(${slug}))
     LIMIT 1
@@ -425,7 +428,7 @@ export async function getEventBySlug(slug: string): Promise<EventRow | null> {
 export async function getEventById(id: number): Promise<EventRow | null> {
   await ensureEventColumns();
   const { rows } = await sql`
-    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
+    SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, event_order, created_at, updated_at
     FROM events
     WHERE id = ${id}
     LIMIT 1
@@ -454,7 +457,7 @@ export async function createEvent(data: {
   const { rows } = await sql`
     INSERT INTO events (slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, updated_at)
     VALUES (${data.slug}, ${data.title}, ${data.date}, ${data.time ?? null}, ${data.location}, ${data.attendees ?? 0}, ${data.status ?? "past"}, ${data.organizer ?? "SFPLAYGROUND"}, ${data.luma_url ?? null}, ${data.cover_image ?? null}, ${data.description}, ${JSON.stringify(images)}::jsonb, NOW())
-    RETURNING id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
+    RETURNING id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, event_order, created_at, updated_at
   `;
   const r = rows[0] as EventRow & { images: unknown };
   return { ...r, images: Array.isArray(r.images) ? r.images : [] } as EventRow;
@@ -504,6 +507,18 @@ export async function updateEvent(
 export async function deleteEvent(id: number): Promise<boolean> {
   const { rowCount } = await sql`DELETE FROM events WHERE id = ${id}`;
   return (rowCount ?? 0) > 0;
+}
+
+export async function updatePreviousEventOrder(ids: number[]): Promise<EventRow[]> {
+  await ensureEventColumns();
+  for (const [index, id] of ids.entries()) {
+    await sql`
+      UPDATE events
+      SET event_order = ${index}
+      WHERE id = ${id} AND status <> 'upcoming'
+    `;
+  }
+  return getEvents();
 }
 
 // --- Success stories ---

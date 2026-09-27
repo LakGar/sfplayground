@@ -20,6 +20,7 @@ export type PublicPreviousEvent = {
   imageUrl: string;
   href: string;
   linkedInHref?: string;
+  eventOrder?: number | null;
 };
 
 function tagsFromDescription(description: string): string[] {
@@ -54,7 +55,21 @@ function toPreviousEvent(event: EventRow): PublicPreviousEvent {
     date: event.date,
     imageUrl: eventImage(event),
     href: event.luma_url || "/previous-events",
+    eventOrder: event.event_order,
   };
+}
+
+function sortPreviousEvents(
+  a: PublicPreviousEvent,
+  b: PublicPreviousEvent,
+): number {
+  const aOrder = typeof a.eventOrder === "number" ? a.eventOrder : null;
+  const bOrder = typeof b.eventOrder === "number" ? b.eventOrder : null;
+
+  if (aOrder !== null && bOrder !== null) return aOrder - bOrder;
+  if (aOrder !== null) return -1;
+  if (bOrder !== null) return 1;
+  return parseEventDate(b.date) - parseEventDate(a.date);
 }
 
 function parseEventDate(value: string | null | undefined): number {
@@ -151,12 +166,12 @@ export async function getPublicEventLists(): Promise<{
       .map(toUpcomingEvent)
       .sort((a, b) => parseEventDate(a.time) - parseEventDate(b.time));
     const previous = dedupeEvents([
+      ...events.filter((event) => !isUpcomingByDate(event)).map(toPreviousEvent),
       ...PREVIOUS_EVENTS.map((event) => ({
         ...event,
         href: getEventPublicUrl(event),
       })),
-      ...events.filter((event) => !isUpcomingByDate(event)).map(toPreviousEvent),
-    ]).sort((a, b) => parseEventDate(b.date) - parseEventDate(a.date));
+    ]).sort(sortPreviousEvents);
 
     return {
       upcoming: upcoming.length ? upcoming : UPCOMING_EVENTS,
