@@ -113,20 +113,7 @@ const previousEvents: PreviousEventItem[] = [
     imageUrl: "/images/previous-events/construction.jpeg",
     href: "https://luma.com/harvardmitproperty",
   },
-  {
-    slug: "harvard-mit-robotics-physical-ai",
-    title: "Harvard + MIT Series (2nd of 3): Robotics & Physical AI",
-    date: "Spring 2026",
-    imageUrl: "/images/previous-events/harvard.jpg",
-    href: INSTAGRAM_PROFILE,
-  },
-  {
-    slug: "ai-healthcare-silicon-valley-investing-summit",
-    title: "AI x Healthcare — Silicon Valley Investing Summit",
-    date: "January 2026",
-    imageUrl: "/images/previous-events/ai-healthtech-panel.png",
-    href: "https://www.linkedin.com/feed/update/urn:li:activity:7495196550965542912",
-  },
+
 ];
 
 export const PREVIOUS_EVENTS: PreviousEventItem[] = [...previousEvents].sort(
