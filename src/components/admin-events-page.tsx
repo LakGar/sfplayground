@@ -360,28 +360,76 @@ function PreviousOrderList({
   events,
   saving,
   onMove,
+  onReorder,
   onEdit,
 }: {
   events: EventRow[];
   saving: boolean;
   onMove: (eventId: number, direction: "up" | "down") => void;
+  onReorder: (orderedEvents: EventRow[]) => void;
   onEdit: (event: EventRow) => void;
 }) {
+  const [draggingId, setDraggingId] = React.useState<number | null>(null);
+  const [dragOverId, setDragOverId] = React.useState<number | null>(null);
+
+  const dropOnEvent = (targetId: number) => {
+    if (draggingId === null || draggingId === targetId) return;
+    const from = events.findIndex((event) => event.id === draggingId);
+    const to = events.findIndex((event) => event.id === targetId);
+    if (from < 0 || to < 0) return;
+
+    const orderedEvents = [...events];
+    const [moved] = orderedEvents.splice(from, 1);
+    if (!moved) return;
+    orderedEvents.splice(to, 0, moved);
+    onReorder(orderedEvents);
+  };
+
   return (
     <div className="overflow-hidden rounded-2xl border bg-white">
       <div className="border-b bg-neutral-50 px-4 py-3">
         <p className="text-sm font-medium text-black">Main page display order</p>
         <p className="text-xs text-black/50">
-          Top item shows first. Changes save immediately.
+          Drag rows or use arrows. Top item shows first. Changes save immediately.
         </p>
       </div>
       <div className="divide-y">
         {events.map((event, index) => (
           <div
             key={event.id}
-            className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3"
+            draggable={!saving}
+            onDragStart={(dragEvent) => {
+              dragEvent.dataTransfer.effectAllowed = "move";
+              dragEvent.dataTransfer.setData("text/plain", String(event.id));
+              setDraggingId(event.id);
+            }}
+            onDragOver={(dragEvent) => {
+              dragEvent.preventDefault();
+              dragEvent.dataTransfer.dropEffect = "move";
+              setDragOverId(event.id);
+            }}
+            onDragLeave={() => {
+              setDragOverId((current) => (current === event.id ? null : current));
+            }}
+            onDrop={(dragEvent) => {
+              dragEvent.preventDefault();
+              dropOnEvent(event.id);
+              setDraggingId(null);
+              setDragOverId(null);
+            }}
+            onDragEnd={() => {
+              setDraggingId(null);
+              setDragOverId(null);
+            }}
+            className={`grid cursor-grab grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 px-4 py-3 transition-colors active:cursor-grabbing ${
+              dragOverId === event.id && draggingId !== event.id
+                ? "bg-black/[0.04]"
+                : draggingId === event.id
+                  ? "bg-neutral-50 opacity-60"
+                  : "bg-white"
+            }`}
           >
-            <GripVertical className="size-4 text-black/25" aria-hidden />
+            <GripVertical className="size-4 text-black/30" aria-hidden />
             <div className="min-w-0">
               <div className="flex min-w-0 items-center gap-2">
                 <span className="font-oswald text-sm font-bold text-black/35">
@@ -654,7 +702,10 @@ export function AdminEventsPage({
     }
   };
 
-  const persistPreviousOrder = async (nextPrevious: EventRow[]) => {
+  const persistPreviousOrder = async (
+    nextPrevious: EventRow[],
+    rollbackItems: EventRow[],
+  ) => {
     setSavingOrder(true);
     try {
       const result = await fetchJsonWithTimeout<EventRow[]>("/api/admin/events/order", {
@@ -665,11 +716,17 @@ export function AdminEventsPage({
       setItems(result);
       toast.success("Previous event order updated.");
     } catch (error) {
-      setItems(events);
+      setItems(rollbackItems);
       toast.error(error instanceof Error ? error.message : "Could not update order.");
     } finally {
       setSavingOrder(false);
     }
+  };
+
+  const reorderPreviousEvents = (nextPrevious: EventRow[]) => {
+    const rollbackItems = items;
+    setItems([...upcoming, ...nextPrevious]);
+    void persistPreviousOrder(nextPrevious, rollbackItems);
   };
 
   const movePreviousEvent = (eventId: number, direction: "up" | "down") => {
@@ -682,8 +739,7 @@ export function AdminEventsPage({
     const [moved] = nextPrevious.splice(from, 1);
     if (!moved) return;
     nextPrevious.splice(to, 0, moved);
-    setItems([...upcoming, ...nextPrevious]);
-    void persistPreviousOrder(nextPrevious);
+    reorderPreviousEvents(nextPrevious);
   };
 
   return (
@@ -785,6 +841,7 @@ export function AdminEventsPage({
           events={previous}
           saving={savingOrder}
           onMove={movePreviousEvent}
+          onReorder={reorderPreviousEvents}
           onEdit={openEditor}
         />
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
