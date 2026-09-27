@@ -172,7 +172,7 @@ export function SiliconValleyLanding() {
           className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center p-10"
         >
           <form
-            action="/admin/signin"
+            action="/silicon-valley/dashboard"
             method="get"
             className="pointer-events-auto relative grid w-full h-full overflow-hidden rounded-[2rem] border  bg-white p-3 shadow-[0_20px_70px_rgba(0,0,0,0.6)] backdrop-blur-2xl md:grid-cols-[0.95fr_1.05fr] md:p-2"
           >
@@ -228,10 +228,11 @@ export function SiliconValleyLanding() {
                 </div>
                 <div className="w-full flex flex-col items-center justify-center">
                   <h2 className="mt-8 text-4xl font-semibold leading-none tracking-tight text-[#17130e]">
-                    Welcome Back
+                    Private Member Access
                   </h2>
                   <p className="mt-2 text-sm leading-relaxed text-[#6d5e47]">
-                    Sign in to continue to the private member portal.
+                    Dummy login for the Silicon Valley Club prototype.
+                    Membership payments stay in Luma.
                   </p>
 
                   <div className="mt-7 space-y-3 w-full">
@@ -277,14 +278,16 @@ export function SiliconValleyLanding() {
                   </button>
 
                   <p className="mt-4 text-center text-xs text-[#7f725e]">
-                    Member access only. Contact SFPLAYGROUND for onboarding.
+                    Demo: founder@demo.com / playground
                   </p>
                 </div>
                 <div className="w-full flex items-center justify-center">
                   <Link
-                    href="/admin/signup"
-                    className="text-sm text-[#7f725e]"
-                  ></Link>
+                    href="/silicon-valley/login"
+                    className="text-sm font-medium text-[#111]"
+                  >
+                    Open full login
+                  </Link>
                 </div>
               </div>
             </div>
