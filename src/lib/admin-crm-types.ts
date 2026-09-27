@@ -19,6 +19,8 @@ export type CrmFlag =
   | "Coming to event"
   | "";
 
+export type CrmReviewStatus = "None" | "Needs admin review";
+
 export type CrmLink = {
   label: string;
   url: string;
@@ -38,6 +40,11 @@ export type CrmRecord = {
   tier: CrmTier;
   flag: CrmFlag;
   owner: string;
+  createdBy: string;
+  lastEditedBy: string;
+  reviewStatus: CrmReviewStatus;
+  lastContactedAt: string;
+  nextFollowUpAt: string;
   industry: string;
   value: string;
   source: string;

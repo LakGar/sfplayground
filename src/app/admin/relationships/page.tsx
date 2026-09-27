@@ -15,17 +15,17 @@ export const dynamic = "force-dynamic";
 export default async function RelationshipsPage() {
   const session = await getSession();
   if (!session) redirect("/admin/signin");
+  if (session.passwordChangeRequired) redirect("/admin/change-password");
 
   const crm = await getAdminCrmData();
 
   return (
-    <AdminShell>
+    <AdminShell session={session}>
       <AdminPageHeader
         title="Relationships"
         description="All startup, investor, sponsor, operator, and subscriber records in one CRM view."
       />
-      <AdminRecordsPage records={crm.records} />
+      <AdminRecordsPage records={crm.records} session={session} />
     </AdminShell>
   );
 }
-

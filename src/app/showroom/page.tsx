@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/showroom",
   },
+  robots: {
+    index: false,
+    follow: false,
+  },
   openGraph: {
     title: "The Showroom | SFPLAYGROUND",
     description:

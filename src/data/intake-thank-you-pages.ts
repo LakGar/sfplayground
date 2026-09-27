@@ -20,7 +20,7 @@ export const INTAKE_THANK_YOU_PAGES: Record<IntakeKind, IntakeThankYouPage> = {
     subheadline: "Your startup is in our review queue.",
     body: "",
     steps: [],
-    primaryCta: { href: "/pitch-playoffs", label: "See Pitch Playoffs" },
+    primaryCta: { href: "/network", label: "Explore the network" },
     secondaryCta: { href: MAILTO, label: "Email the team" },
     accent: "#1a5c38",
   },

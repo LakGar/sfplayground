@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { isFounderAdmin } from "@/lib/admin-access";
 import { recordAuditEvent } from "@/lib/admin-audit";
 import { getWebsiteContent, setWebsiteContent } from "@/lib/db";
 import { WEBSITE_CONTENT_CONFIG } from "@/data/website-content-keys";
@@ -11,6 +12,9 @@ export async function GET() {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   try {
     const content = await getWebsiteContent();
@@ -25,6 +29,9 @@ export async function PATCH(request: NextRequest) {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   try {
     const body = await request.json();

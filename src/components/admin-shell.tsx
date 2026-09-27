@@ -3,8 +3,15 @@ import type { CSSProperties, ReactNode } from "react";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import type { AdminSession } from "@/lib/admin-auth";
 
-export function AdminShell({ children }: { children: ReactNode }) {
+export function AdminShell({
+  children,
+  session,
+}: {
+  children: ReactNode;
+  session?: AdminSession;
+}) {
   return (
     <SidebarProvider
       style={
@@ -14,9 +21,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
         } as CSSProperties
       }
     >
-      <AppSidebar variant="inset" />
+      <AppSidebar variant="inset" session={session} />
       <SidebarInset>
-        <SiteHeader />
+        <SiteHeader session={session} />
         <main className="flex min-w-0 flex-1 flex-col">{children}</main>
       </SidebarInset>
     </SidebarProvider>

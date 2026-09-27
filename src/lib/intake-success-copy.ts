@@ -19,7 +19,7 @@ export const INTAKE_SUCCESS_COPY: Record<
     headline: "Thanks — we have your snapshot.",
     body: "We’ll follow up if there’s a strong fit for an upcoming pitch night, intro, or program. Watch your inbox for a note from the SFPLAYGROUND team.",
     links: [
-      { href: "/pitch-playoffs", label: "Pitch Playoffs format" },
+      { href: "/network", label: "Explore the network" },
       { href: MAILTO, label: "Questions? Email us" },
     ],
   },

@@ -19,17 +19,35 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import type { AdminSession } from "@/lib/admin-auth";
 
 export function NavUser({
   user,
+  session,
 }: {
   user: {
     name: string;
     email: string;
     avatar: string;
   };
+  session?: AdminSession;
 }) {
   const { isMobile } = useSidebar();
+
+  const resetEleanorPassword = async () => {
+    try {
+      const response = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adminId: "eleanor" }),
+      });
+      const result = (await response.json()) as { error?: string; message?: string };
+      if (!response.ok) throw new Error(result.error || "Could not reset password.");
+      toast.success(result.message || "Eleanor password reset.");
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not reset password.");
+    }
+  };
 
   return (
     <SidebarMenu>
@@ -83,6 +101,12 @@ export function NavUser({
                 <Settings />
                 CRM settings
               </DropdownMenuItem>
+              {session?.role === "admin" ? (
+                <DropdownMenuItem onClick={resetEleanorPassword}>
+                  <UserCircle />
+                  Reset Eleanor password
+                </DropdownMenuItem>
+              ) : null}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <form action="/api/auth/signout" method="post">

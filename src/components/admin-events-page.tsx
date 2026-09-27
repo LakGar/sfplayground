@@ -52,6 +52,10 @@ type NextEventForm = {
   image_url: string;
 };
 
+const MAX_ADMIN_UPLOAD_BYTES = 3.5 * 1024 * 1024;
+const ADMIN_IMAGE_MAX_DIMENSION = 2200;
+const ADMIN_IMAGE_QUALITY = 0.82;
+
 const emptyForm: EventForm = {
   slug: "",
   title: "",
@@ -131,6 +135,9 @@ async function fetchJsonWithTimeout<T>(
     const response = await fetch(url, { ...init, signal: controller.signal });
     const result = (await response.json().catch(() => ({}))) as { error?: string };
     if (!response.ok) {
+      if (response.status === 413) {
+        throw new Error("Image is too large for upload. Use a smaller image.");
+      }
       throw new Error(result.error || `Request failed with status ${response.status}.`);
     }
     return result as T;
@@ -156,6 +163,80 @@ async function uploadFile(file: File): Promise<string> {
     30000,
   );
   return result.url;
+}
+
+function loadImage(file: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const image = new Image();
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Could not read that image. Try a JPG, PNG, or WebP."));
+    };
+    image.src = url;
+  });
+}
+
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  type: string,
+  quality: number,
+): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) resolve(blob);
+        else reject(new Error("Could not compress that image."));
+      },
+      type,
+      quality,
+    );
+  });
+}
+
+async function prepareAdminImageUpload(file: File): Promise<File> {
+  if (!file.type.startsWith("image/")) return file;
+  if (file.size <= MAX_ADMIN_UPLOAD_BYTES) return file;
+
+  const image = await loadImage(file);
+  const scale = Math.min(
+    1,
+    ADMIN_IMAGE_MAX_DIMENSION / Math.max(image.naturalWidth, image.naturalHeight),
+  );
+  const width = Math.max(1, Math.round(image.naturalWidth * scale));
+  const height = Math.max(1, Math.round(image.naturalHeight * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+
+  const context = canvas.getContext("2d");
+  if (!context) throw new Error("Could not compress that image.");
+  context.drawImage(image, 0, 0, width, height);
+
+  let quality = ADMIN_IMAGE_QUALITY;
+  let blob = await canvasToBlob(canvas, "image/jpeg", quality);
+  while (blob.size > MAX_ADMIN_UPLOAD_BYTES && quality > 0.55) {
+    quality -= 0.08;
+    blob = await canvasToBlob(canvas, "image/jpeg", quality);
+  }
+
+  if (blob.size > MAX_ADMIN_UPLOAD_BYTES) {
+    throw new Error("Image is still too large after compression. Use a smaller image.");
+  }
+
+  const compressedName = file.name.replace(/\.[^.]+$/, "") + ".jpg";
+  return new File([blob], compressedName, {
+    type: "image/jpeg",
+    lastModified: Date.now(),
+  });
+}
+
+async function uploadImageFile(file: File): Promise<string> {
+  return uploadFile(await prepareAdminImageUpload(file));
 }
 
 function EventImage({
@@ -308,7 +389,7 @@ export function AdminEventsPage({
     if (!file) return;
     setUploading("event-cover");
     try {
-      const url = await uploadFile(file);
+      const url = await uploadImageFile(file);
       updateForm("cover_image", url);
       toast.success("Cover image uploaded.");
     } catch (error) {
@@ -324,7 +405,7 @@ export function AdminEventsPage({
     try {
       const urls: string[] = [];
       for (const file of Array.from(files)) {
-        urls.push(await uploadFile(file));
+        urls.push(await uploadImageFile(file));
       }
       setForm((current) => ({
         ...current,
@@ -343,7 +424,7 @@ export function AdminEventsPage({
     if (!file) return;
     setUploading("next-image");
     try {
-      const url = await uploadFile(file);
+      const url = await uploadImageFile(file);
       updateNextForm("image_url", url);
       toast.success("Next event image uploaded.");
     } catch (error) {

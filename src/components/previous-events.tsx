@@ -7,7 +7,10 @@ import { getEventPublicUrl, PREVIOUS_EVENTS } from "@/data/previous-events";
 import type { PublicPreviousEvent } from "@/lib/public-events";
 
 function eventImageSrc(url: string) {
-  if (url.startsWith("http")) {
+  if (
+    url.startsWith("https://drive.google.com") ||
+    url.startsWith("https://www.googleapis.com")
+  ) {
     return `/api/image?url=${encodeURIComponent(url)}`;
   }
   return url;

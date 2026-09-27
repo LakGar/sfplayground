@@ -1,12 +1,12 @@
 {
   "nextEvent": {
-    "title": "Pitch Playoffs #002",
-    "date": "March 17, 2026",
-    "time": "5:30 PM",
-    "location": "Circuit Launch, Mountain View",
-    "hook": "Startups demo, crowd votes, favorites pitch to VCs.",
+    "title": "The AI GTM Night",
+    "date": "September 17, 2026",
+    "time": "6:00 PM",
+    "location": "2 Embarcadero Center, San Francisco",
+    "hook": "AI founders, growth operators, and investors gathering around GTM strategy and startup growth.",
     "ctaText": "Get tickets",
-    "ctaUrl": "https://luma.com/82fwu1tc"
+    "ctaUrl": "https://luma.com/sfplay-gd9n"
   },
   "homepageUpcomingEvents": [
     {
@@ -55,22 +55,6 @@
         "https://drive.google.com/thumbnail?id=19JI5dqZdizZiS76hDE1OwnO5bR70go-i&sz=w1200",
         "https://drive.google.com/thumbnail?id=1XdBGea2zqbQKJyWjuzITpL117eMLd_84&sz=w1200",
         "https://drive.google.com/thumbnail?id=1H4T64rcvPgFf1o8OM9lb6dmmAQJqAt5m&sz=w1200"
-      ]
-    },
-    {
-      "slug": "pitchplayoffs-001",
-      "title": "Pitch Playoffs #001",
-      "date": "Dec 11, 2025",
-      "location": "Frontier Tower SF",
-      "attendees": 228,
-      "status": "past",
-      "coverImage": "https://drive.google.com/thumbnail?id=1q7l0z75Fh7FY7CqF_T0QtDGN4bBq369V&sz=w1200",
-      "description": "An evening where physical AI startups showcase their products while attendees invest three voting tokens in their favorites, with the top three earning a live Shark Tank–style pitch in front of an investor panel and a room full of builders.",
-      "images": [
-        "https://drive.google.com/thumbnail?id=1q7l0z75Fh7FY7CqF_T0QtDGN4bBq369V&sz=w1200",
-        "https://drive.google.com/thumbnail?id=1mRzEbnw0PPpaDsnQLOBabedECp8mfi4t&sz=w1200",
-        "https://drive.google.com/thumbnail?id=1zNi50nX4lS01uDR9ALRtv27BQ4kHD5Jk&sz=w1200",
-        "https://drive.google.com/thumbnail?id=1WVEVny9_klJFTO8c55Trxv510b0QN3JL&sz=w1200"
       ]
     },
     {

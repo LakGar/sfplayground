@@ -6,8 +6,15 @@ import {
   type AdminId,
 } from "@/lib/admin-auth";
 import { recordAuditEvent } from "@/lib/admin-audit";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
+  const ip = getClientIp(req);
+  const limiter = checkRateLimit(`signin:${ip}`, { limit: 8, windowMs: 10 * 60 * 1000 });
+  if (!limiter.ok) {
+    return rateLimitResponse(limiter.retryAfterSec);
+  }
+
   try {
     const contentType = req.headers.get("content-type") ?? "";
     const body =
@@ -25,7 +32,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (!verifyPassword(adminId, password)) {
+    if (!(await verifyPassword(adminId, password))) {
       await recordAuditEvent({
         adminId: adminId || "system",
         adminName: ADMIN_USERS.find((u) => u.id === adminId)?.name ?? "Unknown admin",
@@ -49,10 +56,7 @@ export async function POST(req: NextRequest) {
 
     const cookie = createSessionCookie(adminId);
     // 303 See Other: browser must follow with GET (avoids POST /admin → 405)
-    const res = NextResponse.redirect(
-      new URL("/admin", req.url),
-      303
-    );
+    const res = NextResponse.redirect(new URL("/admin", req.url), 303);
     res.headers.set("Set-Cookie", cookie);
     return res;
   } catch {

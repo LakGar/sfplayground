@@ -40,6 +40,7 @@ import type {
   CrmFlag,
   CrmPriority,
   CrmRecord,
+  CrmReviewStatus,
   CrmStage,
   CrmTier,
 } from "@/lib/admin-crm-types";
@@ -101,6 +102,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CRM_OWNER_NAMES } from "@/lib/admin-access";
+import type { AdminSession } from "@/lib/admin-auth";
 
 const categories: Array<"All" | CrmCategory> = [
   "All",
@@ -120,6 +123,7 @@ const stages: CrmStage[] = [
 ];
 
 const priorities: CrmPriority[] = ["High", "Medium", "Low"];
+const reviewStatuses: CrmReviewStatus[] = ["None", "Needs admin review"];
 const tiers: Exclude<CrmTier, "">[] = ["Tier 1", "Tier 2", "Tier 3"];
 const flags: Exclude<CrmFlag, "">[] = [
   "Do not contact",
@@ -128,6 +132,27 @@ const flags: Exclude<CrmFlag, "">[] = [
   "Coming to event",
 ];
 const ALL_FILTER_VALUE = "__all";
+
+type BulkUpdateField =
+  | "owner"
+  | "stage"
+  | "priority"
+  | "tier"
+  | "flag"
+  | "reviewStatus"
+  | "lastContactedAt"
+  | "nextFollowUpAt";
+
+const bulkUpdateFields: Array<{ value: BulkUpdateField; label: string }> = [
+  { value: "owner", label: "Owner" },
+  { value: "stage", label: "Status" },
+  { value: "priority", label: "Priority" },
+  { value: "tier", label: "Tier" },
+  { value: "flag", label: "Flag" },
+  { value: "reviewStatus", label: "Review" },
+  { value: "lastContactedAt", label: "Last contacted" },
+  { value: "nextFollowUpAt", label: "Next follow-up" },
+];
 
 type NewRecordForm = {
   category: CrmCategory;
@@ -141,6 +166,9 @@ type NewRecordForm = {
   tier: CrmTier;
   flag: CrmFlag;
   owner: string;
+  reviewStatus: CrmReviewStatus;
+  lastContactedAt: string;
+  nextFollowUpAt: string;
   industry: string;
   value: string;
   nextStep: string;
@@ -161,6 +189,9 @@ type RelationshipEditForm = {
   tier: CrmTier;
   flag: CrmFlag;
   owner: string;
+  reviewStatus: CrmReviewStatus;
+  lastContactedAt: string;
+  nextFollowUpAt: string;
   industry: string;
   value: string;
   nextStep: string;
@@ -182,6 +213,9 @@ const emptyNewRecordForm: NewRecordForm = {
   tier: "",
   flag: "Waiting to be contacted",
   owner: "Staff",
+  reviewStatus: "None",
+  lastContactedAt: "",
+  nextFollowUpAt: "",
   industry: "",
   value: "",
   nextStep: "",
@@ -190,6 +224,27 @@ const emptyNewRecordForm: NewRecordForm = {
   notes: "",
   tags: "",
 };
+
+function newRecordFormForSession(session: AdminSession): NewRecordForm {
+  return {
+    ...emptyNewRecordForm,
+    owner: session.name,
+  };
+}
+
+function defaultBulkValueForField(field: BulkUpdateField): string {
+  if (field === "owner") return CRM_OWNER_NAMES[0] ?? "Unassigned";
+  if (field === "stage") return stages[0];
+  if (field === "priority") return priorities[0];
+  if (field === "tier" || field === "flag") return ALL_FILTER_VALUE;
+  if (field === "reviewStatus") return reviewStatuses[0];
+  return new Date().toISOString().slice(0, 10);
+}
+
+function normalizeBulkValue(field: BulkUpdateField, value: string): string {
+  if ((field === "tier" || field === "flag") && value === ALL_FILTER_VALUE) return "";
+  return value;
+}
 
 function priorityVariant(priority: CrmPriority): "default" | "secondary" | "outline" {
   if (priority === "High") return "default";
@@ -210,6 +265,29 @@ function flagTintClass(record: CrmRecord): string {
   if (record.flag === "Meeting") return "bg-yellow-50/90 hover:bg-yellow-50";
   if (record.flag === "Coming to event") return "bg-green-50/90 hover:bg-green-50";
   return "bg-white hover:bg-muted/30";
+}
+
+function SortableHeader({
+  column,
+  children,
+}: {
+  column: {
+    getIsSorted: () => false | "asc" | "desc";
+    toggleSorting: (desc?: boolean) => void;
+  };
+  children: React.ReactNode;
+}) {
+  return (
+    <Button
+      variant="ghost"
+      size="sm"
+      className="-ml-3 h-8 px-3"
+      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    >
+      {children}
+      <ArrowUpDown className="ml-1 size-3.5" />
+    </Button>
+  );
 }
 
 function stageIcon(stage: CrmStage) {
@@ -243,6 +321,11 @@ function recordSearchBlob(record: CrmRecord) {
     record.value,
     record.source,
     record.owner,
+    record.createdBy,
+    record.lastEditedBy,
+    record.reviewStatus,
+    record.lastContactedAt,
+    record.nextFollowUpAt,
     record.nextStep,
     record.priorityNotes,
     record.notes,
@@ -306,6 +389,9 @@ function editFormFromRecord(record: CrmRecord): RelationshipEditForm {
     tier: record.tier,
     flag: record.flag,
     owner: record.owner,
+    reviewStatus: record.reviewStatus,
+    lastContactedAt: record.lastContactedAt,
+    nextFollowUpAt: record.nextFollowUpAt,
     industry: record.industry,
     value: record.value,
     nextStep: record.nextStep,
@@ -328,7 +414,10 @@ function mergeRecordUpdate(record: CrmRecord, update: Partial<CrmRecord>): CrmRe
   };
 }
 
-const columns: ColumnDef<CrmRecord>[] = [
+function getColumns(session: AdminSession): ColumnDef<CrmRecord>[] {
+  const canArchive = session.role === "admin";
+
+  return [
   {
     id: "select",
     header: ({ table }) => (
@@ -358,17 +447,14 @@ const columns: ColumnDef<CrmRecord>[] = [
   {
     accessorKey: "company",
     header: ({ column }) => (
-      <Button variant="ghost" size="sm" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-        Relationship
-        <ArrowUpDown />
-      </Button>
+      <SortableHeader column={column}>Relationship</SortableHeader>
     ),
-    cell: ({ row }) => <RelationshipViewer item={row.original} />,
+    cell: ({ row }) => <RelationshipViewer item={row.original} session={session} />,
     enableHiding: false,
   },
   {
     accessorKey: "category",
-    header: "Type",
+    header: ({ column }) => <SortableHeader column={column}>Type</SortableHeader>,
     cell: ({ row }) => (
       <Badge variant="outline" className="px-1.5">
         {row.original.category}
@@ -377,7 +463,7 @@ const columns: ColumnDef<CrmRecord>[] = [
   },
   {
     accessorKey: "stage",
-    header: "Stage",
+    header: ({ column }) => <SortableHeader column={column}>Stage</SortableHeader>,
     cell: ({ row }) => {
       const Icon = stageIcon(row.original.stage);
       return (
@@ -390,14 +476,14 @@ const columns: ColumnDef<CrmRecord>[] = [
   },
   {
     accessorKey: "priority",
-    header: "Priority",
+    header: ({ column }) => <SortableHeader column={column}>Priority</SortableHeader>,
     cell: ({ row }) => (
       <Badge variant={priorityVariant(row.original.priority)}>{row.original.priority}</Badge>
     ),
   },
   {
     accessorKey: "tier",
-    header: "Tier",
+    header: ({ column }) => <SortableHeader column={column}>Tier</SortableHeader>,
     cell: ({ row }) =>
       row.original.tier ? (
         <Badge variant={row.original.tier === "Tier 3" ? "default" : "outline"}>
@@ -409,7 +495,7 @@ const columns: ColumnDef<CrmRecord>[] = [
   },
   {
     accessorKey: "flag",
-    header: "Flag",
+    header: ({ column }) => <SortableHeader column={column}>Flag</SortableHeader>,
     cell: ({ row }) =>
       row.original.flag ? (
         <Badge variant={flagVariant(row.original.flag)}>
@@ -422,7 +508,7 @@ const columns: ColumnDef<CrmRecord>[] = [
   },
   {
     accessorKey: "industry",
-    header: "Industry",
+    header: ({ column }) => <SortableHeader column={column}>Industry</SortableHeader>,
     cell: ({ row }) => (
       <span className="line-clamp-1 max-w-[160px] font-medium">
         {row.original.industry || row.original.tags[0] || "-"}
@@ -431,17 +517,32 @@ const columns: ColumnDef<CrmRecord>[] = [
   },
   {
     accessorKey: "value",
-    header: "Value",
+    header: ({ column }) => <SortableHeader column={column}>Value</SortableHeader>,
     cell: ({ row }) => <span className="font-medium">{row.original.value}</span>,
   },
   {
     accessorKey: "owner",
-    header: "Owner",
+    header: ({ column }) => <SortableHeader column={column}>Owner</SortableHeader>,
     cell: ({ row }) => row.original.owner,
   },
   {
+    accessorKey: "reviewStatus",
+    header: ({ column }) => <SortableHeader column={column}>Review</SortableHeader>,
+    cell: ({ row }) =>
+      row.original.reviewStatus === "Needs admin review" ? (
+        <Badge variant="secondary">Needs review</Badge>
+      ) : (
+        <span className="text-muted-foreground">-</span>
+      ),
+  },
+  {
+    accessorKey: "nextFollowUpAt",
+    header: ({ column }) => <SortableHeader column={column}>Follow-up</SortableHeader>,
+    cell: ({ row }) => row.original.nextFollowUpAt || <span className="text-muted-foreground">-</span>,
+  },
+  {
     accessorKey: "nextStep",
-    header: "Next step",
+    header: ({ column }) => <SortableHeader column={column}>Next step</SortableHeader>,
     cell: ({ row }) => (
       <span className="line-clamp-1 max-w-[280px] text-muted-foreground">
         {row.original.nextStep}
@@ -450,7 +551,12 @@ const columns: ColumnDef<CrmRecord>[] = [
   },
   {
     accessorKey: "updated",
-    header: "Updated",
+    header: ({ column }) => <SortableHeader column={column}>Updated</SortableHeader>,
+  },
+  {
+    accessorKey: "lastEditedBy",
+    header: ({ column }) => <SortableHeader column={column}>Edited by</SortableHeader>,
+    cell: ({ row }) => row.original.lastEditedBy || <span className="text-muted-foreground">-</span>,
   },
   {
     id: "actions",
@@ -462,21 +568,23 @@ const columns: ColumnDef<CrmRecord>[] = [
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-40">
-          <DropdownMenuGroup>
-            <DropdownMenuItem
-              onClick={() => {
-                window.open(
-                  `mailto:${row.original.email}?subject=${encodeURIComponent(
-                    `Following up from SFPlayground`,
-                  )}`,
-                  "_self",
-                );
-              }}
-            >
-              <Send />
-              Send follow-up
-            </DropdownMenuItem>
+          <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuGroup>
+            {session.role === "admin" ? (
+              <DropdownMenuItem
+                onClick={() => {
+                  window.open(
+                    `mailto:${row.original.email}?subject=${encodeURIComponent(
+                      `Following up from SFPlayground`,
+                    )}`,
+                    "_self",
+                  );
+                }}
+              >
+                <Send />
+                Send follow-up
+              </DropdownMenuItem>
+            ) : null}
             <DropdownMenuItem
               onClick={() => {
                 const url = row.original.website || row.original.links[0]?.url;
@@ -488,28 +596,50 @@ const columns: ColumnDef<CrmRecord>[] = [
               Open profile
             </DropdownMenuItem>
           </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => {
-              if (confirm(`Archive ${row.original.company}?`)) {
-                window.dispatchEvent(
-                  new CustomEvent("admin:archive-record", { detail: { id: row.original.id } }),
-                );
-              }
-            }}
-          >
-            Archive
-          </DropdownMenuItem>
+          {canArchive ? (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => {
+                  if (confirm(`Archive ${row.original.company}?`)) {
+                    window.dispatchEvent(
+                      new CustomEvent("admin:archive-record", { detail: { id: row.original.id } }),
+                    );
+                  }
+                }}
+              >
+                Archive
+              </DropdownMenuItem>
+            </>
+          ) : null}
         </DropdownMenuContent>
       </DropdownMenu>
     ),
   },
-];
+  ];
+}
 
-export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
+export function DataTable({
+  data: initialData,
+  session,
+  serverPageSize,
+  serverTotalRecords,
+  serverCategory,
+  serverSource,
+}: {
+  data: CrmRecord[];
+  session: AdminSession;
+  serverPageSize?: number;
+  serverTotalRecords?: number;
+  serverCategory?: CrmCategory;
+  serverSource?: string;
+}) {
   const router = useRouter();
   const [records, setRecords] = React.useState(initialData);
+  const [serverPage, setServerPage] = React.useState(1);
+  const [serverTotal, setServerTotal] = React.useState(serverTotalRecords ?? initialData.length);
+  const [isLoadingPage, setIsLoadingPage] = React.useState(false);
   const [activeCategory, setActiveCategory] = React.useState("All");
   const [searchQuery, setSearchQuery] = React.useState("");
   const [stageFilter, setStageFilter] = React.useState(ALL_FILTER_VALUE);
@@ -522,7 +652,12 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
   const [autoRefresh, setAutoRefresh] = React.useState(false);
   const [lastRefresh, setLastRefresh] = React.useState<Date | null>(null);
   const [newRecordOpen, setNewRecordOpen] = React.useState(false);
-  const [newRecordForm, setNewRecordForm] = React.useState<NewRecordForm>(emptyNewRecordForm);
+  const [newRecordForm, setNewRecordForm] = React.useState<NewRecordForm>(() =>
+    newRecordFormForSession(session),
+  );
+  const [bulkField, setBulkField] = React.useState<BulkUpdateField>("owner");
+  const [bulkValue, setBulkValue] = React.useState(() => defaultBulkValueForField("owner"));
+  const [isBulkUpdating, setIsBulkUpdating] = React.useState(false);
   const [isCreatingRecord, setIsCreatingRecord] = React.useState(false);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -537,6 +672,12 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     () => filterData(records, activeCategory),
     [activeCategory, records],
   );
+  const columns = React.useMemo(() => getColumns(session), [session]);
+  const usesServerPagination = typeof serverPageSize === "number";
+  const serverPageCount =
+    usesServerPagination && serverPageSize
+      ? Math.max(1, Math.ceil(serverTotal / serverPageSize))
+      : 1;
 
   const sourceOptions = React.useMemo(
     () => uniqueSorted(categoryData.map((record) => record.source)),
@@ -602,13 +743,27 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     industryFilter !== ALL_FILTER_VALUE ||
     sourceFilter !== ALL_FILTER_VALUE ||
     tagFilter !== ALL_FILTER_VALUE;
+  const employeeSummary = React.useMemo(() => {
+    const today = new Date().toISOString().slice(0, 10);
+    return {
+      assigned: records.filter((record) => record.owner === session.name).length,
+      created: records.filter((record) => record.createdBy === session.name).length,
+      highPriority: records.filter((record) => record.priority === "High").length,
+      dueFollowUps: records.filter(
+        (record) => record.nextFollowUpAt && record.nextFollowUpAt <= today,
+      ).length,
+      needsReview: records.filter((record) => record.reviewStatus === "Needs admin review").length,
+    };
+  }, [records, session.name]);
 
   const recordsRef = React.useRef(records);
   const dataRef = React.useRef(data);
 
   React.useEffect(() => {
     setRecords(initialData);
-  }, [initialData]);
+    setServerPage(1);
+    setServerTotal(serverTotalRecords ?? initialData.length);
+  }, [initialData, serverTotalRecords]);
 
   React.useEffect(() => {
     const updateRecord = (event: Event) => {
@@ -689,7 +844,64 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     setIndustryFilter(ALL_FILTER_VALUE);
     setSourceFilter(ALL_FILTER_VALUE);
     setTagFilter(ALL_FILTER_VALUE);
+    if (usesServerPagination) void fetchServerPage(1, "");
   };
+
+  const fetchServerPage = React.useCallback(
+    async (nextPage: number, categoryOverride?: string) => {
+      if (!usesServerPagination || !serverPageSize) return;
+      const params = new URLSearchParams({
+        page: String(nextPage),
+        pageSize: String(serverPageSize),
+      });
+      const category =
+        categoryOverride ??
+        serverCategory ??
+        (activeCategory !== "All" ? activeCategory : "");
+      if (category && category !== "All") params.set("category", category);
+      if (serverSource) params.set("source", serverSource);
+
+      setIsLoadingPage(true);
+      try {
+        const response = await fetch(`/api/admin/crm-records?${params.toString()}`);
+        const result = (await response.json()) as {
+          records?: CrmRecord[];
+          page?: number;
+          total?: number;
+          error?: string;
+        };
+        if (!response.ok || !Array.isArray(result.records)) {
+          throw new Error(result.error || "Could not load CRM records.");
+        }
+        setRecords(result.records);
+        setServerPage(result.page ?? nextPage);
+        setServerTotal(result.total ?? result.records.length);
+        setPagination((current) => ({ ...current, pageIndex: 0 }));
+        setRowSelection({});
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : "Could not load CRM records.");
+      } finally {
+        setIsLoadingPage(false);
+      }
+    },
+    [
+      activeCategory,
+      serverCategory,
+      serverPageSize,
+      serverSource,
+      usesServerPagination,
+    ],
+  );
+
+  const changeActiveCategory = React.useCallback(
+    (category: string) => {
+      setActiveCategory(category);
+      if (!serverCategory && usesServerPagination) {
+        void fetchServerPage(1, category === "All" ? "" : category);
+      }
+    },
+    [fetchServerPage, serverCategory, usesServerPagination],
+  );
 
   const createRecord = React.useCallback(async () => {
     if (!newRecordForm.company.trim()) {
@@ -709,7 +921,7 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
         throw new Error(result.error || "Could not create CRM record.");
       }
       setRecords((current) => [result as CrmRecord, ...current]);
-      setNewRecordForm(emptyNewRecordForm);
+      setNewRecordForm(newRecordFormForSession(session));
       setNewRecordOpen(false);
       toast.success("CRM record saved.");
     } catch (error) {
@@ -717,7 +929,7 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     } finally {
       setIsCreatingRecord(false);
     }
-  }, [newRecordForm]);
+  }, [newRecordForm, session]);
 
   const table = useReactTable({
     data,
@@ -742,8 +954,56 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     getSortedRowModel: getSortedRowModel(),
   });
 
+  const bulkUpdateSelected = React.useCallback(async () => {
+    const recordKeys = table
+      .getFilteredSelectedRowModel()
+      .rows.map((row) => row.original.recordKey)
+      .filter(Boolean);
+    if (recordKeys.length === 0) {
+      toast.error("Select at least one record to update.");
+      return;
+    }
+
+    const nextValue = normalizeBulkValue(bulkField, bulkValue);
+    if ((bulkField === "lastContactedAt" || bulkField === "nextFollowUpAt") && !nextValue) {
+      toast.error("Choose a date for the bulk update.");
+      return;
+    }
+
+    setIsBulkUpdating(true);
+    try {
+      const response = await fetch("/api/admin/crm-records", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ recordKeys, [bulkField]: nextValue }),
+      });
+      const result = (await response.json()) as { error?: string; updated?: number };
+      if (!response.ok) {
+        throw new Error(result.error || "Could not update records.");
+      }
+      const localUpdate = { [bulkField]: nextValue } as Partial<CrmRecord>;
+      setRecords((current) =>
+        current.map((record) =>
+          recordKeys.includes(record.recordKey)
+            ? { ...record, ...localUpdate, lastEditedBy: session.name, updated: "Admin edit" }
+            : record,
+        ),
+      );
+      setRowSelection({});
+      toast.success(`Updated ${result.updated ?? recordKeys.length} records.`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not update records.");
+    } finally {
+      setIsBulkUpdating(false);
+    }
+  }, [bulkField, bulkValue, session.name, table]);
+
   React.useEffect(() => {
     const exportCsv = () => {
+      if (session.role !== "admin") {
+        toast.error("Only admins can export CRM records.");
+        return;
+      }
       const headers = [
         "company",
         "name",
@@ -788,6 +1048,10 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     const openNewRecordForm = () => setNewRecordOpen(true);
 
     const outreachSelected = () => {
+      if (session.role !== "admin") {
+        toast.error("Only admins can start outreach.");
+        return;
+      }
       const selected = table.getFilteredSelectedRowModel().rows.map((row) => row.original);
       const targets = selected.length > 0 ? selected : dataRef.current.slice(0, 20);
       const emails = targets.map((record) => record.email).filter(Boolean);
@@ -804,6 +1068,10 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
     };
 
     const archiveRecord = (event: Event) => {
+      if (session.role !== "admin") {
+        toast.error("Only admins can archive records.");
+        return;
+      }
       const id = (event as CustomEvent<{ id: number }>).detail?.id;
       setRecords((current) => current.filter((record) => record.id !== id));
       toast.success("Record archived locally.");
@@ -823,15 +1091,34 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
       window.removeEventListener("admin:archive-record", archiveRecord);
       window.removeEventListener("admin:settings", settings);
     };
-  }, [table]);
+  }, [session.role, table]);
+
+  const selectedRecordCount = table.getFilteredSelectedRowModel().rows.length;
+  const isBulkDateField = bulkField === "lastContactedAt" || bulkField === "nextFollowUpAt";
 
   return (
     <>
     <Tabs
       value={activeCategory}
-      onValueChange={setActiveCategory}
+      onValueChange={changeActiveCategory}
       className="min-w-0 max-w-full flex-col gap-6 overflow-hidden"
     >
+      {session.role === "employee" ? (
+        <div className="grid min-w-0 grid-cols-[repeat(auto-fit,minmax(140px,1fr))] gap-3 px-4 lg:px-6">
+          {[
+            ["Assigned", employeeSummary.assigned],
+            ["Created", employeeSummary.created],
+            ["High priority", employeeSummary.highPriority],
+            ["Due follow-ups", employeeSummary.dueFollowUps],
+            ["Needs review", employeeSummary.needsReview],
+          ].map(([label, value]) => (
+            <div key={label} className="rounded-lg border bg-card px-3 py-2">
+              <div className="text-xs text-muted-foreground">{label}</div>
+              <div className="text-xl font-semibold">{value}</div>
+            </div>
+          ))}
+        </div>
+      ) : null}
       <div className="flex min-w-0 flex-col gap-3 px-4 lg:flex-row lg:items-start lg:justify-between lg:px-6">
         <div className="flex min-w-0 flex-1 flex-wrap items-center gap-2">
           <Label htmlFor="crm-search" className="sr-only">
@@ -847,7 +1134,7 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
               className="pl-8"
             />
           </div>
-          <Select value={activeCategory} onValueChange={setActiveCategory}>
+          <Select value={activeCategory} onValueChange={changeActiveCategory}>
             <SelectTrigger className="w-full min-w-32 max-w-40 @4xl/main:hidden" size="sm" aria-label="Select CRM view">
               <SelectValue placeholder="All" />
             </SelectTrigger>
@@ -862,6 +1149,102 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
             </SelectContent>
           </Select>
         </div>
+        {session.role === "admin" ? (
+          <div className="flex min-w-0 max-w-full flex-wrap items-center justify-start gap-2 overflow-hidden lg:justify-end">
+            <Select
+              value={bulkField}
+              onValueChange={(value) => {
+                const field = value as BulkUpdateField;
+                setBulkField(field);
+                setBulkValue(defaultBulkValueForField(field));
+              }}
+            >
+              <SelectTrigger className="w-36" size="sm" aria-label="Bulk update field">
+                <SelectValue placeholder="Field" />
+              </SelectTrigger>
+              <SelectContent>
+                {bulkUpdateFields.map((field) => (
+                  <SelectItem key={field.value} value={field.value}>
+                    {field.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {isBulkDateField ? (
+              <Input
+                type="date"
+                value={bulkValue}
+                onChange={(event) => setBulkValue(event.target.value)}
+                className="h-8 w-36"
+                aria-label="Bulk update date"
+              />
+            ) : (
+              <Select value={bulkValue} onValueChange={setBulkValue}>
+                <SelectTrigger className="w-44" size="sm" aria-label="Bulk update value">
+                  <SelectValue placeholder="Value" />
+                </SelectTrigger>
+                <SelectContent>
+                  {bulkField === "owner"
+                    ? CRM_OWNER_NAMES.map((owner) => (
+                        <SelectItem key={owner} value={owner}>
+                          {owner}
+                        </SelectItem>
+                      ))
+                    : null}
+                  {bulkField === "stage"
+                    ? stages.map((stage) => (
+                        <SelectItem key={stage} value={stage}>
+                          {stage}
+                        </SelectItem>
+                      ))
+                    : null}
+                  {bulkField === "priority"
+                    ? priorities.map((priority) => (
+                        <SelectItem key={priority} value={priority}>
+                          {priority}
+                        </SelectItem>
+                      ))
+                    : null}
+                  {bulkField === "tier" ? (
+                    <>
+                      <SelectItem value={ALL_FILTER_VALUE}>No tier</SelectItem>
+                      {tiers.map((tier) => (
+                        <SelectItem key={tier} value={tier}>
+                          {tier}
+                        </SelectItem>
+                      ))}
+                    </>
+                  ) : null}
+                  {bulkField === "flag" ? (
+                    <>
+                      <SelectItem value={ALL_FILTER_VALUE}>No flag</SelectItem>
+                      {flags.map((flag) => (
+                        <SelectItem key={flag} value={flag}>
+                          {flag}
+                        </SelectItem>
+                      ))}
+                    </>
+                  ) : null}
+                  {bulkField === "reviewStatus"
+                    ? reviewStatuses.map((status) => (
+                        <SelectItem key={status} value={status}>
+                          {status}
+                        </SelectItem>
+                      ))
+                    : null}
+                </SelectContent>
+              </Select>
+            )}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={bulkUpdateSelected}
+              disabled={isBulkUpdating || selectedRecordCount === 0 || (isBulkDateField && !bulkValue)}
+            >
+              Update selected
+            </Button>
+          </div>
+        ) : null}
         <div className="flex min-w-0 max-w-full flex-wrap items-center justify-start gap-2 overflow-hidden lg:justify-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -1069,7 +1452,8 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
       <TabsContent value={activeCategory} className="relative flex min-w-0 max-w-full flex-col gap-4 overflow-hidden px-4 lg:px-6">
         <div className="flex flex-col gap-1 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <span>
-            Showing {data.length.toLocaleString()} of {categoryData.length.toLocaleString()}{" "}
+            Showing {data.length.toLocaleString()} of{" "}
+            {(usesServerPagination ? serverTotal : categoryData.length).toLocaleString()}{" "}
             {activeCategory === "All" ? "relationships" : activeCategory.toLowerCase() + " records"}
           </span>
           <span>
@@ -1123,6 +1507,33 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
             {table.getFilteredRowModel().rows.length} selected.
           </div>
           <div className="flex w-full items-center gap-6 lg:w-fit">
+            {usesServerPagination ? (
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  className="size-8"
+                  size="icon"
+                  onClick={() => fetchServerPage(Math.max(1, serverPage - 1))}
+                  disabled={isLoadingPage || serverPage <= 1}
+                >
+                  <span className="sr-only">Load previous records page</span>
+                  <ChevronLeft />
+                </Button>
+                <div className="whitespace-nowrap text-sm font-medium">
+                  Records {serverPage} / {serverPageCount}
+                </div>
+                <Button
+                  variant="outline"
+                  className="size-8"
+                  size="icon"
+                  onClick={() => fetchServerPage(Math.min(serverPageCount, serverPage + 1))}
+                  disabled={isLoadingPage || serverPage >= serverPageCount}
+                >
+                  <span className="sr-only">Load next records page</span>
+                  <ChevronRight />
+                </Button>
+              </div>
+            ) : null}
             <div className="hidden items-center gap-2 lg:flex">
               <Label htmlFor="rows-per-page" className="text-sm font-medium">
                 Rows per page
@@ -1353,10 +1764,62 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="new-record-owner">Owner</Label>
+              {session.role === "admin" ? (
+                <Select
+                  value={newRecordForm.owner}
+                  onValueChange={(value) => updateNewRecordForm("owner", value)}
+                >
+                  <SelectTrigger id="new-record-owner" className="w-full">
+                    <SelectValue placeholder="Select owner" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CRM_OWNER_NAMES.map((owner) => (
+                      <SelectItem key={owner} value={owner}>
+                        {owner}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              ) : (
+                <Input id="new-record-owner" value={session.name} readOnly />
+              )}
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="grid gap-2">
+              <Label htmlFor="new-record-review">Review</Label>
+              <Select
+                value={newRecordForm.reviewStatus}
+                onValueChange={(value) => updateNewRecordForm("reviewStatus", value)}
+              >
+                <SelectTrigger id="new-record-review" className="w-full">
+                  <SelectValue placeholder="Review status" />
+                </SelectTrigger>
+                <SelectContent>
+                  {reviewStatuses.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {status}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="new-record-last-contacted">Last contacted</Label>
               <Input
-                id="new-record-owner"
-                value={newRecordForm.owner}
-                onChange={(event) => updateNewRecordForm("owner", event.target.value)}
+                id="new-record-last-contacted"
+                type="date"
+                value={newRecordForm.lastContactedAt}
+                onChange={(event) => updateNewRecordForm("lastContactedAt", event.target.value)}
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="new-record-next-follow-up">Next follow-up</Label>
+              <Input
+                id="new-record-next-follow-up"
+                type="date"
+                value={newRecordForm.nextFollowUpAt}
+                onChange={(event) => updateNewRecordForm("nextFollowUpAt", event.target.value)}
               />
             </div>
           </div>
@@ -1445,7 +1908,7 @@ export function DataTable({ data: initialData }: { data: CrmRecord[] }) {
   );
 }
 
-function RelationshipViewer({ item }: { item: CrmRecord }) {
+function RelationshipViewer({ item, session }: { item: CrmRecord; session: AdminSession }) {
   const isMobile = useIsMobile();
   const [form, setForm] = React.useState<RelationshipEditForm>(() => editFormFromRecord(item));
   const [isSaving, setIsSaving] = React.useState(false);
@@ -1518,12 +1981,37 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
               </Badge>
             ) : null}
             <Badge variant="secondary">{item.stage}</Badge>
+            {item.reviewStatus === "Needs admin review" ? (
+              <Badge variant="secondary">Needs admin review</Badge>
+            ) : null}
+            {item.nextFollowUpAt ? (
+              <Badge variant="outline">Follow-up {item.nextFollowUpAt}</Badge>
+            ) : null}
             {item.industry ? <Badge variant="outline">{item.industry}</Badge> : null}
             {item.tags.map((tag) => (
               <Badge variant="outline" key={tag}>
                 {tag}
               </Badge>
             ))}
+          </div>
+          <Separator />
+          <div className="grid gap-2 text-muted-foreground sm:grid-cols-2">
+            <div>
+              <span className="font-medium text-foreground">Created by</span>{" "}
+              {item.createdBy || "-"}
+            </div>
+            <div>
+              <span className="font-medium text-foreground">Last edited by</span>{" "}
+              {item.lastEditedBy || "-"}
+            </div>
+            <div>
+              <span className="font-medium text-foreground">Last contacted</span>{" "}
+              {item.lastContactedAt || "-"}
+            </div>
+            <div>
+              <span className="font-medium text-foreground">Next follow-up</span>{" "}
+              {item.nextFollowUpAt || "-"}
+            </div>
           </div>
           <Separator />
           {item.links.length > 0 ? (
@@ -1692,11 +2180,22 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-owner`}>Owner</Label>
-                <Input
-                  id={`${item.id}-owner`}
-                  value={form.owner}
-                  onChange={(event) => updateForm("owner", event.target.value)}
-                />
+                {session.role === "admin" ? (
+                  <Select value={form.owner} onValueChange={(value) => updateForm("owner", value)}>
+                    <SelectTrigger id={`${item.id}-owner`} className="w-full">
+                      <SelectValue placeholder="Select owner" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {CRM_OWNER_NAMES.map((owner) => (
+                        <SelectItem value={owner} key={owner}>
+                          {owner}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <Input id={`${item.id}-owner`} value={session.name} readOnly />
+                )}
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor={`${item.id}-value`}>Value</Label>
@@ -1704,6 +2203,44 @@ function RelationshipViewer({ item }: { item: CrmRecord }) {
                   id={`${item.id}-value`}
                   value={form.value}
                   onChange={(event) => updateForm("value", event.target.value)}
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="flex flex-col gap-3">
+                <Label htmlFor={`${item.id}-review`}>Review</Label>
+                <Select
+                  value={form.reviewStatus}
+                  onValueChange={(value) => updateForm("reviewStatus", value)}
+                >
+                  <SelectTrigger id={`${item.id}-review`} className="w-full">
+                    <SelectValue placeholder="Review status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {reviewStatuses.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor={`${item.id}-last-contacted`}>Last contacted</Label>
+                <Input
+                  id={`${item.id}-last-contacted`}
+                  type="date"
+                  value={form.lastContactedAt}
+                  onChange={(event) => updateForm("lastContactedAt", event.target.value)}
+                />
+              </div>
+              <div className="flex flex-col gap-3">
+                <Label htmlFor={`${item.id}-next-follow-up`}>Next follow-up</Label>
+                <Input
+                  id={`${item.id}-next-follow-up`}
+                  type="date"
+                  value={form.nextFollowUpAt}
+                  onChange={(event) => updateForm("nextFollowUpAt", event.target.value)}
                 />
               </div>
             </div>

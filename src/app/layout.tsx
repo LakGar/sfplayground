@@ -49,7 +49,6 @@ export const metadata: Metadata = {
     "San Francisco venture network",
     "investors",
     "VC",
-    "Pitch Playoffs",
     "Events San Francisco",
     "Events Silicon Valley",
     "Events Bay Area",

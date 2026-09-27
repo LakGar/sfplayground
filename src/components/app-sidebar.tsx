@@ -24,6 +24,7 @@ import { NavDocuments } from "@/components/nav-documents";
 import { NavMain } from "@/components/nav-main";
 import { NavSecondary } from "@/components/nav-secondary";
 import { NavUser } from "@/components/nav-user";
+import type { AdminSession } from "@/lib/admin-auth";
 import {
   Sidebar,
   SidebarContent,
@@ -143,7 +144,18 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar({
+  session,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { session?: AdminSession }) {
+  const isEmployee = session?.role === "employee";
+  const navMain = isEmployee
+    ? data.navMain
+        .filter((item) => item.url === "/admin")
+        .map((item) => ({ ...item, title: "My Dashboard" }))
+    : data.navMain;
+  const documents = isEmployee ? [] : data.documents;
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -165,12 +177,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
+        <NavMain
+          items={navMain}
+          canUseOutreach={!isEmployee}
+          quickAddUrl={isEmployee ? "/admin" : "/admin/relationships"}
+        />
+        {documents.length > 0 ? <NavDocuments items={documents} /> : null}
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={data.user} session={session} />
       </SidebarFooter>
     </Sidebar>
   );

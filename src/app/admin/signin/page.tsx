@@ -33,7 +33,7 @@ export default async function AdminSignInPage({
             />
             <div>
               <CardTitle>SFPlayground</CardTitle>
-              <CardDescription>Co-founder admin login</CardDescription>
+              <CardDescription>Admin and employee login</CardDescription>
             </div>
           </div>
           {error ? (
@@ -41,13 +41,13 @@ export default async function AdminSignInPage({
               id="signin-error"
               className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive"
             >
-              The selected co-founder or password was not recognized.
+              The selected account or password was not recognized.
             </p>
           ) : null}
         </CardHeader>
         <form action="/api/auth/signin" method="post" className="grid gap-5 px-6 pb-6">
           <div className="grid gap-2">
-            <Label htmlFor="adminId">Co-founder</Label>
+            <Label htmlFor="adminId">Account</Label>
             <select
               id="adminId"
               name="adminId"

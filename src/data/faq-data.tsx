@@ -70,14 +70,14 @@ export const FAQ_ITEMS: FaqItem[] = [
     question: "How do I demo at an event?",
     answer: (
       <>
-        Apply through the program you want to join — such as{" "}
-        <FaqLink href="/pitch-playoffs">Pitch Playoffs</FaqLink> or our industry
-        summits on <FaqLink href={LUMA_PROFILE} external>Luma</FaqLink>.
+        Apply through the program you want to join — such as our{" "}
+        <FaqLink href="/network/apply?type=startups">startup application</FaqLink>{" "}
+        or our industry summits on <FaqLink href={LUMA_PROFILE} external>Luma</FaqLink>.
         Selected founders receive demo time, investor feedback, and follow-up
         opportunities within our network.
       </>
     ),
-    action: { label: "Apply to Pitch Playoffs", href: "/pitch-playoffs" },
+    action: { label: "Apply as a startup", href: "/network/apply?type=startups" },
   },
   {
     question: "What types of events does SFPLAYGROUND host?",

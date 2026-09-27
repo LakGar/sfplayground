@@ -7,12 +7,14 @@ import type {
   CrmFlag,
   CrmLink,
   CrmRecord,
+  CrmReviewStatus,
   CrmStage,
   CrmStat,
   CrmTier,
 } from "@/lib/admin-crm-types";
 import { classifyIndustryText } from "@/lib/industry-taxonomy";
 import type { IntakeKind } from "@/lib/intake-types";
+import { buildCrmStats, UNASSIGNED_CRM_OWNER } from "@/lib/admin-access";
 
 const SHEETS = [
   {
@@ -24,6 +26,13 @@ const SHEETS = [
     tabs: ["Form Responses 1", "Accepted PP2", "Accepted Lightning Pitch Immigr"],
   },
 ];
+
+const SHEET_CACHE_MS = 5 * 60 * 1000;
+const SHEET_FETCH_TIMEOUT_MS = 5000;
+const sheetRowsCache = new Map<
+  string,
+  { rows: Record<string, string>[]; fetchedAt: number }
+>();
 
 const CRM_TABLE_SQL = `
   CREATE TABLE IF NOT EXISTS crm_intake_records (
@@ -153,21 +162,34 @@ function parseCsv(csv: string): string[][] {
 }
 
 async function fetchSheetRows(id: string, tab: string): Promise<Record<string, string>[]> {
+  const cacheKey = `${id}:${tab}`;
+  const cached = sheetRowsCache.get(cacheKey);
+  if (cached && Date.now() - cached.fetchedAt < SHEET_CACHE_MS) {
+    return cached.rows;
+  }
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), SHEET_FETCH_TIMEOUT_MS);
   const url = `https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(
     tab,
   )}`;
-  const response = await fetch(url, { cache: "no-store" });
-  if (!response.ok) return [];
+  const response = await fetch(url, { cache: "no-store", signal: controller.signal }).catch(
+    () => null,
+  );
+  clearTimeout(timeout);
+  if (!response?.ok) return cached?.rows ?? [];
 
   const rows = parseCsv(await response.text());
   const headers = rows[0]?.map((header) => header.trim()) ?? [];
-  return rows.slice(1).map((cells) => {
+  const parsedRows = rows.slice(1).map((cells) => {
     const record: Record<string, string> = {};
     headers.forEach((header, index) => {
       record[header] = cells[index]?.trim() ?? "";
     });
     return record;
   });
+  sheetRowsCache.set(cacheKey, { rows: parsedRows, fetchedAt: Date.now() });
+  return parsedRows;
 }
 
 function rowToStartupRecord(row: Record<string, string>, source: string, id: number): CrmRecord | null {
@@ -228,7 +250,12 @@ function rowToStartupRecord(row: Record<string, string>, source: string, id: num
     priority: flag === "Coming to event" || tier === "Tier 3" || source.includes("Accepted") ? "High" : "Medium",
     tier,
     flag,
-    owner: "Staff",
+    owner: UNASSIGNED_CRM_OWNER,
+    createdBy: "Sheet import",
+    lastEditedBy: "",
+    reviewStatus: "None",
+    lastContactedAt: "",
+    nextFollowUpAt: "",
     industry: industry || canonical[0] || sector,
     value: stage || firstPresent(row, ["How much have you raised?"]) || "Startup",
     source,
@@ -328,7 +355,12 @@ function intakeRecordToCrm(row: {
     flag:
       normalizeFlag(payload.flag) ||
       (category === "Startup" || category === "Investor" ? "Waiting to be contacted" : ""),
-    owner: payload.owner || "Staff",
+    owner: payload.owner || UNASSIGNED_CRM_OWNER,
+    createdBy: payload.createdBy || payload.owner || "Intake form",
+    lastEditedBy: payload.lastEditedBy || "",
+    reviewStatus: normalizeReviewStatus(payload.reviewStatus),
+    lastContactedAt: typeof payload.lastContactedAt === "string" ? payload.lastContactedAt : "",
+    nextFollowUpAt: typeof payload.nextFollowUpAt === "string" ? payload.nextFollowUpAt : "",
     industry:
       payload.industry ||
       canonical[0] ||
@@ -411,6 +443,10 @@ function normalizeFlag(flag: unknown): CrmFlag {
   return "";
 }
 
+function normalizeReviewStatus(value: unknown): CrmReviewStatus {
+  return value === "Needs admin review" ? "Needs admin review" : "None";
+}
+
 async function ensureCrmTable(): Promise<void> {
   await sql.query(CRM_TABLE_SQL);
   await sql.query(CRM_OVERRIDES_TABLE_SQL);
@@ -446,6 +482,13 @@ function applyRecordOverride(record: CrmRecord, payload: Record<string, unknown>
     tier: normalizeTier(payload.tier),
     flag: normalizeFlag(payload.flag),
     owner: typeof payload.owner === "string" ? payload.owner : record.owner,
+    createdBy: typeof payload.createdBy === "string" ? payload.createdBy : record.createdBy,
+    lastEditedBy: typeof payload.lastEditedBy === "string" ? payload.lastEditedBy : record.lastEditedBy,
+    reviewStatus: normalizeReviewStatus(payload.reviewStatus),
+    lastContactedAt:
+      typeof payload.lastContactedAt === "string" ? payload.lastContactedAt : record.lastContactedAt,
+    nextFollowUpAt:
+      typeof payload.nextFollowUpAt === "string" ? payload.nextFollowUpAt : record.nextFollowUpAt,
     industry: typeof payload.industry === "string" ? payload.industry : record.industry,
     value: typeof payload.value === "string" ? payload.value : record.value,
     nextStep: typeof payload.nextStep === "string" ? payload.nextStep : record.nextStep,
@@ -468,6 +511,11 @@ export async function updateAdminCrmRecord(input: {
   stage: CrmStage;
   priority: "High" | "Medium" | "Low";
   owner: string;
+  createdBy?: string;
+  lastEditedBy?: string;
+  reviewStatus?: CrmReviewStatus;
+  lastContactedAt?: string;
+  nextFollowUpAt?: string;
   tier?: CrmTier;
   flag?: CrmFlag;
   industry?: string;
@@ -491,6 +539,11 @@ export async function updateAdminCrmRecord(input: {
     stage: input.stage,
     priority: input.priority,
     owner: input.owner,
+    createdBy: input.createdBy ?? "",
+    lastEditedBy: input.lastEditedBy ?? "",
+    reviewStatus: input.reviewStatus ?? "None",
+    lastContactedAt: input.lastContactedAt ?? "",
+    nextFollowUpAt: input.nextFollowUpAt ?? "",
     tier: input.tier ?? "",
     flag: input.flag ?? "",
     industry: input.industry ?? "",
@@ -544,6 +597,11 @@ export async function insertAdminCrmRecord(input: {
   stage: CrmStage;
   priority: "High" | "Medium" | "Low";
   owner: string;
+  createdBy?: string;
+  lastEditedBy?: string;
+  reviewStatus?: CrmReviewStatus;
+  lastContactedAt?: string;
+  nextFollowUpAt?: string;
   tier?: CrmTier;
   flag?: CrmFlag;
   industry?: string;
@@ -567,6 +625,11 @@ export async function insertAdminCrmRecord(input: {
   const payload = {
     priority: input.priority,
     owner: input.owner,
+    createdBy: input.createdBy ?? input.owner,
+    lastEditedBy: input.lastEditedBy ?? input.createdBy ?? input.owner,
+    reviewStatus: input.reviewStatus ?? "None",
+    lastContactedAt: input.lastContactedAt ?? "",
+    nextFollowUpAt: input.nextFollowUpAt ?? "",
     tier: input.tier ?? "",
     flag: input.flag ?? "",
     industry: input.industry || canonical[0] || "",
@@ -597,7 +660,8 @@ export async function insertAdminCrmRecord(input: {
     RETURNING id, kind, email, name, company, phone, website, source, stage, payload, updated_at
   `;
 
-  return intakeRecordToCrm(rows[0] as Parameters<typeof intakeRecordToCrm>[0]);
+  const record = intakeRecordToCrm(rows[0] as Parameters<typeof intakeRecordToCrm>[0]);
+  return { ...record, recordKey: recordKeyFor(record) };
 }
 
 async function getCrmIntakeRecords(): Promise<CrmRecord[]> {
@@ -667,57 +731,14 @@ export async function getAdminCrmData(): Promise<{
   const overriddenRecords = records.map((record) =>
     applyRecordOverride(record, overrides.get(record.recordKey)),
   );
-  const startups = overriddenRecords.filter((record) => record.category === "Startup").length;
-  const investors = overriddenRecords.filter((record) => record.category === "Investor").length;
-  const sponsors = overriddenRecords.filter((record) => record.category === "Sponsor").length;
-  const operators = overriddenRecords.filter((record) => record.category === "Operator").length;
+  const summary = buildCrmStats(overriddenRecords);
 
   return {
     records: overriddenRecords,
-    stats: [
-      {
-        label: "Startup records",
-        value: startups.toLocaleString(),
-        delta: `${sheetRecords.length} sheet rows`,
-        trend: "up",
-        title: "Imported from shared startup spreadsheets.",
-        note: "Includes outreach, form responses, and accepted pitch cohorts.",
-        href: "/admin/startups",
-      },
-      {
-        label: "Investors / VCs",
-        value: investors.toLocaleString(),
-        delta: "relationship records",
-        trend: "up",
-        title: "Real investor relationships from intake and admin records.",
-        note: "Only investor and VC contacts are included here.",
-        href: "/admin/investors",
-      },
-      {
-        label: "Sponsors",
-        value: sponsors.toLocaleString(),
-        delta: "relationship records",
-        trend: "up",
-        title: "Real sponsor relationships from intake and admin records.",
-        note: "Newsletter-only subscribers are excluded from this board.",
-        href: "/admin/sponsors",
-      },
-      {
-        label: "Expert / operators",
-        value: operators.toLocaleString(),
-        delta: "relationship records",
-        trend: "up",
-        title: "Real operator and expert relationships.",
-        note: "Speaker and operator intakes appear here after review.",
-        href: "/admin/relationships?category=Operator",
-      },
-    ],
-    chart: [
-      { month: "Startups", startups, investors: 0, sponsors: 0 },
-      { month: "Investors", startups: 0, investors, sponsors: 0 },
-      { month: "Sponsors", startups: 0, investors: 0, sponsors },
-      { month: "Operators", startups: operators, investors: 0, sponsors: 0 },
-    ],
+    stats: summary.stats.map((stat) =>
+      stat.label === "Startup records" ? { ...stat, delta: `${sheetRecords.length} sheet rows` } : stat,
+    ),
+    chart: summary.chart,
   };
 }
 

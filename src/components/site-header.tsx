@@ -5,8 +5,10 @@ import { Download, Plus, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import type { AdminSession } from "@/lib/admin-auth";
 
-export function SiteHeader() {
+export function SiteHeader({ session }: { session?: AdminSession }) {
+  const isEmployee = session?.role === "employee";
   const dispatch = (name: string) => {
     window.dispatchEvent(new CustomEvent(name));
   };
@@ -28,26 +30,30 @@ export function SiteHeader() {
           </p>
         </div>
         <div className="ml-auto flex max-w-full flex-wrap items-center justify-end gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="hidden md:flex"
-            onClick={() => dispatch("admin:export-crm")}
-          >
-            <Download />
-            Export
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className="hidden sm:flex"
-            asChild
-          >
-            <a href="/admin/outreach">
-              <Send />
-              Outreach
-            </a>
-          </Button>
+          {!isEmployee ? (
+            <>
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden md:flex"
+                onClick={() => dispatch("admin:export-crm")}
+              >
+                <Download />
+                Export
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="hidden sm:flex"
+                asChild
+              >
+                <a href="/admin/outreach">
+                  <Send />
+                  Outreach
+                </a>
+              </Button>
+            </>
+          ) : null}
           <Button size="sm" onClick={openNewRecord}>
             <Plus />
             <span className="hidden sm:inline">New record</span>

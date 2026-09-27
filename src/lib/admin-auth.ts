@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { createHmac, createHash, timingSafeEqual } from "crypto";
 import { ADMIN_PROFILES, type AdminId as ProfileAdminId } from "@/data/admin-profiles";
+import { hasStoredAdminPassword, verifyStoredAdminPassword } from "@/lib/admin-passwords";
 
 const COOKIE_NAME = "admin_session";
 const MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 days
@@ -8,7 +9,8 @@ const MAX_AGE_SEC = 60 * 60 * 24 * 7; // 7 days
 const ENV_KEYS: Record<ProfileAdminId, string[]> = {
   lakshay: ["ADMIN_LAKSHAY_PASSWORD"],
   benjamin: ["ADMIN_BENJAMIN_PASSWORD", "ADMIN_BEN_PASSWORD"],
-  kavon: ["ADMIN_KAVON_PASSWORD", "ADMIN_KAYVAN_PASSWORD"],
+  kayvan: ["ADMIN_KAYVAN_PASSWORD"],
+  eleanor: ["ADMIN_ELEANOR_PASSWORD", "ADMIN_ELEANOR_BASE_PASSWORD"],
 };
 
 export const ADMIN_USERS = ADMIN_PROFILES.map((p) => ({
@@ -17,6 +19,12 @@ export const ADMIN_USERS = ADMIN_PROFILES.map((p) => ({
 })) as ReadonlyArray<(typeof ADMIN_PROFILES)[number] & { envKeys: string[] }>;
 
 export type AdminId = ProfileAdminId;
+export type AdminSession = {
+  id: AdminId;
+  name: string;
+  role: (typeof ADMIN_USERS)[number]["role"];
+  passwordChangeRequired: boolean;
+};
 
 function getSecret(): string {
   const secret = process.env.AUTH_SECRET ?? process.env.ADMIN_SECRET;
@@ -49,14 +57,17 @@ function verify(token: string): { id: string; ts: number } | null {
   }
 }
 
-export async function getSession(): Promise<{ id: AdminId; name: string } | null> {
+export async function getSession(): Promise<AdminSession | null> {
   const store = await cookies();
   const token = store.get(COOKIE_NAME)?.value;
   if (!token) return null;
   const payload = verify(token);
   if (!payload) return null;
   const user = ADMIN_USERS.find((u) => u.id === payload.id);
-  return user ? { id: user.id, name: user.name } : null;
+  if (!user) return null;
+  const passwordChangeRequired =
+    user.role === "employee" && !(await hasStoredAdminPassword(user.id));
+  return { id: user.id, name: user.name, role: user.role, passwordChangeRequired };
 }
 
 export function createSessionCookie(adminId: AdminId): string {
@@ -69,7 +80,7 @@ export function clearSessionCookie(): string {
   return `${COOKIE_NAME}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`;
 }
 
-export function verifyPassword(adminId: string, password: string): boolean {
+function verifyEnvPassword(adminId: string, password: string): boolean {
   const user = ADMIN_USERS.find((u) => u.id === adminId);
   if (!user) return false;
   const envPassword = user.envKeys.map((key) => process.env[key]).find(Boolean);
@@ -77,4 +88,13 @@ export function verifyPassword(adminId: string, password: string): boolean {
   const a = createHash("sha256").update(password.trim(), "utf8").digest();
   const b = createHash("sha256").update(envPassword.trim(), "utf8").digest();
   return a.length === b.length && timingSafeEqual(a, b);
+}
+
+export async function verifyPassword(adminId: string, password: string): Promise<boolean> {
+  const user = ADMIN_USERS.find((u) => u.id === adminId);
+  if (!user) return false;
+  if (user.role === "employee" && (await hasStoredAdminPassword(user.id))) {
+    return verifyStoredAdminPassword(user.id, password);
+  }
+  return verifyEnvPassword(adminId, password);
 }

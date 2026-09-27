@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { isFounderAdmin } from "@/lib/admin-access";
 import { recordAuditEvent } from "@/lib/admin-audit";
 import { NextRequest, NextResponse } from "next/server";
 import { writeFile, mkdir } from "fs/promises";
@@ -17,6 +18,9 @@ export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   try {

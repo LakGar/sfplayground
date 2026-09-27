@@ -4,17 +4,17 @@ import { INTAKE_EVENT_OPTIONS } from "@/data/intake-event-options";
 export const SPONSOR_HERO = {
   title: "SPONSORSHIP",
   subtitle:
-    "Connect with startups, investors, and customers through live experiences designed to surface stronger signal, meaningful relationships, and real dealflow.",
+    "Reach founders, investors, operators, and enterprise leaders through curated Bay Area events.",
   tagline:
-    "Bay Area's fastest growing venture network, built around high-signal rooms and real business relationships.",
+    "Sponsorship and event partnerships built for brand visibility, product engagement, and qualified relationships.",
   ctaLabel: "Start Sponsorship inquiry",
   ctaHref: "/sponsors/apply",
 } as const;
 
 export const SPONSOR_HERO_LETTER_IMAGES = [
-  "/images/previous-events/capitalnight.avif",
+  "/images/ai-hospitality-summit/panel-wide.avif",
   "/images/salesforce-summit/group-overhead.jpg",
-  "/images/previous-events/capital.jpeg",
+  "/images/ai-hospitality-summit/room-toast.avif",
   "/images/salesforce-summit/venture-network-panel.jpg",
   "/images/previous-events/harvard.jpg",
   "/images/immigrant-founders-night/founder-handshake.jpg",
@@ -24,6 +24,10 @@ export const SPONSOR_HERO_LETTER_IMAGES = [
 ] as const;
 
 export const SPONSOR_HERO_CAROUSEL = [
+  {
+    src: "/images/ai-hospitality-summit/panel-wide.avif",
+    alt: "Panel discussion at the Finix-supported AI in Hospitality Summit",
+  },
   {
     src: "/images/salesforce-summit/group-overhead.jpg",
     alt: "Group photo at a Salesforce Tower venture summit",
@@ -37,10 +41,14 @@ export const SPONSOR_HERO_CAROUSEL = [
     alt: "Capital Night event",
   },
   {
+    src: "/images/ai-hospitality-summit/room-toast.avif",
+    alt: "Partner moment during the AI in Hospitality Summit reception",
+  },
+  {
     src: "/images/salesforce-summit/venture-network-panel.jpg",
     alt: "Venture network panel at Salesforce Tower",
   },
-  { src: "/images/previous-events/pitch.png", alt: "Pitch Playoffs" },
+  { src: "/images/immigrant-founders-night/demo-conversation.jpg", alt: "Founder demo showcase" },
   {
     src: "/images/previous-events/aerospace-defense.png",
     alt: "Aerospace and defense panel at SFPLAYGROUND",
@@ -65,6 +73,10 @@ export const SPONSOR_HERO_CAROUSEL = [
     alt: "SFPLAYGROUND community conversation",
   },
   {
+    src: "/images/ai-hospitality-summit/network-conversation.avif",
+    alt: "Hospitality leaders connecting after the panel",
+  },
+  {
     src: "/images/immigrant-founders-night/demo-conversation.jpg",
     alt: "Startup demo conversation during a sponsor-supported event",
   },
@@ -75,6 +87,10 @@ export const SPONSOR_HERO_CAROUSEL = [
     src: "/images/salesforce-summit/panel-speaker-close.jpg",
     alt: "Panel speaker during an SFPLAYGROUND summit",
   },
+  {
+    src: "/images/ai-hospitality-summit/community-group.avif",
+    alt: "AI in Hospitality Summit community at Finix",
+  },
 ] as const;
 
 /** Shared page shell — one continuous gradient across the sponsors experience */
@@ -83,61 +99,66 @@ export const SPONSOR_PAGE_SHELL =
 
 export const SPONSOR_STATS = [
   {
-    value: "50K+",
-    label: "People in our network.",
+    value: "20K+",
+    label: "Community network.",
   },
   {
-    value: "20",
-    label: "Events in the last 4 months across SF and Silicon Valley.",
+    value: "1,010",
+    label: "Approved registrations from the last 10 events.",
   },
   {
-    value: "#1",
-    label: "Fastest growing network in San Francisco.",
+    value: "872",
+    label: "Unique approved guests across recent programs.",
   },
   {
-    value: "3m+",
-    label: "Capital raised by startups in our ecosystem.",
+    value: "101",
+    label: "Average approved guests per event.",
   },
 ] as const;
 
 export const SPONSOR_AUDIENCE = [
   {
-    label: "Founders",
+    label: "44% Founders",
     detail:
       "Pre-seed to Series A builders raising capital, finding customers, and looking for credible partners.",
   },
   {
-    label: "Investors",
+    label: "29% Investors + LPs",
     detail:
       "VCs, angels, family offices, and ecosystem operators looking for curated dealflow.",
   },
   {
-    label: "Operators",
+    label: "20% Executives",
     detail:
-      "Technical leaders, GTM builders, corporate innovation teams, and category experts.",
+      "Enterprise leaders, GTM builders, corporate innovation teams, and category experts.",
+  },
+  {
+    label: "32% Technical Leaders",
+    detail:
+      "Technical operators and builders who evaluate products, partners, and category expertise.",
   },
 ] as const;
 
 export const SPONSOR_DELIVERABLES = [
   {
-    title: "Build trust early",
+    title: "Brand visibility + product engagement",
     description:
-      "Reach founders before they choose legal, immigration, banking, recruiting, or advisory partners.",
+      "Show up on event pages, posters, speaker graphics, invitations, and onsite demo moments.",
   },
   {
-    title: "Own thought leadership",
+    title: "Authority + stage visibility",
     description:
-      "Lead conversations on visas, company formation, IP, fundraising, market entry, or founder support.",
+      "Add stage remarks, priority logo placement, and sponsor recognition around curated programs.",
   },
   {
-    title: "Create qualified relationships",
+    title: "Curated introductions",
     description:
-      "Use curated introductions, opt-in attendee access, and private networking to turn visibility into follow-up.",
+      "Turn visibility into follow-up through mutual opt-in introductions and relevant attendee access.",
   },
   {
-    title: "Stand with the mission",
+    title: "Post-event fulfillment",
     description:
-      "Align your brand with immigrant entrepreneurship and the next generation of American companies.",
+      "Core sponsors receive a concise report on delivered benefits and available performance data.",
   },
 ] as const;
 
@@ -179,10 +200,10 @@ export const SPONSOR_PARTNER_MASONRY = {
       alt: "SFPLAYGROUND flagship event at night",
     },
     pitch: {
-      tag: "Pitch Playoffs",
+      tag: "Founder showcases",
       title: "Live founder energy.",
-      image: "/images/previous-events/pitch.png",
-      alt: "Pitch Playoffs event",
+      image: "/images/immigrant-founders-night/demo-conversation.jpg",
+      alt: "Founder demo showcase event",
     },
     capital: {
       tag: "Capital Night",
@@ -232,152 +253,86 @@ export const SPONSOR_PARTNER_MASONRY = {
 
 export const SPONSORSHIP_TIERS = [
   {
-    eyebrow: "Visa 2 Venture",
-    name: "Presenting Title Partner",
-    investment: "$14,995",
+    eyebrow: "Core package",
+    name: "Event Sponsor",
+    investment: "Shared after inquiry",
     description:
-      "Category exclusivity — the lead partner designation for Visa 2 Venture.",
+      "Brand visibility and product engagement for a single curated SFPLAYGROUND event.",
     highlights: [
-      "Remarks on stage for 15 minutes",
-      "Event host thanks your company in opening and closing remarks",
-      "Category exclusivity at this level (e.g. only one law firm or VC firm)",
-      "Curated 1:1 introductions with up to eight attendees you select",
-      '"Title Partner" designation',
-      "Premium logo placement across website, emails, and materials",
-      "Pre- and post-event attendee list (opt-in) with contact info",
-      "Moderate or speak on two sessions, subject to approval",
-      "Opportunities to raffle a prize and collect business cards at event",
-      "7 tickets for staff or clients",
-      "Facilitate 2 roundtable sessions aligned with your expertise",
-      "Up to three banners or signage on stage, in meal areas, and demo showcase",
-      "Demo table in demo showcase during reception",
+      "Logo on event page, poster, speaker graphics, and invitations",
+      "Turnkey demo booth with table, linen, and QR-code placard",
+      "Closing-stage sponsor recognition",
+      "At least one curated introduction",
+      "Basic attendee roster: name, company, and title",
+      "Team or client passes",
+    ],
+    featured: false,
+  },
+  {
+    eyebrow: "Core package",
+    name: "Premium Event Sponsor",
+    investment: "Shared after inquiry",
+    description:
+      "Authority and stage visibility for sponsors who want a larger presence in the room.",
+    highlights: [
+      "All Event Sponsor benefits",
+      "Priority logo placement",
+      "Stage remarks, subject to approval",
+      "At least two curated introductions total",
+      "Additional team or client passes",
+      "Limited premium availability per event",
     ],
     featured: true,
-  },
-  {
-    eyebrow: "Visa 2 Venture",
-    name: "Flagship Event Partner",
-    investment: "$9,995",
-    description:
-      "High-visibility partner with stage time, introductions, and roundtable leadership.",
-    highlights: [
-      "Remarks on stage for 10 minutes",
-      "Event host thanks your company in opening and closing remarks",
-      "Curated 1:1 introductions with up to six investor attendees you select",
-      "Logo on website, invites, and materials",
-      "Moderate or speak on one session, subject to approval",
-      "Post-event attendee list (opt-in) with contact info",
-      "5 tickets for staff or clients",
-      "Facilitate 2 roundtable sessions aligned with your expertise",
-      "One banner or signage on stage",
-      "Demo table in demo showcase during cocktail party",
-    ],
-    featured: false,
-  },
-  {
-    eyebrow: "Visa 2 Venture",
-    name: "Founder Access Partner",
-    investment: "$4,995",
-    description:
-      "Stage presence and curated investor access for founder-facing brands.",
-    highlights: [
-      "Remarks on stage for 4 minutes",
-      "Event host thanks your company in opening and closing remarks",
-      "Logo on event slideshow or screen loop",
-      "Logo on website, invites, and materials",
-      "Curated 1:1 introductions with up to three investor attendees you select",
-      "Post-event attendee list (opt-in)",
-      "4 tickets for staff or clients",
-      "Facilitate 1 roundtable session aligned with your expertise",
-      "Demo table in demo showcase during reception",
-    ],
-    featured: false,
-  },
-  {
-    eyebrow: "Visa 2 Venture",
-    name: "Roundtable Partner",
-    investment: "$2,495",
-    description:
-      "Lead a roundtable session with full event access and brand visibility.",
-    highlights: [
-      "Remarks on stage for 1 minute",
-      "Logo on website, invites, and materials",
-      "Full event access",
-      "Company name mentioned in closing remarks",
-      "Facilitate one roundtable session aligned with your expertise",
-      "3 tickets for staff or clients",
-      "Advance attendee list (names, companies, titles — no contacts)",
-      "Demo table in demo showcase during reception",
-    ],
-    featured: false,
-  },
-  {
-    eyebrow: "Visa 2 Venture",
-    name: "Event Sponsor",
-    investment: "$1,495",
-    description:
-      "Logo visibility, curated introductions, and a demo table at reception.",
-    highlights: [
-      "Logo on website, event poster, speaker posters, and invitations",
-      "At least 1 curated introduction to relevant founders, investors, or partners",
-      "Company name mentioned in closing remarks",
-      "Demo table during reception (table, linen, custom flyer with QR code)",
-      "Advance attendee list (names, companies, titles — no contacts)",
-      "3 tickets for staff or clients",
-    ],
-    featured: false,
-  },
-  {
-    eyebrow: "Visa 2 Venture",
-    name: "Basic Community Partner",
-    investment: "$995",
-    description:
-      "Entry-level visibility with demo showcase presence and team passes.",
-    highlights: [
-      "2 tickets for staff or clients",
-      "Company name and link listed on website",
-      "Logo placement on marketing materials",
-      "Demo table in demo showcase during reception",
-    ],
-    featured: false,
   },
 ] as const;
 
 export const SPONSORSHIP_ADDONS = [
   {
-    name: "Full attendee list with contacts",
-    price: "$5.00 per contact",
+    name: "Demo booth",
+    price: "Shared after inquiry",
     description:
-      "Attendee contact list with name, company, role, LinkedIn, email, and phone number. Add $250 for up to two custom registration questions to identify relevant attendee needs and follow-up opportunities.",
+      "Turnkey demo space with table, QR placard, and team passes.",
   },
   {
-    name: "Print or create your signage",
-    price: "$695 – $1,195",
+    name: "4-minute spotlight",
+    price: "Shared after inquiry",
     description:
-      "We create and print a co-branded 33\" × 77\" banner or 8' × 10' backdrop featuring both SFPlayground and your logos.",
+      "Company remarks with content approval, limited by event format.",
   },
   {
-    name: "Post-event resource amplification",
-    price: "~$0.25/person ($500 minimum)",
+    name: "Branded signage",
+    price: "Shared after inquiry",
     description:
-      "Email and SMS blast your materials to 15,000+ recipients in our network.",
+      "Co-branded banner or backdrop, including design and print support.",
   },
   {
-    name: "Meal or cocktail party sponsor",
-    price: "$2,995 – $4,995",
+    name: "Amplification",
+    price: "Shared after inquiry",
     description:
-      "Branded materials and signage during breaks, lunch, or cocktail party. May include additional food fees. Host at your nearby office or restaurant; higher rate includes additional benefits.",
+      "Additional email or SMS campaign options scoped to the event audience.",
   },
   {
-    name: "Badge or lanyard sponsor",
-    price: "$995 each · both for $1,495",
+    name: "Opt-in leads",
+    price: "Shared after inquiry",
     description:
-      "Your logo on badges or lanyards, subject to approval, with 2 tickets included.",
+      "Registration questions and lead fields for sponsors who need deeper follow-up.",
+  },
+  {
+    name: "Planning + coordination",
+    price: "Shared after inquiry",
+    description:
+      "Event strategy, budget, timeline, run of show, venue, vendor, registration, speaker, and guest coordination.",
+  },
+  {
+    name: "Full-service production",
+    price: "Shared after inquiry",
+    description:
+      "Planning support plus targeted guest sourcing, SFPLAYGROUND campaign distribution, onsite producing, staffing, and reporting.",
   },
 ] as const;
 
 export const SPONSOR_INTERESTS = [
-  "Pitch Playoffs",
+  "Founder showcases",
   "Capital Night",
   "Summits & keynotes",
   "Founder dinners",
@@ -414,12 +369,12 @@ export const SPONSOR_FAQ = [
   {
     question: "Can we sponsor a single event?",
     answer:
-      "Yes. Many partners start with one flagship event like Pitch Playoffs or Capital Night, then expand into a series or title partnership once we align on format and audience.",
+      "Yes. Many partners start with one flagship event like a founder showcase or Capital Night, then expand into a series or title partnership once we align on format and audience.",
   },
   {
     question: "What deliverables are included?",
     answer:
-      "Packages include logo placement, stage or roundtable opportunities, curated introductions, team passes, and demo showcase access depending on tier. See Visa 2 Venture tiers above or share your goals — we will send a custom one-pager after intake.",
+      "Packages include logo placement, demo booth options, stage visibility, curated introductions, team passes, attendee roster access, and post-event reporting depending on fit and tier. We share exact package details after sponsor intake.",
   },
   {
     question: "How quickly will we hear back?",

@@ -6,11 +6,10 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 const NAV_LINKS = [
-  { label: "The Showroom", href: "/showroom" },
+  { label: "Founder Access Rooms", href: "/events-as-a-service" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "Join Network", href: "/network" },
   { label: "Previous Events", href: "/previous-events" },
-  { label: "Pitch Playoffs", href: "/pitch-playoffs" },
   { label: "Members Only", href: "/silicon-valley" },
 ] as const;
 
@@ -109,11 +108,9 @@ export default function Nav({ heroOverlay = false }: NavProps) {
     <>
       <header className="fixed inset-x-0 top-0 z-[60]">
         <div
-          className={
-            heroOverlay
-              ? "bg-transparent"
-              : "bg-white/50 backdrop-blur-sm"
-          }
+          className={`transition-colors duration-500 ${
+            heroOverlay ? "bg-transparent" : "bg-white/50 backdrop-blur-sm"
+          }`}
         >
           <div className="mx-auto w-full px-4 py-4 md:px-8">
             <div className="flex items-center justify-between">

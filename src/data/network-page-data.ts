@@ -15,20 +15,29 @@ export const NETWORK_HERO = {
 
 export const NETWORK_HERO_LETTER_IMAGES = [
   "/images/network1.JPG",
+  "/images/ai-hospitality-summit/community-group.avif",
   "/images/ID5A2804.JPG",
   "/images/ID5A2897.JPG",
+  "/images/ai-hospitality-summit/network-conversation.avif",
   "/images/ID5A2913.png",
   "/images/IMG_0700.JPG",
   "/images/immigrant-founders-night/demo-conversation.jpg",
   "/images/salesforce-summit/group-overhead.jpg",
-  "/images/previous-events/capitalnight.avif",
   "/images/salesforce-summit/networking-conversation.jpg",
 ] as const;
 
 export const NETWORK_HERO_CAROUSEL = [
   { src: "/images/network1.JPG", alt: "SFPLAYGROUND community" },
+  {
+    src: "/images/ai-hospitality-summit/community-group.avif",
+    alt: "Guests and speakers at the AI in Hospitality Summit",
+  },
   { src: "/images/network2.JPG", alt: "Networking at an event" },
   { src: "/images/network3.JPG", alt: "Founders and investors" },
+  {
+    src: "/images/ai-hospitality-summit/guest-group.avif",
+    alt: "Hospitality and technology leaders meeting in San Francisco",
+  },
   { src: "/images/ID5A2804.JPG", alt: "Crowd gathered at a SFPLAYGROUND event" },
   { src: "/images/ID5A2897.JPG", alt: "Founder speaking with event guests" },
   { src: "/images/ID5A2997.JPG", alt: "Audience watching a founder program" },
@@ -36,6 +45,10 @@ export const NETWORK_HERO_CAROUSEL = [
   {
     src: "/images/salesforce-summit/networking-conversation.jpg",
     alt: "Guests arriving for a founder gathering",
+  },
+  {
+    src: "/images/ai-hospitality-summit/network-conversation.avif",
+    alt: "Guests in conversation at the AI in Hospitality Summit",
   },
   { src: "/images/IMG_0700.JPG", alt: "Event audience in conversation" },
   {
@@ -65,6 +78,10 @@ export const NETWORK_HERO_CAROUSEL = [
     alt: "Founder demo conversation after a pitch session",
   },
   {
+    src: "/images/ai-hospitality-summit/attendee-portrait.avif",
+    alt: "Two attendees at the AI in Hospitality Summit",
+  },
+  {
     src: "/images/salesforce-summit/group-overhead.jpg",
     alt: "SFPLAYGROUND summit group photo",
   },
@@ -92,24 +109,24 @@ export const NETWORK_HERO_TRAIL_IMAGES = [
   { src: "/images/previous-events/global.png", alt: "Global summit" },
   { src: "/images/previous-events/construction.jpeg", alt: "Deep tech summit" },
   {
-    src: "/images/pitch-playoffs/booth-feedback.jpg",
-    alt: "Guests giving feedback at Pitch Playoffs",
+    src: "/images/immigrant-founders-night/demo-conversation.jpg",
+    alt: "Guests giving feedback at a founder showcase",
   },
   {
-    src: "/images/pitch-playoffs/founder-conversation.jpg",
-    alt: "Founder conversation at Pitch Playoffs",
+    src: "/images/salesforce-summit/networking-conversation.jpg",
+    alt: "Founder conversation at a live showcase",
   },
   {
     src: "/images/immigrant-founders-night/founder-handshake.jpg",
     alt: "Founders and partners connecting at a live event",
   },
   {
-    src: "/images/pitch-playoffs/panel-presentation.jpg",
-    alt: "Pitch Playoffs panel presentation",
+    src: "/images/salesforce-summit/panel-wide.jpg",
+    alt: "Founder panel presentation",
   },
   {
-    src: "/images/pitch-playoffs/presentation-room.jpg",
-    alt: "Pitch Playoffs presentation room",
+    src: "/images/immigrant-founders-night/lightning-pitch-room.jpg",
+    alt: "Founder presentation room",
   },
 ] as const;
 
@@ -218,7 +235,7 @@ export const NETWORK_FAQ = [
   {
     question: "How do founders get on stage?",
     answer:
-      "Apply as a startup, share your stage and fundraising context, and our team will follow up if there's a fit for an upcoming pitch night or program like Pitch Playoffs.",
+      "Apply as a startup, share your stage and fundraising context, and our team will follow up if there's a fit for an upcoming pitch night, showcase, or curated program.",
   },
   {
     question: "How quickly will I hear back?",

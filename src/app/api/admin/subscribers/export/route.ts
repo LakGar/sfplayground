@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { isFounderAdmin } from "@/lib/admin-access";
 import { getSubscribers } from "@/lib/db";
 import { NextResponse } from "next/server";
 
@@ -6,6 +7,9 @@ export async function GET() {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
   const subscribers = await getSubscribers();

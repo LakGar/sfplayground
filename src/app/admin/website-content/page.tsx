@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { AdminPageHeader } from "@/components/admin-page-header";
 import { AdminShell } from "@/components/admin-shell";
 import { AdminWebsiteContentPage } from "@/components/admin-website-content-page";
+import { isFounderAdmin } from "@/lib/admin-access";
 import { getSession } from "@/lib/admin-auth";
 
 export const metadata = {
@@ -14,9 +15,11 @@ export const dynamic = "force-dynamic";
 export default async function WebsiteContentPage() {
   const session = await getSession();
   if (!session) redirect("/admin/signin");
+  if (session.passwordChangeRequired) redirect("/admin/change-password");
+  if (!isFounderAdmin(session)) redirect("/admin/relationships");
 
   return (
-    <AdminShell>
+    <AdminShell session={session}>
       <AdminPageHeader
         title="Website Content"
         description="Edit public website titles, sections, image URLs, and video URLs from one place."

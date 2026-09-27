@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { isFounderAdmin } from "@/lib/admin-access";
 import { recordAuditEvent } from "@/lib/admin-audit";
 import { deleteBlogPost, getBlogPostById, updateBlogPost } from "@/lib/db";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
@@ -11,6 +12,9 @@ export async function PATCH(
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const { id } = await params;
   const postId = Number(id);
@@ -59,6 +63,9 @@ export async function DELETE(
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const { id } = await params;
   const postId = Number(id);

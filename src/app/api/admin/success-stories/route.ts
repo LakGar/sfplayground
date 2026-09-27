@@ -1,4 +1,5 @@
 import { getSession } from "@/lib/admin-auth";
+import { isFounderAdmin } from "@/lib/admin-access";
 import { recordAuditEvent } from "@/lib/admin-audit";
 import { createSuccessStory, getSuccessStories } from "@/lib/db";
 import { convertGoogleDriveImageUrl } from "@/utils/convertDriveImageUrl";
@@ -9,6 +10,9 @@ export async function GET() {
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   const stories = await getSuccessStories();
   return NextResponse.json(stories);
 }
@@ -17,6 +21,9 @@ export async function POST(request: NextRequest) {
   const session = await getSession();
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  if (!isFounderAdmin(session)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   try {
     const body = await request.json();

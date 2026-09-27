@@ -14,16 +14,20 @@ import {
 
 export function NavMain({
   items,
+  canUseOutreach = true,
+  quickAddUrl = "/admin/relationships",
 }: {
   items: {
     title: string;
     url: string;
     icon?: LucideIcon;
   }[];
+  canUseOutreach?: boolean;
+  quickAddUrl?: string;
 }) {
   const openQuickAdd = () => {
     window.sessionStorage.setItem("sfpg-open-new-record", "1");
-    window.open("/admin/relationships", "_self");
+    window.open(quickAddUrl, "_self");
   };
 
   return (
@@ -39,17 +43,19 @@ export function NavMain({
               <PlusCircle />
               <span>Quick add</span>
             </SidebarMenuButton>
-            <Button
-              size="icon"
-              className="size-8 group-data-[collapsible=icon]:opacity-0"
-              variant="outline"
-              onClick={() => {
-                window.open("/admin/outreach", "_self");
-              }}
-            >
-              <Inbox />
-              <span className="sr-only">Inbox</span>
-            </Button>
+            {canUseOutreach ? (
+              <Button
+                size="icon"
+                className="size-8 group-data-[collapsible=icon]:opacity-0"
+                variant="outline"
+                onClick={() => {
+                  window.open("/admin/outreach", "_self");
+                }}
+              >
+                <Inbox />
+                <span className="sr-only">Inbox</span>
+              </Button>
+            ) : null}
           </SidebarMenuItem>
         </SidebarMenu>
         <SidebarMenu>

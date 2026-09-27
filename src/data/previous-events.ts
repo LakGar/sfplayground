@@ -48,6 +48,13 @@ function previousEventSortDate(event: PreviousEventItem): number {
 
 const previousEvents: PreviousEventItem[] = [
   {
+    slug: "ai-in-hospitality-summit-finix",
+    title: "AI in Hospitality Summit at Finix",
+    date: "September 10, 2026",
+    imageUrl: "/images/events/ai-hospitality-summit.jpg",
+    href: "https://luma.com/aihospitality",
+  },
+  {
     slug: "new-american-dream-venture-summit-salesforce-tower",
     title: "The New American Dream Venture Summit — Salesforce Tower",
     date: "July 2, 2026",
@@ -107,13 +114,6 @@ const previousEvents: PreviousEventItem[] = [
     href: "https://luma.com/harvardmitproperty",
   },
   {
-    slug: "physical-ai-pitch-playoffs-gtc-2026",
-    title: "Physical AI Pitch Playoffs — GTC 2026",
-    date: "March 17, 2026",
-    imageUrl: "/images/previous-events/pitch2.png",
-    href: "https://luma.com/82fwu1tc",
-  },
-  {
     slug: "harvard-mit-robotics-physical-ai",
     title: "Harvard + MIT Series (2nd of 3): Robotics & Physical AI",
     date: "Spring 2026",
@@ -124,22 +124,8 @@ const previousEvents: PreviousEventItem[] = [
     slug: "ai-healthcare-silicon-valley-investing-summit",
     title: "AI x Healthcare — Silicon Valley Investing Summit",
     date: "January 2026",
-    imageUrl: "/images/previous-events/ai-healthcare-silicon-valley.png",
-    href: "https://luma.com/ai-x-healthcare",
-  },
-  {
-    slug: "pitch-playoffs-001",
-    title: "Pitch Playoffs 001",
-    date: "December 11, 2025",
-    imageUrl: "/images/previous-events/pitch.png",
-    href: "https://luma.com/ai-x-physical-reality",
-  },
-  {
-    slug: "pitch-playoffs-physical-ai",
-    title: "Pitch Playoffs: Physical AI",
-    date: "December 11, 2025",
-    imageUrl: "/images/pitch-playoffs/panel-presentation.jpg",
-    href: "https://luma.com/54kzxvy6",
+    imageUrl: "/images/previous-events/ai-healthtech-panel.png",
+    href: "https://www.linkedin.com/feed/update/urn:li:activity:7495196550965542912",
   },
 ];
 

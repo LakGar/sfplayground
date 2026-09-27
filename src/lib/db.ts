@@ -1,6 +1,4 @@
 import { sql } from "@vercel/postgres";
-import { PREVIOUS_EVENTS } from "@/data/previous-events";
-import { UPCOMING_EVENTS } from "@/data/upcoming-events";
 
 export { sql };
 
@@ -396,74 +394,8 @@ async function ensureEventColumns(): Promise<void> {
   await sql.query("ALTER TABLE events ADD COLUMN IF NOT EXISTS luma_url TEXT");
 }
 
-function slugify(value: string): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .replace(/&/g, "and")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-async function seedEventsFromSiteData(): Promise<void> {
-  await ensureEventColumns();
-
-  for (const event of UPCOMING_EVENTS) {
-    const slug = slugify(event.title);
-    await sql`
-      INSERT INTO events (
-        slug, title, date, time, location, attendees, status, organizer, luma_url,
-        cover_image, description, images, updated_at
-      )
-      SELECT
-        ${slug},
-        ${event.title},
-        ${event.time.split(" · ")[0] ?? event.time},
-        ${event.time},
-        ${event.location},
-        0,
-        'upcoming',
-        'SFPLAYGROUND',
-        ${event.href},
-        ${event.coverImageUrl},
-        ${event.tags.join(", ")},
-        ${JSON.stringify([event.coverImageUrl])}::jsonb,
-        NOW()
-      WHERE NOT EXISTS (
-        SELECT 1 FROM events WHERE LOWER(TRIM(slug)) = LOWER(TRIM(${slug}))
-      )
-    `;
-  }
-
-  for (const event of PREVIOUS_EVENTS) {
-    await sql`
-      INSERT INTO events (
-        slug, title, date, time, location, attendees, status, organizer, luma_url,
-        cover_image, description, images, updated_at
-      )
-      SELECT
-        ${event.slug},
-        ${event.title},
-        ${event.date || "Previous event"},
-        ${event.date || null},
-        'San Francisco Bay Area',
-        0,
-        'past',
-        'SFPLAYGROUND',
-        ${event.href},
-        ${event.imageUrl},
-        'Imported from the public SFPLAYGROUND previous events section.',
-        ${JSON.stringify([event.imageUrl])}::jsonb,
-        NOW()
-      WHERE NOT EXISTS (
-        SELECT 1 FROM events WHERE LOWER(TRIM(slug)) = LOWER(TRIM(${event.slug}))
-      )
-    `;
-  }
-}
-
 export async function getEvents(): Promise<EventRow[]> {
-  await seedEventsFromSiteData();
+  await ensureEventColumns();
   const { rows } = await sql`
     SELECT id, slug, title, date, time, location, attendees, status, organizer, luma_url, cover_image, description, images, created_at, updated_at
     FROM events

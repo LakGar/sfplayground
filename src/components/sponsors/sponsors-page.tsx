@@ -24,7 +24,7 @@ import {
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 const CONTACT_EMAIL = "staff@sfplaygroundai.com";
-const MAIN_SPONSORSHIP_TIERS = SPONSORSHIP_TIERS.slice(0, 4);
+const MAIN_SPONSORSHIP_TIERS = SPONSORSHIP_TIERS;
 
 function SponsorDeliverables() {
   const accentDots = [
@@ -86,7 +86,7 @@ function SponsorDeliverables() {
         </FadeInView>
 
         <FadeInView direction="up">
-          <div className="mt-10 grid gap-3 rounded-[28px] border-black/10 bg-white/70 p-4 text-black shadow-[0_28px_90px_-60px_rgba(0,0,0,0.18)] md:mt-14 md:grid-cols-3 md:gap-4 md:p-5">
+          <div className="mt-10 grid gap-3 rounded-[28px] border-black/10 bg-white/70 p-4 text-black shadow-[0_28px_90px_-60px_rgba(0,0,0,0.18)] md:mt-14 md:grid-cols-2 md:gap-4 md:p-5 lg:grid-cols-4">
             {SPONSOR_AUDIENCE.map((item) => (
               <article
                 key={item.label}
@@ -112,31 +112,18 @@ function SponsorPackageStack() {
 
   return (
     <div className="mt-12">
-      <div className="flex flex-col gap-5 lg:hidden">
-        {MAIN_SPONSORSHIP_TIERS.map((tier) => (
-          <PackageCard key={tier.name} tier={tier} />
+      <div className="grid gap-5 lg:grid-cols-2">
+        {MAIN_SPONSORSHIP_TIERS.map((tier, index) => (
+          <motion.div
+            key={tier.name}
+            initial={reduceMotion ? false : { opacity: 0.96, y: 34 }}
+            whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.18 }}
+            transition={{ duration: 0.7, ease: EASE, delay: index * 0.08 }}
+          >
+            <PackageCard tier={tier} index={index} />
+          </motion.div>
         ))}
-      </div>
-
-      <div className="hidden lg:block">
-        <div className="relative pb-20">
-          {MAIN_SPONSORSHIP_TIERS.map((tier, index) => (
-            <motion.div
-              key={tier.name}
-              className="sticky mb-8"
-              style={{
-                top: `calc(6rem + ${index * 1.15}rem)`,
-                zIndex: index + 1,
-              }}
-              initial={reduceMotion ? false : { opacity: 0.96, y: 44 }}
-              whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.18 }}
-              transition={{ duration: 0.7, ease: EASE }}
-            >
-              <PackageCard tier={tier} index={index} large />
-            </motion.div>
-          ))}
-        </div>
       </div>
     </div>
   );
@@ -158,10 +145,10 @@ function PackageCard({
 
   return (
     <article
-      className={`relative min-h-[560px] overflow-hidden rounded-[28px] border p-6 md:p-8 ${
+      className={`relative h-full min-h-[560px] overflow-hidden rounded-[28px] border p-6 md:p-8 ${
         hasShadow ? "shadow-[0_18px_54px_-36px_rgba(0,0,0,0.42)]" : ""
       } ${
-        large ? "h-[calc(100vh-7.5rem)] min-h-[560px] max-h-[720px]" : ""
+        large ? "min-h-[560px]" : ""
       } ${
         isFeatured
           ? "border-black bg-black text-white"
@@ -398,16 +385,15 @@ export function SponsorsPage() {
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div>
                 <p className="text-xs font-semibold tracking-[0.2em] text-black/45 uppercase">
-                  Visa 2 Venture
+                  Sponsor availability
                 </p>
                 <h2 className="mt-4 text-4xl font-bold tracking-tight text-black md:text-6xl">
-                  Sponsorship tiers
+                  Partnership menu
                 </h2>
               </div>
               <p className="max-w-md text-sm leading-relaxed text-black/60 md:text-base">
-                Official Visa 2 Venture packages from our sponsorship brief.
-                Every partnership can be customized — reach out to shape
-                deliverables around your goals.
+                Explore the partnership formats we can shape around your goals.
+                Package details and pricing are shared after a sponsor inquiry.
               </p>
             </div>
 

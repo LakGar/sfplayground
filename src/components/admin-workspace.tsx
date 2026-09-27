@@ -17,12 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import type { AdminSession } from "@/lib/admin-auth";
 import type { CrmChartPoint, CrmRecord, CrmStat } from "@/lib/admin-crm-types";
-
-type AdminSession = {
-  id: string;
-  name: string;
-};
 
 type BlogPostItem = {
   id: number;
@@ -317,7 +313,7 @@ export function AdminWorkspace({
             </TabsList>
           </div>
           <TabsContent value="crm" className="m-0 min-w-0 overflow-hidden">
-            <DataTable data={records} />
+            <DataTable data={records} session={session} />
           </TabsContent>
           <TabsContent value="blogs" className="m-0 grid min-w-0 gap-4 overflow-hidden xl:grid-cols-[minmax(280px,360px)_minmax(0,1fr)]">
             <Card className="h-fit">
