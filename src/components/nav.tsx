@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 const NAV_LINKS = [
-  { label: "Founder Access Rooms", href: "/events-as-a-service" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "Join Network", href: "/network" },
   { label: "Previous Events", href: "/previous-events" },
@@ -127,11 +126,7 @@ export default function Nav({ heroOverlay = false }: NavProps) {
                   priority
                 />
               </Link>
-              <ThinPlusIcon
-                open={open}
-                onClick={toggle}
-                light={heroOverlay}
-              />
+              <ThinPlusIcon open={open} onClick={toggle} light={heroOverlay} />
             </div>
           </div>
         </div>
@@ -162,8 +157,14 @@ export default function Nav({ heroOverlay = false }: NavProps) {
                   >
                     <Link
                       href={item.href}
-                      target={item.href.startsWith("http") ? "_blank" : undefined}
-                      rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                      target={
+                        item.href.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel={
+                        item.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
                       onClick={close}
                       className="block font-oswald text-[2.5rem] font-bold leading-[1.05] tracking-tight text-black transition-opacity hover:opacity-45 md:text-[4.5rem] lg:text-[5.5rem]"
                     >
