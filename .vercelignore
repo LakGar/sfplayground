@@ -7,6 +7,10 @@ output
 outputs
 coverage
 public/uploads
+public/hero.mp4
+public/*.mp4
+public/*.mov
+public/*.webm
 public/videos/*.mp4
 public/videos/*.mov
 public/videos/*.webm

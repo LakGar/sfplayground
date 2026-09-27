@@ -29,6 +29,10 @@
 /public/uploads
 
 # Large local videos (GitHub 100MB limit) — host via NEXT_PUBLIC_FEATURED_VIDEO_URL
+/public/hero.mp4
+/public/*.mp4
+/public/*.mov
+/public/*.webm
 /public/videos/*.mp4
 /public/videos/*.mov
 /public/videos/*.webm
