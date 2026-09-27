@@ -246,7 +246,6 @@ export function SiliconValleyLanding() {
                       <input
                         id="sv-email"
                         type="email"
-                        name="email"
                         required
                         placeholder="Enter your email"
                         className="w-full rounded-xl border border-[#dbcbb3] bg-white px-3.5 py-2.5 text-sm text-[#1f1b14] placeholder:text-[#a7967d] outline-none transition focus:border-[#b08b4f] "
@@ -262,7 +261,6 @@ export function SiliconValleyLanding() {
                       <input
                         id="sv-password"
                         type="password"
-                        name="password"
                         required
                         placeholder="Enter your password"
                         className="w-full rounded-xl border border-[#dbcbb3] bg-white px-3.5 py-2.5 text-sm text-[#1f1b14] placeholder:text-[#a7967d] outline-none transition focus:border-[#b08b4f] "
