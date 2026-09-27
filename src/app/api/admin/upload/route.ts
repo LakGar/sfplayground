@@ -1,18 +1,30 @@
 import { getSession } from "@/lib/admin-auth";
 import { isFounderAdmin } from "@/lib/admin-access";
 import { recordAuditEvent } from "@/lib/admin-audit";
+import { sql } from "@/lib/db";
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
+import { randomUUID } from "crypto";
 
 export const dynamic = "force-dynamic";
 
-const UPLOAD_DIR = "public/uploads";
-const MAX_IMAGE_SIZE = 10 * 1024 * 1024; // 10MB
-const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB
+const MAX_IMAGE_SIZE = 6 * 1024 * 1024; // client compresses large images before upload
+const MAX_VIDEO_SIZE = 6 * 1024 * 1024; // use an external video URL for larger videos
 
 const ALLOWED_IMAGE_PREFIX = "image/";
 const ALLOWED_VIDEO_PREFIX = "video/";
+
+async function ensureAdminUploadsTable() {
+  await sql`
+    CREATE TABLE IF NOT EXISTS admin_uploads (
+      id TEXT PRIMARY KEY,
+      filename TEXT NOT NULL,
+      mime_type TEXT NOT NULL,
+      size_bytes INTEGER NOT NULL,
+      data_base64 TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    )
+  `;
+}
 
 export async function POST(request: NextRequest) {
   const session = await getSession();
@@ -55,21 +67,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const ext = path.extname(file.name) || (isVideo ? ".mp4" : ".jpg");
-    const safeExt = /^.[a-z0-9]+$/i.test(ext) ? ext : isVideo ? ".mp4" : ".jpg";
-    const basename = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}${safeExt}`;
-    const uploadDir = path.join(process.cwd(), UPLOAD_DIR);
-    await mkdir(uploadDir, { recursive: true });
-    const filePath = path.join(uploadDir, basename);
     const buffer = Buffer.from(await file.arrayBuffer());
-    await writeFile(filePath, buffer);
-    const url = `/uploads/${basename}`;
+    const id = randomUUID();
+    await ensureAdminUploadsTable();
+    await sql`
+      INSERT INTO admin_uploads (id, filename, mime_type, size_bytes, data_base64)
+      VALUES (${id}, ${file.name || "upload"}, ${type}, ${file.size}, ${buffer.toString("base64")})
+    `;
+
+    const url = `/api/admin/upload/${id}`;
     await recordAuditEvent({
       adminId: session.id,
       adminName: session.name,
       action: "file_uploaded",
       targetType: isVideo ? "video" : "image",
-      targetId: basename,
+      targetId: id,
       details: { name: file.name, size: file.size, type: file.type, url },
     });
     return NextResponse.json({ url });
