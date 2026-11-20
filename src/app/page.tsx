@@ -13,8 +13,13 @@ import { getPublicEventLists } from "@/lib/public-events";
 
 export const dynamic = "force-dynamic";
 
+const CANCELED_DEC_3_SUMMIT_URL = "https://luma.com/cybersecure";
+
 const Page = async () => {
   const { upcoming, previous } = await getPublicEventLists();
+  const homepageUpcoming = upcoming.filter(
+    (event) => event.href !== CANCELED_DEC_3_SUMMIT_URL,
+  );
 
   return (
     <div className="min-h-screen bg-white">
@@ -22,7 +27,7 @@ const Page = async () => {
       <Hero />
 
       <FadeInView direction="up">
-        <UpcomingEvents events={upcoming} />
+        <UpcomingEvents events={homepageUpcoming} />
       </FadeInView>
 
       <FadeInView direction="down">
