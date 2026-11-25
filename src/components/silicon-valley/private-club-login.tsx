@@ -7,8 +7,8 @@ import { FormEvent, useState } from "react";
 
 export function PrivateClubLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState("founder@demo.com");
-  const [password, setPassword] = useState("playground");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -43,7 +43,7 @@ export function PrivateClubLogin() {
           <div className="absolute inset-x-6 bottom-7 max-w-2xl">
             <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1.5 text-xs font-medium text-white ring-1 ring-white/18 backdrop-blur">
               <Sparkles className="size-3.5" />
-              Demo member access
+              Private member access
             </div>
             <h1 className="font-stack text-[clamp(3rem,8vw,8.8rem)] font-black uppercase leading-[0.82] tracking-normal text-white">
               Silicon Valley Access
@@ -69,8 +69,9 @@ export function PrivateClubLogin() {
                 Member portal
               </h2>
               <p className="mt-3 text-sm leading-6 text-[#66707c]">
-                Dummy login for the prototype. Payments stay outside this app
-                and are handled through Luma.
+                Connect with a private circle of founders, operators, and
+                investors. Exchange ideas, build meaningful relationships, and
+                discover what comes next. Coming January 11.
               </p>
             </div>
 
@@ -101,10 +102,6 @@ export function PrivateClubLogin() {
               <ArrowRight className="size-4" />
             </button>
 
-            <div className="mt-5 rounded-2xl bg-[#f3f5f7] p-4 text-sm text-[#5c6570]">
-              <p className="font-medium text-[#0b0d10]">Demo credentials</p>
-              <p className="mt-1">founder@demo.com / playground</p>
-            </div>
           </form>
         </div>
       </section>

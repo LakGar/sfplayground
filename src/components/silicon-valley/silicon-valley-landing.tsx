@@ -3,7 +3,6 @@
 import { RevealText } from "@/components/ui/reveal-text";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 function subscribeReducedMotion(onStoreChange: () => void) {
@@ -169,14 +168,14 @@ export function SiliconValleyLanding() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: "easeOut" }}
-          className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center p-10"
+          className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center overflow-y-auto px-4 py-6 sm:p-8 lg:p-12"
         >
           <form
             action="/silicon-valley/dashboard"
             method="get"
-            className="pointer-events-auto relative grid w-full h-full overflow-hidden rounded-[2rem] border  bg-white p-3 shadow-[0_20px_70px_rgba(0,0,0,0.6)] backdrop-blur-2xl md:grid-cols-[0.95fr_1.05fr] md:p-2"
+            className="pointer-events-auto relative my-auto grid w-full max-w-6xl overflow-hidden rounded-[1.75rem] border border-white/30 bg-white p-2 shadow-[0_24px_90px_rgba(0,0,0,0.4)] md:min-h-[650px] md:grid-cols-[1fr_1fr]"
           >
-            <div className="relative hidden overflow-hidden rounded-[1.5rem] md:block">
+            <div className="relative hidden overflow-hidden rounded-[1.25rem] md:block">
               <Image
                 src="/images/sv-hero1.png"
                 alt="Silicon Valley Club visual"
@@ -188,14 +187,12 @@ export function SiliconValleyLanding() {
                 className="absolute inset-0 bg-linear-to-b from-black/30 via-black/18 to-black/65"
                 aria-hidden
               />
-              <div className="absolute inset-x-6 top-6">
-                <span
-                  className={`inline-flex items-center ${REVEAL_FONT_CLASS} text-white`}
-                ></span>
+              <div className="absolute inset-x-8 top-8 text-sm font-medium uppercase tracking-[0.2em] text-white/80">
+                San Francisco Bay Area
               </div>
-              <div className="absolute inset-x-6 bottom-6 text-white">
+              <div className="absolute inset-x-8 bottom-10 text-white">
                 <p
-                  className={`${REVEAL_FONT_CLASS} leading-[0.9] text-[80px] text-white`}
+                  className="text-[clamp(3.5rem,6vw,5.5rem)] font-black leading-[0.95] tracking-tight text-white"
                 >
                   Capital.
                   <br />
@@ -203,89 +200,82 @@ export function SiliconValleyLanding() {
                   <br />
                   Access.
                 </p>
-                <p className="mt-3 text-md text-white/78">
+                <p className="mt-6 max-w-xs text-base leading-7 text-white/78">
                   Private member network for founders, operators, and investors.
                 </p>
               </div>
             </div>
-            <div className="rounded-[1.5rem] p-6 text-[#1f1b14] md:px-10 w-full flex flex-col items-center justify-between">
-              <div className="w-full max-w-md flex flex-col items-center justify-between   h-full">
-                <div className="flex items-center justify-between gap-2">
+            <div className="flex w-full flex-col justify-center px-5 py-9 text-[#1f1b14] sm:px-10 md:px-12 md:py-12">
+              <div className="mx-auto flex w-full max-w-sm flex-col">
+                <div className="mb-12 flex items-center gap-3">
                   <div>
                     <Image
                       src="/images/logo.png"
                       alt="Silicon Valley Club logo"
-                      width={50}
-                      height={50}
+                      width={40}
+                      height={40}
                       className="object-cover rounded-full"
                     />
                   </div>
                   <span
-                    className={`inline-flex items-center ${REVEAL_FONT_CLASS} text-[#000]`}
+                    className="text-sm font-bold tracking-[0.1em] text-[#17130e]"
                   >
-                    SILICONVALLEYCLUB
+                    SILICON VALLEY CLUB
                   </span>
                 </div>
-                <div className="w-full flex flex-col items-center justify-center">
-                  <h2 className="mt-8 text-4xl font-semibold leading-none tracking-tight text-[#17130e]">
+                <div className="flex w-full flex-col items-start">
+                  <p className="mb-3 rounded-full bg-[#f3f0e9] px-3 py-1.5 text-xs font-medium tracking-wide text-[#6d5e47]">Coming January 11</p>
+                  <h1 className="text-3xl font-semibold leading-tight tracking-tight text-[#17130e] sm:text-4xl">
                     Private Member Access
-                  </h2>
-                  <p className="mt-2 text-sm leading-relaxed text-[#6d5e47]">
-                    Dummy login for the Silicon Valley Club prototype.
-                    Membership payments stay in Luma.
+                  </h1>
+                  <p className="mt-3 max-w-xs text-xs leading-6 text-[#6d5e47]">
+                    Join a private circle of founders, operators, and investors
+                    building what comes next. Meaningful connections, shared
+                    ambition, and new possibilities.
                   </p>
 
-                  <div className="mt-7 space-y-3 w-full">
+                  <div className="mt-8 w-full space-y-5 border-t border-[#eee9e0] pt-7">
                     <div className="w-full">
                       <label
                         htmlFor="sv-email"
-                        className="mb-1.5 block text-xs tracking-wide text-[#6a5a43]"
+                        className="mb-2 block text-sm font-medium text-[#514636]"
                       >
                         Email
                       </label>
                       <input
                         id="sv-email"
+                        autoComplete="email"
                         type="email"
                         required
                         placeholder="Enter your email"
-                        className="w-full rounded-xl border border-[#dbcbb3] bg-white px-3.5 py-2.5 text-sm text-[#1f1b14] placeholder:text-[#a7967d] outline-none transition focus:border-[#b08b4f] "
+                        className="w-full rounded-xl border border-[#dbcbb3] bg-white px-3.5 py-2.5 text-sm text-[#1f1b14] placeholder:text-[#a7967d] outline-none transition focus:border-[#b08b4f] focus:ring-2 focus:ring-[#b08b4f]/15 "
                       />
                     </div>
                     <div className="w-full">
                       <label
                         htmlFor="sv-password"
-                        className="mb-1.5 block text-xs tracking-wide text-[#6a5a43]"
+                        className="mb-2 block text-sm font-medium text-[#514636]"
                       >
                         Password
                       </label>
                       <input
                         id="sv-password"
+                        autoComplete="current-password"
                         type="password"
                         required
                         placeholder="Enter your password"
-                        className="w-full rounded-xl border border-[#dbcbb3] bg-white px-3.5 py-2.5 text-sm text-[#1f1b14] placeholder:text-[#a7967d] outline-none transition focus:border-[#b08b4f] "
+                        className="w-full rounded-xl border border-[#dbcbb3] bg-white px-3.5 py-2.5 text-sm text-[#1f1b14] placeholder:text-[#a7967d] outline-none transition focus:border-[#b08b4f] focus:ring-2 focus:ring-[#b08b4f]/15 "
                       />
                     </div>
                   </div>
 
                   <button
                     type="submit"
-                    className="mt-5 w-full rounded-xl border border-[#13100a] bg-[#13100a] px-4 py-2.5 text-sm font-medium text-[#f7f4ef] transition hover:bg-[#252016]"
+                    className="mt-5 w-full rounded-xl border border-[#13100a] bg-[#13100a] px-4 py-3.5 text-sm font-medium text-[#f7f4ef] transition hover:bg-[#252016] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#b08b4f]"
                   >
                     Sign In
                   </button>
 
-                  <p className="mt-4 text-center text-xs text-[#7f725e]">
-                    Demo: founder@demo.com / playground
-                  </p>
-                </div>
-                <div className="w-full flex items-center justify-center">
-                  <Link
-                    href="/silicon-valley/login"
-                    className="text-sm font-medium text-[#111]"
-                  >
-                    Open full login
-                  </Link>
                 </div>
               </div>
             </div>
