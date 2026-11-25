@@ -230,6 +230,9 @@ export function SiliconValleyLanding() {
                   <h2 className="mt-8 text-4xl font-semibold leading-none tracking-tight text-[#17130e]">
                     Private Member Access
                   </h2>
+                  <p className="mt-3 text-base font-semibold text-[#17130e]">
+                    Launching February 18, 2027
+                  </p>
                   <p className="mt-2 text-sm leading-relaxed text-[#6d5e47]">
                     Dummy login for the Silicon Valley Club prototype.
                     Membership payments stay in Luma.
