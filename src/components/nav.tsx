@@ -81,12 +81,31 @@ const linkVariants = {
 type NavProps = {
   /** Transparent bar, no blur — for dark hero sections */
   heroOverlay?: boolean;
+  /** Keep the bar transparent until this section reaches the navigation. */
+  transparentUntil?: string;
 };
 
-export default function Nav({ heroOverlay = false }: NavProps) {
+export default function Nav({ heroOverlay = false, transparentUntil }: NavProps) {
   const [open, setOpen] = useState(false);
+  const [sectionReached, setSectionReached] = useState(false);
+  const transparent = heroOverlay || (!!transparentUntil && !sectionReached);
   const toggle = useCallback(() => setOpen((o) => !o), []);
   const close = useCallback(() => setOpen(false), []);
+
+  useEffect(() => {
+    if (!transparentUntil) return;
+    const update = () => {
+      const section = document.querySelector(transparentUntil);
+      setSectionReached(!!section && section.getBoundingClientRect().top <= 92);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [transparentUntil]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -107,9 +126,7 @@ export default function Nav({ heroOverlay = false }: NavProps) {
     <>
       <header className="fixed inset-x-0 top-0 z-[60]">
         <div
-          className={`transition-colors duration-500 ${
-            heroOverlay ? "bg-transparent" : "bg-white/50 backdrop-blur-sm"
-          }`}
+          className="bg-transparent transition-colors duration-500"
         >
           <div className="mx-auto w-full px-4 py-4 md:px-8">
             <div className="flex items-center justify-between">
@@ -126,7 +143,7 @@ export default function Nav({ heroOverlay = false }: NavProps) {
                   priority
                 />
               </Link>
-              <ThinPlusIcon open={open} onClick={toggle} light={heroOverlay} />
+              <ThinPlusIcon open={open} onClick={toggle} light={transparent && !open} />
             </div>
           </div>
         </div>

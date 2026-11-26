@@ -62,6 +62,14 @@ const nextConfig: NextConfig = {
 
     return [
       {
+        source: "/v1-experience/assets/:path*.m3u8",
+        headers: [{ key: "Content-Type", value: "application/vnd.apple.mpegurl" }],
+      },
+      {
+        source: "/v1-experience/assets/:path*.m4s",
+        headers: [{ key: "Content-Type", value: "video/mp4" }],
+      },
+      {
         source: "/(.*)",
         headers: [
           ...commonHeaders,

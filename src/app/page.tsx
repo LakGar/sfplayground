@@ -1,55 +1,38 @@
-import AboutNetwork from "@/components/about-network";
-import Faq from "@/components/faq";
-import Featured from "@/components/featured";
-import Footer from "@/components/footer";
-import Hero from "@/components/hero";
+import type { Metadata } from "next";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import Nav from "@/components/nav";
-import PartnerMarquee from "@/components/partner-marquee";
-import PreviousEvents from "@/components/previous-events";
-import CTAWithVerticalMarquee from "@/components/ui/cta-with-text-marquee";
-import { FadeInView } from "@/components/ui/fade-in-view";
-import UpcomingEvents from "@/components/upcoming-events";
-import { getPublicEventLists } from "@/lib/public-events";
+import HomepageSections from "@/components/homepage-sections";
+import ImmersiveHero from "@/components/v1/immersive-hero";
+import RevealTitle from "@/components/v1/reveal-title";
 
 export const dynamic = "force-dynamic";
-
-const Page = async () => {
-  const { upcoming, previous } = await getPublicEventLists();
-
-  return (
-    <div className="min-h-screen bg-white">
-      <Nav />
-      <Hero />
-
-      <FadeInView direction="up">
-        <UpcomingEvents events={upcoming} />
-      </FadeInView>
-
-      <FadeInView direction="down">
-        <PartnerMarquee />
-      </FadeInView>
-
-      <FadeInView direction="up">
-        <AboutNetwork />
-      </FadeInView>
-
-      <PreviousEvents events={previous} limit={6} showViewAll />
-
-      <FadeInView direction="up">
-        <Featured />
-      </FadeInView>
-
-      <Faq />
-
-      <FadeInView direction="up" delay={0.08}>
-        <CTAWithVerticalMarquee />
-      </FadeInView>
-
-      <FadeInView direction="up" delay={0.08}>
-        <Footer />
-      </FadeInView>
-    </div>
-  );
+export const metadata: Metadata = {
+  title: "SFPlayground — Step inside",
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
 };
 
-export default Page;
+export default async function HomePage() {
+  const markup = await readFile(
+    path.join(process.cwd(), "public/v1-experience/hero.html"),
+    "utf8",
+  );
+  return (
+    <div className="min-h-screen bg-white">
+      <Nav transparentUntil="section[aria-labelledby='upcoming-events-heading']" />
+      <main>
+        <a
+          className="sr-only focus:not-sr-only"
+          href="#upcoming-events-heading"
+        >
+          Skip the visual tour
+        </a>
+        <ImmersiveHero markup={markup} />
+        <RevealTitle />
+
+        <HomepageSections />
+      </main>
+    </div>
+  );
+}

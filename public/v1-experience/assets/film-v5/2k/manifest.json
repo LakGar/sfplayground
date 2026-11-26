@@ -1,0 +1,161 @@
+{
+  "name": "2k",
+  "mimeType": "video/mp4; codecs=\"avc1.640032\"",
+  "width": 2560,
+  "height": 1440,
+  "fps": 24,
+  "frameCount": 1113,
+  "duration": 46.375,
+  "init": "init.mp4",
+  "segments": [
+    {
+      "file": "seg-000.m4s",
+      "start": 0,
+      "duration": 2.0,
+      "bytes": 4429080
+    },
+    {
+      "file": "seg-001.m4s",
+      "start": 2.0,
+      "duration": 2.0,
+      "bytes": 4899294
+    },
+    {
+      "file": "seg-002.m4s",
+      "start": 4.0,
+      "duration": 2.0,
+      "bytes": 4853928
+    },
+    {
+      "file": "seg-003.m4s",
+      "start": 6.0,
+      "duration": 2.0,
+      "bytes": 6234564
+    },
+    {
+      "file": "seg-004.m4s",
+      "start": 8.0,
+      "duration": 2.0,
+      "bytes": 5337011
+    },
+    {
+      "file": "seg-005.m4s",
+      "start": 10.0,
+      "duration": 2.0,
+      "bytes": 5473482
+    },
+    {
+      "file": "seg-006.m4s",
+      "start": 12.0,
+      "duration": 2.0,
+      "bytes": 7192293
+    },
+    {
+      "file": "seg-007.m4s",
+      "start": 14.0,
+      "duration": 2.0,
+      "bytes": 8378588
+    },
+    {
+      "file": "seg-008.m4s",
+      "start": 16.0,
+      "duration": 2.0,
+      "bytes": 6525736
+    },
+    {
+      "file": "seg-009.m4s",
+      "start": 18.0,
+      "duration": 2.0,
+      "bytes": 5383335
+    },
+    {
+      "file": "seg-010.m4s",
+      "start": 20.0,
+      "duration": 2.0,
+      "bytes": 5859266
+    },
+    {
+      "file": "seg-011.m4s",
+      "start": 22.0,
+      "duration": 2.0,
+      "bytes": 7018443
+    },
+    {
+      "file": "seg-012.m4s",
+      "start": 24.0,
+      "duration": 2.0,
+      "bytes": 7971544
+    },
+    {
+      "file": "seg-013.m4s",
+      "start": 26.0,
+      "duration": 2.0,
+      "bytes": 7290092
+    },
+    {
+      "file": "seg-014.m4s",
+      "start": 28.0,
+      "duration": 2.0,
+      "bytes": 6755928
+    },
+    {
+      "file": "seg-015.m4s",
+      "start": 30.0,
+      "duration": 2.0,
+      "bytes": 6472323
+    },
+    {
+      "file": "seg-016.m4s",
+      "start": 32.0,
+      "duration": 2.0,
+      "bytes": 6367465
+    },
+    {
+      "file": "seg-017.m4s",
+      "start": 34.0,
+      "duration": 2.0,
+      "bytes": 5937313
+    },
+    {
+      "file": "seg-018.m4s",
+      "start": 36.0,
+      "duration": 2.0,
+      "bytes": 4952003
+    },
+    {
+      "file": "seg-019.m4s",
+      "start": 38.0,
+      "duration": 2.0,
+      "bytes": 5226217
+    },
+    {
+      "file": "seg-020.m4s",
+      "start": 40.0,
+      "duration": 2.0,
+      "bytes": 7942307
+    },
+    {
+      "file": "seg-021.m4s",
+      "start": 42.0,
+      "duration": 2.0,
+      "bytes": 8065180
+    },
+    {
+      "file": "seg-022.m4s",
+      "start": 44.0,
+      "duration": 2.0,
+      "bytes": 5903035
+    },
+    {
+      "file": "seg-023.m4s",
+      "start": 46.0,
+      "duration": 0.375,
+      "bytes": 728988
+    }
+  ],
+  "keyframeInterval": 6,
+  "hasBFrames": 0,
+  "crf": 18,
+  "playlist": "index.m3u8",
+  "delivery": "HLS fMP4 VOD"
+}
